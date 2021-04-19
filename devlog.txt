@@ -1,0 +1,20 @@
+First entry of each day is the time spend in 24hr time
+
+Sat 17 April 2021:
+ - 11~23
+ - First day of development
+ - Set up Samus scripts framework
+ - Started run and neutral visuals
+
+ Sun 18 April 2021:
+ - 11~23
+ - Created Git repo
+ - Completed run and neutral visuals
+ - Started and completed crouch and morphball visuals
+ - Started fall and run physics
+
+ Mon 19 April 2021:
+ - 14~18
+ - Completed(?) horizontal movement physics for morphball, run, neutral, and crouch
+ - Added and completed springball physics
+ - Started jump and spin states, no physics or animations yet

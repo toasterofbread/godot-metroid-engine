@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
+[ext_resource path="res://scenes/Samus/scripts/SoundManager.gd" type="Script" id=3]
+[ext_resource path="res://scenes/Samus/scripts/Animator.gd" type="Script" id=4]
+[ext_resource path="res://scenes/Samus/scripts/PhysicsManager.gd" type="Script" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 17 )
+
+[node name="Samus" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 4, -15 )
+shape = SubResource( 1 )
+
+[node name="SoundManager" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionManager" type="Node" parent="."]
+
+[node name="PhysicsManager" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="Animator" type="Node2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="LeftSprite" type="AnimatedSprite" parent="Animator"]
+position = Vector2( 0, -16 )
+frames = ExtResource( 1 )
+animation = "neutral_aim_front_left"
+frame = 1
+playing = true
+flip_h = true
+
+[node name="RightSprite" type="AnimatedSprite" parent="Animator"]
+visible = false
+position = Vector2( 8, -16 )
+frames = ExtResource( 1 )
+animation = "morphball_roll_spider"
+frame = 6
+playing = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 4, -16 )
+current = true
+zoom = Vector2( 0.25, 0.25 )
+
+[node name="TestSprite" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 8, -16 )
+z_index = 1
+frames = ExtResource( 1 )
+animation = "morphball_roll_spider"

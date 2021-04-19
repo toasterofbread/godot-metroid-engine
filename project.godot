@@ -16,6 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TotallyNotMetroid"
+run/main_scene="res://scenes/testlevel/TestLevel.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -87,15 +88,30 @@ cancel_weapon_selection={
 "deadzone": 0.5,
 "events": [  ]
 }
-morph={
-"deadzone": 0.5,
-"events": [  ]
-}
 jump={
 "deadzone": 0.5,
-"events": [  ]
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
 }
 aim_weapon={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
+ ]
+}
+"[DEBUG] trigger_idle_animation"={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":73,"unicode":0,"echo":false,"script":null)
+ ]
+}
+morph_shortcut={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":3,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
+ ]
+}
+spiderball={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":4,"pressure":0.0,"pressed":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
