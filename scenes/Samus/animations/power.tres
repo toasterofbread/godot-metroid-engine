@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=216 format=2]
+[gd_resource type="SpriteFrames" load_steps=229 format=2]
 
 [ext_resource path="res://sprites/samus/power/neutral/idle_1/left_04.png" type="Texture" id=1]
 [ext_resource path="res://sprites/samus/power/neutral/idle_1/left_00.png" type="Texture" id=2]
@@ -215,9 +215,32 @@
 [ext_resource path="res://sprites/samus/power/morphball/roll_spider/3.png" type="Texture" id=213]
 [ext_resource path="res://sprites/samus/power/morphball/roll_spider/4.png" type="Texture" id=214]
 [ext_resource path="res://sprites/samus/power/morphball/roll_spider/7.png" type="Texture" id=215]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/left_1.png" type="Texture" id=216]
+[ext_resource path="res://sprites/samus/power/jump/start/1.png" type="Texture" id=217]
+[ext_resource path="res://sprites/samus/power/jump/start/2.png" type="Texture" id=218]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/left_0.png" type="Texture" id=219]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/right_0.png" type="Texture" id=220]
+[ext_resource path="res://sprites/samus/power/jump/start/3.png" type="Texture" id=221]
+[ext_resource path="res://sprites/samus/power/jump/start/0.png" type="Texture" id=222]
+[ext_resource path="res://sprites/samus/power/jump/start/4.png" type="Texture" id=223]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/left_2.png" type="Texture" id=224]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/left_3.png" type="Texture" id=225]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/right_1.png" type="Texture" id=226]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/right_2.png" type="Texture" id=227]
+[ext_resource path="res://sprites/samus/power/jump/aim_front/right_3.png" type="Texture" id=228]
 
 [resource]
 animations = [ {
+"frames": [ ExtResource( 220 ), ExtResource( 226 ), ExtResource( 227 ), ExtResource( 228 ) ],
+"loop": true,
+"name": "jump_aim_front_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 162 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 161 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "neutral_idle_1_right",
+"speed": 7.0
+}, {
 "frames": [ ExtResource( 205 ), ExtResource( 207 ), ExtResource( 207 ) ],
 "loop": false,
 "name": "crouch_morph",
@@ -233,11 +256,6 @@ animations = [ {
 "name": "morphball_turn",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 12 ), ExtResource( 9 ), ExtResource( 9 ), ExtResource( 9 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 13 ) ],
-"loop": false,
-"name": "neutral_idle_1_right",
-"speed": 7.0
-}, {
 "frames": [ ExtResource( 144 ), ExtResource( 143 ), ExtResource( 143 ) ],
 "loop": false,
 "name": "run_turn_aim_sky_right",
@@ -247,16 +265,6 @@ animations = [ {
 "loop": false,
 "name": "run_turn_aim_down_left",
 "speed": 30.0
-}, {
-"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 158 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 157 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 2 ) ],
-"loop": true,
-"name": "neutral_idle_2_left",
-"speed": 7.0
-}, {
-"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 2 ) ],
-"loop": false,
-"name": "neutral_idle_1_left",
-"speed": 7.0
 }, {
 "frames": [ ExtResource( 64 ), ExtResource( 54 ), ExtResource( 55 ), ExtResource( 50 ), ExtResource( 63 ), ExtResource( 58 ), ExtResource( 60 ), ExtResource( 49 ), ExtResource( 47 ), ExtResource( 61 ) ],
 "loop": true,
@@ -368,11 +376,6 @@ animations = [ {
 "name": "run_turn_aim_front_right",
 "speed": 30.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 161 ), ExtResource( 162 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 164 ), ExtResource( 163 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 162 ), ExtResource( 161 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 13 ) ],
-"loop": true,
-"name": "neutral_idle_2_right",
-"speed": 7.0
-}, {
 "frames": [ ExtResource( 123 ), ExtResource( 118 ), ExtResource( 112 ), ExtResource( 117 ), ExtResource( 120 ), ExtResource( 122 ), ExtResource( 121 ), ExtResource( 116 ), ExtResource( 111 ), ExtResource( 114 ) ],
 "loop": true,
 "name": "run_aim_down_left",
@@ -442,4 +445,34 @@ animations = [ {
 "loop": false,
 "name": "morphball_unmorph",
 "speed": 40.0
+}, {
+"frames": [ ExtResource( 219 ), ExtResource( 216 ), ExtResource( 224 ), ExtResource( 225 ) ],
+"loop": true,
+"name": "jump_aim_front_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 223 ) ],
+"loop": true,
+"name": "jump_legs",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 222 ), ExtResource( 217 ), ExtResource( 218 ), ExtResource( 221 ), ExtResource( 223 ) ],
+"loop": false,
+"name": "jump_legs_start",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 11 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 10 ), ExtResource( 11 ), ExtResource( 15 ), ExtResource( 14 ), ExtResource( 12 ), ExtResource( 9 ), ExtResource( 9 ), ExtResource( 9 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 13 ) ],
+"loop": false,
+"name": "neutral_idle_0_right",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 157 ), ExtResource( 158 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 158 ), ExtResource( 157 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "neutral_idle_1_left",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 5 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "neutral_idle_0_left",
+"speed": 7.0
 } ]

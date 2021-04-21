@@ -7,8 +7,10 @@ var idle_timer: Timer
 
 const id = "neutral"
 
-const idle_animations = ["idle_1", "idle_2"]
+var idle_animations: Array
 const idle_animation_interval = [5, 10] 
+
+var animations = {}
 
 # Called during Samus's readying period
 # warning-ignore:shadowed_variable
@@ -17,6 +19,12 @@ func _init(samus: Node2D):
 	self.animator = samus.animator
 	self.physics = samus.physics
 	idle_timer = Global.start_timer("idle_animation", -1, {}, [self, "play_idle_animation"])
+
+	for anim in ["aim_down", "aim_front", "aim_sky", "aim_up"]:
+		animations[anim] = animator.Animation.new(anim, self.id)
+		
+	idle_animations = [animator.Animation.new("idle_0", self.id), animator.Animation.new("idle_1", self.id)]
+
 
 # Called when Samus's state is changed to this one
 # warning-ignore:unused_argument
@@ -38,7 +46,7 @@ func process(delta):
 	
 	if not animator.transitioning():
 		if Input.is_action_just_pressed("morph_shortcut"):
-			animator.play("morph", {"transition": true, "directionless": true, "state_id": "crouch"})
+			animations["crouch"].play(animator, true)
 			change_state("morphball")
 			return
 		elif Input.is_action_just_released("jump"):
@@ -102,9 +110,9 @@ func process(delta):
 		_: animation = "aim_front"
 	
 	if play_transition:
-		animator.play("turn_" + animation, {"transition": true, "state_id": "run"})
-	elif ((not animator.animation_id in idle_animations) or reset_idle_timer):
-		animator.play(animation, {"retain_frame": true})
+		samus.states["run"].animations["turn_" + animation].play(animator, true)
+	elif ((not animator.current_animation[Global.dir.NONE] in idle_animations) or reset_idle_timer):
+		animations[animation].play(animator, false, true)
 	
 	if reset_idle_timer:
 		idle_timer.start()
@@ -118,13 +126,14 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 func play_idle_animation(_timer_id):
 	
 	# Play a random idle animation and wait for it to finish
-	animator.play(Global.random_array_item(samus.rng, idle_animations), {"yield": true})
-	yield(animator, "animation_finished")
+	var anim = Global.random_array_item(samus.rng, idle_animations)
+	anim.play(animator)
+	yield(anim, "finished")
 	
 	if samus.current_state == self:
 		# Restart the timer with a random time
 		idle_timer.start(samus.rng.randi_range(4, 10))
-		animator.play("aim_front", {})
+#		animator.play("aim_front", {})
 
 func physics_process(delta: float):
 	physics.decelerate_x(samus.states["run"].run_deceleration)

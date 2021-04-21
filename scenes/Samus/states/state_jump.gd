@@ -22,6 +22,8 @@ func init(data: Dictionary):
 	if data["jump"]:
 		jump_current_time = jump_time
 		physics.accelerate_y(jump_speed, 999999999999, Global.dir.UP)
+		
+	animator.init_stackedsprite(Vector2(0, -14), Vector2(4, 4))
 
 # Called every frame while this state is active
 func process(delta):

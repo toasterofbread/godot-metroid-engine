@@ -6,15 +6,26 @@ Sat 17 April 2021:
  - Set up Samus scripts framework
  - Started run and neutral visuals
 
- Sun 18 April 2021:
+Sun 18 April 2021:
  - 11~23
  - Created Git repo
  - Completed run and neutral visuals
  - Started and completed crouch and morphball visuals
  - Started fall and run physics
 
- Mon 19 April 2021:
+Mon 19 April 2021:
  - 14~18
  - Completed(?) horizontal movement physics for morphball, run, neutral, and crouch
  - Added and completed springball physics
  - Started jump and spin states, no physics or animations yet
+
+Tue 18 April 2021:
+ - 18~19
+ - Very short work period
+ - Started reworking animator to allow use of sprites that are split into top and bottom
+
+Wed 19 April 2021:
+ - 16~22
+ - Continued reworking animator to allow split sprites
+ - Rewrote animator from the ground up, animations are now played using an Animation class
+ - Estimated 80% completion of new animator

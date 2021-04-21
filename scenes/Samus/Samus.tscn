@@ -13,7 +13,7 @@ extents = Vector2( 8, 17 )
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 4, -15 )
+position = Vector2( 4, 1 )
 shape = SubResource( 1 )
 
 [node name="SoundManager" type="Node" parent="."]
@@ -28,19 +28,56 @@ script = ExtResource( 5 )
 script = ExtResource( 4 )
 
 [node name="LeftSprite" type="AnimatedSprite" parent="Animator"]
-position = Vector2( 0, -16 )
+visible = false
 frames = ExtResource( 1 )
-animation = "neutral_aim_front_left"
-frame = 1
+animation = "neutral_idle_1_left"
+frame = 26
 playing = true
 flip_h = true
 
 [node name="RightSprite" type="AnimatedSprite" parent="Animator"]
 visible = false
+position = Vector2( 8, 0 )
+frames = ExtResource( 1 )
+animation = "neutral_idle_1_left"
+frame = 26
+playing = true
+
+[node name="LeftStackedSprite" type="Node2D" parent="Animator"]
+
+[node name="BottomSprite" type="AnimatedSprite" parent="Animator/LeftStackedSprite"]
+position = Vector2( 4, 4 )
+frames = ExtResource( 1 )
+animation = "neutral_idle_1_left"
+frame = 26
+playing = true
+flip_h = true
+
+[node name="TopSprite" type="AnimatedSprite" parent="Animator/LeftStackedSprite"]
+position = Vector2( 0, -14 )
+frames = ExtResource( 1 )
+animation = "neutral_idle_1_left"
+frame = 26
+playing = true
+flip_h = true
+
+[node name="RightStackedSprite" type="Node2D" parent="Animator"]
+visible = false
+position = Vector2( 8, 0 )
+
+[node name="TopSprite" type="AnimatedSprite" parent="Animator/RightStackedSprite"]
+visible = false
+frames = ExtResource( 1 )
+animation = "neutral_idle_1_left"
+frame = 26
+playing = true
+
+[node name="BottomSprite" type="AnimatedSprite" parent="Animator/RightStackedSprite"]
+visible = false
 position = Vector2( 8, -16 )
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider"
-frame = 6
+animation = "neutral_idle_1_left"
+frame = 26
 playing = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -53,4 +90,4 @@ visible = false
 position = Vector2( 8, -16 )
 z_index = 1
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider"
+animation = "neutral_idle_1_left"

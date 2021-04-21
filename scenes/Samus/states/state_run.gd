@@ -6,6 +6,8 @@ var physics: Node
 
 const id = "run"
 
+var animations: Dictionary = {}
+
 # PHYSICS
 const run_acceleration = 1500
 const run_deceleration = 15000
@@ -15,6 +17,18 @@ func _init(samus: Node2D):
 	self.samus = samus
 	self.animator = samus.animator
 	self.physics = samus.physics
+	
+	for anim in [
+		"aim_down",
+		"aim_front",
+		"aim_none",
+		"aim_up",
+		"turn_aim_down",
+		"turn_aim_front",
+		"turn_aim_sky",
+		"turn_aim_up"
+	]:
+		animations[anim] = animator.Animation.new(anim, self.id)
 
 # Called every frame while this state is active
 func process(delta):
@@ -61,9 +75,9 @@ func process(delta):
 		return
 	
 	if turn:
-		animator.play("turn_" + animation, {"transition": true})
+		animations["turn_" + animation].play(animator, true)
 	else:
-		animator.play(animation, {"retain_frame": true})
+		animations[animation].play(animator, false, true)
 	
 # Called when Samus' state is changed to this one
 func init(data: Dictionary):
