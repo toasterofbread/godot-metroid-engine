@@ -1,0 +1,96 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/Samus/HUD/HUD.gd" type="Script" id=1]
+[ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://scenes/Samus/weapons/Missile.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/Samus/HUD/ETank.tscn" type="PackedScene" id=4]
+
+[node name="HUD" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TopBar" type="HBoxContainer" parent="CanvasLayer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 243.0
+margin_bottom = 22.0
+custom_constants/separation = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnergyDigits" type="Control" parent="CanvasLayer/TopBar"]
+margin_right = 25.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 25, 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Digit0" type="AnimatedSprite" parent="CanvasLayer/TopBar/EnergyDigits"]
+position = Vector2( 6, 7 )
+frames = ExtResource( 2 )
+animation = "fontA"
+
+[node name="Digit1" type="AnimatedSprite" parent="CanvasLayer/TopBar/EnergyDigits"]
+position = Vector2( 19, 7 )
+frames = ExtResource( 2 )
+animation = "fontA"
+
+[node name="ETanks" type="VBoxContainer" parent="CanvasLayer/TopBar"]
+margin_left = 32.0
+margin_right = 38.0
+margin_bottom = 14.0
+custom_constants/separation = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Row0" type="HBoxContainer" parent="CanvasLayer/TopBar/ETanks"]
+margin_right = 6.0
+margin_bottom = 6.0
+custom_constants/separation = 2
+
+[node name="ETank" parent="CanvasLayer/TopBar/ETanks/Row0" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 6.0
+margin_bottom = 6.0
+
+[node name="Row1" type="HBoxContainer" parent="CanvasLayer/TopBar/ETanks"]
+margin_top = 8.0
+margin_right = 6.0
+margin_bottom = 14.0
+custom_constants/separation = 2
+
+[node name="ETank2" parent="CanvasLayer/TopBar/ETanks/Row1" instance=ExtResource( 4 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 6.0
+margin_bottom = 6.0
+
+[node name="WeaponIcons" type="HBoxContainer" parent="CanvasLayer/TopBar"]
+margin_left = 45.0
+margin_right = 145.0
+margin_bottom = 14.0
+rect_min_size = Vector2( 100, 14 )
+custom_constants/separation = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Missile" parent="CanvasLayer/TopBar/WeaponIcons" instance=ExtResource( 3 )]
+
+[node name="Missile2" parent="CanvasLayer/TopBar/WeaponIcons" instance=ExtResource( 3 )]
+margin_left = 29.0
+margin_right = 56.0
+
+[node name="Missile3" parent="CanvasLayer/TopBar/WeaponIcons" instance=ExtResource( 3 )]
+margin_left = 58.0
+margin_right = 85.0

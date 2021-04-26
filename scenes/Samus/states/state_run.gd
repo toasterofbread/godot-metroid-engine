@@ -28,7 +28,7 @@ func _init(samus: Node2D):
 		"turn_aim_sky",
 		"turn_aim_up"
 	]:
-		animations[anim] = animator.Animation.new(anim, self.id)
+		animations[anim] = animator.Animation.new(animator,anim, self.id)
 
 # Called every frame while this state is active
 func process(delta):
@@ -36,6 +36,9 @@ func process(delta):
 	if Input.is_action_just_pressed("morph_shortcut") and not animator.transitioning():
 		samus.states["morphball"].toggle_morph()
 		return
+	
+	if Global.config["zm_weapons"]:
+		animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if Input.is_action_pressed("aim_weapon"):
 		
@@ -75,9 +78,9 @@ func process(delta):
 		return
 	
 	if turn:
-		animations["turn_" + animation].play(animator, true)
+		animations["turn_" + animation].play( true)
 	else:
-		animations[animation].play(animator, false, true)
+		animations[animation].play( false, true)
 	
 # Called when Samus' state is changed to this one
 func init(data: Dictionary):

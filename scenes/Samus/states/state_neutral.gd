@@ -13,21 +13,24 @@ const idle_animation_interval = [5, 10]
 var animations = {}
 
 # Called during Samus's readying period
-# warning-ignore:shadowed_variable
 func _init(samus: Node2D):
 	self.samus = samus
 	self.animator = samus.animator
 	self.physics = samus.physics
 	idle_timer = Global.start_timer("idle_animation", -1, {}, [self, "play_idle_animation"])
 
-	for anim in ["aim_down", "aim_front", "aim_sky", "aim_up"]:
-		animations[anim] = animator.Animation.new(anim, self.id)
+	animations = {
+		"aim_down": animator.Animation.new(animator,"aim_down", self.id),
+		"aim_front": animator.Animation.new(animator,"aim_front", self.id),
+		"aim_sky": animator.Animation.new(animator,"aim_sky", self.id),
+		"aim_up": animator.Animation.new(animator,"aim_up", self.id),
+		"legs_start": animator.Animation.new(animator,"legs_start", "jump", true, Global.dir.DOWN, Vector2(4, 4))
+	}
 		
-	idle_animations = [animator.Animation.new("idle_0", self.id), animator.Animation.new("idle_1", self.id)]
+	idle_animations = [animator.Animation.new(animator,"idle_0", self.id), animator.Animation.new(animator,"idle_1", self.id)]
 
 
 # Called when Samus's state is changed to this one
-# warning-ignore:unused_argument
 func init(data: Dictionary):
 	idle_timer.start(samus.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
 	return self
@@ -44,13 +47,17 @@ func process(delta):
 	var play_transition = false
 	var reset_idle_timer = false
 	
+	if Global.config["zm_weapons"]:
+		animator.set_armed(Input.is_action_pressed("arm_weapon"))
+		reset_idle_timer = Input.is_action_pressed("arm_weapon")
+	
 	if not animator.transitioning():
 		if Input.is_action_just_pressed("morph_shortcut"):
-			animations["crouch"].play(animator, true)
-			change_state("morphball")
+			samus.states["morphball"].toggle_morph()
 			return
-		elif Input.is_action_just_released("jump"):
+		elif Input.is_action_just_pressed("jump"):
 			if physics.vel.x == 0:
+				animations["legs_start"].play(true, false, true)
 				change_state("jump", {"jump": true})
 			else:
 				change_state("spin")
@@ -110,9 +117,9 @@ func process(delta):
 		_: animation = "aim_front"
 	
 	if play_transition:
-		samus.states["run"].animations["turn_" + animation].play(animator, true)
+		samus.states["run"].animations["turn_" + animation].play( true)
 	elif ((not animator.current_animation[Global.dir.NONE] in idle_animations) or reset_idle_timer):
-		animations[animation].play(animator, false, true)
+		animations[animation].play( false, true)
 	
 	if reset_idle_timer:
 		idle_timer.start()
@@ -127,7 +134,7 @@ func play_idle_animation(_timer_id):
 	
 	# Play a random idle animation and wait for it to finish
 	var anim = Global.random_array_item(samus.rng, idle_animations)
-	anim.play(animator)
+	anim.play()
 	yield(anim, "finished")
 	
 	if samus.current_state == self:

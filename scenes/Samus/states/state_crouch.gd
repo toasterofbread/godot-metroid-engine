@@ -6,16 +6,26 @@ var physics: Node
 
 const id = "crouch"
 
+var animations = {}
+
 # Called during Samus's readying period
 func _init(samus: Node2D):
 	self.samus = samus
 	self.animator = samus.animator
 	self.physics = samus.physics
+	
+	animations = {
+		"aim_down": animator.Animation.new(animator,"aim_down", self.id),
+		"aim_front": animator.Animation.new(animator,"aim_front", self.id),
+		"aim_up": animator.Animation.new(animator,"aim_up", self.id),
+		"morph": animator.Animation.new(animator,"morph", self.id),
+		"turn_aim_down": animator.Animation.new(animator,"turn_aim_down", self.id),
+		"turn_aim_front": animator.Animation.new(animator,"turn_aim_front", self.id),
+		"turn_aim_up": animator.Animation.new(animator,"turn_aim_up", self.id),
+	}
 
 # Called when Samus's state is changed to this one
 func init(data: Dictionary):
-	Global.create_hold_action("pad_right")
-	Global.create_hold_action("pad_left")
 	return self
 
 # Called every frame while this state is active
@@ -24,27 +34,33 @@ func process(delta):
 	var play_transition = false
 	var original_facing = samus.facing
 	
-	if Input.is_action_just_pressed("morph_shortcut"):
+	if Input.is_action_just_pressed("morph_shortcut") and not animator.transitioning():
 		samus.states["morphball"].toggle_morph()
 		return
 	
 	if Input.is_action_pressed("pad_left"):
 		samus.facing = Global.dir.LEFT
+		Global.remove_hold_action("pad_right")
 		
 		if original_facing == Global.dir.RIGHT:
 			play_transition = true
 		elif not animator.transitioning() and Global.is_action_held("pad_left", 0.1) and samus.time_since_last_state("morphball", 0.1):
 			change_state("run")
 			return
+		elif not animator.transitioning():
+			Global.create_hold_action("pad_left")
 			
 	elif Input.is_action_pressed("pad_right"):
 		samus.facing = Global.dir.RIGHT
+		Global.remove_hold_action("pad_left")
 		
 		if original_facing == Global.dir.LEFT:
 			play_transition = true
 		elif not animator.transitioning() and Global.is_action_held("pad_right", 0.1) and samus.time_since_last_state("morphball", 0.1):
 			change_state("run")
 			return
+		elif not animator.transitioning():
+			Global.create_hold_action("pad_right")
 	
 	if Input.is_action_pressed("aim_weapon"):
 		
@@ -82,11 +98,9 @@ func process(delta):
 		_: animation = "aim_front"
 	
 	if play_transition:
-		animator.play("turn_" + animation, {"transition": true})
-		Global.start_timer("transition_cooldown", 0.1, {})
+		animations["turn_" + animation].play( true)
 	else:
-		animator.play(animation, {"retain_frame": true})
-	
+		animations[animation].play( false, true)
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
