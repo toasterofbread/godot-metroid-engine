@@ -1,12 +1,14 @@
-extends Node2D
+extends SamusWeapon
 
-const hud_icon = false
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func fire():
+	if Cooldown.time_left > 0:
+		return
+	
+	var pos = get_fire_pos()
+	match pos:
+		-1: return
+	
+	var projectile = Projectile.new($Projectile, self, velocity, pos)
+	Anchor.add_child(projectile)
+	projectile.burst_start(pos)
+	Cooldown.start(cooldown)

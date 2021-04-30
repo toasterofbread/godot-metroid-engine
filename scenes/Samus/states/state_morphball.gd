@@ -19,28 +19,28 @@ var springball_current_time = 0
 var animations = {}
 
 # Called during Samus's readying period
-func _init(samus: Node2D):
-	self.samus = samus
+func _init(_samus: Node2D):
+	self.samus = _samus
 	self.animator = samus.animator
 	self.physics = samus.physics
 	
 	animations = {
-		"roll_ground": animator.Animation.new(animator,"roll_ground", self.id, false),
-		"roll_spider": animator.Animation.new(animator,"roll_spider", self.id, false),
-		"turn": animator.Animation.new(animator,"turn", self.id, false),
-		"unmorph": animator.Animation.new(animator,"unmorph", self.id, false),
-		"morph": animator.Animation.new(animator,"morph", "crouch", false)
+		"roll_ground": animator.Animation.new(animator,"roll_ground", self.id),
+		"roll_spider": animator.Animation.new(animator,"roll_spider", self.id),
+		"turn": animator.Animation.new(animator,"turn", self.id, {"transition": true}),
+		"unmorph": animator.Animation.new(animator,"unmorph", self.id, {"transition": true}),
+		"morph": animator.Animation.new(animator,"morph", "crouch", {"transition": true})
 	}
 
 # Called when Samus's state is changed to this one
-func init(data: Dictionary):
+func init(_data: Dictionary):
 	spiderball_active = false
 	return self
 
 # Called every frame while this state is active
-func process(delta):
+func process(_delta):
 	
-	var play_transition = false
+#	var play_transition = false
 	var original_facing = samus.facing
 
 	if Global.config["spiderball_hold"] and Input.is_action_just_pressed("spiderball"):
@@ -55,21 +55,22 @@ func process(delta):
 	if Input.is_action_pressed("pad_left") and not spiderball_active:
 		samus.facing = Global.dir.LEFT
 		if original_facing == Global.dir.RIGHT:
-			animations["turn"].play( true)
+			animations["turn"].play(true)
 			
 	elif Input.is_action_pressed("pad_right") and not spiderball_active:
 		samus.facing = Global.dir.RIGHT
 		if original_facing == Global.dir.LEFT:
-			animations["turn"].play( true)
+			animations["turn"].play(true)
 
-	if spiderball_active:
-		animations["roll_spider"].play( false, true)
-	else:
-		animations["roll_ground"].play( false, true)
+	if not animator.transitioning():
+		if spiderball_active:
+			animations["roll_spider"].play(false, true)
+		else:
+			animations["roll_ground"].play(false, true)
 	
-	if not animator.transitioning() and not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")):
-		animations["roll_spider"].paused = true
-		animations["roll_ground"].paused = true
+		if not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")):
+			animator.pause()
+	
 func toggle_morph():
 	
 	if samus.current_state == self:
@@ -81,6 +82,7 @@ func toggle_morph():
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
+	animator.resume()
 	samus.change_state(new_state_key, data)
 	
 func physics_process(delta: float):

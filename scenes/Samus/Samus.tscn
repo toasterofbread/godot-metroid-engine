@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
-[ext_resource path="res://scenes/Samus/scripts/SoundManager.gd" type="Script" id=3]
+[ext_resource path="res://classes/SoundManager.gd" type="Script" id=3]
 [ext_resource path="res://scenes/Samus/scripts/Animator.gd" type="Script" id=4]
 [ext_resource path="res://scenes/Samus/scripts/PhysicsManager.gd" type="Script" id=5]
 [ext_resource path="res://scenes/Samus/scripts/WeaponManager.gd" type="Script" id=6]
@@ -11,43 +11,83 @@
 extents = Vector2( 8, 17 )
 
 [node name="Samus" type="KinematicBody2D"]
+collision_layer = 0
+collision_mask = 524288
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 4, 1 )
 shape = SubResource( 1 )
 
-[node name="SoundManager" type="Node" parent="."]
+[node name="Scripts" type="Node" parent="."]
+
+[node name="SoundManager" type="Node" parent="Scripts"]
 script = ExtResource( 3 )
 
-[node name="CollisionManager" type="Node" parent="."]
+[node name="CollisionManager" type="Node" parent="Scripts"]
 
-[node name="WeaponManager" type="Node" parent="."]
+[node name="WeaponManager" type="Node" parent="Scripts"]
 script = ExtResource( 6 )
 
-[node name="PhysicsManager" type="Node" parent="."]
+[node name="PhysicsManager" type="Node" parent="Scripts"]
 script = ExtResource( 5 )
 
 [node name="Animator" type="Node2D" parent="."]
 script = ExtResource( 4 )
 
-[node name="LeftSprite" type="AnimatedSprite" parent="Animator"]
+[node name="CannonPositions" type="Node2D" parent="Animator"]
+z_index = 999
+z_as_relative = false
+
+[node name="neutral" type="Node2D" parent="Animator/CannonPositions"]
+
+[node name="aim_down" type="Position2D" parent="Animator/CannonPositions/neutral"]
+position = Vector2( -8, 1 )
+rotation = -2.35619
+
+[node name="aim_front" type="Position2D" parent="Animator/CannonPositions/neutral"]
+position = Vector2( -12, -9 )
+rotation = -1.5708
+
+[node name="aim_sky" type="Position2D" parent="Animator/CannonPositions/neutral"]
+position = Vector2( 1, -25 )
+
+[node name="aim_up" type="Position2D" parent="Animator/CannonPositions/neutral"]
+position = Vector2( -9, -21 )
+rotation = -0.785398
+
+[node name="sMainLeft" type="AnimatedSprite" parent="Animator"]
 visible = false
 frames = ExtResource( 1 )
-animation = "jump_turn_aim_down_right"
+animation = "neutral_aim_down_left"
 frame = 2
 playing = true
 flip_h = true
 
-[node name="RightSprite" type="AnimatedSprite" parent="Animator"]
+[node name="sMainRight" type="AnimatedSprite" parent="Animator"]
 visible = false
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
-animation = "jump_turn_aim_down_right"
+animation = "neutral_aim_down_right"
+frame = 1
+playing = true
+
+[node name="sOverlayLeft" type="AnimatedSprite" parent="Animator"]
+visible = false
+frames = ExtResource( 1 )
+animation = "neutral_aim_down_left"
 frame = 2
+flip_h = true
+
+[node name="sOverlayRight" type="AnimatedSprite" parent="Animator"]
+visible = false
+position = Vector2( 7, 0 )
+frames = ExtResource( 1 )
+animation = "neutral_aim_down_right"
 playing = true
 
 [node name="LeftStackedSprite" type="Node2D" parent="Animator"]
+visible = false
 
 [node name="BottomSprite" type="AnimatedSprite" parent="Animator/LeftStackedSprite"]
 visible = false
@@ -65,24 +105,31 @@ animation = "jump_aim_down_right"
 flip_h = true
 
 [node name="RightStackedSprite" type="Node2D" parent="Animator"]
+visible = false
 position = Vector2( 2, 0 )
 
 [node name="BottomSprite" type="AnimatedSprite" parent="Animator/RightStackedSprite"]
+visible = false
 position = Vector2( 4, 4 )
 frames = ExtResource( 1 )
 animation = "jump_legs_turn_right"
 frame = 1
 
 [node name="TopSprite" type="AnimatedSprite" parent="Animator/RightStackedSprite"]
+visible = false
 position = Vector2( 0, -14 )
 frames = ExtResource( 1 )
 animation = "jump_turn_aim_down_right"
 frame = 1
 
+[node name="Weapons" type="Node2D" parent="."]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 4, -16 )
 current = true
-zoom = Vector2( 0.5, 0.5 )
+zoom = Vector2( 0.232, 0.232 )
+smoothing_enabled = true
+smoothing_speed = 10.0
 
 [node name="TestSprite" type="AnimatedSprite" parent="."]
 visible = false

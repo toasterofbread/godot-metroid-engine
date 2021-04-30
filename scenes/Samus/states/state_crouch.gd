@@ -9,8 +9,8 @@ const id = "crouch"
 var animations = {}
 
 # Called during Samus's readying period
-func _init(samus: Node2D):
-	self.samus = samus
+func _init(_samus: Node2D):
+	self.samus = _samus
 	self.animator = samus.animator
 	self.physics = samus.physics
 	
@@ -25,11 +25,11 @@ func _init(samus: Node2D):
 	}
 
 # Called when Samus's state is changed to this one
-func init(data: Dictionary):
+func init(_data: Dictionary):
 	return self
 
 # Called every frame while this state is active
-func process(delta):
+func process(_delta):
 	
 	var play_transition = false
 	var original_facing = samus.facing
@@ -110,5 +110,5 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	
 	samus.change_state(new_state_key, data)
 	
-func physics_process(delta: float):
+func physics_process(_delta: float):
 	physics.decelerate_x(samus.states["run"].run_deceleration)

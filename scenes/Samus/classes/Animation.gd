@@ -1,77 +1,100 @@
 extends Node
+class_name SamusAnimation
 
-signal finished
-
-var animation_id: String
+# Constants set on initialisation
+var id: String
 var state_id: String
+var transition: bool
+var overlay: bool
+var sprites: Dictionary
+var positions: Dictionary
+var position: Vector2
 var directional: bool
-var stacked: int
-var stacked_position: Vector2
-var sprites: Array = []
-var animator
+var animation_keys: Dictionary
 
-var animation_key: String
-var prev_direction = Global.dir.NONE
+# Nodes
+var animator: Node2D
 
-var paused: bool = false
+# Status variables
 var transitioning: bool = false
+var cooldown: bool = false
 
-func _init(animator, animation_id: String, state_id: String, directional: bool = true, stacked: int = Global.dir.NONE, stacked_position: Vector2 = Vector2.ZERO):
-	self.animator = animator
-	self.animation_id = animation_id
-	self.state_id = state_id
-	self.directional = directional
-	
-	self.animation_key = state_id + "_" + animation_id
+# Constants
+const _default_args = {
+	"transition": false,
+	"overlay": false,
+	"position": Vector2.ZERO,
+	"directional": true
+}
+const cooldown_time: float = 0.025
 
-	self.stacked = stacked
-	self.stacked_position = stacked_position
 
-func play(transition: bool = false, retain_frame: bool = false, ignore_transition: bool = false):
-	if animator.current_animation[stacked] == self and not paused and animator.samus.facing == prev_direction:
-		retain_frame = true
-	elif animator.transitioning(stacked) and not ignore_transition:
-		return
+func _init(_animator: Node2D, _id: String, _state_id: String, args: Dictionary = {}):
 	
-	prev_direction = animator.samus.facing
+	# Required args
+	self.animator = _animator
+	self.id = _id
+	self.state_id = _state_id
 	
-	sprites = animator.sprites[stacked]
-	sprites[0].visible = animator.samus.facing == Global.dir.LEFT
-	sprites[1].visible = animator.samus.facing == Global.dir.RIGHT
+	# Optional args
+	if args == null:
+		args = _default_args
+	
+	for arg in _default_args:
+		if not arg in args:
+			self.set(arg, _default_args[arg])
+		else:
+			self.set(arg, args[arg])
+	
+	self.sprites = self.animator.sprites[self.overlay]
+	
+	self.positions = {
+		Global.dir.LEFT: self.position,
+		Global.dir.RIGHT: self.position + Vector2(7, 0)
+	}
+	
+	# Store animation key
+	self.animation_keys = {
+		Global.dir.LEFT: self.state_id + "_" + self.id + ("_left" if self.directional else ""),
+		Global.dir.RIGHT: self.state_id + "_" + self.id + ("_right" if self.directional else "")
+	}
 
-	if stacked != Global.dir.NONE:
-		sprites[0].position = self.stacked_position
-		sprites[1].position = self.stacked_position
+func play(retain_frame: bool = false, ignore_pasued: bool = false):
 	
-	match stacked:
-		Global.dir.NONE:
-			for sprite in animator.sprites[Global.dir.UP] + animator.sprites[Global.dir.DOWN]:
-				sprite.visible = false
-		_:
-			for sprite in animator.sprites[Global.dir.NONE]:
-				sprite.visible = false
+#	if animator.transitioning(overlay):
+#		return
 	
-	var direction = ""
-	if self.directional:
-		match animator.samus.facing:
-			Global.dir.LEFT:
-				direction = "_left"
-			Global.dir.RIGHT:
-				direction = "_right"
+	if animator.paused[overlay]:
+		if ignore_pasued:
+			return
+		else:
+			animator.paused[overlay] = false
+			
+	
+	for dir in sprites:
 		
-	for sprite in sprites:
-		var frame = sprite.frame
-		sprite.playing = true
-		sprite.play(self.animation_key + direction)
-		if retain_frame:
-			sprite.frame = frame
+		# Set position
+		sprites[dir].position = positions[dir]
 	
-	animator.current_animation[stacked] = self
-	self.paused = false
-	self.transitioning = transition
-
-	yield(sprites[0], "animation_finished")
-	emit_signal("finished")
-	self.transitioning = false
-	if animator.current_animation[stacked] == self:
-		animator.current_animation[stacked] = null
+		# Set visibility
+		sprites[dir].visible = animator.samus.facing == dir
+		for sprite in animator.sprites[!overlay].values():
+			sprite.visible = false
+	
+		# Play animation
+		var frame = sprites[dir].frame
+		sprites[dir].play(self.animation_keys[dir])
+		if retain_frame:
+			sprites[dir].frame = frame
+	
+	if not animator.transitioning():
+		animator.current[overlay] = self
+	self.transitioning = self.transition
+	
+	yield(sprites[Global.dir.LEFT], "animation_finished")
+	
+	if self.transitioning and animator.current[overlay] == self:
+		self.transitioning = false
+		self.cooldown = true
+		yield(Global.wait(cooldown_time), "completed")
+		self.cooldown = false

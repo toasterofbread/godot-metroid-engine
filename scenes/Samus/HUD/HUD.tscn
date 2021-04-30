@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/Samus/HUD/HUD.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://scenes/Samus/weapons/Missile.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/Samus/HUD/ETank.tscn" type="PackedScene" id=4]
 
 [node name="HUD" type="Control"]
@@ -10,10 +9,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": "6"
 }
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+scale = Vector2( 3.75, 3.75 )
+transform = Transform2D( 3.75, 0, 0, 3.75, 0, 0 )
 
 [node name="TopBar" type="HBoxContainer" parent="CanvasLayer"]
 margin_left = 8.0
@@ -84,13 +86,3 @@ custom_constants/separation = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Missile" parent="CanvasLayer/TopBar/WeaponIcons" instance=ExtResource( 3 )]
-
-[node name="Missile2" parent="CanvasLayer/TopBar/WeaponIcons" instance=ExtResource( 3 )]
-margin_left = 29.0
-margin_right = 56.0
-
-[node name="Missile3" parent="CanvasLayer/TopBar/WeaponIcons" instance=ExtResource( 3 )]
-margin_left = 58.0
-margin_right = 85.0

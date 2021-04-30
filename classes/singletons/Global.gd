@@ -1,14 +1,22 @@
 extends Node
 
 signal process_frame
-signal physics_frame
+#signal physics_frame
+
+var config = {"spiderball_hold": false, "spin_from_jump": true, "zm_controls": true}
 
 var timers = {}
 var hold_actions = {}
-
-var config = {"spiderball_hold": false, "spin_from_jump": true, "zm_weapons": true}
+onready var Timers = Node2D.new()
+onready var Anchor = Node2D.new()
 
 enum dir {NONE, LEFT, RIGHT, UP, DOWN}
+
+func _ready():
+	Timers.name = "Timers"
+	self.add_child(Timers)
+	self.add_child(Anchor)
+	Anchor.name = "Anchor"
 
 func _process(delta):
 	emit_signal("process_frame")
@@ -20,7 +28,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	emit_signal("process_frame")
 
 func random_array_item(rng: RandomNumberGenerator, array: Array):
@@ -38,6 +46,13 @@ func start_timer(timer_id: String, seconds: float, data: Dictionary = {}, connec
 	timer.start(seconds)
 	
 	return timer
+
+func wait(seconds: float):
+	var timer = Timer.new()
+	Timers.add_child(timer)
+	timer.start(seconds)
+	yield(timer, "timeout")
+	timer.queue_free()
 
 func clear_timer(timer_id: String):
 	if not timer_id in timers:
@@ -66,3 +81,23 @@ func is_action_held(action: String, seconds: float, reset_hold_time: bool = true
 
 func time():
 	return OS.get_ticks_msec()
+
+func get_anchor(anchor_path: String) -> Node2D:
+	
+	var anchor_path_strings = anchor_path.split("/")
+	
+	var parent: Node2D = Anchor
+	for name in anchor_path_strings:
+		var set = false
+		for node in parent.get_children():
+			if node.name == name:
+				parent = node
+				set = true
+				break
+		if not set:
+			var node = Node2D.new()
+			node.name = name
+			parent.add_child(node)
+			parent = node
+	
+	return parent

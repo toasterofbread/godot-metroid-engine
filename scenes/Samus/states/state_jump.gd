@@ -14,20 +14,20 @@ var jump_current_time = 0
 var animations = {}
 
 # Called during Samus's readying period
-func _init(samus: Node2D):
-	self.samus = samus
+func _init(_samus: Node2D):
+	self.samus = _samus
 	self.animator = samus.animator
 	self.physics = samus.physics
 	
 	self.animations = {
-		"aim_front": animator.Animation.new(animator, "aim_front", self.id, true, Global.dir.UP, Vector2(0, -14)),
-		"turn_aim_front": animator.Animation.new(animator, "turn_aim_front", self.id, true, Global.dir.UP, Vector2(0, -14)),
-		"aim_up": animator.Animation.new(animator, "aim_up", self.id, true, Global.dir.UP, Vector2(0, -14)),
-		"turn_aim_up": animator.Animation.new(animator, "turn_aim_up", self.id, true, Global.dir.UP, Vector2(0, -14)),
-		"aim_down": animator.Animation.new(animator, "aim_down", self.id, true, Global.dir.UP, Vector2(0, -14)),
-		"turn_aim_down": animator.Animation.new(animator, "turn_aim_down", self.id, true, Global.dir.UP, Vector2(0, -14)),
-		"legs": animator.Animation.new(animator, "legs", self.id, true, Global.dir.DOWN, Vector2(4, 4)),
-		"legs_turn": animator.Animation.new(animator, "legs_turn", self.id, true, Global.dir.DOWN, Vector2(4, 4)),
+		"aim_front": animator.Animation.new(animator, "aim_front", self.id),
+		"turn_aim_front": animator.Animation.new(animator, "turn_aim_front", self.id),
+		"aim_up": animator.Animation.new(animator, "aim_up", self.id),
+		"turn_aim_up": animator.Animation.new(animator, "turn_aim_up", self.id),
+		"aim_down": animator.Animation.new(animator, "aim_down", self.id),
+		"turn_aim_down": animator.Animation.new(animator, "turn_aim_down", self.id),
+		"legs": animator.Animation.new(animator, "legs", self.id, {"overlay": true, "position": Vector2(4, 4)}),
+		"legs_turn": animator.Animation.new(animator, "legs_turn", self.id, {"overlay": true, "position": Vector2(4, 4), "transition": true}),
 	}
 
 # Called when Samus's state is changed to this one
@@ -38,7 +38,7 @@ func init(data: Dictionary):
 	return self
 
 # Called every frame while this state is active
-func process(delta):
+func process(_delta):
 	var play_transition = false
 	
 	if samus.is_on_floor():
@@ -84,7 +84,7 @@ func process(delta):
 		_: animation = "aim_front"
 	
 	if play_transition:
-		if animator.animation_id(Global.dir.DOWN) == "legs_start":
+		if animator.current(Global.dir.DOWN).animation_id == "legs_start":
 			samus.states["neutral"].animations["legs_start"].play(true, true, true)
 		else:
 			animations["legs_turn"].play(true)

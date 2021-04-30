@@ -1,30 +1,30 @@
 extends Control
 
 const etank_row_size = 10
-var etank: Control = preload("res://scenes/Samus/HUD/ETank.tscn").instance()
+var ETank: Control = preload("res://scenes/Samus/HUD/ETank.tscn").instance()
 onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rows.invert()
+	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
 
-func add_weapon(weapon_node: Control):
-	$CanvasLayer/TopBar/WeaponIcons.add_child(weapon_node)
+func add_weapon(weapon_icon: SamusWeaponIcon):
+	print(weapon_icon)
+	$CanvasLayer/TopBar/WeaponIcons.add_child(weapon_icon)
 
-func remove_weapon(weapon_node: Node2D):
-	if weapon_node in $CanvasLayer/TopBar/WeaponIcons.get_children():
-		$CanvasLayer/TopBar/WeaponIcons.remove_child(weapon_node)
+func remove_weapon(weapon_icon: SamusWeaponIcon):
+	if weapon_icon in $CanvasLayer/TopBar/WeaponIcons.get_children():
+		$CanvasLayer/TopBar/WeaponIcons.remove_child(weapon_icon)
 
 func set_etanks(etanks: int):
-	for i in range(etanks):
+	for _i in range(etanks):
 		add_etank()
-	
-#	$CanvasLayer/TopBar/ETanks.rect_min_size.x = len($CanvasLayer/TopBar/ETanks/Row0.get_children())*8-2
 
 func add_etank():
 	for row in rows:
 		if len(row.get_children()) < etank_row_size:
-			row.add_child(etank.duplicate())
+			row.add_child(ETank.duplicate())
 			return
 
 func set_energy(energy):

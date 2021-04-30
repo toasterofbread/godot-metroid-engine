@@ -1,6 +1,6 @@
 extends Node
 
-onready var samus: KinematicBody2D = get_parent()
+onready var samus: KinematicBody2D = get_parent().get_parent()
 
 # GRAVITY
 const gravity = 1500
@@ -20,13 +20,11 @@ func _physics_process(delta):
 	
 	if samus.is_on_floor() and time != 0 and vel.x != 0:
 		
-#		print(vel)
 		if time == -1:
 			time = 0
 		
 		time += delta
 	elif time != 0 and vel.x != 0:
-		print(time)
 		time = 0
 
 

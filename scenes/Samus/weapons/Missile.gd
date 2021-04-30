@@ -1,31 +1,14 @@
-extends Control
+extends SamusWeapon
 
-const id = "missile"
-const hud_icon = true
-var capacity: int = 10
-var amount: int = 10
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-func set_cap(cap: int):
-	capacity = cap
-	
-	if len(str(capacity)) > len($Digits.get_children()):
-		add_digit()
-	elif len(str(capacity)) < len($Digits.get_children()):
-		remove_digit()
-	
-	amount = min(amount, capacity)
-
-func add_digit():
-	var new_digit = get_node("Digits/0").duplicate()
-	$Digits.add_child(new_digit)
-
-func remove_digit():
-	if len($Digits.get_children()) == 1:
+func fire():
+	if Cooldown.time_left > 0:
 		return
-
-func update_digits():
-	pass
+	
+	var pos = get_fire_pos()
+	match pos:
+		-1: return
+	
+	var projectile = Projectile.new($Projectile, self, velocity, pos)
+	Anchor.add_child(projectile)
+	projectile.burst_start(pos)
+	Cooldown.start(cooldown)

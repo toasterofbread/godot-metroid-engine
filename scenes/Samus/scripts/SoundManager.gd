@@ -1,25 +1,27 @@
 extends Node
+class_name SoundManager
 
 export var starting_channel_amount = 5
+enum types {NONE, VOICE, MUSIC, SFX, TEXT}
+
+class AudioChannel extends AudioStreamPlayer:
+	func _init():
+		var type = types.NONE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 # warning-ignore:return_value_discarded
-	create_new_channel(starting_channel_amount)
+	for _i in range(starting_channel_amount):
+		create_new_channel()
 
-func create_new_channel(amount: int = 1) -> AudioStreamPlayer:
+func create_new_channel() -> AudioStreamPlayer:
 	
-	var ret: AudioStreamPlayer
+	var channel = AudioChannel.new()
+	self.add_child(channel)
 	
-	for i in range(amount):
-		var channel = AudioStreamPlayer.new()
-		channel.name = "channel_" + str(i)
-		self.add_child(channel)
-		ret = channel
-		
-	return ret
+	return channel
 
-func play(sound: AudioStreamSample, start_position: float = 0.0) -> AudioStreamPlayer:
+func play(sound: AudioStreamSample, type: int, start_position: float = 0.0) -> AudioStreamPlayer:
 	
 	var channel_to_use = null
 	
@@ -34,6 +36,7 @@ func play(sound: AudioStreamSample, start_position: float = 0.0) -> AudioStreamP
 		push_warning("Not enough audio channels, creating a new one")
 		channel_to_use = create_new_channel()
 	
+	channel_to_use.type = type
 	channel_to_use.stream = sound
 	channel_to_use.play(start_position)
 	return channel_to_use

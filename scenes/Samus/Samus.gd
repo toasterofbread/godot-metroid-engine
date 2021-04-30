@@ -2,17 +2,16 @@ extends KinematicBody2D
 
 var rng = RandomNumberGenerator.new()
 onready var animator = $Animator
-onready var soundmanager = $SoundManager
-onready var physics = $PhysicsManager
-onready var weapons = $WeaponManager
+onready var sound = $Scripts/SoundManager
+onready var physics = $Scripts/PhysicsManager
+onready var weapons = $Scripts/WeaponManager
 onready var hud = preload("res://scenes/Samus/HUD/HUD.tscn").instance()
-
-var processes = []
-var physics_processes = []
 
 var facing = Global.dir.LEFT
 enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
 var aiming = aim.FRONT
+
+var armed: bool = false
 
 var energy: int = 599
 var etanks: int = 15
@@ -32,24 +31,24 @@ func _ready():
 	change_state("neutral")
 	$TestSprite.queue_free()
 	
-	Global.add_child(hud)
+	self.add_child(hud)
 	hud.set_etanks(etanks)
 	hud.set_energy(energy)
 	
 	weapons.add_weapon("missile")
+	weapons.add_weapon("supermissile")
+	weapons.add_weapon("beam")
 
 func load_data(slot: int):
 	weapons.weapons = [preload("res://scenes/Samus/weapons/Beam.tscn")]
 
 func _process(delta):
 	current_state.process(delta)
-	for process in processes:
-		process.process()
 
 func _physics_process(delta):
+#	print(current_state.id)
+#	print(animator.transitioning())
 	current_state.physics_process(delta)
-	for process in physics_processes:
-		process.physics_process()
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	state_change_record = [[new_state_key, Global.time()]] + state_change_record
