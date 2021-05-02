@@ -49,7 +49,7 @@ func all_equipped_weapons() -> Array:
 func update_weapon_icons():
 	for weapon in all_equipped_weapons():
 		if weapon.Icon:
-			weapon.Icon.update_icon(all_equipped_weapons()[current_weapon[0]] if current_weapon[0] >= 0 else null, samus.armed)
+			weapon.Icon.update_icon(all_equipped_weapons()[current_weapon[0]] if current_weapon[0] >= 0 else null, samus.armed)	
 
 func fire():
 	

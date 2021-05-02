@@ -13,6 +13,8 @@ var time = -1
 
 func _physics_process(delta):
 
+#	print(vel.x)
+
 	# Apply gravity
 	vel.y = min(vel.y + gravity*delta, max_fall_speed)
 	

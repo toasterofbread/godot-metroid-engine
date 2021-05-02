@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=268 format=2]
+[gd_resource type="SpriteFrames" load_steps=292 format=2]
 
 [ext_resource path="res://sprites/samus/power/neutral/idle_1/left_04.png" type="Texture" id=1]
 [ext_resource path="res://sprites/samus/power/neutral/idle_1/left_00.png" type="Texture" id=2]
@@ -267,6 +267,30 @@
 [ext_resource path="res://sprites/samus/power/jump/turn/aim_down/right_0.png" type="Texture" id=265]
 [ext_resource path="res://sprites/samus/power/jump/turn/aim_down/right_1.png" type="Texture" id=266]
 [ext_resource path="res://sprites/samus/power/jump/turn/aim_down/left_0.png" type="Texture" id=267]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_1.png" type="Texture" id=268]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_3.png" type="Texture" id=269]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_2.png" type="Texture" id=270]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_4.png" type="Texture" id=271]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_5.png" type="Texture" id=272]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_6.png" type="Texture" id=273]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_7.png" type="Texture" id=274]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_2.png" type="Texture" id=275]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_3.png" type="Texture" id=276]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_4.png" type="Texture" id=277]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_5.png" type="Texture" id=278]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/left_0.png" type="Texture" id=279]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_1.png" type="Texture" id=280]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_6.png" type="Texture" id=281]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_7.png" type="Texture" id=282]
+[ext_resource path="res://sprites/samus/power/jump/spin/normal/right_0.png" type="Texture" id=283]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/2.png" type="Texture" id=284]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/5.png" type="Texture" id=285]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/6.png" type="Texture" id=286]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/3.png" type="Texture" id=287]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/0.png" type="Texture" id=288]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/1.png" type="Texture" id=289]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/4.png" type="Texture" id=290]
+[ext_resource path="res://sprites/samus/power/jump/spin/space/7.png" type="Texture" id=291]
 
 [resource]
 animations = [ {
@@ -584,4 +608,19 @@ animations = [ {
 "loop": false,
 "name": "jump_turn_aim_down_right",
 "speed": 60.0
+}, {
+"frames": [ ExtResource( 279 ), ExtResource( 268 ), ExtResource( 270 ), ExtResource( 269 ), ExtResource( 271 ), ExtResource( 272 ), ExtResource( 273 ), ExtResource( 274 ) ],
+"loop": true,
+"name": "jump_spin_left",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 283 ), ExtResource( 280 ), ExtResource( 275 ), ExtResource( 276 ), ExtResource( 277 ), ExtResource( 278 ), ExtResource( 281 ), ExtResource( 282 ) ],
+"loop": true,
+"name": "jump_spin_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 288 ), ExtResource( 289 ), ExtResource( 284 ), ExtResource( 287 ), ExtResource( 290 ), ExtResource( 285 ), ExtResource( 286 ), ExtResource( 291 ) ],
+"loop": true,
+"name": "jump_spin_space",
+"speed": 30.0
 } ]

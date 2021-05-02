@@ -3,16 +3,19 @@ extends Node
 signal process_frame
 #signal physics_frame
 
-var config = {"spiderball_hold": false, "spin_from_jump": true, "zm_controls": true}
+var config = {"spiderball_hold": false, "spin_from_jump": true, "zm_controls": true, "turn_speed": 60}
 
 var timers = {}
 var hold_actions = {}
 onready var Timers = Node2D.new()
 onready var Anchor = Node2D.new()
 
-enum dir {NONE, LEFT, RIGHT, UP, DOWN}
+enum dir {LEFT, RIGHT, UP, DOWN}
+
+onready var RNG = RandomNumberGenerator.new()
 
 func _ready():
+	RNG.randomize()
 	Timers.name = "Timers"
 	self.add_child(Timers)
 	self.add_child(Anchor)
@@ -101,3 +104,24 @@ func get_anchor(anchor_path: String) -> Node2D:
 			parent = node
 	
 	return parent
+
+func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration: float, shake_frequency: float = 0.05):
+	var timer = Timer.new()
+	self.add_child(timer)
+	timer.one_shot = true
+	var tween = Tween.new()
+	self.add_child(tween)
+	timer.start(duration)
+	
+	while timer.time_left > shake_frequency:
+		var rand = Vector2(RNG.randf_range(-intensity, intensity), RNG.randf_range(-intensity, intensity))
+		tween.interpolate_property(camera, "offset", camera.offset, rand, shake_frequency, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+		tween.start()
+		yield(tween, "tween_completed")
+	
+	tween.interpolate_property(camera, "offset", camera.offset, normal_offset, shake_frequency, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+	tween.start()
+	yield(tween, "tween_completed")
+
+	timer.queue_free()
+	tween.queue_free()

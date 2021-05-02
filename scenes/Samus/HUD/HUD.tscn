@@ -14,8 +14,8 @@ __meta__ = {
 }
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-scale = Vector2( 3.75, 3.75 )
-transform = Transform2D( 3.75, 0, 0, 3.75, 0, 0 )
+scale = Vector2( 4.5, 4.5 )
+transform = Transform2D( 4.5, 0, 0, 4.5, 0, 0 )
 
 [node name="TopBar" type="HBoxContainer" parent="CanvasLayer"]
 margin_left = 8.0

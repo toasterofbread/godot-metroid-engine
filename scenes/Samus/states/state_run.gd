@@ -1,6 +1,6 @@
 extends Node
 
-var samus: Node2D
+var samus: KinematicBody2D
 var animator: Node
 var physics: Node
 
@@ -9,9 +9,9 @@ const id = "run"
 var animations: Dictionary = {}
 
 # PHYSICS
-const run_acceleration = 1500
-const run_deceleration = 15000
-const max_run_speed = 175
+const run_acceleration = 15
+const run_deceleration = 50
+const max_run_speed = 170
 
 func _init(_samus: Node2D):
 	self.samus = _samus
@@ -61,6 +61,16 @@ func process(_delta):
 		samus.aim.DOWN: animation = "aim_down"
 		samus.aim.FRONT: animation = "aim_front"
 		_: animation = "aim_none"
+	
+	if Input.is_action_just_pressed("jump"):
+		change_state("jump", {"options": ["jump", "spin"]})
+		return
+	elif not samus.is_on_floor():
+		change_state("jump", {"options": ["fall"]})
+		return
+	
+	elif Input.is_action_just_pressed("fire_weapon"):
+		samus.weapons.fire()
 	
 	var play_transition = false
 	if not animator.transitioning():

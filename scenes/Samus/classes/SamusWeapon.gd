@@ -16,22 +16,44 @@ var Burst: AnimatedSprite
 onready var Anchor: Node2D = Global.get_anchor("Samus/Weapons/" + self.id)
 onready var AnchorBurst: Node2D = Global.get_anchor("Samus/Weapons/" + self.id + "_burst")
 var Cooldown: Timer = Timer.new()
-
+onready var BaseProjectile = $Projectile
 
 class Projectile extends Area2D:
-	var velocity: float
+	var velocity: Vector2
 	var active: bool = true
 	var Weapon: SamusWeapon
 	var Burst: AnimatedSprite
+	var AnimationPlayer
 	
 	func _init(BaseProjectile: Area2D, Weapon: SamusWeapon, vel: float, pos: Position2D):
 		for node in BaseProjectile.get_children():
 			self.add_child(node.duplicate())
 		
-		self.velocity = vel
+		# Set projectile's vector velocity based on its rotation and passed velocity float
+		self.velocity = Vector2(0, -vel).rotated(pos.rotation)
+		
+		# Apply Samus's velocity to the projectile
+		var velocity_modifier = Weapon.samus.physics.vel / 75
+		print(velocity_modifier)
+		print(velocity)
+		
+		# Comparing velocity against 0.0001 instead of 0 to account for earlier rotated() function innacuracy
+		if self.velocity.x > 0.0001 and velocity_modifier.x > 0:
+			self.velocity.x += velocity_modifier.x
+		elif self.velocity.x < -0.0001 and velocity_modifier.x < 0:
+			self.velocity.x += velocity_modifier.x
+		
+		if self.velocity.y > 0.0001 and velocity_modifier.y > 0:
+			self.velocity.y += velocity_modifier.y
+		elif self.velocity.y < -0.0001 and velocity_modifier.y < 0:
+			self.velocity.y += velocity_modifier.y
+			
+		print(velocity)
+		
 		self.Weapon = Weapon
 		self.Burst = self.get_node("Burst")
 		self.Burst.visible = false
+		self.AnimationPlayer = self.get_node_or_null("AnimationPlayer")
 		
 		self.collision_layer = BaseProjectile.collision_layer
 		self.collision_mask = BaseProjectile.collision_mask
@@ -46,9 +68,11 @@ class Projectile extends Area2D:
 	func burst_start(pos: Position2D):
 		var burst: AnimatedSprite = self.Burst.duplicate()
 		burst.visible = true
-		Weapon.AnchorBurst.add_child(burst)
+		Weapon.samus.add_child(burst)
 		burst.global_position = pos.global_position
 		burst.play("fire")
+		if self.AnimationPlayer:
+			self.AnimationPlayer.play("start")
 		yield(burst, "animation_finished")
 		burst.queue_free()
 	
@@ -58,6 +82,8 @@ class Projectile extends Area2D:
 		burst.global_position = self.get_node("WorldCollider").global_position
 		Weapon.AnchorBurst.add_child(burst)
 		burst.play("collide")
+		if self.AnimationPlayer:
+			self.AnimationPlayer.play("end")
 		self.active = false
 		for child in self.get_children():
 			child.queue_free()
@@ -68,6 +94,12 @@ class Projectile extends Area2D:
 	func kill():
 		self.queue_free()
 
+func projectile_collided(_projectile: Projectile):
+	pass
+
+func projectile_fired(_projectile: Projectile):
+	pass
+
 func _ready():
 	for child in self.get_children():
 		if child is SamusWeaponIcon:
@@ -75,6 +107,7 @@ func _ready():
 			self.remove_child(self.Icon)
 			samus.hud.add_weapon(self.Icon)
 			samus.weapons.update_weapon_icons()
+			Icon.update_digits(self.amount)
 		else:
 			child.visible = false
 	
@@ -85,7 +118,7 @@ func _physics_process(_delta):
 	for projectile in self.Anchor.get_children():
 		if not projectile.active:
 			continue
-		projectile.global_position += Vector2(0, -projectile.velocity).rotated(projectile.rotation)
+		projectile.global_position += projectile.velocity
 
 func on_projectile_screen_exited(projectile: Area2D):
 	yield(Global.wait(2), "completed")
@@ -93,6 +126,7 @@ func on_projectile_screen_exited(projectile: Area2D):
 		projectile.kill()
 
 func on_projectile_collision_with_world(_body, projectile: Projectile):
+	projectile_collided(projectile)
 	projectile.burst_end()
 
 func get_fire_pos():
@@ -113,3 +147,20 @@ func get_fire_pos():
 	
 	return pos
 
+func fire():
+	if Cooldown.time_left > 0 or self.amount == 0:
+		return
+	
+	var pos = get_fire_pos()
+	match pos:
+		-1: return
+	
+	var projectile = Projectile.new(BaseProjectile, self, velocity, pos)
+	Anchor.add_child(projectile)
+	projectile.burst_start(pos)
+	projectile_fired(projectile)
+	Cooldown.start(cooldown)
+	
+	self.amount -= 1
+	if Icon:
+		Icon.update_digits(self.amount)

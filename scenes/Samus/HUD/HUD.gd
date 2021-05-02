@@ -10,7 +10,6 @@ func _ready():
 	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
 
 func add_weapon(weapon_icon: SamusWeaponIcon):
-	print(weapon_icon)
 	$CanvasLayer/TopBar/WeaponIcons.add_child(weapon_icon)
 
 func remove_weapon(weapon_icon: SamusWeaponIcon):

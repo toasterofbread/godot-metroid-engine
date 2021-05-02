@@ -1,14 +1,8 @@
 extends SamusWeapon
 
-func fire():
-	if Cooldown.time_left > 0:
-		return
-	
-	var pos = get_fire_pos()
-	match pos:
-		-1: return
-	
-	var projectile = Projectile.new($Projectile, self, velocity, pos)
-	Anchor.add_child(projectile)
-	projectile.burst_start(pos)
-	Cooldown.start(cooldown)
+func projectile_collided(_projectile: Projectile):
+	if id == "supermissile":
+		Global.shake(samus.get_node("Camera2D"), Vector2.ZERO, 2, cooldown*0.75)
+
+#func projectile_fired(_projectile: Projectile):
+#	pass

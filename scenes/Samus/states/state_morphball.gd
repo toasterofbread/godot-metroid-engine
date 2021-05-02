@@ -9,9 +9,9 @@ var spiderball_active = false
 const id = "morphball"
 
 # PHYSICS
-const roll_ground_acceleration = 15
-const roll_ground_deceleration = 15000
-const roll_ground_max_speed = 225
+const roll_ground_acceleration = 10
+const roll_ground_deceleration = 50
+const roll_ground_max_speed = 200
 const springball_speed = 50
 const springball_time = 0.2
 var springball_current_time = 0
@@ -25,15 +25,17 @@ func _init(_samus: Node2D):
 	self.physics = samus.physics
 	
 	animations = {
-		"roll_ground": animator.Animation.new(animator,"roll_ground", self.id),
-		"roll_spider": animator.Animation.new(animator,"roll_spider", self.id),
-		"turn": animator.Animation.new(animator,"turn", self.id, {"transition": true}),
-		"unmorph": animator.Animation.new(animator,"unmorph", self.id, {"transition": true}),
-		"morph": animator.Animation.new(animator,"morph", "crouch", {"transition": true})
+		"roll_ground": animator.Animation.new(animator,"roll_ground", self.id, {"directional": false}),
+		"roll_spider": animator.Animation.new(animator,"roll_spider", self.id, {"directional": false}),
+		"turn": animator.Animation.new(animator,"turn", self.id, {"transition": true, "directional": false}),
+		"unmorph": animator.Animation.new(animator,"unmorph", self.id, {"transition": true, "directional": false}),
+		"morph": animator.Animation.new(animator,"morph", "crouch", {"transition": true, "directional": false})
 	}
 
 # Called when Samus's state is changed to this one
 func init(_data: Dictionary):
+#	samus.get_node("Camera2D").smoothing_speed = 20
+	samus.aiming = samus.aim.NONE
 	spiderball_active = false
 	return self
 
@@ -62,7 +64,7 @@ func process(_delta):
 		if original_facing == Global.dir.LEFT:
 			animations["turn"].play(true)
 
-	if not animator.transitioning():
+	if not animator.transitioning(false, true):
 		if spiderball_active:
 			animations["roll_spider"].play(false, true)
 		else:
@@ -75,13 +77,19 @@ func toggle_morph():
 	
 	if samus.current_state == self:
 		animations["unmorph"].play( true)
-		change_state("crouch")
+		
+		if samus.is_on_floor():
+			change_state("crouch")
+		else:
+			change_state("jump", {"options": []})
+		
 	else:
 		animations["morph"].play( true)
 		change_state("morphball")
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
+#	samus.get_node("Camera2D").smoothing_speed = 10
 	animator.resume()
 	samus.change_state(new_state_key, data)
 	

@@ -46,8 +46,9 @@ func _process(delta):
 	current_state.process(delta)
 
 func _physics_process(delta):
+#	print(animator.current)
 #	print(current_state.id)
-#	print(animator.transitioning())
+#	print(animator.transitioning(false, true))
 	current_state.physics_process(delta)
 
 func change_state(new_state_key: String, data: Dictionary = {}):

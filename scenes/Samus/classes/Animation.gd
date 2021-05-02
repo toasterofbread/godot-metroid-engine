@@ -11,11 +11,14 @@ var positions: Dictionary
 var position: Vector2
 var directional: bool
 var animation_keys: Dictionary
+var animation_length: float
+var full: bool
 
 # Nodes
 var animator: Node2D
 
 # Status variables
+var playing: bool = false
 var transitioning: bool = false
 var cooldown: bool = false
 
@@ -24,9 +27,10 @@ const _default_args = {
 	"transition": false,
 	"overlay": false,
 	"position": Vector2.ZERO,
-	"directional": true
+	"directional": true,
+	"full": true
 }
-const cooldown_time: float = 0.025
+const cooldown_time: float = 0.04
 
 
 func _init(_animator: Node2D, _id: String, _state_id: String, args: Dictionary = {}):
@@ -58,18 +62,22 @@ func _init(_animator: Node2D, _id: String, _state_id: String, args: Dictionary =
 		Global.dir.LEFT: self.state_id + "_" + self.id + ("_left" if self.directional else ""),
 		Global.dir.RIGHT: self.state_id + "_" + self.id + ("_right" if self.directional else "")
 	}
-
+	
+	if sprites[Global.dir.LEFT].frames.get_animation_speed(animation_keys[Global.dir.LEFT]) == 0:
+		self.animation_length = 0
+	else:
+		self.animation_length = sprites[Global.dir.LEFT].frames.get_frame_count(animation_keys[Global.dir.LEFT]) / sprites[Global.dir.LEFT].frames.get_animation_speed(animation_keys[Global.dir.LEFT])
+#	if self.state_id == "jump":
+#		print(str(animation_length) + self.id)
 func play(retain_frame: bool = false, ignore_pasued: bool = false):
 	
 #	if animator.transitioning(overlay):
 #		return
-	
 	if animator.paused[overlay]:
 		if ignore_pasued:
 			return
 		else:
 			animator.paused[overlay] = false
-			
 	
 	for dir in sprites:
 		
@@ -78,8 +86,9 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false):
 	
 		# Set visibility
 		sprites[dir].visible = animator.samus.facing == dir
-		for sprite in animator.sprites[!overlay].values():
-			sprite.visible = false
+		if not animator.current[!overlay] or (self.full and !overlay):
+			for sprite in animator.sprites[!overlay].values():
+				sprite.visible = false
 	
 		# Play animation
 		var frame = sprites[dir].frame
@@ -90,11 +99,19 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false):
 	if not animator.transitioning():
 		animator.current[overlay] = self
 	self.transitioning = self.transition
+	self.playing = true
 	
-	yield(sprites[Global.dir.LEFT], "animation_finished")
+#	if self.id == "legs_start":
+#		print("YIELD START")
+	yield(Global.wait(animation_length), "completed")
+#	if self.id == "legs_start":
+#		print("YIELD END")
 	
-	if self.transitioning and animator.current[overlay] == self:
-		self.transitioning = false
+	self.transitioning = false
+	
+	if animator.current[overlay] == self and self.transition:
 		self.cooldown = true
 		yield(Global.wait(cooldown_time), "completed")
 		self.cooldown = false
+	
+	self.playing = false

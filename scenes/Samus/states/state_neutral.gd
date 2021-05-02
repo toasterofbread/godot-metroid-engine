@@ -24,7 +24,6 @@ func _init(_samus: Node2D):
 		"aim_front": animator.Animation.new(animator,"aim_front", self.id),
 		"aim_sky": animator.Animation.new(animator,"aim_sky", self.id),
 		"aim_up": animator.Animation.new(animator,"aim_up", self.id),
-		"legs_start": animator.Animation.new(animator,"legs_start", "jump", {"transition": true, "overlay": true, "position": Vector2(4, 4)})
 	}
 		
 	idle_animations = [animator.Animation.new(animator,"idle_0", self.id), animator.Animation.new(animator,"idle_1", self.id)]
@@ -51,20 +50,23 @@ func process(_delta):
 		animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
+	if Input.is_action_just_pressed("morph_shortcut"):
+		change_state("morphball", {"transition": true})
+		return
+	elif Input.is_action_just_pressed("jump"):
+		if physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
+			change_state("jump", {"options": ["jump", "spin"]})
+		else:
+			change_state("jump", {"options": ["jump"]})
+		return
+	elif not samus.is_on_floor():
+		change_state("jump", {"options": ["fall"]})
+		return
+	elif Input.is_action_just_pressed("fire_weapon"):
+		samus.weapons.fire()
+		reset_idle_timer = true
+		
 	if not animator.transitioning():
-		if Input.is_action_just_pressed("morph_shortcut"):
-			change_state("morphball", {"transition": true})
-			return
-		elif Input.is_action_just_pressed("jump"):
-			if physics.vel.x == 0:
-				animations["legs_start"].play()
-				change_state("jump", {"jump": true})
-			else:
-				change_state("spin")
-			return
-		elif Input.is_action_just_pressed("fire_weapon"):
-			samus.weapons.fire()
-			reset_idle_timer = true
 	
 		if Input.is_action_pressed("pad_left"):
 			samus.facing = Global.dir.LEFT
@@ -134,7 +136,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 # Called by the idle timer, plays a random idle animation
 func play_idle_animation(_timer_id):
-	
+	return
 	# Play a random idle animation and wait for it to finish
 	var anim = Global.random_array_item(samus.rng, idle_animations)
 	anim.play()
