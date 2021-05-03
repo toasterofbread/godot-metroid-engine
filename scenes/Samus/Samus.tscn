@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
@@ -10,15 +10,39 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 17 )
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 17 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8, 17 )
+
 [node name="Samus" type="KinematicBody2D"]
 collision_layer = 0
 collision_mask = 524288
 script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="cMainLeft" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2( 4, 1 )
 shape = SubResource( 1 )
+
+[node name="cMainRight" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 4, 0 )
+shape = SubResource( 2 )
+disabled = true
+
+[node name="cOverlayLeft" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 4, 0 )
+shape = SubResource( 3 )
+disabled = true
+
+[node name="cOverlayRight" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 4, 0 )
+shape = SubResource( 3 )
+disabled = true
 
 [node name="Scripts" type="Node" parent="."]
 
@@ -37,6 +61,7 @@ script = ExtResource( 5 )
 script = ExtResource( 4 )
 
 [node name="CannonPositions" type="Node2D" parent="Animator"]
+visible = false
 z_index = 999
 z_as_relative = false
 
@@ -57,6 +82,16 @@ position = Vector2( 1, -25 )
 [node name="aim_up" type="Position2D" parent="Animator/CannonPositions/neutral"]
 position = Vector2( -9, -21 )
 rotation = -0.785398
+
+[node name="neutral_idle" type="Node2D" parent="Animator/CannonPositions"]
+
+[node name="idle_0" type="Position2D" parent="Animator/CannonPositions/neutral_idle"]
+position = Vector2( -12, -9 )
+rotation = -1.5708
+
+[node name="idle_1" type="Position2D" parent="Animator/CannonPositions/neutral_idle"]
+position = Vector2( -12, -9 )
+rotation = -1.5708
 
 [node name="jump" type="Node2D" parent="Animator/CannonPositions"]
 
@@ -109,59 +144,92 @@ rotation = -1.5708
 position = Vector2( -14, -22 )
 rotation = -0.785398
 
-[node name="sMainLeft" type="AnimatedSprite" parent="Animator"]
-position = Vector2( 3, -19 )
-frames = ExtResource( 1 )
-animation = "jump_turn_aim_sky_left"
-frame = 1
-flip_h = true
-
-[node name="sMainRight" type="AnimatedSprite" parent="Animator"]
-visible = false
-position = Vector2( 7, -14 )
-frames = ExtResource( 1 )
-animation = "jump_turn_aim_sky_right"
-frame = 1
-playing = true
-
 [node name="sOverlayLeft" type="AnimatedSprite" parent="Animator"]
-position = Vector2( 4, 4 )
+visible = false
+position = Vector2( 4, 6 )
 frames = ExtResource( 1 )
-animation = "jump_legs_turn_left"
-frame = 1
+animation = "jump_legs"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator"]
 visible = false
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
-animation = "jump_turn_aim_sky_right"
+animation = "jump_legs"
+
+[node name="sMainLeft" type="AnimatedSprite" parent="Animator"]
+visible = false
+frames = ExtResource( 1 )
+animation = "neutral_aim_front_left"
+flip_h = true
+
+[node name="sMainRight" type="AnimatedSprite" parent="Animator"]
+position = Vector2( 7, 0 )
+frames = ExtResource( 1 )
+animation = "neutral_aim_front_right"
+
+[node name="TestSprites" type="Node2D" parent="Animator"]
+
+[node name="TestSpriteL2" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 7, -1 )
+frames = ExtResource( 1 )
+animation = "neutral_idle_1_right"
+
+[node name="TestSpriteR2" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 4, 6 )
+frames = ExtResource( 1 )
+animation = "jump_legs_turn"
 frame = 1
+
+[node name="TestSprite2" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 9, -11 )
+frames = ExtResource( 1 )
+animation = "multiple_aim_front_right"
+
+[node name="TestSprite3" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 4, -17 )
+frames = ExtResource( 1 )
+animation = "jump_legs"
+flip_h = true
+
+[node name="TestSpriteL" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 3, 7 )
+frames = ExtResource( 1 )
+animation = "jump_legs"
 playing = true
+flip_h = true
+
+[node name="TestSpriteR" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 4, -16 )
+frames = ExtResource( 1 )
+animation = "multiple_turn_aim_sky_left"
+frame = 1
+flip_h = true
 
 [node name="WalljumpRaycastLeft" type="RayCast2D" parent="Animator"]
+visible = false
 position = Vector2( 3.5, 0 )
 rotation = 4.71239
-cast_to = Vector2( 0, 20 )
+cast_to = Vector2( 0, 25 )
 collision_mask = 524288
 
 [node name="WalljumpRaycastRight" type="RayCast2D" parent="Animator"]
+visible = false
 position = Vector2( 3.5, 0 )
 rotation = 4.71239
-cast_to = Vector2( 0, -20 )
+cast_to = Vector2( 0, -25 )
 collision_mask = 524288
 
 [node name="Weapons" type="Node2D" parent="."]
+position = Vector2( -19, -2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 4, -16 )
 current = true
 zoom = Vector2( 0.232, 0.232 )
 smoothing_speed = 15.0
-
-[node name="TestSprite" type="AnimatedSprite" parent="."]
-visible = false
-position = Vector2( 2, -14 )
-z_index = 1
-frames = ExtResource( 1 )
-animation = "jump_turn_aim_sky_right"

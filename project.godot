@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "StaticBody2D",
+"class": "DestroyableBlock",
+"language": "GDScript",
+"path": "res://scenes/DestroyableBlock/DestroyableBlock.gd"
+}, {
 "base": "Node",
 "class": "SamusAnimation",
 "language": "GDScript",
@@ -30,6 +35,7 @@ _global_script_classes=[ {
 "path": "res://scenes/Samus/scripts/SoundManager.gd"
 } ]
 _global_script_class_icons={
+"DestroyableBlock": "",
 "SamusAnimation": "",
 "SamusWeapon": "",
 "SamusWeaponIcon": "",
@@ -45,6 +51,8 @@ config/icon="res://icon.png"
 [autoload]
 
 Global="*res://classes/singletons/Global.gd"
+Enums="*res://classes/singletons/Enums.gd"
+Groups="*res://classes/singletons/Groups.gd"
 
 [display]
 

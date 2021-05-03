@@ -7,7 +7,7 @@ onready var physics = $Scripts/PhysicsManager
 onready var weapons = $Scripts/WeaponManager
 onready var hud = preload("res://scenes/Samus/HUD/HUD.tscn").instance()
 
-var facing = Global.dir.LEFT
+var facing = Enums.dir.LEFT
 enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
 var aiming = aim.FRONT
 
@@ -29,7 +29,7 @@ var state_change_record = [["", 0]]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	change_state("neutral")
-	$TestSprite.queue_free()
+	$Animator/TestSprites.queue_free()
 	
 	self.add_child(hud)
 	hud.set_etanks(etanks)
@@ -53,7 +53,7 @@ func _physics_process(delta):
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	state_change_record = [[new_state_key, Global.time()]] + state_change_record
-	current_state = states[new_state_key].init(data)
+	current_state = states[new_state_key].init_state(data)
 
 func is_upgrade_active(upgrade_key: String):
 	return true

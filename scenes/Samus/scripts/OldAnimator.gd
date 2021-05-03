@@ -4,9 +4,9 @@ onready var samus: KinematicBody2D = get_parent()
 var Animation = preload("res://scenes/Samus/classes/Animation.gd")
 
 onready var sprites = {
-	Global.dir.UP: [$LeftStackedSprite/TopSprite, $RightStackedSprite/TopSprite], 
-	Global.dir.DOWN: [$LeftStackedSprite/BottomSprite, $RightStackedSprite/BottomSprite], 
-	Global.dir.NONE: [$LeftSprite, $RightSprite]}
+	Enums.dir.UP: [$LeftStackedSprite/TopSprite, $RightStackedSprite/TopSprite], 
+	Enums.dir.DOWN: [$LeftStackedSprite/BottomSprite, $RightStackedSprite/BottomSprite], 
+	Enums.dir.NONE: [$LeftSprite, $RightSprite]}
 onready var stacked_sprites = [$LeftStackedSprite, $RightStackedSprite]
 var current_animation = null
 
@@ -45,7 +45,7 @@ func _process(delta):
 #		for sprite in sprites[dir]:
 #			sprite.playing = !current_animation[dir].paused
 
-func current(stacked: int = Global.dir.UP) -> SamusAnimation:
+func current(stacked: int = Enums.dir.UP) -> SamusAnimation:
 	
 	if current_animation == null:
 		return null
@@ -58,7 +58,7 @@ func current(stacked: int = Global.dir.UP) -> SamusAnimation:
 	else:
 		return current_animation
 
-func transitioning(stacked: int = Global.dir.UP, cooldown: bool = true) -> bool:
+func transitioning(stacked: int = Enums.dir.UP, cooldown: bool = true) -> bool:
 	
 	if current_animation == null:
 		return false
