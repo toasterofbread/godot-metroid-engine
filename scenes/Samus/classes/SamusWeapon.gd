@@ -4,34 +4,42 @@ class_name SamusWeapon
 var samus: KinematicBody2D
 
 export var id: String
-export(Enums.DamageType) var damage_type = Enums.DamageType.NONE
+export(Enums.DamageType) var damage_type
 export var velocity: float
 export var cooldown: float
+export var falls_to_ground: bool
 export var amount: int
 export var capacity: int
-export var is_morph_weapon: bool
-export var is_base_weapon: bool
+export var is_morph_weapon: bool = false
+export var is_base_weapon: bool = false
 
 var Icon: SamusWeaponIcon
 var Burst: AnimatedSprite
 onready var Anchor: Node2D = Global.get_anchor("Samus/Weapons/" + self.id)
 onready var AnchorBurst: Node2D = Global.get_anchor("Samus/Weapons/" + self.id + "_burst")
 var Cooldown: Timer = Timer.new()
-onready var BaseProjectile = $Projectile
+onready var BaseProjectile: Area2D = $Projectile
 
-class Projectile extends Area2D:
+class Projectile extends KinematicBody2D:
 	var velocity: Vector2
 	var active: bool = true
+	var falling: bool = false
 	var Weapon: SamusWeapon
 	var Burst: AnimatedSprite
 	var AnimationPlayer
+	var base_velocity: float
+	var damage_type: int
 	
-	func _init(BaseProjectile: Area2D, Weapon: SamusWeapon, vel: float, pos: Position2D):
-		for node in BaseProjectile.get_children():
+	func _init(Weapon: SamusWeapon, vel: float, pos: Position2D):
+		for node in Weapon.BaseProjectile.get_children():
 			self.add_child(node.duplicate())
+		
+		add_to_group(Groups.damages_world, true)
+		damage_type = Weapon.damage_type
 		
 		# Set projectile's vector velocity based on its rotation and passed velocity float
 		self.velocity = Vector2(0, -vel).rotated(pos.rotation)
+		self.base_velocity = vel
 		
 		# Apply Samus's velocity to the projectile
 		var velocity_modifier = Weapon.samus.physics.vel / 75
@@ -52,13 +60,12 @@ class Projectile extends Area2D:
 		self.Burst.visible = false
 		self.AnimationPlayer = self.get_node_or_null("AnimationPlayer")
 		
-		self.collision_layer = BaseProjectile.collision_layer
-		self.collision_mask = BaseProjectile.collision_mask
+		self.collision_layer = Weapon.BaseProjectile.collision_layer
+		self.collision_mask = Weapon.BaseProjectile.collision_mask
 	
 		self.rotation = pos.rotation
 		self.global_position = pos.global_position
 		self.get_node("VisibilityNotifier").connect("screen_exited", Weapon, "on_projectile_screen_exited", [self])
-		self.connect("body_entered", Weapon, "on_projectile_collision", [self])
 		
 		return self
 	
@@ -88,6 +95,39 @@ class Projectile extends Area2D:
 		burst.queue_free()
 		self.kill()
 	
+	func fall_to_ground():
+		self.falling = true
+		var tween = Tween.new()
+		self.add_child(tween)
+		
+		if get_node_or_null("Trail"):
+			tween.interpolate_property(get_node("Trail"), "modulate", get_node("Trail").modulate, Color.transparent, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		if get_node_or_null("Flame"):
+			tween.interpolate_property(get_node("Flame"), "modulate", get_node("Flame").modulate, Color.transparent, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		
+		tween.interpolate_property(self, "velocity:x", self.velocity.x, self.velocity.x / 10, 0.5, Tween.TRANS_SINE)
+		tween.interpolate_property(self, "velocity:y", self.velocity.y, 350, 0.2, Tween.TRANS_SINE)
+		tween.start()
+	
+	func _physics_process(delta):
+		if self.active:
+			var collision: KinematicCollision2D = move_and_collide(self.velocity * delta)
+			if falling:
+				self.rotation_degrees += Weapon.samus.rng.randf_range(20, 45)
+			if collision:
+				print(collision.collider)
+				if collision.collider.has_method("collision"):
+					collision.collider.call("collision", self)
+				if collision.collider.is_in_group(Groups.immune_to_projectiles) and not falling and Weapon.falls_to_ground:
+					velocity = velocity.bounce(collision.normal) / 2
+					velocity = velocity.rotated(deg2rad(Weapon.samus.rng.randf_range(-10, 10)))
+					self.rotation = self.velocity.angle()
+					self.fall_to_ground()
+				else:
+					Weapon.projectile_collided(self)
+					self.burst_end()
+	
+	
 	func kill():
 		self.queue_free()
 
@@ -98,8 +138,6 @@ func projectile_fired(_projectile: Projectile):
 	pass
 
 func _ready():
-	
-	add_to_group(Groups.damages_world, true)
 	
 	for child in self.get_children():
 		if child is SamusWeaponIcon:
@@ -114,22 +152,11 @@ func _ready():
 	self.Cooldown.one_shot = true 
 	self.add_child(Cooldown)
 
-func _physics_process(_delta):
-	for projectile in self.Anchor.get_children():
-		if not projectile.active:
-			continue
-		projectile.global_position += projectile.velocity
 
 func on_projectile_screen_exited(projectile: Area2D):
 	yield(Global.wait(2), "completed")
 	if is_instance_valid(projectile):
 		projectile.kill()
-
-func on_projectile_collision(body: Node2D, projectile: Projectile):
-	if body.has_method("collision"):
-		body.call("collision", self)
-	projectile_collided(projectile)
-	projectile.burst_end()
 
 func get_fire_pos():
 	var pos: Position2D = samus.animator.get_node("CannonPositions").get_node_or_null(samus.animator.current[false].position_node_path)
@@ -157,7 +184,7 @@ func fire():
 	match pos:
 		-1: return
 	
-	var projectile = Projectile.new(BaseProjectile, self, velocity, pos)
+	var projectile = Projectile.new(self, velocity, pos)
 	Anchor.add_child(projectile)
 	projectile.burst_start(pos)
 	projectile_fired(projectile)

@@ -59,7 +59,7 @@ animations = [ {
 radius = 4.0
 height = 6.0
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 8 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 15 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 28 ) ],
 "loop": false,
@@ -72,7 +72,7 @@ animations = [ {
 "speed": 60.0
 } ]
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 resource_name = "end"
 length = 0.25
 step = 0.05
@@ -101,7 +101,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 84 ), Vector2( 0, 11.5 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 0.25
 step = 0.05
 tracks/0/type = "value"
@@ -133,8 +133,9 @@ tracks/1/keys = {
 script = ExtResource( 9 )
 id = "supermissile"
 damage_type = 5
-velocity = 9.0
+velocity = 450.0
 cooldown = 0.45
+falls_to_ground = true
 amount = 100
 
 [node name="MenuIcon" type="Control" parent="."]
@@ -179,10 +180,12 @@ texture = ExtResource( 11 )
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 8 )
 frames = SubResource( 2 )
+frame = 1
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 frames = SubResource( 3 )
+frame = 1
 playing = true
 
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="Projectile"]
@@ -196,9 +199,9 @@ shape = SubResource( 4 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( -60, -2 )
-frames = SubResource( 6 )
+frames = SubResource( 5 )
 animation = "collide"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Projectile"]
-anims/end = SubResource( 7 )
-anims/start = SubResource( 8 )
+anims/end = SubResource( 6 )
+anims/start = SubResource( 7 )
