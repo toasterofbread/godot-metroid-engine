@@ -645,7 +645,7 @@ animations = [ {
 "frames": [ ExtResource( 250 ), ExtResource( 222 ), ExtResource( 219 ), ExtResource( 220 ), ExtResource( 224 ) ],
 "loop": false,
 "name": "jump_legs_start",
-"speed": 15.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 224 ) ],
 "loop": true,

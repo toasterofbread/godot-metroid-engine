@@ -7,9 +7,9 @@ var physics: Node
 const id = "jump"
 
 # PHYSICS
-const jump_speed = 150
-const jump_acceleration = 200
-const jump_time = 0.5
+const jump_speed = 125
+const jump_acceleration = 250
+const jump_time = 0.275
 var jump_current_time = 125
 
 const horiz_speed = 125
