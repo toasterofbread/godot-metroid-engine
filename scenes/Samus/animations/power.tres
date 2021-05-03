@@ -360,7 +360,7 @@ animations = [ {
 "frames": [ ExtResource( 65 ), ExtResource( 97 ), ExtResource( 98 ), ExtResource( 99 ), ExtResource( 101 ), ExtResource( 100 ), ExtResource( 102 ), ExtResource( 103 ), ExtResource( 104 ), ExtResource( 105 ) ],
 "loop": true,
 "name": "run_aim_none_left",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 149 ), ExtResource( 148 ), ExtResource( 146 ), ExtResource( 147 ) ],
 "loop": true,
@@ -370,12 +370,12 @@ animations = [ {
 "frames": [ ExtResource( 160 ), ExtResource( 83 ), ExtResource( 84 ), ExtResource( 66 ), ExtResource( 67 ), ExtResource( 85 ), ExtResource( 86 ), ExtResource( 74 ), ExtResource( 87 ), ExtResource( 88 ) ],
 "loop": true,
 "name": "run_aim_front_left",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 163 ), ExtResource( 72 ), ExtResource( 63 ), ExtResource( 89 ), ExtResource( 91 ), ExtResource( 90 ), ExtResource( 92 ), ExtResource( 93 ), ExtResource( 94 ), ExtResource( 95 ) ],
 "loop": true,
 "name": "run_aim_front_right",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 158 ), ExtResource( 144 ), ExtResource( 30 ), ExtResource( 47 ) ],
 "loop": true,
@@ -425,27 +425,27 @@ animations = [ {
 "frames": [ ExtResource( 164 ), ExtResource( 143 ), ExtResource( 106 ), ExtResource( 119 ), ExtResource( 120 ), ExtResource( 122 ), ExtResource( 121 ), ExtResource( 123 ), ExtResource( 124 ), ExtResource( 125 ) ],
 "loop": true,
 "name": "run_aim_up_left",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 40 ), ExtResource( 76 ), ExtResource( 73 ), ExtResource( 75 ), ExtResource( 77 ), ExtResource( 79 ), ExtResource( 78 ), ExtResource( 80 ), ExtResource( 81 ), ExtResource( 82 ) ],
 "loop": true,
 "name": "run_aim_down_right",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 314 ), ExtResource( 162 ), ExtResource( 71 ), ExtResource( 107 ), ExtResource( 108 ), ExtResource( 110 ), ExtResource( 109 ), ExtResource( 112 ), ExtResource( 111 ), ExtResource( 113 ) ],
 "loop": true,
 "name": "run_aim_none_right",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 313 ), ExtResource( 161 ), ExtResource( 96 ), ExtResource( 129 ), ExtResource( 131 ), ExtResource( 130 ), ExtResource( 132 ), ExtResource( 134 ), ExtResource( 133 ), ExtResource( 135 ) ],
 "loop": true,
 "name": "run_aim_up_right",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 25 ), ExtResource( 28 ), ExtResource( 6 ), ExtResource( 60 ), ExtResource( 34 ), ExtResource( 32 ), ExtResource( 54 ), ExtResource( 68 ), ExtResource( 70 ), ExtResource( 69 ) ],
 "loop": true,
 "name": "run_aim_down_left",
-"speed": 25.0
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 155 ), ExtResource( 154 ), ExtResource( 154 ) ],
 "loop": false,

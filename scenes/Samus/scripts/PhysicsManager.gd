@@ -3,8 +3,8 @@ extends Node
 onready var samus: KinematicBody2D = get_parent().get_parent()
 
 # GRAVITY
-const gravity = 1500
-const max_fall_speed = 400
+const gravity = 1250
+const max_fall_speed = 325
 
 var vel: Vector2 = Vector2.ZERO
 var grounded: bool = false

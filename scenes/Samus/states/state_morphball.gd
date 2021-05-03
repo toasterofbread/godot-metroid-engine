@@ -11,7 +11,7 @@ const id = "morphball"
 # PHYSICS
 const roll_ground_acceleration = 10
 const roll_ground_deceleration = 50
-const roll_ground_max_speed = 200
+const roll_ground_max_speed = 225
 const springball_speed = 50
 const springball_time = 0.2
 var springball_current_time = 0
