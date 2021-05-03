@@ -62,8 +62,6 @@ func process(_delta):
 	
 	var play_transition = false
 	var fire_weapon = false
-#	if first_frame:
-#		return
 	
 	if Global.config["zm_controls"]:
 		animator.set_armed(Input.is_action_pressed("arm_weapon"))
@@ -76,9 +74,6 @@ func process(_delta):
 		return
 	elif Input.is_action_just_pressed("jump") and Global.config["spin_from_jump"]:
 		spinning = true
-#	elif WalljumpRaycast.is_colliding() and Input.is_action_just_pressed("jump") and WalljumpTimer.time_left != 0:
-#		animations["spin_walljump"].play()
-#		print("PLAYYY")
 	elif Input.is_action_just_pressed("fire_weapon"):
 		fire_weapon = true
 		spinning = false
@@ -96,19 +91,23 @@ func process(_delta):
 	elif Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
 		if Input.is_action_pressed("pad_up"):
 			samus.aiming = samus.aim.UP
+			spinning = false
 		elif Input.is_action_pressed("pad_down"):
 			samus.aiming = samus.aim.DOWN
+			spinning = false
 		else:
 			samus.aiming = samus.aim.FRONT
 	else:
-		if Input.is_action_just_pressed("pad_up"):
+		if Input.is_action_pressed("pad_up"):
 			samus.aiming = samus.aim.SKY
-		elif Input.is_action_just_pressed("pad_down"):
-			if samus.aiming == samus.aim.FLOOR:
+			spinning = false
+		elif Input.is_action_pressed("pad_down"):
+			if samus.aiming == samus.aim.FLOOR and Input.is_action_just_pressed("pad_down"):
 				change_state("morphball", {"options": ["animate"]})
 				return
 			else:
 				samus.aiming = samus.aim.FLOOR
+				spinning = false
 		elif not samus.aiming in [samus.aim.SKY, samus.aim.FLOOR]:
 			samus.aiming = samus.aim.FRONT
 	
