@@ -37,7 +37,7 @@ animations = [ {
 radius = 4.0
 height = 6.0
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 9 ) ],
 "loop": true,
@@ -54,7 +54,7 @@ animations = [ {
 script = ExtResource( 1 )
 id = "beam"
 damage_type = 1
-velocity = 8.0
+velocity = 400.0
 cooldown = 0.1
 amount = -1
 is_base_weapon = true
@@ -86,5 +86,5 @@ shape = SubResource( 5 )
 position = Vector2( -60, -2 )
 z_index = 999
 z_as_relative = false
-frames = SubResource( 7 )
+frames = SubResource( 6 )
 animation = "collide"

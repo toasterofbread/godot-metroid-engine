@@ -11,6 +11,9 @@ onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+#	self.add_to_group(Groups.immune_to_projectiles)
+	
 	if sandy:
 		if type == Enums.DamageType.BEAM:
 			sprite_name = "sand"
@@ -25,10 +28,10 @@ func _ready():
 	
 	$AnimatedSprite.play(sprite_name)
 
-func collision(collision_object: Node2D):
-	
+func collision(collision_object):
+	print(collision_object.damage_type)
 	var damage_type = collision_object.get("damage_type")
-	if not collision_object.is_in_group(Groups.damages_world) or damage_type == null:
+	if not collision_object.is_in_group(Groups.damages_world) or damage_type == null or self.is_in_group(Groups.immune_to_projectiles):
 		return
 	
 	if damage_type in destructive_damage_types:
