@@ -33,8 +33,11 @@ func process(_delta):
 		if Input.is_action_just_pressed("morph_shortcut"):
 			change_state("morphball", {"options": ["animate"]})
 			return
-		elif Input.is_action_just_pressed("fire_weapon"):
+		if Input.is_action_just_pressed("fire_weapon"):
 			samus.weapons.fire()
+		if Input.is_action_just_pressed("jump"):
+			change_state("jump", {"options": ["jump"]})
+			return
 		
 		if Input.is_action_pressed("pad_left"):
 			samus.facing = Enums.dir.LEFT
