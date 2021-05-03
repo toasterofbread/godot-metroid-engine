@@ -1,21 +1,28 @@
 extends Node2D
 
 onready var samus: Node2D = get_parent()
+const data_json_path = "res://scenes/Samus/animations/data.json"
 
 onready var sprites = {
-	true: { # Overlay
-		Global.dir.LEFT: $sMainLeft,
-		Global.dir.RIGHT: $sMainRight
-	},
 	false: { # Main
-		Global.dir.LEFT: $sOverlayLeft,
-		Global.dir.RIGHT: $sOverlayRight
+		Enums.dir.LEFT: $sMainLeft,
+		Enums.dir.RIGHT: $sMainRight
+	},
+	true: { # Overlay
+		Enums.dir.LEFT: $sOverlayLeft,
+		Enums.dir.RIGHT: $sOverlayRight
 	}
 }
 
-onready var default_positions = {
-	true: Vector2(0, 0), # Overlay
-	false: Vector2(0, 0) # Main
+onready var colliders = {
+	false: {
+		Enums.dir.LEFT: samus.get_node("cMainLeft"),
+		Enums.dir.RIGHT: samus.get_node("cMainRight")
+	},
+	true: {
+		Enums.dir.LEFT: samus.get_node("cOverlayLeft"),
+		Enums.dir.RIGHT: samus.get_node("cOverlayRight")
+	}
 }
 
 var current: Dictionary = {
@@ -27,8 +34,6 @@ var paused: Dictionary = {
 	true: false, # Overlay
 	false: false # Main
 }
-
-onready var Animation = preload("res://scenes/Samus/classes/Animation.gd")
 
 onready var suits = {
 	"power": [preload("res://scenes/Samus/animations/power.tres"), preload("res://scenes/Samus/animations/power_armed.tres")]
@@ -88,7 +93,25 @@ func transitioning(overlay: bool = false, ignore_cooldown: bool = false, DEBUG_o
 			print(current[overlay].id)
 		return current[overlay].transitioning or (current[overlay].cooldown and not ignore_cooldown)
 
-#func facing_changed():
-#	for set in sprites.values():
-#		for dir in set:
-#			set[dir].visible = dir == samus.facing
+
+func load_from_json(state_id: String, json_key = null) -> Dictionary:
+	if json_key == null:
+		json_key = state_id
+	
+	var data = Global.load_json(data_json_path)[json_key]
+	
+	for animation in data:
+		if not "state_id" in data[animation]:
+			data[animation]["state_id"] = state_id
+		var id = animation
+		data[animation]["position_node_path"] = json_key + "/" + animation
+		if "id" in data[animation]:
+			id = data[animation]["id"]
+		
+		if "leftPos" in data[animation]:
+			data[animation]["leftPos"] = Vector2(data[animation]["leftPos"][0], data[animation]["leftPos"][1])
+		if "rightPos" in data[animation]:
+			data[animation]["rightPos"] = Vector2(data[animation]["rightPos"][0], data[animation]["rightPos"][1])
+		
+		data[animation] = SamusAnimation.new(self, id, data[animation])
+	return data

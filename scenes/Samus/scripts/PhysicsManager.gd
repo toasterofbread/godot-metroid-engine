@@ -38,18 +38,18 @@ func decelerate_x(amount: float):
 		
 func accelerate_x(amount: float, limit: float, direction: int):
 	
-	if direction == Global.dir.LEFT:
+	if direction == Enums.dir.LEFT:
 		vel.x = max(vel.x - amount, -limit)
-	elif direction == Global.dir.RIGHT:
+	elif direction == Enums.dir.RIGHT:
 		vel.x = min(vel.x + amount, limit)
 	else:
 		return -1
 
 func accelerate_y(amount: float, limit: float, direction: int):
 	
-	if direction == Global.dir.UP:
+	if direction == Enums.dir.UP:
 		vel.y = max(vel.y - amount, -limit)
-	elif direction == Global.dir.DOWN:
+	elif direction == Enums.dir.DOWN:
 		vel.y = min(vel.y + amount, limit)
 	else:
 		return -1

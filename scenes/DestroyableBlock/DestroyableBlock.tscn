@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/DestroyableBlock/block_sprites.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://scenes/DestroyableBlock/DestroyableBlock.gd" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 9, 9 )
+
+[node name="DestroyableBlock" type="StaticBody2D"]
+collision_layer = 524288
+collision_mask = 0
+script = ExtResource( 4 )
+type = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = ExtResource( 1 )
+animation = "beam"
+playing = true
+
+[node name="WeaponCollider" type="Area2D" parent="."]
+input_pickable = false
+gravity = 0.0
+linear_damp = 0.0
+angular_damp = 0.0
+priority = 128.0
+monitoring = false
+collision_layer = 524288
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponCollider"]
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="WeaponCollider" to="." method="_on_WeaponCollider_area_entered"]

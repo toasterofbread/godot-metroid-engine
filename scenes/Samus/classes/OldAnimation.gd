@@ -14,12 +14,12 @@ var sprites: Array = []
 var animator
 
 var animation_key: String
-var prev_direction = Global.dir.NONE
+var prev_direction = Enums.dir.NONE
 
 var paused: bool = false
 var transitioning: bool = false
 
-func _init(_animator, _animation_id: String, _state_id: String, _directional: bool = true, _stacked: int = Global.dir.NONE, _stacked_position: Vector2 = Vector2.ZERO):
+func _init(_animator, _animation_id: String, _state_id: String, _directional: bool = true, _stacked: int = Enums.dir.NONE, _stacked_position: Vector2 = Vector2.ZERO):
 	self.animator = _animator
 	self.animation_id = _animation_id
 	self.state_id = _state_id
@@ -37,27 +37,27 @@ func play(transition: bool = false, retain_frame: bool = false):
 	prev_direction = animator.samus.facing
 	
 	sprites = animator.sprites[stacked]
-	sprites[0].visible = animator.samus.facing == Global.dir.LEFT
-	sprites[1].visible = animator.samus.facing == Global.dir.RIGHT
+	sprites[0].visible = animator.samus.facing == Enums.dir.LEFT
+	sprites[1].visible = animator.samus.facing == Enums.dir.RIGHT
 
-	if stacked != Global.dir.NONE:
+	if stacked != Enums.dir.NONE:
 		sprites[0].position = self.stacked_position
 		sprites[1].position = self.stacked_position
 	
 	match stacked:
-		Global.dir.NONE:
-			for sprite in animator.sprites[Global.dir.UP] + animator.sprites[Global.dir.DOWN]:
+		Enums.dir.NONE:
+			for sprite in animator.sprites[Enums.dir.UP] + animator.sprites[Enums.dir.DOWN]:
 				sprite.visible = false
 		_:
-			for sprite in animator.sprites[Global.dir.NONE]:
+			for sprite in animator.sprites[Enums.dir.NONE]:
 				sprite.visible = false
 	
 	var direction = ""
 	if self.directional:
 		match animator.samus.facing:
-			Global.dir.LEFT:
+			Enums.dir.LEFT:
 				direction = "_left"
-			Global.dir.RIGHT:
+			Enums.dir.RIGHT:
 				direction = "_right"
 		
 	for sprite in sprites:
@@ -67,7 +67,7 @@ func play(transition: bool = false, retain_frame: bool = false):
 		if retain_frame:
 			sprite.frame = frame
 	
-	if stacked == Global.dir.NONE:
+	if stacked == Enums.dir.NONE:
 		animator.current_animation = self
 	elif animator.current_animation is Dictionary:
 		animator.current_animation[stacked] = self

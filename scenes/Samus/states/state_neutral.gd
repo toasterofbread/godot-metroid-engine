@@ -1,38 +1,26 @@
 extends Node
 
-var samus: Node2D
+var samus: KinematicBody2D
 var animator: Node
 var physics: Node
-var idle_timer: Timer
 
 const id = "neutral"
+var animations = {}
+var animations_json_path: String
 
+var idle_timer: Timer = Global.timer([self, "play_idle_animation", []])
 var idle_animations: Array
 const idle_animation_interval = [5, 10] 
 
-var animations = {}
 
 # Called during Samus's readying period
-func _init(_samus: Node2D):
+func _init(_samus: KinematicBody2D):
 	self.samus = _samus
 	self.animator = samus.animator
 	self.physics = samus.physics
-	idle_timer = Global.start_timer("idle_animation", -1, {}, [self, "play_idle_animation"])
-
-	animations = {
-		"aim_down": animator.Animation.new(animator,"aim_down", self.id),
-		"aim_front": animator.Animation.new(animator,"aim_front", self.id),
-		"aim_sky": animator.Animation.new(animator,"aim_sky", self.id),
-		"aim_up": animator.Animation.new(animator,"aim_up", self.id),
-	}
-		
-	idle_animations = [animator.Animation.new(animator,"idle_0", self.id), animator.Animation.new(animator,"idle_1", self.id)]
-
-
-# Called when Samus's state is changed to this one
-func init(_data: Dictionary):
-	idle_timer.start(samus.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
-	return self
+	
+	self.animations = animator.load_from_json(self.id)
+	self.idle_animations = animator.load_from_json(self.id, "neutral_idle").values()
 
 # Called every frame while this state is active
 func process(_delta):
@@ -40,7 +28,7 @@ func process(_delta):
 	# DEBUG
 	if Input.is_action_just_pressed("[DEBUG] trigger_idle_animation"):
 		idle_timer.stop()
-		play_idle_animation("")
+		play_idle_animation()
 	
 	var original_facing = samus.facing
 	var play_transition = false
@@ -51,7 +39,7 @@ func process(_delta):
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
 	if Input.is_action_just_pressed("morph_shortcut"):
-		change_state("morphball", {"transition": true})
+		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump"):
 		if physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
@@ -69,16 +57,16 @@ func process(_delta):
 	if not animator.transitioning():
 	
 		if Input.is_action_pressed("pad_left"):
-			samus.facing = Global.dir.LEFT
-			if original_facing == Global.dir.RIGHT:
+			samus.facing = Enums.dir.LEFT
+			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
 				reset_idle_timer = true
 			else:
 				change_state("run")
 				return
 		elif Input.is_action_pressed("pad_right"):
-			samus.facing = Global.dir.RIGHT
-			if original_facing == Global.dir.LEFT:
+			samus.facing = Enums.dir.RIGHT
+			if original_facing == Enums.dir.LEFT:
 				play_transition = true
 				reset_idle_timer = true
 			else:
@@ -123,20 +111,26 @@ func process(_delta):
 	
 	if play_transition:
 		samus.states["run"].animations["turn_" + animation].play()
+		samus.states["run"].animations["turn_legs"].play()
 	elif ((not animator.current[false] in idle_animations) or reset_idle_timer) and not animator.transitioning(false, true):
 		animations[animation].play(true)
 	
 	if reset_idle_timer:
 		idle_timer.start()
 	
+# Called when Samus's state changes to this one
+func init_state(_data: Dictionary):
+	idle_timer.start(samus.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
+	return self
+
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	samus.change_state(new_state_key, data)
 	idle_timer.stop()
 
 # Called by the idle timer, plays a random idle animation
-func play_idle_animation(_timer_id):
-	return
+func play_idle_animation():
+
 	# Play a random idle animation and wait for it to finish
 	var anim = Global.random_array_item(samus.rng, idle_animations)
 	anim.play()

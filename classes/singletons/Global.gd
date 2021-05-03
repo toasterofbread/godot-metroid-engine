@@ -10,8 +10,6 @@ var hold_actions = {}
 onready var Timers = Node2D.new()
 onready var Anchor = Node2D.new()
 
-enum dir {LEFT, RIGHT, UP, DOWN}
-
 onready var RNG = RandomNumberGenerator.new()
 
 func _ready():
@@ -48,6 +46,15 @@ func start_timer(timer_id: String, seconds: float, data: Dictionary = {}, connec
 		timer.connect("timeout", connect[0], connect[1], [timer_id])
 	timer.start(seconds)
 	
+	return timer
+
+func timer(connect = null):
+	
+	var timer = Timer.new()
+	self.add_child(timer)
+	timer.one_shot = true
+	if connect != null:
+		timer.connect("timeout", connect[0], connect[1], connect[2])
 	return timer
 
 func wait(seconds: float):
@@ -125,3 +132,12 @@ func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration:
 
 	timer.queue_free()
 	tween.queue_free()
+
+
+# Load JSON file at the specified path and returns data as dict
+func load_json(path: String) -> Dictionary:
+	var f = File.new()
+	f.open(path, File.READ)
+	var data = f.get_as_text()
+	f.close()
+	return JSON.parse(data).result

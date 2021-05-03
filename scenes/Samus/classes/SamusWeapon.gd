@@ -4,6 +4,7 @@ class_name SamusWeapon
 var samus: KinematicBody2D
 
 export var id: String
+export(Enums.DamageType) var damage_type = Enums.DamageType.NONE
 export var velocity: float
 export var cooldown: float
 export var amount: int
@@ -34,8 +35,6 @@ class Projectile extends Area2D:
 		
 		# Apply Samus's velocity to the projectile
 		var velocity_modifier = Weapon.samus.physics.vel / 75
-		print(velocity_modifier)
-		print(velocity)
 		
 		# Comparing velocity against 0.0001 instead of 0 to account for earlier rotated() function innacuracy
 		if self.velocity.x > 0.0001 and velocity_modifier.x > 0:
@@ -47,8 +46,6 @@ class Projectile extends Area2D:
 			self.velocity.y += velocity_modifier.y
 		elif self.velocity.y < -0.0001 and velocity_modifier.y < 0:
 			self.velocity.y += velocity_modifier.y
-			
-		print(velocity)
 		
 		self.Weapon = Weapon
 		self.Burst = self.get_node("Burst")
@@ -61,7 +58,7 @@ class Projectile extends Area2D:
 		self.rotation = pos.rotation
 		self.global_position = pos.global_position
 		self.get_node("VisibilityNotifier").connect("screen_exited", Weapon, "on_projectile_screen_exited", [self])
-		self.get_node("WorldCollider").connect("body_entered", Weapon, "on_projectile_collision_with_world", [self])
+		self.connect("body_entered", Weapon, "on_projectile_collision", [self])
 		
 		return self
 	
@@ -77,16 +74,16 @@ class Projectile extends Area2D:
 		burst.queue_free()
 	
 	func burst_end():
+		self.visible = false
+		self.active = false
+		
 		var burst: AnimatedSprite = self.Burst.duplicate()
 		burst.visible = true
-		burst.global_position = self.get_node("WorldCollider").global_position
+		burst.global_position = self.global_position
 		Weapon.AnchorBurst.add_child(burst)
 		burst.play("collide")
 		if self.AnimationPlayer:
 			self.AnimationPlayer.play("end")
-		self.active = false
-		for child in self.get_children():
-			child.queue_free()
 		yield(burst, "animation_finished")
 		burst.queue_free()
 		self.kill()
@@ -101,6 +98,9 @@ func projectile_fired(_projectile: Projectile):
 	pass
 
 func _ready():
+	
+	add_to_group(Groups.damages_world, true)
+	
 	for child in self.get_children():
 		if child is SamusWeaponIcon:
 			self.Icon = child
@@ -125,24 +125,26 @@ func on_projectile_screen_exited(projectile: Area2D):
 	if is_instance_valid(projectile):
 		projectile.kill()
 
-func on_projectile_collision_with_world(_body, projectile: Projectile):
+func on_projectile_collision(body: Node2D, projectile: Projectile):
+	if body.has_method("collision"):
+		body.call("collision", self)
 	projectile_collided(projectile)
 	projectile.burst_end()
 
 func get_fire_pos():
-	var pos: Position2D = samus.animator.get_node("CannonPositions").get_node_or_null(samus.animator.current[false].state_id + "/" + samus.animator.current[false].id)
+	var pos: Position2D = samus.animator.get_node("CannonPositions").get_node_or_null(samus.animator.current[false].position_node_path)
 	if pos == null:
 		return -1
 	pos = pos.duplicate()
 	AnchorBurst.add_child(pos)
 	
-	if samus.facing == Global.dir.RIGHT:
+	if samus.facing == Enums.dir.RIGHT:
 		pos.position.x  = pos.position.x * -1 + 8
 	
 	# For some reason the default global_position is the same as the relative position
 	pos.global_position = samus.global_position + pos.position
 	
-	if samus.facing == Global.dir.RIGHT:
+	if samus.facing == Enums.dir.RIGHT:
 		pos.rotation = (Vector2(-1, 0).rotated(pos.rotation) * Vector2(-1, 1)).angle()
 	
 	return pos

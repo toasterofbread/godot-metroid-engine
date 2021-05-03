@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/Samus/weapons/Beam.gd" type="Script" id=1]
 [ext_resource path="res://sprites/samus/weapons/beam/burst_fire/1.png" type="Texture" id=2]
@@ -37,10 +37,6 @@ animations = [ {
 radius = 4.0
 height = 6.0
 
-[sub_resource type="CapsuleShape2D" id=6]
-radius = 1.0
-height = 0.0
-
 [sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 9 ) ],
@@ -57,6 +53,7 @@ animations = [ {
 [node name="Beam" type="Node2D"]
 script = ExtResource( 1 )
 id = "beam"
+damage_type = 1
 velocity = 8.0
 cooldown = 0.1
 amount = -1
@@ -65,7 +62,7 @@ is_base_weapon = true
 [node name="Projectile" type="Area2D" parent="."]
 position = Vector2( 43, 2 )
 collision_layer = 2
-collision_mask = 4
+collision_mask = 524292
 
 [node name="Trail" type="Particles2D" parent="Projectile"]
 position = Vector2( 0, 1 )
@@ -84,13 +81,6 @@ scale = Vector2( 0.4, 0.75 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
 shape = SubResource( 5 )
-
-[node name="WorldCollider" type="Area2D" parent="Projectile"]
-collision_layer = 0
-collision_mask = 524288
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile/WorldCollider"]
-shape = SubResource( 6 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( -60, -2 )

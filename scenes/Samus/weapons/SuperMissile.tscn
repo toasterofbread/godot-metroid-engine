@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://sprites/samus/weapons/supermissile/projectile/2.png" type="Texture" id=1]
 [ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
@@ -58,10 +58,6 @@ animations = [ {
 [sub_resource type="CapsuleShape2D" id=4]
 radius = 4.0
 height = 6.0
-
-[sub_resource type="CapsuleShape2D" id=5]
-radius = 1.0
-height = 0.0
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
@@ -136,6 +132,7 @@ tracks/1/keys = {
 [node name="SuperMissile" type="Node2D"]
 script = ExtResource( 9 )
 id = "supermissile"
+damage_type = 5
 velocity = 9.0
 cooldown = 0.45
 amount = 100
@@ -172,7 +169,7 @@ frame = 8
 [node name="Projectile" type="Area2D" parent="."]
 position = Vector2( 43, 2 )
 collision_layer = 2
-collision_mask = 4
+collision_mask = 524292
 
 [node name="Trail" type="Sprite" parent="Projectile"]
 position = Vector2( 0, 11.5 )
@@ -182,12 +179,10 @@ texture = ExtResource( 11 )
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 8 )
 frames = SubResource( 2 )
-frame = 2
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 frames = SubResource( 3 )
-frame = 2
 playing = true
 
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="Projectile"]
@@ -198,14 +193,6 @@ scale = Vector2( 0.4, 0.75 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
 visible = false
 shape = SubResource( 4 )
-
-[node name="WorldCollider" type="Area2D" parent="Projectile"]
-collision_layer = 0
-collision_mask = 524288
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile/WorldCollider"]
-visible = false
-shape = SubResource( 5 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( -60, -2 )

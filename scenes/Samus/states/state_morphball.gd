@@ -24,17 +24,15 @@ func _init(_samus: Node2D):
 	self.animator = samus.animator
 	self.physics = samus.physics
 	
-	animations = {
-		"roll_ground": animator.Animation.new(animator,"roll_ground", self.id, {"directional": false}),
-		"roll_spider": animator.Animation.new(animator,"roll_spider", self.id, {"directional": false}),
-		"turn": animator.Animation.new(animator,"turn", self.id, {"transition": true, "directional": false}),
-		"unmorph": animator.Animation.new(animator,"unmorph", self.id, {"transition": true, "directional": false}),
-		"morph": animator.Animation.new(animator,"morph", "crouch", {"transition": true, "directional": false})
-	}
+	animations = animator.load_from_json(self.id)
 
 # Called when Samus's state is changed to this one
-func init(_data: Dictionary):
-#	samus.get_node("Camera2D").smoothing_speed = 20
+func init_state(data: Dictionary):
+	var options = data["options"]
+	
+	if "animate" in options:
+		animations["morph"].play()
+	
 	samus.aiming = samus.aim.NONE
 	spiderball_active = false
 	return self
@@ -51,41 +49,33 @@ func process(_delta):
 		spiderball_active = Input.is_action_pressed("spiderball")
 	
 	if (Input.is_action_just_pressed("morph_shortcut") or Input.is_action_just_pressed("pad_up")) and not animator.transitioning() and not spiderball_active:
-		toggle_morph()
-		return
-
-	if Input.is_action_pressed("pad_left") and not spiderball_active:
-		samus.facing = Global.dir.LEFT
-		if original_facing == Global.dir.RIGHT:
-			animations["turn"].play(true)
-			
-	elif Input.is_action_pressed("pad_right") and not spiderball_active:
-		samus.facing = Global.dir.RIGHT
-		if original_facing == Global.dir.LEFT:
-			animations["turn"].play(true)
-
-	if not animator.transitioning(false, true):
-		if spiderball_active:
-			animations["roll_spider"].play(false, true)
-		else:
-			animations["roll_ground"].play(false, true)
-	
-		if not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")):
-			animator.pause()
-	
-func toggle_morph():
-	
-	if samus.current_state == self:
-		animations["unmorph"].play( true)
+		animations["unmorph"].play()
 		
 		if samus.is_on_floor():
 			change_state("crouch")
 		else:
 			change_state("jump", {"options": []})
 		
-	else:
-		animations["morph"].play( true)
-		change_state("morphball")
+		return
+
+	if Input.is_action_pressed("pad_left") and not spiderball_active:
+		samus.facing = Enums.dir.LEFT
+		if original_facing == Enums.dir.RIGHT:
+			animations["turn"].play()
+			
+	elif Input.is_action_pressed("pad_right") and not spiderball_active:
+		samus.facing = Enums.dir.RIGHT
+		if original_facing == Enums.dir.LEFT:
+			animations["turn"].play()
+
+	if not animator.transitioning(false, true):
+		if spiderball_active:
+			animations["roll_spider"].play(true)
+		else:
+			animations["roll"].play(true)
+
+		if not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")) and "roll" in animator.current[false].id:
+			animator.pause()
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -95,19 +85,19 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	
 func physics_process(delta: float):
 	if not spiderball_active:
-		if Input.is_action_pressed("pad_left") and samus.facing == Global.dir.LEFT:
-			physics.accelerate_x(roll_ground_acceleration, roll_ground_max_speed, Global.dir.LEFT)
-		elif Input.is_action_pressed("pad_right") and samus.facing == Global.dir.RIGHT:
-			physics.accelerate_x(roll_ground_acceleration, roll_ground_max_speed, Global.dir.RIGHT)
+		if Input.is_action_pressed("pad_left") and samus.facing == Enums.dir.LEFT:
+			physics.accelerate_x(roll_ground_acceleration, roll_ground_max_speed, Enums.dir.LEFT)
+		elif Input.is_action_pressed("pad_right") and samus.facing == Enums.dir.RIGHT:
+			physics.accelerate_x(roll_ground_acceleration, roll_ground_max_speed, Enums.dir.RIGHT)
 		else:
 			physics.decelerate_x(roll_ground_deceleration)
 			
 		if samus.is_upgrade_active("springball"):
 			if Input.is_action_pressed("jump") and samus.is_on_floor():
 				springball_current_time = springball_time
-				physics.accelerate_y(springball_speed, 999999999999, Global.dir.UP)
+				physics.accelerate_y(springball_speed, 999999999999, Enums.dir.UP)
 			elif not samus.is_on_floor() and springball_current_time != 0 and Input.is_action_pressed("jump"):
-				physics.accelerate_y(springball_speed, 999999999999, Global.dir.UP)
+				physics.accelerate_y(springball_speed, 999999999999, Enums.dir.UP)
 				springball_current_time -= delta
 				if springball_current_time <= 0:
 					springball_current_time = 0
