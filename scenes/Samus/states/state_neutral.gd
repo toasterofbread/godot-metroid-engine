@@ -1,8 +1,8 @@
 extends Node
 
-var samus: KinematicBody2D
-var animator: Node
-var physics: Node
+var Samus: KinematicBody2D
+var Animator: Node
+var Physics: Node
 
 const id = "neutral"
 var animations = {}
@@ -15,12 +15,12 @@ const idle_animation_interval = [5, 10]
 
 # Called during Samus's readying period
 func _init(_samus: KinematicBody2D):
-	self.samus = _samus
-	self.animator = samus.animator
-	self.physics = samus.physics
+	self.Samus = _samus
+	self.Animator = Samus.Animator
+	self.Physics = Samus.Physics
 	
-	self.animations = animator.load_from_json(self.id)
-	self.idle_animations = animator.load_from_json(self.id, "neutral_idle").values()
+	self.animations = Animator.load_from_json(self.id)
+	self.idle_animations = Animator.load_from_json(self.id, "neutral_idle").values()
 
 # Called every frame while this state is active
 func process(_delta):
@@ -30,36 +30,36 @@ func process(_delta):
 		idle_timer.stop()
 		play_idle_animation()
 	
-	var original_facing = samus.facing
+	var original_facing = Samus.facing
 	var play_transition = false
 	var reset_idle_timer = false
 	var fire_weapon = false
 	
 	if Config.get("zm_controls"):
-		animator.set_armed(Input.is_action_pressed("arm_weapon"))
+		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
 	if Input.is_action_just_pressed("morph_shortcut"):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump"):
-		if physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
+		if Physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
 			change_state("jump", {"options": ["jump", "spin"]})
 		else:
 			change_state("jump", {"options": ["jump"]})
 		return
-	elif not samus.is_on_floor():
+	elif not Samus.is_on_floor():
 		change_state("jump", {"options": ["fall"]})
 		return
 	elif Input.is_action_just_pressed("fire_weapon"):
 		fire_weapon = true
 		reset_idle_timer = true
-		samus.aim_none_timer.start()
+		Samus.aim_none_timer.start()
 		
-	if not animator.transitioning():
+	if not Animator.transitioning():
 	
 		if Input.is_action_pressed("pad_left"):
-			samus.facing = Enums.dir.LEFT
+			Samus.facing = Enums.dir.LEFT
 			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
 				reset_idle_timer = true
@@ -67,7 +67,7 @@ func process(_delta):
 				change_state("run")
 				return
 		elif Input.is_action_pressed("pad_right"):
-			samus.facing = Enums.dir.RIGHT
+			Samus.facing = Enums.dir.RIGHT
 			if original_facing == Enums.dir.LEFT:
 				play_transition = true
 				reset_idle_timer = true
@@ -77,77 +77,77 @@ func process(_delta):
 	
 	if Input.is_action_pressed("aim_weapon"):
 		
-		if samus.aiming == samus.aim.FRONT or samus.aiming == samus.aim.NONE:
-			samus.aiming = samus.aim.UP
+		if Samus.aiming == Samus.aim.FRONT or Samus.aiming == Samus.aim.NONE:
+			Samus.aiming = Samus.aim.UP
 		
 		if Input.is_action_just_pressed("pad_up"):
-			samus.aiming = samus.aim.UP
+			Samus.aiming = Samus.aim.UP
 		elif Input.is_action_just_pressed("pad_down"):
-			if samus.aiming == samus.aim.DOWN and not animator.transitioning():
+			if Samus.aiming == Samus.aim.DOWN and not Animator.transitioning():
 				change_state("crouch")
 				return
-			samus.aiming = samus.aim.DOWN
+			Samus.aiming = Samus.aim.DOWN
 		
 		reset_idle_timer = true
-	elif Input.is_action_pressed("pad_up") and samus.time_since_last_state("crouch", 0.085):
-		samus.aiming = samus.aim.SKY
+	elif Input.is_action_pressed("pad_up") and Samus.time_since_last_state("crouch", 0.085):
+		Samus.aiming = Samus.aim.SKY
 		reset_idle_timer = true
 		
 	elif Input.is_action_just_pressed("pad_down"):
 		change_state("crouch")
 		return
 	else:
-		if samus.aim_none_timer.time_left == 0:
-			samus.aiming = samus.aim.NONE
+		if Samus.aim_none_timer.time_left == 0:
+			Samus.aiming = Samus.aim.NONE
 		else:
-			samus.aiming = samus.aim.FRONT
+			Samus.aiming = Samus.aim.FRONT
 	
 	var animation: String
 	
 	if play_transition and "run_transition" in Global.timers:
-		samus.aiming = Global.timers["run_transition"][1]["aiming"]
+		Samus.aiming = Global.timers["run_transition"][1]["aiming"]
 		Global.clear_timer("run_transition")
 	
-	match samus.aiming:
-		samus.aim.SKY: animation = "aim_sky"
-		samus.aim.UP: animation = "aim_up"
-		samus.aim.DOWN: animation = "aim_down"
+	match Samus.aiming:
+		Samus.aim.SKY: animation = "aim_sky"
+		Samus.aim.UP: animation = "aim_up"
+		Samus.aim.DOWN: animation = "aim_down"
 		_: animation = "aim_front"
 	
 	if play_transition:
-		samus.states["run"].animations["turn_" + animation].play()
-		samus.states["run"].animations["turn_legs"].play()
-	elif ((not animator.current[false] in idle_animations) or reset_idle_timer) and not animator.transitioning(false, true):
+		Samus.states["run"].animations["turn_" + animation].play()
+		Samus.states["run"].animations["turn_legs"].play()
+	elif ((not Animator.current[false] in idle_animations) or reset_idle_timer) and not Animator.transitioning(false, true):
 		animations[animation].play(true)
 	
 	if reset_idle_timer:
 		idle_timer.start()
 	
 	if fire_weapon:
-		samus.weapons.fire()
+		Samus.Weapons.fire()
 	
 # Called when Samus's state changes to this one
 func init_state(_data: Dictionary):
-	idle_timer.start(samus.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
+	idle_timer.start(Samus.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
 	return self
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-	samus.change_state(new_state_key, data)
+	Samus.change_state(new_state_key, data)
 	idle_timer.stop()
 
 # Called by the idle timer, plays a random idle animation
 func play_idle_animation():
 
 	# Play a random idle animation and wait for it to finish
-	var anim = Global.random_array_item(samus.rng, idle_animations)
+	var anim = Global.random_array_item(Samus.rng, idle_animations)
 	anim.play()
 	yield(anim, "finished")
 	
-	if samus.current_state == self:
+	if Samus.current_state == self:
 		# Restart the timer with a random time
-		idle_timer.start(samus.rng.randi_range(4, 10))
-#		animator.play("aim_front", {})
+		idle_timer.start(Samus.rng.randi_range(4, 10))
+#		Animator.play("aim_front", {})
 
 func physics_process(_delta: float):
-	physics.decelerate_x(samus.states["run"].run_deceleration)
+	Physics.decelerate_x(Samus.states["run"].run_deceleration)

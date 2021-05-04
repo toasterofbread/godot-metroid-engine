@@ -1,12 +1,12 @@
 extends KinematicBody2D
 
 var rng = RandomNumberGenerator.new()
-onready var animator = $Animator
-onready var sound = $Scripts/SoundManager
-onready var physics = $Scripts/PhysicsManager
-onready var weapons = $Scripts/WeaponManager
-onready var collision = $Scripts/CollisionManager
-onready var hud = preload("res://scenes/Samus/HUD/HUD.tscn").instance()
+onready var Animator = $Animator
+onready var Collision = $Collision
+onready var Sound = $Sound
+onready var Physics = $Physics
+onready var Weapons = $Weapons
+onready var HUD = preload("res://scenes/Samus/HUD/HUD.tscn").instance()
 
 var facing = Enums.dir.LEFT
 
@@ -36,17 +36,18 @@ func _ready():
 	change_state("neutral")
 	$Animator/TestSprites.queue_free()
 	
-	self.add_child(hud)
-	hud.set_etanks(etanks)
-	hud.set_energy(energy)
+	add_child(HUD)
+	HUD.set_etanks(etanks)
+	HUD.set_energy(energy)
 	
-	weapons.add_weapon("missile")
-	weapons.add_weapon("supermissile")
-	weapons.add_weapon("beam")
-	weapons.add_weapon("bomb")
+	Weapons.add_weapon("missile")
+	Weapons.add_weapon("supermissile")
+	Weapons.add_weapon("beam")
+	Weapons.add_weapon("bomb")
 
 func load_data(slot: int):
-	weapons.weapons = [preload("res://scenes/Samus/weapons/Beam.tscn")]
+	pass
+#	Weapons.added_weapons = [preload("res://scenes/Samus/weapons/Beam.tscn")]
 
 func _process(delta):
 	current_state.process(delta)
@@ -55,7 +56,7 @@ func _physics_process(delta):
 	
 	current_state.physics_process(delta)
 	
-	if not self.is_on_floor() and physics.vel.y > 0:
+	if not is_on_floor() and Physics.vel.y > 0:
 		fall_time += delta
 	else:
 		fall_time = 0
@@ -85,7 +86,7 @@ func _death():
 
 func damage(amount: int):
 	self.energy = max(0, energy - amount)
-	self.hud.set_energy(energy)
+	self.HUD.set_energy(energy)
 	
 	if energy == 0:
 		_death()

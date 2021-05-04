@@ -1,6 +1,6 @@
 extends Node2D
 
-onready var samus: Node2D = get_parent()
+onready var Samus: Node2D = get_parent()
 const data_json_path = "res://scenes/Samus/animations/data.json"
 
 onready var sprites = {
@@ -63,16 +63,16 @@ func resume(overlay: bool = false):
 		sprite.play()
 
 func set_armed(set_to_armed: bool):
-	if samus.armed == set_to_armed:
+	if Samus.armed == set_to_armed:
 		return
 	
-	samus.armed = set_to_armed
+	Samus.armed = set_to_armed
 	
 	for set in sprites.values():
 		for sprite in set.values():
 			sprite.frames = suits[current_suit][int(set_to_armed)]
 	
-	samus.weapons.update_weapon_icons()
+	Samus.Weapons.update_weapon_icons()
 
 func transitioning(overlay: bool = false, ignore_cooldown: bool = false):
 	if current[overlay] == null:

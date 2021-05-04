@@ -14,11 +14,11 @@ var directional: bool
 var animation_keys: Dictionary
 var animation_length: float
 var full: bool
-var size
 var position_node_path: String
 
 # Nodes
-var animator: Node2D
+var Animator: Node2D
+var Samus: KinematicBody2D
 
 # Status variables
 var playing: bool = false
@@ -68,7 +68,8 @@ func get_texture_size(texture: Texture):
 func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	
 	# Required args
-	self.animator = _animator
+	self.Animator = _animator
+	self.Samus = Animator.Samus
 	self.id = _id
 	
 	for arg in _default_args:
@@ -78,7 +79,7 @@ func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 		else:
 			self.set(arg, args[arg])
 	
-	self.sprites = self.animator.sprites[self.overlay]
+	self.sprites = self.Animator.sprites[self.overlay]
 	
 	self.positions = {
 		Enums.dir.LEFT: args["leftPos"],
@@ -91,10 +92,6 @@ func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 		Enums.dir.RIGHT: self.state_id + "_" + self.id + ("_right" if self.directional else "")
 	}
 	
-	# Get sprite size
-#	if sprites[Enums.dir.LEFT].frames.get_frame(self.animation_keys[Enums.dir.LEFT], 0):
-#		self.size = get_texture_size(sprites[Enums.dir.LEFT].frames.get_frame(self.animation_keys[Enums.dir.LEFT], 0))
-	
 	if sprites[Enums.dir.LEFT].frames.get_animation_speed(animation_keys[Enums.dir.LEFT]) == 0:
 		self.animation_length = 0
 	else:
@@ -103,13 +100,13 @@ func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	
 func play(retain_frame: bool = false, ignore_pasued: bool = false):
 	
-#	if animator.transitioning(overlay):
-#		return
-	if animator.paused[overlay]:
+	if Animator.paused[overlay]:
 		if ignore_pasued:
 			return
 		else:
-			animator.paused[overlay] = false
+			Animator.paused[overlay] = false
+	
+	Samus.Collision.set_collider(self)
 	
 	for dir in sprites:
 		
@@ -117,12 +114,10 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false):
 		sprites[dir].position = positions[dir]
 	
 		# Set visibility
-		sprites[dir].visible = animator.samus.facing == dir
-		if not animator.current[!overlay] or (self.full and !overlay):
-			for sprite in animator.sprites[!overlay].values():
+		sprites[dir].visible = Samus.facing == dir
+		if not Animator.current[!overlay] or (self.full and !overlay):
+			for sprite in Animator.sprites[!overlay].values():
 				sprite.visible = false
-#			for collider in animator.colliders[!overlay].values():
-#				collider.disabled = true
 	
 		if not retain_frame:
 			for sprite in sprites.values():
@@ -133,14 +128,9 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false):
 		sprites[dir].play(self.animation_keys[dir])
 		if retain_frame:
 			sprites[dir].frame = frame
-		
-#		if self.size:
-#			animator.colliders[overlay][dir].shape.extents = self.size
-#		animator.colliders[overlay][dir].position = positions[dir]
-#		animator.colliders[overlay][dir].disabled = animator.samus.facing != dir
 	
-	if not animator.transitioning():
-		animator.current[overlay] = self
+	if not Animator.transitioning():
+		Animator.current[overlay] = self
 	self.transitioning = self.transition
 	self.playing = true
 	
@@ -150,7 +140,7 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false):
 	self.transitioning = false
 	emit_signal("finished")
 	
-	if animator.current[overlay] == self and self.transition:
+	if Animator.current[overlay] == self and self.transition:
 		self.cooldown = true
 		yield(Global.wait(cooldown_time), "completed")
 		self.cooldown = false
