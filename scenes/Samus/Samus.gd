@@ -16,7 +16,7 @@ var aim_none_timer = Global.timer()
 
 var armed: bool = false
 
-var energy: int = 599
+var energy: int = 105
 var etanks: int = 15
 
 var fall_time: float = 0
@@ -43,6 +43,7 @@ func _ready():
 	weapons.add_weapon("missile")
 	weapons.add_weapon("supermissile")
 	weapons.add_weapon("beam")
+	weapons.add_weapon("bomb")
 
 func load_data(slot: int):
 	weapons.weapons = [preload("res://scenes/Samus/weapons/Beam.tscn")]
@@ -58,7 +59,6 @@ func _physics_process(delta):
 		fall_time += delta
 	else:
 		fall_time = 0
-	
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	state_change_record = [[new_state_key, Global.time()]] + state_change_record
@@ -79,3 +79,13 @@ func get_aiming():
 # Or if the previous state doesn't match the state key
 func time_since_last_state(state_key: String, seconds: float):
 	return state_change_record[1][0] != state_key or Global.time() - state_change_record[0][1] >= seconds*1000
+
+func _death():
+	print("F")
+
+func damage(amount: int):
+	self.energy = max(0, energy - amount)
+	self.hud.set_energy(energy)
+	
+	if energy == 0:
+		_death()

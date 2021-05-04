@@ -33,8 +33,9 @@ func process(_delta):
 	var original_facing = samus.facing
 	var play_transition = false
 	var reset_idle_timer = false
+	var fire_weapon = false
 	
-	if Global.config["zm_controls"]:
+	if Config.get("zm_controls"):
 		animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
@@ -51,7 +52,7 @@ func process(_delta):
 		change_state("jump", {"options": ["fall"]})
 		return
 	elif Input.is_action_just_pressed("fire_weapon"):
-		samus.weapons.fire()
+		fire_weapon = true
 		reset_idle_timer = true
 		samus.aim_none_timer.start()
 		
@@ -121,6 +122,9 @@ func process(_delta):
 	
 	if reset_idle_timer:
 		idle_timer.start()
+	
+	if fire_weapon:
+		samus.weapons.fire()
 	
 # Called when Samus's state changes to this one
 func init_state(_data: Dictionary):

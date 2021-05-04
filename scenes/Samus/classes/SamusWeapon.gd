@@ -8,6 +8,7 @@ export(Enums.DamageType) var damage_type
 export var velocity: float
 export var cooldown: float
 export var falls_to_ground: bool
+export var move_by_velocity: bool = true
 export var amount: int
 export var capacity: int
 export var is_morph_weapon: bool = false
@@ -37,24 +38,6 @@ class Projectile extends KinematicBody2D:
 		add_to_group(Groups.damages_world, true)
 		damage_type = Weapon.damage_type
 		
-		# Set projectile's vector velocity based on its rotation and passed velocity float
-		self.velocity = Vector2(0, -vel).rotated(pos.rotation)
-		self.base_velocity = vel
-		
-		# Apply Samus's velocity to the projectile
-		var velocity_modifier = Weapon.samus.physics.vel / 75
-		
-		# Comparing velocity against 0.0001 instead of 0 to account for earlier rotated() function innacuracy
-		if self.velocity.x > 0.0001 and velocity_modifier.x > 0:
-			self.velocity.x += velocity_modifier.x
-		elif self.velocity.x < -0.0001 and velocity_modifier.x < 0:
-			self.velocity.x += velocity_modifier.x
-		
-		if self.velocity.y > 0.0001 and velocity_modifier.y > 0:
-			self.velocity.y += velocity_modifier.y
-		elif self.velocity.y < -0.0001 and velocity_modifier.y < 0:
-			self.velocity.y += velocity_modifier.y
-		
 		self.Weapon = Weapon
 		self.Burst = self.get_node("Burst")
 		self.Burst.visible = false
@@ -62,10 +45,34 @@ class Projectile extends KinematicBody2D:
 		
 		self.collision_layer = Weapon.BaseProjectile.collision_layer
 		self.collision_mask = Weapon.BaseProjectile.collision_mask
-	
-		self.rotation = pos.rotation
+		
 		self.global_position = pos.global_position
-		self.get_node("VisibilityNotifier").connect("screen_exited", Weapon, "on_projectile_screen_exited", [self])
+		
+		if self.get_node_or_null("VisibilityNotifier"):
+			self.get_node("VisibilityNotifier").connect("screen_exited", Weapon, "on_projectile_screen_exited", [self])
+		
+		if not Weapon.move_by_velocity:
+			return self
+		
+		# Set projectile's vector velocity based on its rotation and passed velocity float
+		self.velocity = Vector2(0, -vel).rotated(pos.rotation)
+		self.base_velocity = vel
+		
+		# Apply Samus's velocity to the projectile
+		var velocity_modifier = Weapon.samus.physics.vel
+		
+		# Comparing velocity against 0.01 instead of 0 to account for earlier rotated() function innacuracy
+		if self.velocity.x > 0.01 and velocity_modifier.x > 0:
+			self.velocity.x += velocity_modifier.x
+		elif self.velocity.x < -0.01 and velocity_modifier.x < 0:
+			self.velocity.x += velocity_modifier.x
+
+		if self.velocity.y > 0.01 and velocity_modifier.y > 0:
+			self.velocity.y += velocity_modifier.y
+		elif self.velocity.y < -0.01 and velocity_modifier.y < 0:
+			self.velocity.y += velocity_modifier.y
+		
+		self.rotation = pos.rotation
 		
 		return self
 	
@@ -80,7 +87,7 @@ class Projectile extends KinematicBody2D:
 		yield(burst, "animation_finished")
 		burst.queue_free()
 	
-	func burst_end():
+	func burst_end(kill_self: bool = true):
 		self.visible = false
 		self.active = false
 		
@@ -91,9 +98,14 @@ class Projectile extends KinematicBody2D:
 		burst.play("collide")
 		if self.AnimationPlayer:
 			self.AnimationPlayer.play("end")
-		yield(burst, "animation_finished")
-		burst.queue_free()
-		self.kill()
+
+		if kill_self:
+			yield(burst, "animation_finished")
+			burst.queue_free()
+			self.kill()
+		else:
+			return burst
+
 	
 	func fall_to_ground():
 		self.falling = true
@@ -110,13 +122,17 @@ class Projectile extends KinematicBody2D:
 		tween.start()
 	
 	func _physics_process(delta):
+		
+		if not Weapon.move_by_velocity:
+			return
+		
 		if self.active:
 			var collision: KinematicCollision2D = move_and_collide(self.velocity * delta)
 			if falling:
 				self.rotation_degrees += Weapon.samus.rng.randf_range(20, 45)
 			if collision:
-				if collision.collider.has_method("collision"):
-					collision.collider.call("collision", self)
+				if collision.collider.has_method("collide"):
+					collision.collider.call("collide", self)
 				if collision.collider.is_in_group(Groups.immune_to_projectiles) and not falling and Weapon.falls_to_ground:
 					velocity = velocity.bounce(collision.normal) / 2
 					velocity = velocity.rotated(deg2rad(Weapon.samus.rng.randf_range(-10, 10)))
