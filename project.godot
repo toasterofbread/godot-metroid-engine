@@ -53,6 +53,7 @@ config/icon="res://icon.png"
 Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
 Groups="*res://classes/singletons/Groups.gd"
+Config="*res://classes/singletons/Config.gd"
 
 [display]
 

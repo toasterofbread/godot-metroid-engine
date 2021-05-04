@@ -7,8 +7,8 @@ var physics: Node
 const id = "jump"
 
 # PHYSICS
-const jump_speed = 125
-const jump_acceleration = 250
+const jump_speed = 250
+const jump_acceleration = 125
 const jump_time = 0.275
 var jump_current_time = 125
 
@@ -63,16 +63,16 @@ func process(_delta):
 	var play_transition = false
 	var fire_weapon = false
 	
-	if Global.config["zm_controls"]:
+	if Config.get("zm_controls"):
 		animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
-	if samus.is_on_floor() and not animator.transitioning() and not first_frame:
+	if samus.is_on_floor() and not animator.transitioning(false, true) and not first_frame:
 		change_state("neutral")
 		return
-	elif Input.is_action_just_pressed("morph_shortcut") and not animator.transitioning():
+	elif Input.is_action_just_pressed("morph_shortcut") and not animator.transitioning(false, true):
 		change_state("morphball", {"options": ["animate"]})
 		return
-	elif Input.is_action_just_pressed("jump") and Global.config["spin_from_jump"]:
+	elif Input.is_action_just_pressed("jump") and Config.get("spin_from_jump"):
 		spinning = true
 	elif Input.is_action_just_pressed("fire_weapon"):
 		fire_weapon = true
@@ -83,8 +83,8 @@ func process(_delta):
 			samus.aiming = samus.aim.UP
 			spinning = false
 		elif Input.is_action_just_pressed("pad_down"):
-			samus.aiming = samus.aim.DOWN
 			spinning = false
+			samus.aiming = samus.aim.DOWN
 		elif samus.aiming == samus.aim.FRONT:
 			samus.aiming = samus.aim.UP
 			spinning = false
@@ -160,7 +160,7 @@ func physics_process(delta: float):
 	
 	# Vertical
 	if (not samus.is_on_floor() or first_frame) and jump_current_time != 0 and Input.is_action_pressed("jump"):
-		physics.accelerate_y(jump_speed, jump_acceleration, Enums.dir.UP)
+		physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
 		jump_current_time -= delta
 		if jump_current_time < 0:
 			jump_current_time = 0

@@ -54,9 +54,10 @@ animations = [ {
 script = ExtResource( 1 )
 id = "beam"
 damage_type = 1
-velocity = 400.0
+velocity = 450.0
 cooldown = 0.1
 amount = -1
+capacity = -1
 is_base_weapon = true
 
 [node name="Projectile" type="Area2D" parent="."]

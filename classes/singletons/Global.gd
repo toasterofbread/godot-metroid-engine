@@ -3,8 +3,6 @@ extends Node
 signal process_frame
 #signal physics_frame
 
-var config = {"spiderball_hold": false, "spin_from_jump": true, "zm_controls": true, "turn_speed": 60}
-
 var timers = {}
 var hold_actions = {}
 onready var Timers = Node2D.new()
@@ -141,3 +139,10 @@ func load_json(path: String) -> Dictionary:
 	var data = f.get_as_text()
 	f.close()
 	return JSON.parse(data).result
+
+func save_json(path: String, data: Dictionary):
+	var f = File.new()
+	f.open(path, File.WRITE)
+	f.store_string(JSON.print(data, "\t"))
+
+	f.close()

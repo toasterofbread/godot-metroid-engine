@@ -37,5 +37,8 @@ func set_energy(energy):
 	energy = str(energy)
 	if len(energy) == 1:
 		energy = "0" + energy
+	elif len(energy) == 3:
+		energy = energy[1] + energy[2]
+	
 	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(energy[0])
 	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(energy[1])

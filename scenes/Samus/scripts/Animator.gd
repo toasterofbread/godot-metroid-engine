@@ -14,17 +14,6 @@ onready var sprites = {
 	}
 }
 
-onready var colliders = {
-	false: {
-		Enums.dir.LEFT: samus.get_node("cMainLeft"),
-		Enums.dir.RIGHT: samus.get_node("cMainRight")
-	},
-	true: {
-		Enums.dir.LEFT: samus.get_node("cOverlayLeft"),
-		Enums.dir.RIGHT: samus.get_node("cOverlayRight")
-	}
-}
-
 var current: Dictionary = {
 	true: null, # Overlay
 	false: null # Main
@@ -41,12 +30,12 @@ onready var suits = {
 var current_suit = "power"
 
 func _ready():
-	if Global.config["turn_speed"] is int or Global.config["turn_speed"] is float:
+	if Config.get("turn_speed") is int or Config.get("turn_speed") is float:
 		for suit in suits.values():
 			for frames in suit:
 				for anim in frames.get_animation_names():
 					if frames.get_animation_speed(anim) == 60 and "turn" in anim.to_lower():
-						frames.set_animation_speed(anim, Global.config["turn_speed"])
+						frames.set_animation_speed(anim, Config.get("turn_speed"))
 	for set in sprites.values():
 		for sprite in set.values():
 			sprite.frames = suits.values()[0][0]
@@ -85,12 +74,10 @@ func set_armed(set_to_armed: bool):
 	
 	samus.weapons.update_weapon_icons()
 
-func transitioning(overlay: bool = false, ignore_cooldown: bool = false, DEBUG_output_id: bool = false):
+func transitioning(overlay: bool = false, ignore_cooldown: bool = false):
 	if current[overlay] == null:
 		return false
 	else:
-		if DEBUG_output_id:
-			print(current[overlay].id)
 		return current[overlay].transitioning or (current[overlay].cooldown and not ignore_cooldown)
 
 

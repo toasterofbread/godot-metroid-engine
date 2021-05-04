@@ -26,7 +26,7 @@ func process(_delta):
 	var play_transition = false
 	var original_facing = samus.facing
 	
-	if Global.config["zm_controls"]:
+	if Config.get("zm_controls"):
 		animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if not animator.transitioning():

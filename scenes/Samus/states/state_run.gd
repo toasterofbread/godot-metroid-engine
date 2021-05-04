@@ -20,16 +20,30 @@ func _init(_samus: Node2D):
 
 # Called every frame while this state is active
 func process(_delta):
-#	print(samus.aim_none_timer.time_left)
+	
+	var play_transition = false
+	var fire_weapon = false
+	
 	if Input.is_action_just_pressed("morph_shortcut") and not animator.transitioning():
 		change_state("morphball", {"options": ["animate"]})
 		return
 	
-	if Global.config["zm_controls"]:
+	if Config.get("zm_controls"):
 		if Input.is_action_pressed("arm_weapon"):
 			animator.set_armed(true)
 		else:
 			animator.set_armed(false)
+	
+	if Input.is_action_just_pressed("jump"):
+		change_state("jump", {"options": ["jump", "spin"]})
+		return
+	elif not samus.is_on_floor():
+		change_state("jump", {"options": ["fall"]})
+		return
+	
+	elif Input.is_action_just_pressed("fire_weapon"):
+		fire_weapon = true
+		samus.aim_none_timer.start()
 	
 	if Input.is_action_pressed("aim_weapon"):
 		if samus.aiming == samus.aim.FRONT or samus.aiming == samus.aim.NONE:
@@ -59,18 +73,7 @@ func process(_delta):
 		samus.aim.FRONT: animation = "aim_front"
 		_: animation = "aim_none"
 	
-	if Input.is_action_just_pressed("jump"):
-		change_state("jump", {"options": ["jump", "spin"]})
-		return
-	elif not samus.is_on_floor():
-		change_state("jump", {"options": ["fall"]})
-		return
 	
-	elif Input.is_action_just_pressed("fire_weapon"):
-		samus.weapons.fire()
-		samus.aim_none_timer.start()
-	
-	var play_transition = false
 	if not animator.transitioning():
 		if Input.is_action_pressed("pad_left"):
 			if samus.facing == Enums.dir.RIGHT:
@@ -90,6 +93,9 @@ func process(_delta):
 		animations["turn_" + animation].play()
 	elif not animator.transitioning(false, true):
 		animations[animation].play(true)
+	
+	if fire_weapon:
+		samus.weapons.fire()
 	
 # Called when Samus' state is changed to this one
 func init_state(_data: Dictionary):

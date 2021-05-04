@@ -19,6 +19,7 @@ var all_weapons = {
 	"beam": preload("res://scenes/Samus/weapons/Beam.tscn").instance(),
 	"missile": preload("res://scenes/Samus/weapons/Missile.tscn").instance(),
 	"supermissile": preload("res://scenes/Samus/weapons/SuperMissile.tscn").instance(),
+	"bomb": preload("res://scenes/Samus/weapons/Bomb.tscn").instance()
 }
 
 func _ready():
@@ -30,10 +31,10 @@ func _process(_delta):
 	current_weapon[1] = samus.current_state.id == "morphball"
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
-		current_weapon[0] = 0 if Global.config["zm_controls"] else -1
+		current_weapon[0] = 0 if Config.get("zm_controls") else -1
 	elif Input.is_action_just_pressed("select_weapon"):
 		current_weapon[0] += 1
-		if Global.config["zm_controls"]:
+		if Config.get("zm_controls"):
 			if current_weapon[0] >= len(weapons[current_weapon[1]]):
 				current_weapon[0] = 0
 		else:
@@ -53,12 +54,15 @@ func update_weapon_icons():
 
 func fire():
 	
-	if Global.config["zm_controls"]:
-		if not samus.armed:
-			if base_weapons[current_weapon[1]] != null:
+	if Config.get("zm_controls"):
+		if samus.armed:
+			if len(weapons[current_weapon[1]]) > current_weapon[0]:
+				weapons[current_weapon[1]][current_weapon[0]].fire()
+			elif base_weapons[current_weapon[1]] != null:
 				base_weapons[current_weapon[1]].fire()
 		else:
-			weapons[current_weapon[1]][current_weapon[0]].fire()
+			if base_weapons[current_weapon[1]] != null:
+				base_weapons[current_weapon[1]].fire()
 	else:
 		if current_weapon[0] == -1:
 			if base_weapons[current_weapon[1]] != null:
