@@ -5,11 +5,14 @@ onready var animator = $Animator
 onready var sound = $Scripts/SoundManager
 onready var physics = $Scripts/PhysicsManager
 onready var weapons = $Scripts/WeaponManager
+onready var collision = $Scripts/CollisionManager
 onready var hud = preload("res://scenes/Samus/HUD/HUD.tscn").instance()
 
 var facing = Enums.dir.LEFT
+
 enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
-var aiming = aim.FRONT
+var aiming = aim.FRONT setget set_aiming, get_aiming
+var aim_none_timer = Global.timer()
 
 var armed: bool = false
 
@@ -46,9 +49,6 @@ func _process(delta):
 	current_state.process(delta)
 
 func _physics_process(delta):
-#	print(animator.current)
-#	print(current_state.id)
-#	print(animator.transitioning(false, true))
 	current_state.physics_process(delta)
 
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -57,6 +57,14 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 func is_upgrade_active(upgrade_key: String):
 	return true
+
+func set_aiming(value: int):
+	if value in [aim.UP, aim.DOWN, aim.SKY, aim.FLOOR]: 
+		aim_none_timer.start()
+	aiming = value
+
+func get_aiming():
+	return aiming
 
 # Returns true if the current state has been active for more than the specified time
 # Or if the previous state doesn't match the state key
