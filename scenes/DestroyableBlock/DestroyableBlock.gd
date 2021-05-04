@@ -29,7 +29,6 @@ func _ready():
 	$AnimatedSprite.play(sprite_name)
 
 func collision(collision_object):
-	print(collision_object.damage_type)
 	var damage_type = collision_object.get("damage_type")
 	if not collision_object.is_in_group(Groups.damages_world) or damage_type == null or self.is_in_group(Groups.immune_to_projectiles):
 		return
