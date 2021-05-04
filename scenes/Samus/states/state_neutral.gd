@@ -53,6 +53,7 @@ func process(_delta):
 	elif Input.is_action_just_pressed("fire_weapon"):
 		samus.weapons.fire()
 		reset_idle_timer = true
+		samus.aim_none_timer.start()
 		
 	if not animator.transitioning():
 	
@@ -75,7 +76,7 @@ func process(_delta):
 	
 	if Input.is_action_pressed("aim_weapon"):
 		
-		if samus.aiming == samus.aim.FRONT:
+		if samus.aiming == samus.aim.FRONT or samus.aiming == samus.aim.NONE:
 			samus.aiming = samus.aim.UP
 		
 		if Input.is_action_just_pressed("pad_up"):
@@ -90,20 +91,23 @@ func process(_delta):
 	elif Input.is_action_pressed("pad_up") and samus.time_since_last_state("crouch", 0.085):
 		samus.aiming = samus.aim.SKY
 		reset_idle_timer = true
+		
 	elif Input.is_action_just_pressed("pad_down"):
 		change_state("crouch")
 		return
 	else:
-		samus.aiming = samus.aim.FRONT
+		if samus.aim_none_timer.time_left == 0:
+			samus.aiming = samus.aim.NONE
+		else:
+			samus.aiming = samus.aim.FRONT
 	
 	var animation: String
-	var aiming = samus.aiming
 	
 	if play_transition and "run_transition" in Global.timers:
-		aiming = Global.timers["run_transition"][1]["aiming"]
+		samus.aiming = Global.timers["run_transition"][1]["aiming"]
 		Global.clear_timer("run_transition")
 	
-	match aiming:
+	match samus.aiming:
 		samus.aim.SKY: animation = "aim_sky"
 		samus.aim.UP: animation = "aim_up"
 		samus.aim.DOWN: animation = "aim_down"
