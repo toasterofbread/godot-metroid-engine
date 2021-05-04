@@ -115,7 +115,6 @@ class Projectile extends KinematicBody2D:
 			if falling:
 				self.rotation_degrees += Weapon.samus.rng.randf_range(20, 45)
 			if collision:
-				print(collision.collider)
 				if collision.collider.has_method("collision"):
 					collision.collider.call("collision", self)
 				if collision.collider.is_in_group(Groups.immune_to_projectiles) and not falling and Weapon.falls_to_ground:

@@ -19,6 +19,8 @@ var armed: bool = false
 var energy: int = 599
 var etanks: int = 15
 
+var fall_time: float = 0
+
 onready var states = {
 	"jump": preload("res://scenes/Samus/states/state_jump.gd").new(self),
 	"neutral": preload("res://scenes/Samus/states/state_neutral.gd").new(self),
@@ -49,7 +51,14 @@ func _process(delta):
 	current_state.process(delta)
 
 func _physics_process(delta):
+	
 	current_state.physics_process(delta)
+	
+	if not self.is_on_floor() and physics.vel.y > 0:
+		fall_time += delta
+	else:
+		fall_time = 0
+	
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	state_change_record = [[new_state_key, Global.time()]] + state_change_record

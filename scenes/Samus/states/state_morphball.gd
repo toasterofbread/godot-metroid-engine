@@ -4,6 +4,7 @@ var samus: KinematicBody2D
 var animator: Node
 var physics: Node
 
+const bounce_fall_time: float = 0.5
 var spiderball_active = false
 
 const id = "morphball"
@@ -79,11 +80,17 @@ func process(_delta):
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-#	samus.get_node("Camera2D").smoothing_speed = 10
 	animator.resume()
 	samus.change_state(new_state_key, data)
 	
+func landing_bounce():
+	physics.vel.y = -200
+
 func physics_process(delta: float):
+	
+	if samus.is_on_floor() and samus.fall_time > bounce_fall_time:
+		landing_bounce()
+	
 	if not spiderball_active:
 		if Input.is_action_pressed("pad_left") and samus.facing == Enums.dir.LEFT:
 			physics.accelerate_x(roll_ground_acceleration, roll_ground_max_speed, Enums.dir.LEFT)
