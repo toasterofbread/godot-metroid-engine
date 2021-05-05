@@ -15,4 +15,4 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 1.05
 scale_curve = SubResource( 2 )
-color = Color( 0.937255, 0.8, 0.180392, 0.0235294 )
+color = Color( 0.831373, 0.65098, 0.0156863, 0.027451 )
