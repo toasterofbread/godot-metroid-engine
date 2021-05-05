@@ -3,7 +3,7 @@ extends KinematicBody2D
 var rng = RandomNumberGenerator.new()
 onready var Animator = $Animator
 onready var Collision = $Collision
-onready var Sound = $Sound
+onready var Sound = $Sounds
 onready var Physics = $Physics
 onready var Weapons = $Weapons
 onready var HUD = preload("res://scenes/Samus/HUD/HUD.tscn").instance()

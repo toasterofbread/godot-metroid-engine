@@ -31,14 +31,15 @@ class Projectile extends KinematicBody2D:
 	var base_velocity: float
 	var damage_type: int
 	
-	func _init(Weapon: SamusWeapon, vel: float, pos: Position2D):
+	func _init(_Weapon: SamusWeapon, vel: float, pos: Position2D):
+		self.Weapon = _Weapon
+		
 		for node in Weapon.BaseProjectile.get_children():
 			self.add_child(node.duplicate())
 		
 		add_to_group(Groups.damages_world, true)
 		damage_type = Weapon.damage_type
 		
-		self.Weapon = Weapon
 		self.Burst = self.get_node("Burst")
 		self.Burst.visible = false
 		self.AnimationPlayer = self.get_node_or_null("AnimationPlayer")

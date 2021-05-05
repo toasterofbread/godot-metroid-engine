@@ -6,6 +6,7 @@ var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
 
+var CeilingRaycast: RayCast2D
 var particles: Particles2D
 
 const bounce_fall_time: float = 0.5 # The morphball will bounce if it lands after falling for this many seconds
@@ -36,6 +37,7 @@ func _init(_samus: Node2D):
 	self.Animator = Samus.Animator
 	self.Physics = Samus.Physics
 	
+	self.CeilingRaycast = Animator.raycasts.get_node("Ceiling")
 	self.particles = Samus.get_node("Particles/morphball")
 	particles.emitting = false
 	
@@ -44,12 +46,13 @@ func _init(_samus: Node2D):
 # Called when Samus's state is changed to this one
 func init_state(data: Dictionary):
 	var options = data["options"]
-	
 	if "animate" in options:
 		animations["morph"].play()
-	
 	Samus.aiming = Samus.aim.NONE
 	spiderball_active = false
+	CeilingRaycast.cast_to = Vector2(0, -11)
+	CeilingRaycast.position = Vector2(2, 3)
+	CeilingRaycast.enabled = true
 	return self
 
 # Called every frame while this state is active
@@ -58,23 +61,22 @@ func process(_delta):
 	var original_facing = Samus.facing
 	var fire_weapon = false
 
-	if Config.get("zm_controls"):
+	if Settings.get("controls/zm_style_aiming"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
-	if Config.get("spiderball_hold") and Input.is_action_just_pressed("spiderball"):
+	if Settings.get("controls/spiderball_hold") and Input.is_action_just_pressed("spiderball"):
 		spiderball_active = !spiderball_active
 	else:
 		spiderball_active = Input.is_action_pressed("spiderball")
 	
 	if (Input.is_action_just_pressed("morph_shortcut") or Input.is_action_just_pressed("pad_up")) and not Animator.transitioning() and not spiderball_active:
-		animations["unmorph"].play()
-		
-		if Samus.is_on_floor():
-			change_state("crouch")
-		else:
-			change_state("jump", {"options": []})
-		
-		return
+		if not CeilingRaycast.is_colliding():
+			animations["unmorph"].play()
+			if Samus.is_on_floor():
+				change_state("crouch")
+			else:
+				change_state("jump", {"options": []})
+			return
 	elif Input.is_action_just_pressed("fire_weapon"):
 		fire_weapon = true
 
@@ -90,9 +92,9 @@ func process(_delta):
 
 	if not Animator.transitioning(false, true):
 		if spiderball_active:
-			animations["roll_spider"].play(true)
+			animations["roll_spider"].play(true, false, true)
 		else:
-			animations["roll"].play(true)
+			animations["roll"].play(true, false, true)
 
 		if not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")) and "roll" in Animator.current[false].id:
 			Animator.pause()
@@ -102,6 +104,7 @@ func process(_delta):
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
+	CeilingRaycast.enabled = false
 	particles.emitting = false
 	Animator.resume()
 	Samus.change_state(new_state_key, data)
@@ -142,6 +145,7 @@ func physics_process(delta: float):
 				Physics.accelerate_x(roll_ground_acceleration, roll_ground_speed, Enums.dir.RIGHT)
 			else:
 				Physics.decelerate_x(roll_ground_deceleration)
-
+	
+	CeilingRaycast.global_position.x = Animator.current[false].sprites[Samus.facing].global_position.x
 	particles.emitting = Physics.vel != Vector2.ZERO
 	particles.global_position = Animator.current[false].sprites[Samus.facing].global_position

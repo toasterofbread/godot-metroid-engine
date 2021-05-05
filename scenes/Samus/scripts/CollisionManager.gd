@@ -9,24 +9,28 @@ func _ready():
 	yield(Samus, "ready")
 	Animator = Samus.Animator
 	
+	var i = 0
 	for key in collision_data:
-		collision_data[key] = Vector2(collision_data[key][0], collision_data[key][1])
+		for value in collision_data[key]:
+			collision_data[key][i] = Vector2(value[0], value[1])
+			i += 1
+		i = 0
 	
-
-onready var colliders = {
-	false: {
-		Enums.dir.LEFT: Samus.get_node("cMainLeft"),
-		Enums.dir.RIGHT: Samus.get_node("cMainRight")
-	},
-	true: {
-		Enums.dir.LEFT: Samus.get_node("cOverlayLeft"),
-		Enums.dir.RIGHT: Samus.get_node("cOverlayRight")
-	}
-}
-
-
 func set_collider(animation: SamusAnimation):
-	if animation.position_node_path in collision_data:
-		self.shape.extents = collision_data[animation.position_node_path]
-		self.position = animation.positions[Samus.facing]
 	
+	var key: String
+	if animation.position_node_path in collision_data:
+		key = animation.position_node_path
+	elif animation.position_node_path.split("/")[0] in collision_data:
+		key = animation.position_node_path.split("/")[0]
+	else:
+		return
+	
+	var i = 0
+	self.position = animation.positions[Samus.facing]
+	for value in collision_data[key]:
+		match i:
+			0: self.shape.extents = value
+			1: self.position = value
+			2: if Samus.facing == Enums.dir.RIGHT: self.position = value
+		i += 1

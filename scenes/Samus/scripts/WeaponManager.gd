@@ -32,10 +32,10 @@ func _process(_delta):
 	current_weapon[1] = Samus.current_state.id == "morphball"
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
-		current_weapon[0] = 0 if Config.get("zm_controls") else -1
+		current_weapon[0] = 0 if Settings.get("controls/zm_style_aiming") else -1
 	elif Input.is_action_just_pressed("select_weapon"):
 		current_weapon[0] += 1
-		if Config.get("zm_controls"):
+		if Settings.get("controls/zm_style_aiming"):
 			if current_weapon[0] >= len(added_weapons[current_weapon[1]]):
 				current_weapon[0] = 0
 		else:
@@ -55,7 +55,7 @@ func update_weapon_icons():
 
 func fire():
 	
-	if Config.get("zm_controls"):
+	if Settings.get("controls/zm_style_aiming"):
 		if Samus.armed:
 			if len(added_weapons[current_weapon[1]]) > current_weapon[0]:
 				added_weapons[current_weapon[1]][current_weapon[0]].fire()
