@@ -34,8 +34,8 @@ func _init(_samus: Node2D):
 	self.Physics = Samus.Physics
 	
 	self.walljump_raycasts = {
-		Enums.dir.LEFT: Animator.get_node("WalljumpRaycastLeft"),
-		Enums.dir.RIGHT: Animator.get_node("WalljumpRaycastRight")
+		Enums.dir.LEFT: Animator.raycasts.get_node("WalljumpLeft"),
+		Enums.dir.RIGHT: Animator.raycasts.get_node("WalljumpRight")
 	}
 	self.WalljumpTimer = Global.start_timer("WalljumpPeriod", WalljumpPeriod, {}, null)
 	WalljumpTimer.stop()
@@ -47,7 +47,9 @@ func init_state(data: Dictionary):
 	var options: Array = data["options"]
 	first_frame = true
 	set_walljumpraycast_state(true)
-	spinning = "spin" in options
+	
+	spinning = "spin" in options and Samus.aiming in [Samus.aim.FRONT, Samus.aim.NONE]
+	
 	if "jump" in options:
 		if not spinning:
 			animations["legs_start"].play()
@@ -63,7 +65,7 @@ func process(_delta):
 	var play_transition = false
 	var fire_weapon = false
 	
-	if Config.get("zm_controls"):
+	if Settings.get("controls/zm_style_aiming"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if Samus.is_on_floor() and not Animator.transitioning(false, true) and not first_frame:
@@ -72,7 +74,7 @@ func process(_delta):
 	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true):
 		change_state("morphball", {"options": ["animate"]})
 		return
-	elif Input.is_action_just_pressed("jump") and Config.get("spin_from_jump"):
+	elif Input.is_action_just_pressed("jump") and Settings.get("controls/spin_from_jump"):
 		spinning = true
 	elif Input.is_action_just_pressed("fire_weapon"):
 		fire_weapon = true
@@ -144,7 +146,7 @@ func process(_delta):
 			if not Animator.transitioning(false, true):
 				animations[animation].play(true)
 			if not Animator.transitioning(true, true) and Samus.aiming != Samus.aim.FLOOR:
-				animations["legs"].play()
+				animations["legs"].play(false, false, true)
 		elif not Animator.transitioning(false, true):
 			animations["spin"].play(true)
 	

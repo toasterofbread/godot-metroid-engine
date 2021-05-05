@@ -31,7 +31,6 @@ func projectile_fired(projectile: Projectile):
 					Samus.current_state.bounce(bomb_bounce_amount)
 					
 					var offset: float = Samus.global_position.x - samus_start_pos.x
-					print(offset)
 					if offset != 0:
 						
 						var direction: int = Enums.dir.RIGHT

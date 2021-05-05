@@ -1,146 +1,32 @@
 {
-	"neutral/aim_front": [
-		13,
-		17.5
+	"neutral": [
+		[10, 18],
+		[4, 0]
 	],
-	"run/turn_aim_front": [
-		10.5,
-		6.5
+	"run": [
+		[10, 18],
+		[4, 0]
 	],
-	"run/turn_legs": [
-		9,
-		12
+	"jump": [
+		[10, 18],
+		[4, 0]
 	],
-	"run/aim_front": [
-		17,
-		18.5
+	"crouch": [
+		[10, 13],
+		[4, 5]
 	],
-	"neutral/aim_up": [
-		12,
-		20
-	],
-	"run/turn_aim_up": [
-		8,
-		7.5
-	],
-	"neutral/aim_down": [
-		11.5,
-		17.5
-	],
-	"run/turn_aim_down": [
-		8,
-		10.5
-	],
-	"jump/legs_start": [
-		6.5,
-		13
-	],
-	"jump/aim_front": [
-		10.5,
-		7
-	],
-	"jump/legs": [
-		6.5,
-		13
-	],
-	"crouch/aim_front": [
-		11.5,
-		18.5
-	],
-	"morphball/morph": [
-		9,
-		9
-	],
-	"morphball/roll": [
-		7.5,
-		7.5
-	],
-	"morphball/turn": [
-		7.5,
-		7.5
+	"morphball": [
+		[8, 7.5],
 	],
 	"morphball/unmorph": [
-		9,
-		9
+		[10, 10]
 	],
-	"crouch/aim_up": [
-		11,
-		17.5
-	],
-	"crouch/turn_aim_up": [
-		8.5,
-		17.5
-	],
-	"crouch/turn_aim_front": [
-		9.5,
-		19
-	],
-	"crouch/aim_down": [
-		12,
-		17.5
-	],
-	"crouch/turn_aim_down": [
-		8,
-		17.5
-	],
-	"neutral/aim_sky": [
-		10,
-		21.5
-	],
-	"run/aim_up": [
-		16,
-		21
-	],
-	"run/aim_down": [
-		15,
-		18.5
-	],
-	"run/turn_aim_sky": [
-		7.5,
-		9.5
+	"morphball/morph": [
+		[10, 10]
 	],
 	"jump/spin": [
-		10,
-		12.5
+		[13, 13.5],
+		[1, 5.5],
+		[7, 5.5]
 	],
-	"jump/spin_walljump": [
-		11.5,
-		13
-	],
-	"jump/aim_sky": [
-		6.5,
-		10
-	],
-	"jump/aim_floor": [
-		10,
-		16.5
-	],
-	"jump/legs_turn": [
-		6.5,
-		12
-	],
-	"jump/turn_aim_down": [
-		8,
-		10.5
-	],
-	"jump/aim_down": [
-		10,
-		10
-	],
-	"jump/aim_up": [
-		10.5,
-		8.5
-	],
-	"jump/turn_aim_front": [
-		10,
-		7
-	],
-	"jump/turn_aim_up": [
-		8,
-		7.5
-	],
-	"morphball/roll_spider": [
-		7.5,
-		7.5
-	]
 }

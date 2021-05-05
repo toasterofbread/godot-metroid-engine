@@ -35,7 +35,7 @@ func process(_delta):
 	var reset_idle_timer = false
 	var fire_weapon = false
 	
-	if Config.get("zm_controls"):
+	if Settings.get("controls/zm_style_aiming"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	

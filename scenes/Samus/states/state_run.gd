@@ -28,7 +28,7 @@ func process(_delta):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	
-	if Config.get("zm_controls"):
+	if Settings.get("controls/zm_style_aiming"):
 		if Input.is_action_pressed("arm_weapon"):
 			Animator.set_armed(true)
 		else:

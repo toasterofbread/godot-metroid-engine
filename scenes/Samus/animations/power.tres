@@ -312,6 +312,116 @@ animations = [ {
 "name": "multiple_turn_aim_sky_left",
 "speed": 60.0
 }, {
+"frames": [ ExtResource( 224 ) ],
+"loop": true,
+"name": "jump_legs",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 250 ), ExtResource( 222 ), ExtResource( 219 ), ExtResource( 220 ), ExtResource( 224 ) ],
+"loop": false,
+"name": "jump_legs_start",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 233 ), ExtResource( 216 ), ExtResource( 228 ), ExtResource( 229 ) ],
+"loop": true,
+"name": "multiple_aim_up_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 236 ), ExtResource( 237 ), ExtResource( 237 ) ],
+"loop": false,
+"name": "jump_legs_turn",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 254 ), ExtResource( 223 ), ExtResource( 221 ), ExtResource( 232 ) ],
+"loop": true,
+"name": "multiple_aim_up_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 64 ), ExtResource( 136 ), ExtResource( 136 ) ],
+"loop": false,
+"name": "multiple_turn_aim_down_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 248 ), ExtResource( 245 ), ExtResource( 262 ), ExtResource( 246 ) ],
+"loop": true,
+"name": "multiple_aim_down_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 241 ), ExtResource( 240 ), ExtResource( 240 ) ],
+"loop": false,
+"name": "multiple_turn_aim_front_stand_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 140 ), ExtResource( 140 ) ],
+"loop": false,
+"name": "multiple_turn_aim_up_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 244 ), ExtResource( 256 ), ExtResource( 226 ), ExtResource( 225 ) ],
+"loop": true,
+"name": "multiple_aim_sky_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 114 ), ExtResource( 118 ), ExtResource( 118 ) ],
+"loop": false,
+"name": "multiple_turn_aim_up_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 231 ), ExtResource( 253 ), ExtResource( 227 ), ExtResource( 260 ) ],
+"loop": true,
+"name": "multiple_aim_down_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 263 ), ExtResource( 257 ), ExtResource( 258 ), ExtResource( 259 ) ],
+"loop": true,
+"name": "multiple_aim_front_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 117 ), ExtResource( 243 ), ExtResource( 243 ) ],
+"loop": false,
+"name": "multiple_turn_aim_front_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 249 ), ExtResource( 230 ), ExtResource( 217 ), ExtResource( 218 ) ],
+"loop": true,
+"name": "multiple_aim_sky_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 242 ), ExtResource( 127 ), ExtResource( 127 ) ],
+"loop": false,
+"name": "multiple_turn_aim_front_stand_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 247 ), ExtResource( 255 ), ExtResource( 261 ) ],
+"loop": false,
+"name": "jump_spin_walljump_left",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 294 ), ExtResource( 293 ), ExtResource( 292 ) ],
+"loop": false,
+"name": "jump_spin_walljump_right",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 252 ), ExtResource( 234 ), ExtResource( 251 ), ExtResource( 235 ) ],
+"loop": true,
+"name": "multiple_aim_front_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 303 ) ],
+"loop": true,
+"name": "jump_aim_floor_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 138 ), ExtResource( 138 ) ],
+"loop": false,
+"name": "multiple_turn_legs",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 304 ) ],
+"loop": true,
+"name": "jump_aim_floor_right",
+"speed": 6.0
+}, {
 "frames": [ ExtResource( 198 ), ExtResource( 207 ), ExtResource( 206 ), ExtResource( 203 ), ExtResource( 265 ), ExtResource( 264 ), ExtResource( 296 ), ExtResource( 297 ) ],
 "loop": true,
 "name": "morphball_roll_bounce",
@@ -541,114 +651,4 @@ animations = [ {
 "loop": false,
 "name": "jump_turn_aim_floor_left",
 "speed": 60.0
-}, {
-"frames": [ ExtResource( 304 ) ],
-"loop": true,
-"name": "jump_aim_floor_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 303 ) ],
-"loop": true,
-"name": "jump_aim_floor_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 242 ), ExtResource( 127 ), ExtResource( 127 ) ],
-"loop": false,
-"name": "multiple_turn_aim_front_stand_right",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 1 ), ExtResource( 138 ), ExtResource( 138 ) ],
-"loop": false,
-"name": "multiple_turn_legs",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 252 ), ExtResource( 234 ), ExtResource( 251 ), ExtResource( 235 ) ],
-"loop": true,
-"name": "multiple_aim_front_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 294 ), ExtResource( 293 ), ExtResource( 292 ) ],
-"loop": false,
-"name": "jump_spin_walljump_right",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 5 ), ExtResource( 140 ), ExtResource( 140 ) ],
-"loop": false,
-"name": "multiple_turn_aim_up_right",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 247 ), ExtResource( 255 ), ExtResource( 261 ) ],
-"loop": false,
-"name": "jump_spin_walljump_left",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 249 ), ExtResource( 230 ), ExtResource( 217 ), ExtResource( 218 ) ],
-"loop": true,
-"name": "multiple_aim_sky_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 244 ), ExtResource( 256 ), ExtResource( 226 ), ExtResource( 225 ) ],
-"loop": true,
-"name": "multiple_aim_sky_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 64 ), ExtResource( 136 ), ExtResource( 136 ) ],
-"loop": false,
-"name": "multiple_turn_aim_down_right",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 117 ), ExtResource( 243 ), ExtResource( 243 ) ],
-"loop": false,
-"name": "multiple_turn_aim_front_left",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 231 ), ExtResource( 253 ), ExtResource( 227 ), ExtResource( 260 ) ],
-"loop": true,
-"name": "multiple_aim_down_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 263 ), ExtResource( 257 ), ExtResource( 258 ), ExtResource( 259 ) ],
-"loop": true,
-"name": "multiple_aim_front_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 114 ), ExtResource( 118 ), ExtResource( 118 ) ],
-"loop": false,
-"name": "multiple_turn_aim_up_left",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 233 ), ExtResource( 216 ), ExtResource( 228 ), ExtResource( 229 ) ],
-"loop": true,
-"name": "multiple_aim_up_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 241 ), ExtResource( 240 ), ExtResource( 240 ) ],
-"loop": false,
-"name": "multiple_turn_aim_front_stand_left",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 248 ), ExtResource( 245 ), ExtResource( 262 ), ExtResource( 246 ) ],
-"loop": true,
-"name": "multiple_aim_down_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 254 ), ExtResource( 223 ), ExtResource( 221 ), ExtResource( 232 ) ],
-"loop": true,
-"name": "multiple_aim_up_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 236 ), ExtResource( 237 ), ExtResource( 237 ) ],
-"loop": false,
-"name": "jump_legs_turn",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 250 ), ExtResource( 222 ), ExtResource( 219 ), ExtResource( 220 ), ExtResource( 224 ) ],
-"loop": false,
-"name": "jump_legs_start",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 224 ) ],
-"loop": true,
-"name": "jump_legs",
-"speed": 5.0
 } ]

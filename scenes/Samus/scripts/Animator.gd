@@ -5,14 +5,16 @@ const data_json_path = "res://scenes/Samus/animations/data.json"
 
 onready var sprites = {
 	false: { # Main
-		Enums.dir.LEFT: $sMainLeft,
-		Enums.dir.RIGHT: $sMainRight
+		Enums.dir.LEFT: $Sprites/sMainLeft,
+		Enums.dir.RIGHT: $Sprites/sMainRight
 	},
 	true: { # Overlay
-		Enums.dir.LEFT: $sOverlayLeft,
-		Enums.dir.RIGHT: $sOverlayRight
+		Enums.dir.LEFT: $Sprites/sOverlayLeft,
+		Enums.dir.RIGHT: $Sprites/sOverlayRight
 	}
 }
+
+onready var raycasts = $Raycasts
 
 var current: Dictionary = {
 	true: null, # Overlay
@@ -30,21 +32,16 @@ onready var suits = {
 var current_suit = "power"
 
 func _ready():
-	if Config.get("turn_speed") is int or Config.get("turn_speed") is float:
+	if Settings.get_system("animations/turn_speed") is int or Settings.get_system("animations/turn_speed") is float:
 		for suit in suits.values():
 			for frames in suit:
 				for anim in frames.get_animation_names():
 					if frames.get_animation_speed(anim) == 60 and "turn" in anim.to_lower():
-						frames.set_animation_speed(anim, Config.get("turn_speed"))
+						frames.set_animation_speed(anim, Settings.get_system("animations/turn_speed"))
 	for set in sprites.values():
 		for sprite in set.values():
 			sprite.frames = suits.values()[0][0]
 			sprite.visible = false
-			sprite.connect("animation_finished", self, "sprite_animation_finished", [sprite])
-	
-
-func sprite_animation_finished(sprite: AnimatedSprite):
-	pass
 
 func pause(overlay: bool = false):
 	

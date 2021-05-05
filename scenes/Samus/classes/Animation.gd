@@ -16,6 +16,7 @@ var animation_length: float
 var full: bool
 var position_node_path: String
 
+
 # Nodes
 var Animator: Node2D
 var Samus: KinematicBody2D
@@ -24,6 +25,7 @@ var Samus: KinematicBody2D
 var playing: bool = false
 var transitioning: bool = false
 var cooldown: bool = false
+var cache = {}
 
 # Constants
 const _default_args = {
@@ -37,33 +39,6 @@ const _default_args = {
 	"position_node_path": null
 }
 const cooldown_time: float = 0.04
-
-func get_texture_size(texture: Texture):
-
-	# mask is initially an empty array
-	var mask = []
-
-	# get image data
-	var image = texture.get_data()
-
-	# lock the image so get_pixel() can be called on it
-	image.lock()
-
-	var max_coord = Vector2.ZERO
-	var min_coord = Vector2.ZERO
-
-	# add non-transparent pixel coordinates to mask
-	for x in image.get_width():
-		for y in image.get_height():
-			if image.get_pixel(x,y)[3] != 0:
-				
-				max_coord.x = max(x, max_coord.x)
-				max_coord.y = max(y, max_coord.y)
-				
-				min_coord.x = min(x, min_coord.x)
-				min_coord.y = min(y, min_coord.y)
-
-	return (max_coord - min_coord) / 2
 
 func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	
@@ -98,13 +73,28 @@ func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 		self.animation_length = sprites[Enums.dir.LEFT].frames.get_frame_count(animation_keys[Enums.dir.LEFT]) / sprites[Enums.dir.LEFT].frames.get_animation_speed(animation_keys[Enums.dir.LEFT])
 	
 	
-func play(retain_frame: bool = false, ignore_pasued: bool = false):
+func play(retain_frame: bool = false, ignore_pasued: bool = false, force: bool = false):
 	
 	if Animator.paused[overlay]:
 		if ignore_pasued:
 			return
 		else:
 			Animator.paused[overlay] = false
+	
+	var new_cache = {
+		"facing": Animator.Samus.facing
+	}
+	
+	if Animator.current[overlay] == self and not force:
+		var skip_animation = true
+		for key in new_cache:
+			if new_cache[key] != cache[key]:
+				skip_animation = false
+				break
+		if skip_animation:
+#			print(self.position_node_path + "skipped animation")
+			return
+	cache = new_cache
 	
 	Samus.Collision.set_collider(self)
 	

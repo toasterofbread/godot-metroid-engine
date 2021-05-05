@@ -53,7 +53,7 @@ config/icon="res://icon.png"
 Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
 Groups="*res://classes/singletons/Groups.gd"
-Config="*res://classes/singletons/Config.gd"
+Settings="*res://classes/singletons/Settings.gd"
 
 [display]
 
@@ -64,6 +64,10 @@ window/size/test_height=720
 window/vsync/use_vsync=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
 
 [importer_defaults]
 

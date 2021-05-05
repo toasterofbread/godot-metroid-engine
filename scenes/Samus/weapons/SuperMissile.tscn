@@ -55,9 +55,8 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="CapsuleShape2D" id=4]
-radius = 4.0
-height = 6.0
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 2, 5 )
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
@@ -180,12 +179,12 @@ texture = ExtResource( 11 )
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 8 )
 frames = SubResource( 2 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 frames = SubResource( 3 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="Projectile"]
@@ -194,7 +193,7 @@ position = Vector2( 5.96046e-08, 0.5 )
 scale = Vector2( 0.4, 0.75 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
-visible = false
+position = Vector2( 0, -1 )
 shape = SubResource( 4 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
