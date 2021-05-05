@@ -2,9 +2,9 @@ extends Node
 
 const id = "morphball"
 
-var samus: KinematicBody2D
-var animator: Node
-var physics: Node
+var Samus: KinematicBody2D
+var Animator: Node
+var Physics: Node
 
 var particles: Particles2D
 
@@ -32,14 +32,14 @@ var animations = {}
 
 # Called during Samus's readying period
 func _init(_samus: Node2D):
-	self.samus = _samus
-	self.animator = samus.animator
-	self.physics = samus.physics
+	self.Samus = _samus
+	self.Animator = Samus.Animator
+	self.Physics = Samus.Physics
 	
-	self.particles = samus.get_node("Particles/morphball")
+	self.particles = Samus.get_node("Particles/morphball")
 	particles.emitting = false
 	
-	animations = animator.load_from_json(self.id)
+	animations = Animator.load_from_json(self.id)
 
 # Called when Samus's state is changed to this one
 func init_state(data: Dictionary):
@@ -48,28 +48,28 @@ func init_state(data: Dictionary):
 	if "animate" in options:
 		animations["morph"].play()
 	
-	samus.aiming = samus.aim.NONE
+	Samus.aiming = Samus.aim.NONE
 	spiderball_active = false
 	return self
 
 # Called every frame while this state is active
 func process(_delta):
 	
-	var original_facing = samus.facing
+	var original_facing = Samus.facing
 	var fire_weapon = false
 
 	if Config.get("zm_controls"):
-		animator.set_armed(Input.is_action_pressed("arm_weapon"))
+		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
 	if Config.get("spiderball_hold") and Input.is_action_just_pressed("spiderball"):
 		spiderball_active = !spiderball_active
 	else:
 		spiderball_active = Input.is_action_pressed("spiderball")
 	
-	if (Input.is_action_just_pressed("morph_shortcut") or Input.is_action_just_pressed("pad_up")) and not animator.transitioning() and not spiderball_active:
+	if (Input.is_action_just_pressed("morph_shortcut") or Input.is_action_just_pressed("pad_up")) and not Animator.transitioning() and not spiderball_active:
 		animations["unmorph"].play()
 		
-		if samus.is_on_floor():
+		if Samus.is_on_floor():
 			change_state("crouch")
 		else:
 			change_state("jump", {"options": []})
@@ -79,49 +79,49 @@ func process(_delta):
 		fire_weapon = true
 
 	if Input.is_action_pressed("pad_left") and not spiderball_active:
-		samus.facing = Enums.dir.LEFT
+		Samus.facing = Enums.dir.LEFT
 		if original_facing == Enums.dir.RIGHT:
 			animations["turn"].play()
 			
 	elif Input.is_action_pressed("pad_right") and not spiderball_active:
-		samus.facing = Enums.dir.RIGHT
+		Samus.facing = Enums.dir.RIGHT
 		if original_facing == Enums.dir.LEFT:
 			animations["turn"].play()
 
-	if not animator.transitioning(false, true):
+	if not Animator.transitioning(false, true):
 		if spiderball_active:
 			animations["roll_spider"].play(true)
 		else:
 			animations["roll"].play(true)
 
-		if not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")) and "roll" in animator.current[false].id:
-			animator.pause()
+		if not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")) and "roll" in Animator.current[false].id:
+			Animator.pause()
 	
 	if fire_weapon:
-		samus.weapons.fire()
+		Samus.Weapons.fire()
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	particles.emitting = false
-	animator.resume()
-	samus.change_state(new_state_key, data)
+	Animator.resume()
+	Samus.change_state(new_state_key, data)
 
 func bounce(amount: float):
-	physics.vel.y = -amount
+	Physics.vel.y = -amount
 
 func physics_process(delta: float):
 	
-	if samus.is_on_floor() and samus.fall_time > bounce_fall_time:
+	if Samus.is_on_floor() and Samus.fall_time > bounce_fall_time:
 		bounce(bounce_fall_amount)
 	
 	
 	# Vertical
-	if samus.is_upgrade_active("springball"):
-		if Input.is_action_just_pressed("jump") and samus.is_on_floor() and not spiderball_active:
+	if Samus.is_upgrade_active("springball"):
+		if Input.is_action_just_pressed("jump") and Samus.is_on_floor() and not spiderball_active:
 			springball_current_time = springball_time
-			physics.accelerate_y(springball_acceleration, springball_speed, Enums.dir.UP)
-		elif not samus.is_on_floor() and springball_current_time != 0 and Input.is_action_pressed("jump"):
-			physics.accelerate_y(springball_acceleration, springball_speed, Enums.dir.UP)
+			Physics.accelerate_y(springball_acceleration, springball_speed, Enums.dir.UP)
+		elif not Samus.is_on_floor() and springball_current_time != 0 and Input.is_action_pressed("jump"):
+			Physics.accelerate_y(springball_acceleration, springball_speed, Enums.dir.UP)
 			springball_current_time -= delta
 			if springball_current_time <= 0:
 				springball_current_time = 0
@@ -129,19 +129,19 @@ func physics_process(delta: float):
 			springball_current_time = 0
 	
 	# Horizontal
-	if not samus.is_on_floor():
+	if not Samus.is_on_floor():
 		if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
-			physics.accelerate_x(roll_air_acceleration, max(roll_air_speed, abs(physics.vel.x)), samus.facing)
+			Physics.accelerate_x(roll_air_acceleration, max(roll_air_speed, abs(Physics.vel.x)), Samus.facing)
 		else:
-			physics.decelerate_x(roll_air_deceleration)
+			Physics.decelerate_x(roll_air_deceleration)
 	else:
 		if not spiderball_active:
-			if Input.is_action_pressed("pad_left") and samus.facing == Enums.dir.LEFT:
-				physics.accelerate_x(roll_ground_acceleration, roll_ground_speed, Enums.dir.LEFT)
-			elif Input.is_action_pressed("pad_right") and samus.facing == Enums.dir.RIGHT:
-				physics.accelerate_x(roll_ground_acceleration, roll_ground_speed, Enums.dir.RIGHT)
+			if Input.is_action_pressed("pad_left") and Samus.facing == Enums.dir.LEFT:
+				Physics.accelerate_x(roll_ground_acceleration, roll_ground_speed, Enums.dir.LEFT)
+			elif Input.is_action_pressed("pad_right") and Samus.facing == Enums.dir.RIGHT:
+				Physics.accelerate_x(roll_ground_acceleration, roll_ground_speed, Enums.dir.RIGHT)
 			else:
-				physics.decelerate_x(roll_ground_deceleration)
+				Physics.decelerate_x(roll_ground_deceleration)
 
-	particles.emitting = physics.vel != Vector2.ZERO
-	particles.global_position = animator.current[false].sprites[samus.facing].global_position
+	particles.emitting = Physics.vel != Vector2.ZERO
+	particles.global_position = Animator.current[false].sprites[Samus.facing].global_position
