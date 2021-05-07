@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=305 format=2]
+[gd_resource type="SpriteFrames" load_steps=337 format=2]
 
 [ext_resource path="res://sprites/samus/power/multiple/turn/legs/sTurn_0.png" type="Texture" id=1]
 [ext_resource path="res://sprites/samus/power/neutral/aim_sky/sStandAimUp_0.png" type="Texture" id=2]
@@ -300,17 +300,199 @@
 [ext_resource path="res://sprites/samus/power/morphball/morph/sMorph_0.png" type="Texture" id=298]
 [ext_resource path="res://sprites/samus/power/jump/aim_floor/turn/sJAimDwnTL_0.png" type="Texture" id=299]
 [ext_resource path="res://sprites/samus/power/jump/aim_floor/turn/sJAimDwnTR_0.png" type="Texture" id=300]
+[ext_resource path="res://sprites/samus/power/shinespark/horizontal/sSJumpR_1.png" type="Texture" id=301]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_4.png" type="Texture" id=302]
 [ext_resource path="res://sprites/samus/power/jump/aim_floor/sJAimDwnL_0.png" type="Texture" id=303]
 [ext_resource path="res://sprites/samus/power/jump/aim_floor/sJAimDwnR_0.png" type="Texture" id=304]
+[ext_resource path="res://sprites/samus/power/shinespark/horizontal/sSJumpL_2.png" type="Texture" id=305]
+[ext_resource path="res://sprites/samus/power/shinespark/horizontal/sSJumpL_0.png" type="Texture" id=306]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_5.png" type="Texture" id=307]
+[ext_resource path="res://sprites/samus/power/shinespark/horizontal/sSJumpR_2.png" type="Texture" id=308]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_4.png" type="Texture" id=309]
+[ext_resource path="res://sprites/samus/power/shinespark/horizontal/sSJumpR_0.png" type="Texture" id=310]
+[ext_resource path="res://sprites/samus/power/shinespark/horizontal/sSJumpL_1.png" type="Texture" id=311]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_1.png" type="Texture" id=312]
 [ext_resource path="res://sprites/samus/power/run/aim_up/sRunAimUR_0.png" type="Texture" id=313]
 [ext_resource path="res://sprites/samus/power/run/aim_none/sRunRight_0.png" type="Texture" id=314]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_2.png" type="Texture" id=315]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_0.png" type="Texture" id=316]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_0.png" type="Texture" id=317]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_6.png" type="Texture" id=318]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_1.png" type="Texture" id=319]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_2.png" type="Texture" id=320]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_6.png" type="Texture" id=321]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_7.png" type="Texture" id=322]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_8.png" type="Texture" id=323]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_7.png" type="Texture" id=324]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_8.png" type="Texture" id=325]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpL_3.png" type="Texture" id=326]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_3.png" type="Texture" id=327]
+[ext_resource path="res://sprites/samus/power/shinespark/vertical/sSJumpUpR_5.png" type="Texture" id=328]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStartL_1.png" type="Texture" id=329]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStartL_2.png" type="Texture" id=330]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStartL_3.png" type="Texture" id=331]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStart_1.png" type="Texture" id=332]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStart_3.png" type="Texture" id=333]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStart_2.png" type="Texture" id=334]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStartL_0.png" type="Texture" id=335]
+[ext_resource path="res://sprites/samus/power/shinespark/start/sSJumpStart_0.png" type="Texture" id=336]
 
 [resource]
 animations = [ {
+"frames": [ ExtResource( 169 ), ExtResource( 166 ), ExtResource( 165 ), ExtResource( 170 ) ],
+"loop": true,
+"name": "crouch_aim_up_left",
+"speed": 6.0
+}, {
 "frames": [ ExtResource( 33 ), ExtResource( 139 ), ExtResource( 139 ) ],
 "loop": false,
 "name": "multiple_turn_aim_sky_left",
 "speed": 60.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 4 ), ExtResource( 12 ), ExtResource( 7 ) ],
+"loop": true,
+"name": "neutral_aim_front_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 152 ), ExtResource( 145 ), ExtResource( 150 ), ExtResource( 151 ) ],
+"loop": true,
+"name": "crouch_aim_front_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 313 ), ExtResource( 161 ), ExtResource( 96 ), ExtResource( 129 ), ExtResource( 131 ), ExtResource( 130 ), ExtResource( 132 ), ExtResource( 134 ), ExtResource( 133 ), ExtResource( 135 ) ],
+"loop": true,
+"name": "run_aim_up_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 163 ), ExtResource( 72 ), ExtResource( 63 ), ExtResource( 89 ), ExtResource( 91 ), ExtResource( 90 ), ExtResource( 92 ), ExtResource( 93 ), ExtResource( 94 ), ExtResource( 95 ) ],
+"loop": true,
+"name": "run_aim_front_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 158 ), ExtResource( 144 ), ExtResource( 30 ), ExtResource( 47 ) ],
+"loop": true,
+"name": "neutral_aim_up_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 168 ), ExtResource( 167 ), ExtResource( 171 ), ExtResource( 172 ) ],
+"loop": true,
+"name": "crouch_aim_up_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 21 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 39 ) ],
+"loop": true,
+"name": "neutral_aim_down_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 43 ), ExtResource( 13 ), ExtResource( 46 ) ],
+"loop": true,
+"name": "neutral_aim_sky_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 182 ), ExtResource( 184 ), ExtResource( 184 ) ],
+"loop": false,
+"name": "crouch_turn_aim_up_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 181 ), ExtResource( 183 ), ExtResource( 183 ) ],
+"loop": false,
+"name": "crouch_turn_aim_up_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 155 ), ExtResource( 154 ), ExtResource( 154 ) ],
+"loop": false,
+"name": "crouch_turn_aim_front_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 209 ), ExtResource( 197 ), ExtResource( 193 ), ExtResource( 213 ), ExtResource( 212 ), ExtResource( 266 ), ExtResource( 267 ), ExtResource( 295 ) ],
+"loop": true,
+"name": "morphball_roll_spider",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 28 ), ExtResource( 6 ), ExtResource( 60 ), ExtResource( 34 ), ExtResource( 32 ), ExtResource( 54 ), ExtResource( 68 ), ExtResource( 70 ), ExtResource( 69 ) ],
+"loop": true,
+"name": "run_aim_down_left",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 153 ), ExtResource( 156 ), ExtResource( 156 ) ],
+"loop": false,
+"name": "crouch_turn_aim_front_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 178 ), ExtResource( 175 ), ExtResource( 176 ), ExtResource( 173 ) ],
+"loop": true,
+"name": "crouch_aim_down_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 27 ), ExtResource( 20 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "neutral_aim_down_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 188 ), ExtResource( 186 ), ExtResource( 186 ) ],
+"loop": false,
+"name": "crouch_turn_aim_down_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 37 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 16 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 3 ), ExtResource( 31 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 31 ), ExtResource( 3 ), ExtResource( 37 ), ExtResource( 45 ) ],
+"loop": false,
+"name": "neutral_idle_0_left",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 180 ), ExtResource( 177 ), ExtResource( 174 ), ExtResource( 179 ) ],
+"loop": true,
+"name": "crouch_aim_down_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
+"loop": true,
+"name": "neutral_aim_up_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 314 ), ExtResource( 162 ), ExtResource( 71 ), ExtResource( 107 ), ExtResource( 108 ), ExtResource( 110 ), ExtResource( 109 ), ExtResource( 112 ), ExtResource( 111 ), ExtResource( 113 ) ],
+"loop": true,
+"name": "run_aim_none_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 40 ), ExtResource( 76 ), ExtResource( 73 ), ExtResource( 75 ), ExtResource( 77 ), ExtResource( 79 ), ExtResource( 78 ), ExtResource( 80 ), ExtResource( 81 ), ExtResource( 82 ) ],
+"loop": true,
+"name": "run_aim_down_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 157 ), ExtResource( 159 ), ExtResource( 10 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "neutral_aim_front_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 187 ), ExtResource( 185 ), ExtResource( 185 ) ],
+"loop": false,
+"name": "crouch_turn_aim_down_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 44 ) ],
+"loop": true,
+"name": "neutral_aim_sky_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 210 ), ExtResource( 215 ), ExtResource( 215 ) ],
+"loop": false,
+"name": "morphball_unmorph",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 55 ), ExtResource( 57 ), ExtResource( 57 ), ExtResource( 57 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 51 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 59 ), ExtResource( 59 ), ExtResource( 59 ), ExtResource( 58 ), ExtResource( 57 ), ExtResource( 55 ), ExtResource( 26 ) ],
+"loop": false,
+"name": "neutral_idle_0_right",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 37 ), ExtResource( 3 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 52 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 142 ), ExtResource( 3 ), ExtResource( 37 ), ExtResource( 45 ) ],
+"loop": true,
+"name": "neutral_idle_1_left",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 164 ), ExtResource( 143 ), ExtResource( 106 ), ExtResource( 119 ), ExtResource( 120 ), ExtResource( 122 ), ExtResource( 121 ), ExtResource( 123 ), ExtResource( 124 ), ExtResource( 125 ) ],
+"loop": true,
+"name": "run_aim_up_left",
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 224 ) ],
 "loop": true,
@@ -482,156 +664,6 @@ animations = [ {
 "name": "run_aim_front_left",
 "speed": 30.0
 }, {
-"frames": [ ExtResource( 163 ), ExtResource( 72 ), ExtResource( 63 ), ExtResource( 89 ), ExtResource( 91 ), ExtResource( 90 ), ExtResource( 92 ), ExtResource( 93 ), ExtResource( 94 ), ExtResource( 95 ) ],
-"loop": true,
-"name": "run_aim_front_right",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 158 ), ExtResource( 144 ), ExtResource( 30 ), ExtResource( 47 ) ],
-"loop": true,
-"name": "neutral_aim_up_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 2 ), ExtResource( 43 ), ExtResource( 13 ), ExtResource( 46 ) ],
-"loop": true,
-"name": "neutral_aim_sky_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 15 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 44 ) ],
-"loop": true,
-"name": "neutral_aim_sky_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 157 ), ExtResource( 159 ), ExtResource( 10 ), ExtResource( 9 ) ],
-"loop": true,
-"name": "neutral_aim_front_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 21 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 39 ) ],
-"loop": true,
-"name": "neutral_aim_down_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 17 ), ExtResource( 27 ), ExtResource( 20 ), ExtResource( 22 ) ],
-"loop": true,
-"name": "neutral_aim_down_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 38 ), ExtResource( 48 ), ExtResource( 49 ), ExtResource( 50 ) ],
-"loop": true,
-"name": "neutral_aim_up_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 11 ), ExtResource( 4 ), ExtResource( 12 ), ExtResource( 7 ) ],
-"loop": true,
-"name": "neutral_aim_front_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 152 ), ExtResource( 145 ), ExtResource( 150 ), ExtResource( 151 ) ],
-"loop": true,
-"name": "crouch_aim_front_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 164 ), ExtResource( 143 ), ExtResource( 106 ), ExtResource( 119 ), ExtResource( 120 ), ExtResource( 122 ), ExtResource( 121 ), ExtResource( 123 ), ExtResource( 124 ), ExtResource( 125 ) ],
-"loop": true,
-"name": "run_aim_up_left",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 40 ), ExtResource( 76 ), ExtResource( 73 ), ExtResource( 75 ), ExtResource( 77 ), ExtResource( 79 ), ExtResource( 78 ), ExtResource( 80 ), ExtResource( 81 ), ExtResource( 82 ) ],
-"loop": true,
-"name": "run_aim_down_right",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 314 ), ExtResource( 162 ), ExtResource( 71 ), ExtResource( 107 ), ExtResource( 108 ), ExtResource( 110 ), ExtResource( 109 ), ExtResource( 112 ), ExtResource( 111 ), ExtResource( 113 ) ],
-"loop": true,
-"name": "run_aim_none_right",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 313 ), ExtResource( 161 ), ExtResource( 96 ), ExtResource( 129 ), ExtResource( 131 ), ExtResource( 130 ), ExtResource( 132 ), ExtResource( 134 ), ExtResource( 133 ), ExtResource( 135 ) ],
-"loop": true,
-"name": "run_aim_up_right",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 25 ), ExtResource( 28 ), ExtResource( 6 ), ExtResource( 60 ), ExtResource( 34 ), ExtResource( 32 ), ExtResource( 54 ), ExtResource( 68 ), ExtResource( 70 ), ExtResource( 69 ) ],
-"loop": true,
-"name": "run_aim_down_left",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 155 ), ExtResource( 154 ), ExtResource( 154 ) ],
-"loop": false,
-"name": "crouch_turn_aim_front_left",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 153 ), ExtResource( 156 ), ExtResource( 156 ) ],
-"loop": false,
-"name": "crouch_turn_aim_front_right",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 168 ), ExtResource( 167 ), ExtResource( 171 ), ExtResource( 172 ) ],
-"loop": true,
-"name": "crouch_aim_up_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 169 ), ExtResource( 166 ), ExtResource( 165 ), ExtResource( 170 ) ],
-"loop": true,
-"name": "crouch_aim_up_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 209 ), ExtResource( 197 ), ExtResource( 193 ), ExtResource( 213 ), ExtResource( 212 ), ExtResource( 266 ), ExtResource( 267 ), ExtResource( 295 ) ],
-"loop": true,
-"name": "morphball_roll_spider",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 180 ), ExtResource( 177 ), ExtResource( 174 ), ExtResource( 179 ) ],
-"loop": true,
-"name": "crouch_aim_down_left",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 178 ), ExtResource( 175 ), ExtResource( 176 ), ExtResource( 173 ) ],
-"loop": true,
-"name": "crouch_aim_down_right",
-"speed": 6.0
-}, {
-"frames": [ ExtResource( 187 ), ExtResource( 185 ), ExtResource( 185 ) ],
-"loop": false,
-"name": "crouch_turn_aim_down_left",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 188 ), ExtResource( 186 ), ExtResource( 186 ) ],
-"loop": false,
-"name": "crouch_turn_aim_down_right",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 182 ), ExtResource( 184 ), ExtResource( 184 ) ],
-"loop": false,
-"name": "crouch_turn_aim_up_left",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 181 ), ExtResource( 183 ), ExtResource( 183 ) ],
-"loop": false,
-"name": "crouch_turn_aim_up_right",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 210 ), ExtResource( 215 ), ExtResource( 215 ) ],
-"loop": false,
-"name": "morphball_unmorph",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 26 ), ExtResource( 55 ), ExtResource( 57 ), ExtResource( 57 ), ExtResource( 57 ), ExtResource( 51 ), ExtResource( 53 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 51 ), ExtResource( 57 ), ExtResource( 58 ), ExtResource( 59 ), ExtResource( 59 ), ExtResource( 59 ), ExtResource( 58 ), ExtResource( 57 ), ExtResource( 55 ), ExtResource( 26 ) ],
-"loop": false,
-"name": "neutral_idle_0_right",
-"speed": 7.0
-}, {
-"frames": [ ExtResource( 45 ), ExtResource( 37 ), ExtResource( 3 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 142 ), ExtResource( 52 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 52 ), ExtResource( 142 ), ExtResource( 3 ), ExtResource( 37 ), ExtResource( 45 ) ],
-"loop": true,
-"name": "neutral_idle_1_left",
-"speed": 7.0
-}, {
-"frames": [ ExtResource( 45 ), ExtResource( 37 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 3 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 16 ), ExtResource( 16 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 3 ), ExtResource( 31 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 31 ), ExtResource( 3 ), ExtResource( 37 ), ExtResource( 45 ) ],
-"loop": false,
-"name": "neutral_idle_0_left",
-"speed": 7.0
-}, {
 "frames": [ ExtResource( 279 ), ExtResource( 268 ), ExtResource( 270 ), ExtResource( 269 ), ExtResource( 271 ), ExtResource( 272 ), ExtResource( 273 ), ExtResource( 274 ) ],
 "loop": true,
 "name": "jump_spin_left",
@@ -651,4 +683,44 @@ animations = [ {
 "loop": false,
 "name": "jump_turn_aim_floor_left",
 "speed": 60.0
+}, {
+"frames": [ ExtResource( 306 ), ExtResource( 311 ), ExtResource( 305 ) ],
+"loop": false,
+"name": "shinespark_horiz_left",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 310 ), ExtResource( 301 ), ExtResource( 308 ) ],
+"loop": false,
+"name": "shinespark_horiz_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 317 ), ExtResource( 319 ), ExtResource( 320 ), ExtResource( 327 ), ExtResource( 302 ), ExtResource( 328 ), ExtResource( 318 ), ExtResource( 324 ), ExtResource( 325 ) ],
+"loop": true,
+"name": "shinespark_vert_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 335 ), ExtResource( 329 ), ExtResource( 330 ), ExtResource( 331 ) ],
+"loop": false,
+"name": "shinespark_start_left",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 279 ), ExtResource( 268 ), ExtResource( 270 ), ExtResource( 269 ), ExtResource( 271 ), ExtResource( 272 ), ExtResource( 273 ), ExtResource( 274 ) ],
+"loop": false,
+"name": "shinespark_end_left",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 336 ), ExtResource( 332 ), ExtResource( 334 ), ExtResource( 333 ) ],
+"loop": false,
+"name": "shinespark_start_right",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 283 ), ExtResource( 280 ), ExtResource( 275 ), ExtResource( 276 ), ExtResource( 277 ), ExtResource( 278 ), ExtResource( 281 ), ExtResource( 282 ) ],
+"loop": false,
+"name": "shinespark_end_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 316 ), ExtResource( 312 ), ExtResource( 315 ), ExtResource( 326 ), ExtResource( 309 ), ExtResource( 307 ), ExtResource( 321 ), ExtResource( 322 ), ExtResource( 323 ) ],
+"loop": true,
+"name": "shinespark_vert_left",
+"speed": 30.0
 } ]

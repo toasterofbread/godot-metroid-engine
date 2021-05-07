@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndDoorLock.wav-cd250f25e2880e3fc597b59ac31e9315.sample"
+
+[deps]
+
+source_file="res://audio/objects/door/sndDoorLock.wav"
+dest_files=[ "res://.import/sndDoorLock.wav-cd250f25e2880e3fc597b59ac31e9315.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -26,6 +26,12 @@ var WalljumpTimer: Timer
 const WalljumpPeriod: float = 0.075
 
 var animations = {}
+var sounds = {
+	"jump": preload("res://audio/samus/jump/sndJump.wav"),
+	"spin": preload("res://audio/samus/jump/sndSpinJump.wav"),
+	"walljump": preload("res://audio/samus/jump/sndWallJump.wav"),
+	"land": preload("res://audio/samus/jump/sndLand.wav")
+}
 
 # Called during Samus's readying period
 func _init(_samus: Node2D):
@@ -53,6 +59,7 @@ func init_state(data: Dictionary):
 	if "jump" in options:
 		if not spinning:
 			animations["legs_start"].play()
+			Audio.play(sounds["jump"], Audio.types.Samus)
 		jump_current_time = jump_time
 		Physics.accelerate_y(jump_speed, jump_acceleration, Enums.dir.UP)
 	if "fall" in options and not spinning:
@@ -68,7 +75,13 @@ func process(_delta):
 	if Settings.get("controls/zm_style_aiming"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
+	if Samus.shinespark_charged and not spinning:
+		if Input.is_action_just_pressed("jump") and not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")):
+			change_state("shinespark", {"ballspark": false})
+			return
+	
 	if Samus.is_on_floor() and not Animator.transitioning(false, true) and not first_frame:
+		Audio.play(sounds["land"], Audio.types.Samus)
 		change_state("neutral")
 		return
 	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true):
@@ -118,7 +131,7 @@ func process(_delta):
 			if Samus.facing == Enums.dir.RIGHT:
 				play_transition = true
 			Samus.facing = Enums.dir.LEFT
-			if walljump_raycasts[Enums.dir.LEFT].is_colliding():
+			if walljump_raycasts[Enums.dir.LEFT].is_colliding() and Input.is_action_just_pressed("pad_left"):
 				WalljumpTimer.start()
 				animations["spin_walljump"].play()
 			
@@ -126,10 +139,15 @@ func process(_delta):
 			if Samus.facing == Enums.dir.LEFT:
 				play_transition = true
 			Samus.facing = Enums.dir.RIGHT
-			if walljump_raycasts[Enums.dir.RIGHT].is_colliding():
+			if walljump_raycasts[Enums.dir.RIGHT].is_colliding() and Input.is_action_just_pressed("pad_right"):
 				WalljumpTimer.start()
 				animations["spin_walljump"].play()
-		
+	
+	if spinning:
+		if not Audio.playing(sounds["spin"]):
+			Audio.play(sounds["spin"], Audio.types.Samus)
+	else:
+		Audio.stop(sounds["spin"])
 	
 	var animation: String
 	match Samus.aiming:
@@ -150,11 +168,17 @@ func process(_delta):
 		elif not Animator.transitioning(false, true):
 			animations["spin"].play(true)
 	
+	if not spinning or play_transition:
+		Samus.boosting = false
+	
 	if fire_weapon:
 		Samus.Weapons.fire()
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
+	Audio.stop(sounds["spin"])
+	if new_state_key != "morphball":
+		Samus.boosting = false
 	set_walljumpraycast_state(false)
 	Samus.change_state(new_state_key, data)
 
@@ -176,18 +200,18 @@ func physics_process(delta: float):
 		if Input.is_action_just_pressed("jump"):
 			if walljump_raycasts[Enums.dir.RIGHT].is_colliding() and Input.is_action_pressed("pad_right"):
 				jump_current_time = jump_time
-				animations["spin_walljump"].play()
+				Audio.play(sounds["walljump"], Audio.types.Samus)
 			elif walljump_raycasts[Enums.dir.LEFT].is_colliding() and Input.is_action_pressed("pad_left"):
 				jump_current_time = jump_time
-				animations["spin_walljump"].play()
+				Audio.play(sounds["walljump"], Audio.types.Samus)
 		
 		if WalljumpTimer.time_left != 0:
 			return
 		
 		if Input.is_action_pressed("pad_left"):
-			Physics.vel.x = -max(spin_horiz_speed, abs(Physics.vel.x))
+			Physics.vel.x = min(-spin_horiz_speed, Physics.vel.x)
 		elif Input.is_action_pressed("pad_right"):
-			Physics.vel.x = max(spin_horiz_speed, abs(Physics.vel.x))
+			Physics.vel.x = max(spin_horiz_speed, Physics.vel.x)
 		elif abs(Physics.vel.x) != spin_horiz_speed:
 			if Physics.vel.x != 0:
 				Physics.decelerate_x(spin_horiz_deceleration)
@@ -196,10 +220,8 @@ func physics_process(delta: float):
 					Enums.dir.LEFT: Physics.vel.x = -max(spin_horiz_speed, abs(Physics.vel.x))
 					Enums.dir.RIGHT: Physics.vel.x = max(spin_horiz_speed, abs(Physics.vel.x))
 	else:
-		if Input.is_action_pressed("pad_left"):
-			Physics.accelerate_x(horiz_acceleration, max(horiz_speed, abs(Physics.vel.x)), Enums.dir.LEFT)
-		elif Input.is_action_pressed("pad_right"):
-			Physics.accelerate_x(horiz_acceleration, max(horiz_speed, abs(Physics.vel.x)), Enums.dir.RIGHT)
+		if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
+			Physics.accelerate_x(horiz_acceleration, max(horiz_speed, abs(Physics.vel.x)), Samus.facing)
 		else:
 			Physics.decelerate_x(horiz_acceleration)
 	first_frame = false

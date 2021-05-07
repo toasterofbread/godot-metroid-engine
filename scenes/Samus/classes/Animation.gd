@@ -84,7 +84,7 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false, force: bool =
 	var new_cache = {
 		"facing": Animator.Samus.facing
 	}
-	
+
 	if Animator.current[overlay] == self and not force:
 		var skip_animation = true
 		for key in new_cache:
@@ -92,7 +92,6 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false, force: bool =
 				skip_animation = false
 				break
 		if skip_animation:
-#			print(self.position_node_path + "skipped animation")
 			return
 	cache = new_cache
 	

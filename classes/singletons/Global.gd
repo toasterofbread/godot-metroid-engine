@@ -11,6 +11,8 @@ onready var Anchor = Node2D.new()
 onready var RNG = RandomNumberGenerator.new()
 
 func _ready():
+	self.pause_mode = Node.PAUSE_MODE_PROCESS
+	
 	RNG.randomize()
 	Timers.name = "Timers"
 	self.add_child(Timers)
@@ -133,16 +135,16 @@ func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration:
 
 
 # Load JSON file at the specified path and returns data as dict
-func load_json(path: String) -> Dictionary:
+func load_json(path: String):
 	var f = File.new()
 	f.open(path, File.READ)
 	var data = f.get_as_text()
 	f.close()
 	return JSON.parse(data).result
 
-func save_json(path: String, data: Dictionary):
+func save_json(path: String, data, pretty: bool = true):
 	var f = File.new()
 	f.open(path, File.WRITE)
-	f.store_string(JSON.print(data, "\t"))
+	f.store_string(JSON.print(data, "\t" if pretty else ""))
 
 	f.close()

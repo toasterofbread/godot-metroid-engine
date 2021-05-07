@@ -31,10 +31,10 @@
 
 [resource]
 animations = [ {
-"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 26 ), ExtResource( 27 ) ],
+"frames": [ ExtResource( 17 ), ExtResource( 18 ), ExtResource( 28 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 10 ), ExtResource( 9 ) ],
 "loop": false,
-"name": "destroy",
-"speed": 15.0
+"name": "sand",
+"speed": 0.0
 }, {
 "frames": [ ExtResource( 8 ) ],
 "loop": true,
@@ -45,6 +45,21 @@ animations = [ {
 "loop": true,
 "name": "missile",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 27 ), ExtResource( 26 ), ExtResource( 12 ), ExtResource( 11 ) ],
+"loop": false,
+"name": "reappear",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "speedbooster",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "powerbomb",
+"speed": 0.0
 }, {
 "frames": [ ExtResource( 3 ) ],
 "loop": true,
@@ -66,18 +81,8 @@ animations = [ {
 "name": "bomb",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "speedbooster",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 2 ) ],
+"frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": false,
-"name": "powerbomb",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 17 ), ExtResource( 18 ), ExtResource( 28 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 10 ), ExtResource( 9 ) ],
-"loop": false,
-"name": "sand",
-"speed": 0.0
+"name": "destroy",
+"speed": 15.0
 } ]

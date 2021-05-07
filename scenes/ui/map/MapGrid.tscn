@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/ui/map/MapGrid.gd" type="Script" id=2]
+
+[node name="MapGrid" type="ViewportContainer"]
+margin_right = 80.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 80, 48 )
+rect_clip_content = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="."]
+size = Vector2( 80, 48 )
+transparent_bg = true
+handle_input_locally = false
+hdr = false
+usage = 1
+render_target_update_mode = 3
+
+[node name="ColorRect" type="ColorRect" parent="Viewport"]
+margin_left = -49999.0
+margin_top = -49999.0
+margin_right = 50000.0
+margin_bottom = 50000.0
+rect_min_size = Vector2( 99999, 99999 )
+size_flags_horizontal = 15
+size_flags_vertical = 15
+color = Color( 0, 0, 0, 0.380392 )
+
+[node name="Tiles" type="Node2D" parent="Viewport"]
+
+[node name="Camera2D" type="Camera2D" parent="Viewport"]
+current = true
+smoothing_enabled = true

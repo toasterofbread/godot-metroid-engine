@@ -90,3 +90,9 @@ func add_weapon(weapon_key: String):
 func remove_weapon(weapon_key: String, is_morph_weapon: bool):
 	added_weapons[is_morph_weapon].remove(all_weapons[weapon_key])
 	Samus.HUD.remove_weapon(all_weapons[weapon_key])
+
+
+func _on_SpeedboosterDamageArea_body_entered(body):
+	var shinespark = Samus.states["shinespark"]
+	if body.has_method("damage"):
+		body.damage(shinespark.damage_type, shinespark.damage_amount)

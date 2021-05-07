@@ -46,7 +46,11 @@ func process(_delta):
 		if Physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
 			change_state("jump", {"options": ["jump", "spin"]})
 		else:
-			change_state("jump", {"options": ["jump"]})
+			if Samus.shinespark_charged:
+				change_state("shinespark", {"ballspark": false})
+				return
+			else:
+				change_state("jump", {"options": ["jump"]})
 		return
 	elif not Samus.is_on_floor():
 		change_state("jump", {"options": ["fall"]})
@@ -63,16 +67,16 @@ func process(_delta):
 			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
 				reset_idle_timer = true
-			else:
-				change_state("run")
+			elif not Samus.is_on_wall():
+				change_state("run", {"boost": false})
 				return
 		elif Input.is_action_pressed("pad_right"):
 			Samus.facing = Enums.dir.RIGHT
 			if original_facing == Enums.dir.LEFT:
 				play_transition = true
 				reset_idle_timer = true
-			else:
-				change_state("run")
+			elif not Samus.is_on_wall():
+				change_state("run", {"boost": false})
 				return
 	
 	if Input.is_action_pressed("aim_weapon"):
@@ -83,7 +87,7 @@ func process(_delta):
 		if Input.is_action_just_pressed("pad_up"):
 			Samus.aiming = Samus.aim.UP
 		elif Input.is_action_just_pressed("pad_down"):
-			if Samus.aiming == Samus.aim.DOWN and not Animator.transitioning():
+			if Samus.aiming == Samus.aim.DOWN:
 				change_state("crouch")
 				return
 			Samus.aiming = Samus.aim.DOWN
