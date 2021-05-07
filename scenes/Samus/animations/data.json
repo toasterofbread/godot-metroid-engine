@@ -53,5 +53,11 @@
 		"turn": {"directional": false, "transition": true, "leftPos": [2, 10], "rightPos": [5, 10]},
 		"unmorph": {"directional": false, "transition": true, "leftPos": [2, 8], "rightPos": [5, 8]},
 		"morph": {"directional": false, "transition": true, "leftPos": [2, 8], "rightPos": [5, 8]}
+	},
+	"shinespark": {
+		"horiz": {"leftPos": [0, -2], "rightPos": [8, -2]},
+		"vert": {"leftPos": [4, 0], "rightPos": [4, 0]},
+		"start": {"leftPos": [3, -2], "rightPos": [5, -2]},
+		"end": {"leftPos": [0, 0], "rightPos": [0, 0], "transition": true, "full": true}
 	}
 }

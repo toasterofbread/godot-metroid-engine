@@ -42,8 +42,8 @@ func projectile_fired(projectile: Projectile):
 					if not Samus.is_on_floor():
 						Samus.damage(samus_aerial_damage)
 			else:
-				if body.has_method("collide"):
-					body.collide(projectile)
+				if body.has_method("damage"):
+					body.damage(damage_type, damage_amount)
 		yield(Global, "process_frame")
 	
 	burst.queue_free()

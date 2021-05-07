@@ -14,10 +14,35 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/DestroyableBlock/DestroyableBlock.gd"
 }, {
+"base": "Node2D",
+"class": "Door",
+"language": "GDScript",
+"path": "res://scenes/objects/door/Door.gd"
+}, {
+"base": "Control",
+"class": "MapChunk",
+"language": "GDScript",
+"path": "res://classes/MapChunk.gd"
+}, {
+"base": "ColorRect",
+"class": "MapTile",
+"language": "GDScript",
+"path": "res://scenes/ui/map/MapTile.gd"
+}, {
+"base": "Node2D",
+"class": "Room",
+"language": "GDScript",
+"path": "res://classes/Room.gd"
+}, {
 "base": "Node",
 "class": "SamusAnimation",
 "language": "GDScript",
 "path": "res://scenes/Samus/classes/Animation.gd"
+}, {
+"base": "Camera2D",
+"class": "SamusCamera",
+"language": "GDScript",
+"path": "res://scenes/Samus/classes/Camera.gd"
 }, {
 "base": "Node2D",
 "class": "SamusWeapon",
@@ -36,7 +61,12 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "DestroyableBlock": "",
+"Door": "",
+"MapChunk": "",
+"MapTile": "",
+"Room": "",
 "SamusAnimation": "",
+"SamusCamera": "",
 "SamusWeapon": "",
 "SamusWeaponIcon": "",
 "SoundManager": ""
@@ -45,7 +75,7 @@ _global_script_class_icons={
 [application]
 
 config/name="TotallyNotMetroid"
-run/main_scene="res://scenes/testlevel/TestLevel.tscn"
+run/main_scene="res://scenes/ui/main_menu/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -54,13 +84,14 @@ Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
 Groups="*res://classes/singletons/Groups.gd"
 Settings="*res://classes/singletons/Settings.gd"
+Audio="*res://classes/singletons/Audio.gd"
+Loader="*res://classes/singletons/Loader.gd"
+Map="*res://classes/singletons/Map.gd"
 
 [display]
 
 window/size/width=1920
 window/size/height=1080
-window/size/test_width=1280
-window/size/test_height=720
 window/vsync/use_vsync=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"

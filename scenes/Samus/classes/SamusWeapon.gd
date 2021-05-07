@@ -5,6 +5,7 @@ var Samus: KinematicBody2D
 
 export var id: String
 export(Enums.DamageType) var damage_type
+export var damage_amount: float = 0
 export var velocity: float
 export var cooldown: float
 export var falls_to_ground: bool
@@ -132,8 +133,8 @@ class Projectile extends KinematicBody2D:
 			if falling:
 				self.rotation_degrees += Weapon.Samus.rng.randf_range(20, 45)
 			if collision:
-				if collision.collider.has_method("collide"):
-					collision.collider.call("collide", self)
+				if collision.collider.has_method("damage"):
+					collision.collider.damage(Weapon.damage_type, Weapon.damage_amount)
 				if collision.collider.is_in_group(Groups.immune_to_projectiles) and not falling and Weapon.falls_to_ground:
 					velocity = velocity.bounce(collision.normal) / 2
 					velocity = velocity.rotated(deg2rad(Weapon.Samus.rng.randf_range(-10, 10)))

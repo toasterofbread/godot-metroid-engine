@@ -1,3 +1,4 @@
+
 extends Control
 
 const etank_row_size = 10
@@ -6,6 +7,7 @@ onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Map.Grid = $CanvasLayer/MapGrid
 	rows.invert()
 	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
 

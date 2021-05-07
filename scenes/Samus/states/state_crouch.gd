@@ -22,6 +22,7 @@ func _init(_samus: Node2D):
 
 # Called when Samus's state is changed to this one
 func init_state(_data: Dictionary):
+	
 	CeilingRaycast.position = Vector2(4, -8)
 	CeilingRaycast.cast_to = Vector2(0, -11)
 	CeilingRaycast.enabled = true
@@ -54,7 +55,7 @@ func process(_delta):
 				play_transition = true
 			elif not Animator.transitioning() and Global.is_action_held("pad_left", 0.1) and Samus.time_since_last_state("morphball", 0.1):
 				if not CeilingRaycast.is_colliding():
-					change_state("run")
+					change_state("run", {"boost": false})
 					return
 			elif not Animator.transitioning():
 				Global.create_hold_action("pad_left")
@@ -67,7 +68,7 @@ func process(_delta):
 				play_transition = true
 			elif not Animator.transitioning() and Global.is_action_held("pad_right", 0.1) and Samus.time_since_last_state("morphball", 0.1):
 				if not CeilingRaycast.is_colliding():
-					change_state("run")
+					change_state("run", {"boost": false})
 					return
 			elif not Animator.transitioning():
 				Global.create_hold_action("pad_right")

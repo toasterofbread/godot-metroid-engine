@@ -48,7 +48,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 8.24621
+radius = 16.0
 
 [node name="Bomb" type="Node2D"]
 script = ExtResource( 1 )
@@ -71,7 +71,7 @@ collision_mask = 524293
 z_index = 4096
 z_as_relative = false
 frames = SubResource( 1 )
-frame = 6
+frame = 5
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]

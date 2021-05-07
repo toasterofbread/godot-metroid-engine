@@ -69,6 +69,10 @@ func process(_delta):
 	else:
 		spiderball_active = Input.is_action_pressed("spiderball")
 	
+	if Samus.shinespark_charged and Input.is_action_just_pressed("jump") and not Animator.transitioning(false, true):
+		if not Input.is_action_pressed("pad_left") and not Input.is_action_pressed("pad_right"):
+			change_state("shinespark", {"ballspark": true})
+	
 	if (Input.is_action_just_pressed("morph_shortcut") or Input.is_action_just_pressed("pad_up")) and not Animator.transitioning() and not spiderball_active:
 		if not CeilingRaycast.is_colliding():
 			animations["unmorph"].play()
@@ -104,12 +108,14 @@ func process(_delta):
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
+	Samus.boosting = false
 	CeilingRaycast.enabled = false
 	particles.emitting = false
 	Animator.resume()
 	Samus.change_state(new_state_key, data)
 
 func bounce(amount: float):
+	Physics.disable_floor_snap = true
 	Physics.vel.y = -amount
 
 func physics_process(delta: float):
@@ -139,10 +145,8 @@ func physics_process(delta: float):
 			Physics.decelerate_x(roll_air_deceleration)
 	else:
 		if not spiderball_active:
-			if Input.is_action_pressed("pad_left") and Samus.facing == Enums.dir.LEFT:
-				Physics.accelerate_x(roll_ground_acceleration, roll_ground_speed, Enums.dir.LEFT)
-			elif Input.is_action_pressed("pad_right") and Samus.facing == Enums.dir.RIGHT:
-				Physics.accelerate_x(roll_ground_acceleration, roll_ground_speed, Enums.dir.RIGHT)
+			if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
+				Physics.accelerate_x(roll_ground_acceleration, max(roll_ground_speed, abs(Physics.vel.x)), Samus.facing)
 			else:
 				Physics.decelerate_x(roll_ground_deceleration)
 	

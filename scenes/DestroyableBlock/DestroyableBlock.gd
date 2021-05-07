@@ -4,7 +4,7 @@ class_name DestroyableBlock
 export(Enums.DamageType) var type = Enums.DamageType.BEAM
 export var sandy: bool = false
 export var respawn_time: float = 2.5
-onready var RespawnTimer: Timer = Global.timer([self, "reappear", []])
+onready var RespawnTimer: Timer = Global.timer([self, "_reappear", []])
 onready var default_collision_layer = self.collision_layer
 onready var destructive_damage_types: Array = Enums.DamageType.values()
 onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
@@ -12,13 +12,17 @@ onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-#	self.add_to_group(Groups.immune_to_projectiles)
-	
 	if sandy:
 		if type == Enums.DamageType.BEAM:
 			sprite_name = "sand"
 		else:
 			push_warning("DestroyableBlock is not set to BEAM even though sandy is enabled")
+	
+	if type == Enums.DamageType.CRUMBLE:
+		respawn_time = 0.5
+		$WeaponCollisionArea.queue_free()
+	else:
+		$CrumbleArea.queue_free()
 	
 	match type:
 		Enums.DamageType.BEAM: destructive_damage_types.erase(Enums.DamageType.NONE)
@@ -28,30 +32,40 @@ func _ready():
 	
 	$AnimatedSprite.play(sprite_name)
 
-func collide(collision_object):
-	var damage_type = collision_object.get("damage_type")
-	if not collision_object.is_in_group(Groups.damages_world) or damage_type == null or self.is_in_group(Groups.immune_to_projectiles):
-		return
-	
-	if damage_type in destructive_damage_types:
-		destroy()
+func damage(type: int, value: float):
+	if type in destructive_damage_types:
+		_destroy()
 
-func destroy():
-	self.collision_layer = 0
-	$WeaponCollider.set_deferred("monitorable", false)
+func _destroy(time: float = respawn_time):
+	if type == Enums.DamageType.CRUMBLE:
+#		yield(Global.wait(0.1), "completed")
+		$CrumbleArea/CollisionShape2D.set_deferred("disabled", true)
+	else:
+		$WeaponCollisionArea/CollisionShape2D.set_deferred("disabled", true)
+	$CollisionShape2D.set_deferred("disabled", true)
 	
 	$AnimatedSprite.play("destroy")
 	yield($AnimatedSprite, "animation_finished")
 	self.visible = false
-	RespawnTimer.start(respawn_time)
+	
+	if time > 0:
+		RespawnTimer.start(time)
 
-func reappear():
+func _reappear():
 	self.visible = true
 	
-	$AnimatedSprite.play("destroy", true)
-	while $AnimatedSprite.frame != 0:
-		yield(Global, "process_frame")
-	$AnimatedSprite.play(Enums.DamageType.keys()[type].to_lower())
-	
-	self.collision_layer = default_collision_layer
-	$WeaponCollider.monitorable = true
+	$AnimatedSprite.play("reappear")
+	yield($AnimatedSprite, "animation_finished")
+	if len($SamusCheckArea.get_overlapping_bodies()) != 0:
+		_destroy(0.5)
+	else:
+		if type == Enums.DamageType.CRUMBLE:
+			$CrumbleArea/CollisionShape2D.set_deferred("disabled", false)
+		else:
+			$WeaponCollisionArea/CollisionShape2D.set_deferred("disabled", false)
+		$CollisionShape2D.disabled = false
+		$AnimatedSprite.play(Enums.DamageType.keys()[type].to_lower())
+
+
+func _on_CrumbleArea_body_entered(_body):
+	_destroy()
