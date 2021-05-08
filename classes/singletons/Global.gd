@@ -18,6 +18,7 @@ func _ready():
 	self.add_child(Timers)
 	self.add_child(Anchor)
 	Anchor.name = "Anchor"
+	Anchor.pause_mode = Node.PAUSE_MODE_STOP
 
 func _process(delta):
 	emit_signal("process_frame")
@@ -41,6 +42,7 @@ func start_timer(timer_id: String, seconds: float, data: Dictionary = {}, connec
 	var timer = Timer.new()
 	self.add_child(timer)
 	timer.one_shot = true
+	timer.pause_mode = Node.PAUSE_MODE_STOP
 	timers[timer_id] = [timer, data]
 	if connect != null:
 		timer.connect("timeout", connect[0], connect[1], [timer_id])
@@ -55,11 +57,13 @@ func timer(connect = null):
 	timer.one_shot = true
 	if connect != null:
 		timer.connect("timeout", connect[0], connect[1], connect[2])
+	timer.pause_mode = Node.PAUSE_MODE_STOP
 	return timer
 
 func wait(seconds: float):
 	var timer = Timer.new()
 	Timers.add_child(timer)
+	timer.pause_mode = Node.PAUSE_MODE_STOP
 	timer.start(seconds)
 	yield(timer, "timeout")
 	timer.queue_free()
@@ -110,6 +114,7 @@ func get_anchor(anchor_path: String) -> Node2D:
 			parent.add_child(node)
 			parent = node
 	
+	parent.pause_mode = Node.PAUSE_MODE_STOP
 	return parent
 
 func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration: float, shake_frequency: float = 0.05):

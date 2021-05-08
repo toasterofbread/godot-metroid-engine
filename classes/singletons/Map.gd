@@ -4,7 +4,7 @@ signal tiles_loaded
 const tile_data_path = "res://scenes/ui/map/tile_data.json"
 
 onready var TileScene: PackedScene = preload("res://scenes/ui/map/MapTile.tscn")
-var Grid: ViewportContainer
+var Grid: Control
 var tiles = null
 var current_tile: MapTile
 
@@ -47,7 +47,7 @@ func load_tiles():
 			var tile = TileScene.instance()
 			tile.load_data(data[x][y])
 			Grid.Tiles.add_child(tile)
-			tile.rect_position = Vector2(int(x), int(y))*8
+			tile.position = Vector2(int(x), int(y))*8
 			
 			if not x in tile_data:
 				tile_data[x] = {}

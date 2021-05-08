@@ -9,6 +9,8 @@ onready var default_collision_layer = self.collision_layer
 onready var destructive_damage_types: Array = Enums.DamageType.values()
 onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
 
+var boosting: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -30,15 +32,26 @@ func _ready():
 		Enums.DamageType.MISSILE: destructive_damage_types = [Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE]
 		_: destructive_damage_types = [type]
 	
+	if Enums.DamageType.SPEEDBOOSTER in destructive_damage_types:
+		Loader.Samus.connect("boost_changed", self, "boost_changed")
+		$SamusCheckArea.connect("body_entered", self, "body_entered_area")
+	
 	$AnimatedSprite.play(sprite_name)
 
 func damage(type: int, value: float):
 	if type in destructive_damage_types:
 		_destroy()
 
+func boost_changed(value: bool):
+	$CollisionShape2D.disabled = value
+	boosting = value
+
+func body_entered_area(body):
+	if body == Loader.Samus and boosting:
+		self._destroy()
+
 func _destroy(time: float = respawn_time):
 	if type == Enums.DamageType.CRUMBLE:
-#		yield(Global.wait(0.1), "completed")
 		$CrumbleArea/CollisionShape2D.set_deferred("disabled", true)
 	else:
 		$WeaponCollisionArea/CollisionShape2D.set_deferred("disabled", true)

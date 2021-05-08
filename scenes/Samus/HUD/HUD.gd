@@ -1,9 +1,11 @@
-
 extends Control
 
 const etank_row_size = 10
 var ETank: Control = preload("res://scenes/Samus/HUD/ETank.tscn").instance()
 onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
+
+const map_camera_move_speed = 5
+#onready var MapCamera: Camera2D = $CanvasLayer/MapGrid/Viewport/Camera2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

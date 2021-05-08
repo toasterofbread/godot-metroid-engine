@@ -15,8 +15,10 @@ enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
 var aiming = aim.FRONT setget set_aiming
 var aim_none_timer = Global.timer()
 
-var boosting: bool = false
+signal boost_changed
+var boosting: bool = false setget set_boosting
 var shinespark_charged: bool = false
+var shinespark_affected_collision: bool = false
 
 var fall_time: float = 0
 
@@ -35,6 +37,10 @@ onready var states = {
 }
 onready var current_state: Node = states["neutral"]
 var state_change_record = [["", 0]]
+
+func set_boosting(value: bool):
+	boosting = value
+	emit_signal("boost_changed", value)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
