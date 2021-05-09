@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scenes/Samus/particles/morphball_trail/morphball_trail.tres" type="Material" id=9]
 [ext_resource path="res://scenes/Samus/classes/Camera.gd" type="Script" id=10]
 [ext_resource path="res://scenes/Samus/HUD/HUD.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/Samus/HUD/PauseMenu.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "reset"
@@ -45,17 +46,239 @@ tracks/0/keys = {
 "values": [ Color( 0.792157, 0.184314, 0.184314, 1 ), Color( 1, 1, 1, 1 ), Color( 0.792157, 0.184314, 0.184314, 1 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 17, 8 )
+[sub_resource type="Animation" id=6]
+resource_name = "neutral_open_map_left"
+step = 0.0333333
+tracks/0/type = "method"
+tracks/0/path = NodePath("../PauseMenu")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.333333, 0.566667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "open_menu"
+}, {
+"args": [  ],
+"method": "pause"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/sMainLeft:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/sMainLeft:animation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "neutral_open_map_left" ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprites/sMainLeft:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "powergrip_climb_left"
+length = 0.233333
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/sMainLeft:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0166667, 0.0333333, 0.05, 0.0666667, 0.0833333, 0.1, 0.116667, 0.133333, 0.15, 0.166667, 0.183333, 0.2, 0.216667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/sMainLeft:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "powergrip_climb_left" ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/sMainLeft:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.233333 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.0333333, 0.05, 0.0666667, 0.0833333, 0.1, 0.116667, 0.166667, 0.183333, 0.2, 0.216667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ Vector2( 0, -6 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 0, -6 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( -2, 0 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 0, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 0, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( -7, -1 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( -4, -6 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( -1, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( -1, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( -1, -2 ) ],
+"method": "shift_position"
+} ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "powergrip_climb_right"
+length = 0.233333
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/sMainRight:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "powergrip_climb_right" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/sMainRight:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.233333 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/sMainRight:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.0166667, 0.0333333, 0.05, 0.0666667, 0.0833333, 0.1, 0.116667, 0.133333, 0.15, 0.166667, 0.183333, 0.2, 0.216667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.0333333, 0.05, 0.0666667, 0.0833333, 0.1, 0.119, 0.17, 0.183333, 0.2, 0.216667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [ Vector2( 0, -6 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 0, -6 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 2, 0 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 0, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 0, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 7, -1 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 4, -6 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 1, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 1, -2 ) ],
+"method": "shift_position"
+}, {
+"args": [ Vector2( 1, -2 ) ],
+"method": "shift_position"
+} ]
+}
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 19, 17 )
+extents = Vector2( 17, 13 )
 
 [node name="Samus" type="KinematicBody2D"]
 pause_mode = 1
-position = Vector2( 21, 2 )
+position = Vector2( 2, -2 )
+z_index = -1
+z_as_relative = false
 collision_mask = 524288
 script = ExtResource( 2 )
+
+[node name="PauseMenu" parent="." instance=ExtResource( 12 )]
 
 [node name="HUD" parent="." instance=ExtResource( 11 )]
 
@@ -84,27 +307,50 @@ rotation = -1.5708
 cast_to = Vector2( 0, -20 )
 collision_mask = 524288
 
-[node name="Ceiling" type="RayCast2D" parent="Animator/Raycasts"]
+[node name="MorphballCeiling" type="RayCast2D" parent="Animator/Raycasts"]
 visible = false
-position = Vector2( 2, 2 )
-cast_to = Vector2( 0, -10 )
+position = Vector2( 2, 3 )
+cast_to = Vector2( 0, -11 )
+collision_mask = 524288
+
+[node name="CrouchCeiling" type="RayCast2D" parent="Animator/Raycasts"]
+position = Vector2( 4, -8 )
+cast_to = Vector2( 0, -5 )
+collision_mask = 524288
+
+[node name="LedgeAbove" type="RayCast2D" parent="Animator/Raycasts"]
+visible = false
+position = Vector2( 12, -20 )
+cast_to = Vector2( 15, 0 )
+collision_mask = 524288
+
+[node name="LedgeBelow" type="RayCast2D" parent="Animator/Raycasts"]
+visible = false
+position = Vector2( 19, -19 )
+cast_to = Vector2( 0, 5 )
 collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
 
-[node name="TestSpriteL" type="AnimatedSprite" parent="Animator/TestSprites"]
+[node name="TestSpriteL2" type="AnimatedSprite" parent="Animator/TestSprites"]
 visible = false
-position = Vector2( 5, -2 )
+position = Vector2( 6, -1 )
 frames = ExtResource( 1 )
-animation = "shinespark_start_right"
-frame = 3
-playing = true
+animation = "neutral_open_map_left"
 
-[node name="TestSpriteR" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 8, -2 )
+[node name="TestSprite" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 7, -1 )
 frames = ExtResource( 1 )
-animation = "shinespark_horiz_right"
-frame = 2
+animation = "neutral_open_map_left"
+
+[node name="TestSpriteL" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 2, -1 )
+frames = ExtResource( 1 )
+animation = "neutral_open_map_left"
+frame = 35
+playing = true
+flip_h = true
 
 [node name="Sprites" type="Node2D" parent="Animator"]
 
@@ -112,36 +358,42 @@ frame = 2
 visible = false
 position = Vector2( 4, 6 )
 frames = ExtResource( 1 )
-animation = "shinespark_end_right"
+animation = "neutral_open_map_left"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
-animation = "shinespark_end_right"
+animation = "neutral_open_map_left"
 
 [node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
+position = Vector2( -14, -31 )
 frames = ExtResource( 1 )
-animation = "neutral_aim_front_left"
-frame = 3
+animation = "neutral_open_map_left"
+frame = 35
 playing = true
 flip_h = true
 
 [node name="sMainRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 frames = ExtResource( 1 )
-animation = "neutral_aim_front_right"
+animation = "neutral_open_map_left"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 anims/reset = SubResource( 1 )
 anims/speedboost = SubResource( 2 )
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animator"]
+anims/neutral_open_map_left = SubResource( 6 )
+anims/powergrip_climb_left = SubResource( 3 )
+anims/powergrip_climb_right = SubResource( 5 )
+
 [node name="Collision" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2( 8, -3 )
-shape = SubResource( 3 )
+position = Vector2( 0, -3 )
+shape = SubResource( 4 )
 script = ExtResource( 7 )
 
 [node name="Weapons" type="Node2D" parent="."]
@@ -149,9 +401,29 @@ script = ExtResource( 6 )
 
 [node name="CannonPositions" type="Node2D" parent="Weapons"]
 visible = false
-position = Vector2( 21, 2 )
 z_index = 999
 z_as_relative = false
+
+[node name="powergrip" type="Node2D" parent="Weapons/CannonPositions"]
+
+[node name="aim_sky" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( 9, -29 )
+
+[node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( 20, -20 )
+rotation = 0.785398
+
+[node name="aim_front" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( 24, -9 )
+rotation = 1.5708
+
+[node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( 19, 1 )
+rotation = 2.35619
+
+[node name="aim_floor" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( 7, 7 )
+rotation = 3.14159
 
 [node name="neutral" type="Node2D" parent="Weapons/CannonPositions"]
 visible = false
@@ -209,6 +481,7 @@ position = Vector2( -9, -10 )
 rotation = -0.785398
 
 [node name="morphball" type="Node2D" parent="Weapons/CannonPositions"]
+visible = false
 
 [node name="roll" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
@@ -259,14 +532,6 @@ position = Vector2( -4, -1 )
 rotation = 0.349066
 collision_mask = 524292
 
-[node name="SpeedboosterArea" type="Area2D" parent="Weapons"]
-position = Vector2( 7, -3 )
-collision_layer = 0
-collision_mask = 524292
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapons/SpeedboosterArea"]
-shape = SubResource( 4 )
-
 [node name="Particles" type="Node2D" parent="."]
 z_index = -1
 
@@ -282,7 +547,11 @@ texture = ExtResource( 8 )
 
 [node name="SamusCamera" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 5, 5 )
 limit_smoothed = true
+drag_margin_v_enabled = true
 smoothing_enabled = true
-smoothing_speed = 10.0
+smoothing_speed = 15.0
+drag_margin_top = 0.01
+drag_margin_right = 0.01
 script = ExtResource( 10 )

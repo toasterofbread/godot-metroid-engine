@@ -1,4 +1,4 @@
-extends ColorRect
+extends Node2D
 class_name MapTile
 
 enum wall_types {none, door, wall}
@@ -17,7 +17,7 @@ func set_current_tile(value: bool):
 	
 	if current_tile:
 		$AnimationPlayer.play("current_tile")
-		Map.Grid.Camera.position = self.rect_position
+		Map.Grid.focus_position = self.position
 	else:
 		$AnimationPlayer.stop()
 		$CurrentTileOverlay.visible = false
@@ -46,7 +46,7 @@ func load_data(data: Dictionary):
 		_: push_error("Unknown MapTile icon name")
 	
 	if int(data["c"]) in colour_data:
-		self.color = colour_data[int(data["c"])]
+		$ColorRect.color = colour_data[int(data["c"])]
 	
 	$Lines/Wall.queue_free()
 	$Lines/Door.queue_free()

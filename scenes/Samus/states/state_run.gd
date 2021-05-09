@@ -14,7 +14,7 @@ const run_acceleration = 15
 const run_deceleration = 50
 const max_run_speed = 170
 
-const boost_acceleration = 100
+const boost_acceleration = 15
 const boost_deceleration = 50
 const max_boost_speed = 500
 
@@ -42,7 +42,7 @@ func process(_delta):
 		else:
 			Animator.set_armed(false)
 	
-	if Samus.is_on_wall():
+	if Samus.is_on_wall() and not (Samus.boosting and Samus.shinespark_affected_collision):
 		change_state("neutral")
 		return
 	
@@ -103,7 +103,7 @@ func process(_delta):
 			return
 	
 	if play_transition:
-		animations["legs_turn"].qplay()
+		animations["legs_turn"].play()
 		animations["turn_" + animation].play()
 	elif not Animator.transitioning(false, true):
 		animations[animation].play(true)

@@ -8,22 +8,28 @@ const id = "jump"
 
 # PHYSICS
 const jump_speed = 250
-const jump_acceleration = 125
-const jump_time = 0.275
+const jump_acceleration = 99999
+const jump_time = 0.2
 var jump_current_time = 125
 
 const horiz_speed = 125
 const horiz_acceleration = 10
 
-const spin_horiz_speed = 150
+const spin_horiz_speed = 125
 const spin_horiz_deceleration = 10
 
 var first_frame = false
 var spinning: bool = false
 
+var ledge_above_raycast: RayCast2D
+var ledge_below_raycast: RayCast2D
+
 var walljump_raycasts: Dictionary
 var WalljumpTimer: Timer
 const WalljumpPeriod: float = 0.075
+
+var PowergripCooldownTimer: Timer = Global.timer()
+var powergrip_cooldown: float = 0.25
 
 var animations = {}
 var sounds = {
@@ -39,6 +45,8 @@ func _init(_samus: Node2D):
 	self.Animator = Samus.Animator
 	self.Physics = Samus.Physics
 	
+	self.ledge_above_raycast = Animator.raycasts.get_node("LedgeAbove")
+	self.ledge_below_raycast = Animator.raycasts.get_node("LedgeBelow")
 	self.walljump_raycasts = {
 		Enums.dir.LEFT: Animator.raycasts.get_node("WalljumpLeft"),
 		Enums.dir.RIGHT: Animator.raycasts.get_node("WalljumpRight")
@@ -52,7 +60,13 @@ func _init(_samus: Node2D):
 func init_state(data: Dictionary):
 	var options: Array = data["options"]
 	first_frame = true
-	set_walljumpraycast_state(true)
+	
+	if Samus.previous_state_id == "powergrip":
+		PowergripCooldownTimer.start(powergrip_cooldown)
+	
+	ledge_above_raycast.enabled = true
+	ledge_below_raycast.enabled = true
+	set_walljump_raycasts_state(true)
 	
 	spinning = "spin" in options and Samus.aiming in [Samus.aim.FRONT, Samus.aim.NONE]
 	
@@ -93,6 +107,7 @@ func process(_delta):
 		fire_weapon = true
 		spinning = false
 	
+	
 	if Input.is_action_pressed("aim_weapon"):
 		if Input.is_action_just_pressed("pad_up"):
 			Samus.aiming = Samus.aim.UP
@@ -123,8 +138,17 @@ func process(_delta):
 			else:
 				Samus.aiming = Samus.aim.FLOOR
 				spinning = false
-		elif not Samus.aiming in [Samus.aim.SKY, Samus.aim.FLOOR]:
+		elif (Samus.aiming != Samus.aim.SKY or Input.is_action_just_released("secondary_pad_up")) and (Samus.aiming != Samus.aim.FLOOR or Input.is_action_just_released("secondary_pad_down")):
 			Samus.aiming = Samus.aim.FRONT
+	
+	var shortcut_facing = Shortcut.get_facing()
+	if shortcut_facing != null and shortcut_facing != Samus.facing:
+		Samus.facing = shortcut_facing
+		play_transition = true
+	
+	var shortcut_aiming = Shortcut.get_aiming(Samus)
+	if shortcut_aiming != null:
+		Samus.aiming = shortcut_aiming
 	
 	if not Animator.transitioning():
 		if Input.is_action_pressed("pad_left"):
@@ -179,10 +203,27 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	Audio.stop(sounds["spin"])
 	if new_state_key != "morphball":
 		Samus.boosting = false
-	set_walljumpraycast_state(false)
+	ledge_above_raycast.enabled = false
+	ledge_below_raycast.enabled = false
+	set_walljump_raycasts_state(false)
 	Samus.change_state(new_state_key, data)
 
 func physics_process(delta: float):
+	
+	if Samus.facing == Enums.dir.LEFT:
+		ledge_above_raycast.cast_to = Vector2(-16, 0)
+		ledge_above_raycast.position = Vector2(-2, -20)
+		ledge_below_raycast.position = Vector2(-9, -19)
+	else:
+		ledge_above_raycast.cast_to = Vector2(16, 0)
+		ledge_above_raycast.position = Vector2(12, -20)
+		ledge_below_raycast.position = Vector2(19, -19)
+	
+	if ledge_above_raycast.enabled:
+		if Samus.is_on_wall() and PowergripCooldownTimer.time_left == 0:
+			if !ledge_above_raycast.is_colliding() and ledge_below_raycast.is_colliding():
+				change_state("powergrip", {"point": ledge_below_raycast.get_collision_point()})
+				return
 	
 	# Vertical
 	if (not Samus.is_on_floor() or first_frame) and jump_current_time != 0 and Input.is_action_pressed("jump"):
@@ -193,7 +234,7 @@ func physics_process(delta: float):
 	else:
 		jump_current_time = 0
 	
-	set_walljumpraycast_state(spinning)
+	set_walljump_raycasts_state(spinning)
 	
 	# Horizontal
 	if spinning:
@@ -221,11 +262,11 @@ func physics_process(delta: float):
 					Enums.dir.RIGHT: Physics.vel.x = max(spin_horiz_speed, abs(Physics.vel.x))
 	else:
 		if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
-			Physics.accelerate_x(horiz_acceleration, max(horiz_speed, abs(Physics.vel.x)), Samus.facing)
+			Physics.accelerate_x(horiz_acceleration, horiz_speed, Samus.facing)
 		else:
 			Physics.decelerate_x(horiz_acceleration)
 	first_frame = false
 
-func set_walljumpraycast_state(enabled: bool):
+func set_walljump_raycasts_state(enabled: bool):
 	for raycast in walljump_raycasts.values():
 		raycast.enabled = enabled

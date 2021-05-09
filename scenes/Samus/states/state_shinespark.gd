@@ -34,9 +34,7 @@ func _init(_samus: Node2D):
 	self.Animator = Samus.Animator
 	self.Physics = Samus.Physics
 	
-	self.SpeedboosterRaycasts = Samus.Weapons.get_node("SpeedboosterRaycasts").get_children()
 	self.SpeedboostAnimationPlayer = Animator.get_node("SpeedboostAnimationPlayer")
-	self.SpeedboosterArea = Samus.Weapons.get_node("SpeedboosterArea")
 	
 	self.animations = Animator.load_from_json(self.id)
 
@@ -92,13 +90,13 @@ func init_state(data: Dictionary):
 		if direction == Enums.dir.DOWN:
 			Animator.current[false].sprites[Samus.facing].flip_v = true
 	else:
-		Samus.states["morphball"].animations["roll"].play()
+		animations["roll"].play()
 	
 	moving = true
 	
 # Called every frame while this state is active
 func process(_delta):
-	
+
 	if animation_key:
 		Samus.Collision.set_collider(animations[animation_key])
 	
@@ -129,7 +127,6 @@ func process(_delta):
 	
 	if stop_shinespark:
 		
-		#func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration: float, shake_frequency: float = 0.05):
 		Global.shake(Samus.camera, Vector2(0, 0), 7, 0.25)
 		
 		Physics.vel = Vector2.ZERO
@@ -140,7 +137,7 @@ func process(_delta):
 		
 		Animator.resume()
 		Physics.apply_gravity = true
-
+		
 		if not ballspark:
 			if direction == Enums.dir.DOWN:
 				Animator.current[false].sprites[Samus.facing].flip_v = false
@@ -153,38 +150,14 @@ func process(_delta):
 func change_state(new_state_key: String, data: Dictionary = {}):
 	Samus.change_state(new_state_key, data)
 
-func physics_process(delta: float):
-	pass
+func physics_process(_delta: float):
+	return
 
-func speedbooster_process(delta: float):
+func speedbooster_process(_delta: float):
 	
 	if Samus.boosting:
-		var frames: SpriteFrames = Animator.current[false].sprites[Samus.facing].frames
-		var texture: Texture = frames.get_frame( Animator.current[false].sprites[Samus.facing].animation, 0)
-		
-		SpeedboosterArea.get_child(0).shape.extents = (texture.get_size() / 2) + Vector2(20, 5)
-		SpeedboosterArea.rotation = Samus.Physics.vel.angle()
-		SpeedboosterArea.global_position = Animator.current[false].sprites[Samus.facing].global_position
 		if Samus.current_state.id == "run":
 			ShinesparkStoreWindow.start(shinespark_store_window)
-	
-#	for raycast in SpeedboosterRaycasts:
-#		if raycast != SpeedboosterRaycasts[2]:
-#			raycast.enabled = Samus.boosting and not (ballspark or Samus.current_state.id == "morphball")
-#		else:
-#			raycast.enabled = Samus.boosting
-#		var collider = raycast.get_collider()
-#		if collider:
-#			if collider.has_method("damage"):
-#				collider.damage(damage_type, damage_amount)
-	
-	if Samus.boosting:
-		SpeedboosterArea.monitoring = true
-		for body in SpeedboosterArea.get_overlapping_bodies():
-			if body.has_method("damage"):
-				body.damage(damage_type, damage_amount)
-	else:
-		SpeedboosterArea.monitoring = false
 
 	if Samus.boosting or Samus.shinespark_charged:
 		SpeedboostAnimationPlayer.play("speedboost")

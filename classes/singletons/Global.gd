@@ -1,7 +1,6 @@
 extends Node
 
 signal process_frame
-#signal physics_frame
 
 var timers = {}
 var hold_actions = {}
@@ -18,6 +17,7 @@ func _ready():
 	self.add_child(Timers)
 	self.add_child(Anchor)
 	Anchor.name = "Anchor"
+	Anchor.pause_mode = Node.PAUSE_MODE_STOP
 
 func _process(delta):
 	emit_signal("process_frame")
@@ -26,8 +26,10 @@ func _process(delta):
 			hold_actions[action] += delta
 		else:
 			hold_actions[action] = 0
+	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
+
 
 func _physics_process(_delta):
 	emit_signal("process_frame")
@@ -41,6 +43,7 @@ func start_timer(timer_id: String, seconds: float, data: Dictionary = {}, connec
 	var timer = Timer.new()
 	self.add_child(timer)
 	timer.one_shot = true
+	timer.pause_mode = Node.PAUSE_MODE_STOP
 	timers[timer_id] = [timer, data]
 	if connect != null:
 		timer.connect("timeout", connect[0], connect[1], [timer_id])
@@ -55,11 +58,13 @@ func timer(connect = null):
 	timer.one_shot = true
 	if connect != null:
 		timer.connect("timeout", connect[0], connect[1], connect[2])
+	timer.pause_mode = Node.PAUSE_MODE_STOP
 	return timer
 
 func wait(seconds: float):
 	var timer = Timer.new()
 	Timers.add_child(timer)
+	timer.pause_mode = Node.PAUSE_MODE_STOP
 	timer.start(seconds)
 	yield(timer, "timeout")
 	timer.queue_free()
@@ -110,6 +115,7 @@ func get_anchor(anchor_path: String) -> Node2D:
 			parent.add_child(node)
 			parent = node
 	
+	parent.pause_mode = Node.PAUSE_MODE_STOP
 	return parent
 
 func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration: float, shake_frequency: float = 0.05):
@@ -148,3 +154,8 @@ func save_json(path: String, data, pretty: bool = true):
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
 
 	f.close()
+
+func reparent_child(child: Node, new_parent: Node):
+	if child.get_parent():
+		child.get_parent().remove_child(child)
+	new_parent.add_child(child)

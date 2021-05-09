@@ -15,14 +15,14 @@ animations = [ {
 "name": "save",
 "speed": 0.0
 }, {
-"frames": [ ExtResource( 1 ) ],
-"loop": false,
-"name": "unobtained_item",
-"speed": 0.0
-}, {
 "frames": [ ExtResource( 5 ) ],
 "loop": false,
 "name": "obtained_item",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": false,
+"name": "unobtained_item",
 "speed": 0.0
 } ]
 
@@ -56,15 +56,16 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="MapTile" type="ColorRect"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -1912.0
-margin_bottom = -1072.0
-rect_min_size = Vector2( 8, 8 )
-rect_pivot_offset = Vector2( 4, 4 )
-color = Color( 0.0980392, 0.447059, 0.0392157, 1 )
+[node name="MapTile" type="Node2D"]
 script = ExtResource( 6 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = -4.0
+margin_top = -4.0
+margin_right = 4.0
+margin_bottom = 4.0
+rect_min_size = Vector2( 8, 8 )
+color = Color( 0.121569, 0.552941, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -72,21 +73,17 @@ __meta__ = {
 [node name="Lines" type="Node2D" parent="."]
 
 [node name="Wall" type="Sprite" parent="Lines"]
-position = Vector2( 4, 4 )
 texture = ExtResource( 3 )
 
 [node name="Door" type="Sprite" parent="Lines"]
-position = Vector2( 4, 4 )
 texture = ExtResource( 2 )
 
 [node name="Icon" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "unobtained_item"
-offset = Vector2( 4, 4 )
 
 [node name="CurrentTileOverlay" type="Sprite" parent="."]
 visible = false
-position = Vector2( 4, 4 )
 texture = ExtResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

@@ -1,7 +1,7 @@
 extends Node2D
 class_name Door
 
-export var target_room_path: String
+export(String, FILE) var target_room_path: String
 export var id: String
 export var target_id: String
 enum DOOR_COLOURS {blue, red, green, yellow}
@@ -28,7 +28,7 @@ func _ready():
 		DOOR_COLOURS.yellow: _destructive_damage_types = [Enums.DamageType.POWERBOMB]
 		
 
-func damage(damage_type: int, damage_amount: int):
+func damage(damage_type: int, _damage_amount: int):
 	if locked:
 		return
 	

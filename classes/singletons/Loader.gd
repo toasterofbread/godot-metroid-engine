@@ -47,7 +47,7 @@ func transition(origin_door: Door):
 	
 	# Move Samus to new loaded room and reposition her
 	var samus_position = Samus.global_position
-	reparent_child(Samus, room)
+	Global.reparent_child(Samus, room)
 	Samus.global_position = samus_position# + Vector2(-50, 0).rotated(deg2rad(origin_door.rotation_degrees))
 	yield(Global.wait(0.1), "completed")
 	Samus.paused = false
@@ -58,9 +58,3 @@ func transition(origin_door: Door):
 	
 	yield(Global.wait(1.0), "completed")
 	destination_door.close()
-	
-
-func reparent_child(child: Node, new_parent: Node):
-	if child.get_parent():
-		child.get_parent().remove_child(child)
-	new_parent.add_child(child)
