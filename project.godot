@@ -82,11 +82,11 @@ config/icon="res://icon.png"
 
 Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
-Groups="*res://classes/singletons/Groups.gd"
 Settings="*res://classes/singletons/Settings.gd"
 Audio="*res://classes/singletons/Audio.gd"
 Loader="*res://classes/singletons/Loader.gd"
 Map="*res://classes/singletons/Map.gd"
+Shortcut="*res://classes/singletons/Shortcut.gd"
 
 [display]
 
@@ -227,6 +227,26 @@ pause={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+secondary_pad_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
+ ]
+}
+secondary_pad_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
+ ]
+}
+secondary_pad_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
+ ]
+}
+secondary_pad_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
+ ]
+}
 
 [layer_names]
 
@@ -238,4 +258,7 @@ pause={
 
 [rendering]
 
+quality/intended_usage/framebuffer_allocation=1
+quality/intended_usage/framebuffer_allocation.mobile=1
 environment/default_environment="res://default_env.tres"
+quality/dynamic_fonts/use_oversampling=false

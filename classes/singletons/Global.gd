@@ -1,7 +1,6 @@
 extends Node
 
 signal process_frame
-#signal physics_frame
 
 var timers = {}
 var hold_actions = {}
@@ -27,8 +26,10 @@ func _process(delta):
 			hold_actions[action] += delta
 		else:
 			hold_actions[action] = 0
+	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
+
 
 func _physics_process(_delta):
 	emit_signal("process_frame")
@@ -153,3 +154,8 @@ func save_json(path: String, data, pretty: bool = true):
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
 
 	f.close()
+
+func reparent_child(child: Node, new_parent: Node):
+	if child.get_parent():
+		child.get_parent().remove_child(child)
+	new_parent.add_child(child)

@@ -34,7 +34,9 @@ onready var states = {
 	"crouch": preload("res://scenes/Samus/states/state_crouch.gd").new(self),
 	"morphball": preload("res://scenes/Samus/states/state_morphball.gd").new(self),
 	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self),
+	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self)
 }
+var previous_state_id: String
 onready var current_state: Node = states["neutral"]
 var state_change_record = [["", 0]]
 
@@ -86,11 +88,12 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 		if states["shinespark"].ShinesparkStoreWindow.time_left > 0 or boosting:
 			states["shinespark"].charge_shinespark()
 	
+	previous_state_id = current_state.id
 	state_change_record = [[new_state_key, Global.time()]] + state_change_record
 	current_state = states[new_state_key]
 	states[new_state_key].init_state(data)
 
-func is_upgrade_active(upgrade_key: String):
+func is_upgrade_active(_upgrade_key: String):
 	return true
 
 func set_aiming(value: int):
@@ -113,3 +116,6 @@ func damage(amount: int):
 	
 	if energy == 0:
 		_death()
+
+func shift_position(by_amount: Vector2):
+	self.global_position += by_amount

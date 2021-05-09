@@ -38,7 +38,6 @@ class Projectile extends KinematicBody2D:
 		for node in Weapon.BaseProjectile.get_children():
 			self.add_child(node.duplicate())
 		
-		add_to_group(Groups.damages_world, true)
 		damage_type = Weapon.damage_type
 		
 		self.Burst = self.get_node("Burst")
@@ -135,14 +134,13 @@ class Projectile extends KinematicBody2D:
 			if collision:
 				if collision.collider.has_method("damage"):
 					collision.collider.damage(Weapon.damage_type, Weapon.damage_amount)
-				if collision.collider.is_in_group(Groups.immune_to_projectiles) and not falling and Weapon.falls_to_ground:
-					velocity = velocity.bounce(collision.normal) / 2
-					velocity = velocity.rotated(deg2rad(Weapon.Samus.rng.randf_range(-10, 10)))
-					self.rotation = self.velocity.angle()
-					self.fall_to_ground()
-				else:
-					Weapon.projectile_collided(self)
-					self.burst_end()
+#				if collision.collider.is_in_group(Groups.immune_to_projectiles) and not falling and Weapon.falls_to_ground:
+#					velocity = velocity.bounce(collision.normal) / 2
+#					velocity = velocity.rotated(deg2rad(Weapon.Samus.rng.randf_range(-10, 10)))
+#					self.rotation = self.velocity.angle()
+#					self.fall_to_ground()
+				Weapon.projectile_collided(self)
+				self.burst_end()
 	
 	
 	func kill():

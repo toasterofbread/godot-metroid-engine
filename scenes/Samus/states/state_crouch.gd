@@ -16,15 +16,12 @@ func _init(_samus: Node2D):
 	self.Animator = Samus.Animator
 	self.Physics = Samus.Physics
 	
-	self.CeilingRaycast = Animator.raycasts.get_node("Ceiling")
+	self.CeilingRaycast = Animator.raycasts.get_node("CrouchCeiling")
 	
 	animations = Animator.load_from_json(self.id)
 
 # Called when Samus's state is changed to this one
 func init_state(_data: Dictionary):
-	
-	CeilingRaycast.position = Vector2(4, -8)
-	CeilingRaycast.cast_to = Vector2(0, -11)
 	CeilingRaycast.enabled = true
 	return self
 

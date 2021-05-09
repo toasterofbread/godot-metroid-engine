@@ -1,7 +1,7 @@
 extends SamusWeapon
 
-const bomb_detonation_time: float = 0.5
-const bomb_bounce_amount: float = 400.0
+const bomb_detonation_time: float = 0.6
+const bomb_bounce_amount: float = 325.0
 const bomb_horiz_bounce_amount: float = 200.0
 const samus_aerial_damage: int = 10
 

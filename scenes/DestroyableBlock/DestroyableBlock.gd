@@ -38,7 +38,7 @@ func _ready():
 	
 	$AnimatedSprite.play(sprite_name)
 
-func damage(type: int, value: float):
+func damage(type: int, _value: float):
 	if type in destructive_damage_types:
 		_destroy()
 

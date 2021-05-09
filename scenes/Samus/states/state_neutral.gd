@@ -59,9 +59,25 @@ func process(_delta):
 		fire_weapon = true
 		reset_idle_timer = true
 		Samus.aim_none_timer.start()
-		
-	if not Animator.transitioning():
+	elif Input.is_action_just_pressed("pause"):
+		reset_idle_timer = true
+		Animator.Player.play("neutral_open_map_left")
 	
+	var shortcut_facing = Shortcut.get_facing()
+	if shortcut_facing != null and shortcut_facing != Samus.facing:
+		Samus.facing = shortcut_facing
+		play_transition = true
+		reset_idle_timer = true
+	
+	var shortcut_aiming = Shortcut.get_aiming(Samus)
+	if shortcut_aiming != null and shortcut_aiming != Samus.aiming:
+		if shortcut_aiming == Samus.aim.FLOOR:
+			shortcut_aiming = Samus.aim.DOWN
+		Samus.aiming = shortcut_aiming
+		reset_idle_timer = true
+	
+	if not Animator.transitioning():
+		
 		if Input.is_action_pressed("pad_left"):
 			Samus.facing = Enums.dir.LEFT
 			if original_facing == Enums.dir.RIGHT:
@@ -100,7 +116,7 @@ func process(_delta):
 	elif Input.is_action_just_pressed("pad_down"):
 		change_state("crouch")
 		return
-	else:
+	elif shortcut_aiming == null:
 		if Samus.aim_none_timer.time_left == 0:
 			Samus.aiming = Samus.aim.NONE
 		else:

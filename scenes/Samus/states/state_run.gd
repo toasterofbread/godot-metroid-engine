@@ -14,7 +14,7 @@ const run_acceleration = 15
 const run_deceleration = 50
 const max_run_speed = 170
 
-const boost_acceleration = 100
+const boost_acceleration = 15
 const boost_deceleration = 50
 const max_boost_speed = 500
 

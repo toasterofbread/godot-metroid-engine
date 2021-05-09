@@ -10,7 +10,6 @@ const minimap_scale = Vector2(1, 1)
 var focus_position = Vector2.ZERO setget set_focus_position
 
 func _ready():
-	self.add_child(tween)
 	self.rect_size = minimap_size
 	self.rect_position = minimap_position
 
@@ -22,5 +21,5 @@ func reset_minimap_properties():
 func set_focus_position(position: Vector2, instant: bool = false):
 	focus_position = position
 	tween.stop_all()
-	tween.interpolate_property(Tiles, "position", Tiles.position, -position, 0 if instant else 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN)
+	tween.interpolate_property(Tiles, "position", Tiles.position, -position, 0.0 if instant else 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()

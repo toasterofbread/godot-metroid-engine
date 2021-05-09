@@ -19,7 +19,7 @@ func get_tile(tile_position: Vector2):
 	var y = str(tile_position.y)
 	return tiles[x][y]
 
-func _process(delta):
+func _process(_delta):
 	for chunk in chunks_to_load:
 		chunk.generate_tile_data()
 		chunks_to_load.erase(chunk)

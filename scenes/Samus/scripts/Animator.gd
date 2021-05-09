@@ -1,7 +1,9 @@
 extends Node2D
 
 onready var Samus: Node2D = get_parent()
+onready var Player: AnimationPlayer = $AnimationPlayer
 const data_json_path = "res://scenes/Samus/animations/data.json"
+
 
 onready var sprites = {
 	false: { # Main

@@ -19,6 +19,7 @@ script = ExtResource( 4 )
 type = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 8, 8 )
 shape = SubResource( 1 )
 
@@ -53,6 +54,7 @@ monitorable = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SamusCheckArea"]
+visible = false
 shape = SubResource( 2 )
 
 [node name="CrumbleArea" type="Area2D" parent="."]
@@ -60,6 +62,7 @@ monitorable = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CrumbleArea"]
+visible = false
 position = Vector2( 8, -0.5 )
 shape = SubResource( 3 )
 

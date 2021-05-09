@@ -18,7 +18,7 @@ var spiderball_active = false
 # PHYSICS
 const roll_ground_acceleration = 25
 const roll_ground_deceleration = 50
-const roll_ground_speed = 200
+const roll_ground_speed = 225
 
 const roll_air_acceleration = 25
 const roll_air_deceleration = 50
@@ -37,7 +37,7 @@ func _init(_samus: Node2D):
 	self.Animator = Samus.Animator
 	self.Physics = Samus.Physics
 	
-	self.CeilingRaycast = Animator.raycasts.get_node("Ceiling")
+	self.CeilingRaycast = Animator.raycasts.get_node("MorphballCeiling")
 	self.particles = Samus.get_node("Particles/morphball")
 	particles.emitting = false
 	
@@ -50,8 +50,6 @@ func init_state(data: Dictionary):
 		animations["morph"].play()
 	Samus.aiming = Samus.aim.NONE
 	spiderball_active = false
-	CeilingRaycast.cast_to = Vector2(0, -11)
-	CeilingRaycast.position = Vector2(2, 3)
 	CeilingRaycast.enabled = true
 	return self
 
@@ -100,7 +98,7 @@ func process(_delta):
 		else:
 			animations["roll"].play(true, false, true)
 
-		if not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")) and "roll" in Animator.current[false].id:
+		if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id:
 			Animator.pause()
 	
 	if fire_weapon:

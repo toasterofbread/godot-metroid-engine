@@ -13,9 +13,10 @@ func _ready():
 	$CanvasLayer/MenuBG.visible = false
 
 func pause():
-	if get_tree().paused:
-		return
 	get_tree().paused = true
+
+func open_menu():
+	
 	transitioning = true
 	
 	$AnimationPlayer.play("open_menu", -1, 1/menu_open_duration)
@@ -52,23 +53,18 @@ func resume():
 	$CanvasLayer.remove_child(Map.Grid)
 	map_grid_parent.add_child(Map.Grid)
 	Map.Grid.reset_minimap_properties()
-	Map.Grid.set_focus_position(Map.current_tile.position, true)
+#	Map.Grid.set_focus_position(Map.current_tile.position, true)
 
 	transitioning = false
 
 func _process(delta):
 	
-	if transitioning:
+	if not get_tree().paused or transitioning:
 		return
 	
 	if Input.is_action_just_pressed("pause"):
-		if get_tree().paused:
-			resume()
-		else:
-			pause()
+		resume()
 	
-	if not get_tree().paused:
-		return
 	
 	if Input.is_action_pressed("pad_left"):
 		map_move_velocity.x = min(map_move_speed, map_move_velocity.x + map_move_acceleration)
