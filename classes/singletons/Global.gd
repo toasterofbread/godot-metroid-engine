@@ -38,6 +38,18 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
+	elif Input.is_action_just_pressed("take_screenshot"):
+		
+		var dir = Directory.new()
+		dir.open("res://")
+		if not dir.dir_exists("screenshots"):
+			dir.make_dir("screenshots")
+		
+		var image = get_viewport().get_texture().get_data()
+		image.flip_y()
+		var date = OS.get_datetime()
+		image.save_png("res://screenshots/" + str(date["year"]) + "-" + str(date["month"]) + "-" + str(date["day"]) + "_" + str(date["hour"]) + "." + str(date["minute"]) + "." + str(date["second"]) + ".png")
+
 
 
 func _physics_process(_delta):

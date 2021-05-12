@@ -3,9 +3,9 @@ extends StaticBody2D
 class_name DestroyableBlock
 
 export(Enums.DamageType) var type = Enums.DamageType.BEAM setget set_type
-export var sandy: bool = false
 export var respawn_time: float = 2.5
-onready var RespawnTimer: Timer = Global.timer([self, "_reappear", []])
+export var overlay: Texture setget set_overlay
+var RespawnTimer: Timer
 onready var default_collision_layer = self.collision_layer
 onready var destructive_damage_types: Array = Enums.DamageType.values()
 onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
@@ -17,18 +17,24 @@ func set_type(value: int):
 		$AnimatedSprite.play(Enums.DamageType.keys()[value].to_lower())
 	type = value
 
+func set_overlay(value: Texture):
+	if value != null:
+		$Overlay.texture = value
+	overlay = value
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	$AnimationPlayer.play("fade")
 	
 	if Engine.is_editor_hint():
 		return
 	
-	if sandy:
-		if type == Enums.DamageType.BEAM:
-			sprite_name = "sand"
-		else:
-			push_warning("DestroyableBlock is not set to BEAM even though sandy is enabled")
-	
+	set_overlay(overlay)
+	$AnimationPlayer.queue_free()
+	$Overlay.modulate.a = 1
+	RespawnTimer = Global.timer([self, "_reappear", []])
+
 	if type == Enums.DamageType.CRUMBLE:
 		respawn_time = 0.5
 		$WeaponCollisionArea.queue_free()
@@ -60,6 +66,7 @@ func body_entered_area(body):
 		self._destroy()
 
 func _destroy(time: float = respawn_time):
+	$Overlay.visible = false
 	if type == Enums.DamageType.CRUMBLE:
 		$CrumbleArea/CollisionShape2D.set_deferred("disabled", true)
 	else:

@@ -42,6 +42,10 @@ func process(_delta):
 		else:
 			Animator.set_armed(false)
 	
+	var visor = Samus.Weapons.cycle_visor()
+	if visor:
+		change_state(visor)
+	
 	if Samus.is_on_wall():
 		change_state("neutral")
 		return

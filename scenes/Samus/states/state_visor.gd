@@ -129,8 +129,12 @@ func angle_process():
 		if not Input.is_action_pressed("fire_weapon"):
 			disable()
 			return
-		else:
+		elif not enabled:
 			enable()
+			if Samus.facing == Enums.dir.LEFT:
+				angle = -90
+			else:
+				angle = 90
 		
 		var pad_y = Shortcut.get_pad_vector("pressed").y
 		if pad_y != 0:
@@ -138,14 +142,15 @@ func angle_process():
 		
 	else:
 		var joystick_vector: Vector2 = Shortcut.get_joystick_vector("analog_visor")
+		joystick_vector.y *= -1
 		if joystick_vector == Vector2.ZERO:
 			disable()
 			return
-		else:
+		elif not enabled:
 			enable()
+			angle = rad2deg(joystick_vector.angle()) - 90
 		
-		joystick_vector.y *= -1
-		angle = rad2deg(joystick_vector.angle()) - 90
+		angle = rad2deg(lerp_angle(deg2rad(angle), joystick_vector.angle() - deg2rad(90), angle_move_speed/35))
 		
 		var angle_vector = Vector2(0, -1).rotated(deg2rad(angle))
 		if angle_vector.x < 0:
@@ -162,7 +167,6 @@ func turn(direction: int):
 func enable():
 	if enabled:
 		return
-	angle = 90
 	enabled = true
 	visor.get_node("AnimationPlayer").play("enable_scanner")
 

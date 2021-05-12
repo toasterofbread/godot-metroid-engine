@@ -313,15 +313,22 @@ analog_visor_down={
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":1.0,"script":null)
  ]
 }
+take_screenshot={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777245,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":9,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
 
 [layer_names]
 
-2d_physics/layer_1="SamusHurt"
-2d_physics/layer_2="SamusHit"
-2d_physics/layer_3="EnemyHurt"
-2d_physics/layer_4="EnemyHit"
-2d_physics/layer_18="DynamicPickup"
-2d_physics/layer_19="StaticPickup"
+2d_physics/layer_1="Samus hutboxes"
+2d_render/layer_2="Hidden by X-Ray scope"
+2d_physics/layer_2="Samus hitboxes"
+2d_physics/layer_3="Enemy hurtboxes"
+2d_physics/layer_4="Enemy hitboxes"
+2d_physics/layer_18="Dynamic pickups"
+2d_physics/layer_19="Static pickups"
 2d_physics/layer_20="World"
 
 [rendering]

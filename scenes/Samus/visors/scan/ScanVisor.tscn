@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/Samus/visors/scan/ScanVisor.gd" type="Script" id=1]
+[ext_resource path="res://sprites/samus/visors/mask.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "disable_scanner"
-length = 0.5
+length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Scanner:scale")
 tracks/0/interp = 1
@@ -12,10 +13,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1, 0 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1e-05 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Scanner:visible")
@@ -24,14 +25,27 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.5 ),
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scanner:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
 }
 
 [sub_resource type="Animation" id=2]
-length = 0.5
+length = 0.25
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("Scanner:scale")
 tracks/0/interp = 1
@@ -39,10 +53,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0.05, 0.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 1e-05 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Scanner:visible")
@@ -51,7 +65,19 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scanner:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.05 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
@@ -62,16 +88,21 @@ z_index = 999
 z_as_relative = false
 script = ExtResource( 1 )
 
-[node name="Scanner" type="Polygon2D" parent="."]
-visible = false
-color = Color( 0.753906, 1, 0.994232, 0.203922 )
-polygon = PoolVector2Array( 0, 0, 208, 48, 208, -48 )
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/disable_scanner = SubResource( 1 )
 anims/enable_scanner = SubResource( 2 )
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.05
+[node name="Scanner" type="Light2D" parent="."]
+visible = false
+scale = Vector2( 1, 1e-05 )
+enabled = false
+texture = ExtResource( 3 )
+offset = Vector2( 104, 0 )
+texture_scale = 0.2
+mode = 3
+range_item_cull_mask = 2
 
-[connection signal="timeout" from="Timer" to="." method="spawn_ghost"]
+[node name="Overlay" type="Polygon2D" parent="Scanner"]
+light_mask = 0
+color = Color( 0, 1, 0.0862745, 0.133333 )
+polygon = PoolVector2Array( 0, 0, 208, 48, 208, -48 )

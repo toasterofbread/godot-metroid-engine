@@ -1,6 +1,7 @@
 
 # Godot-specific ignores
 .import/
+screenshots/
 addons/
 build/
 export.cfg
