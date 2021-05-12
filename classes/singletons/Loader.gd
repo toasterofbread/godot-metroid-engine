@@ -5,7 +5,7 @@ signal room_loaded
 var current_room: Room
 var Samus: KinematicBody2D = preload("res://scenes/Samus/Samus.tscn").instance()
 var room_container: Node2D = self
-
+var Save: SaveGame = SaveGame.new(SaveGame.debug_save_path)
 var transitioning: bool = false
 
 func add_samus():
@@ -16,8 +16,8 @@ func add_samus():
 		Samus.global_position = Vector2(-256, -240)
 
 func load_room(room: Room):
-	room_container.add_child(room)
 	current_room = room
+	room_container.add_child(room)
 	room.add_child(Samus)
 	
 	var samus_spawn_position: Vector2

@@ -50,12 +50,18 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 func process(_delta):
 	
+	if climbing:
+		return
+	
 	var original_aiming = Samus.aiming
 	
 	if Settings.get("controls/zm_style_aiming"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("morph_shortcut"):
+		change_state("morphball", {"options": ["animate"]})
+		return
+	elif Input.is_action_just_pressed("jump"):
 		if Input.is_action_pressed(direction[true]): 
 			climbing = true
 			if Samus.facing == Enums.dir.LEFT:
@@ -137,6 +143,14 @@ func process(_delta):
 	else:
 		if Samus.aiming == Samus.aim.UP or Samus.aiming == Samus.aim.DOWN:
 			Samus.aiming = Samus.aim.FRONT
+	
+	# Aim shortcut
+	if not Input.is_action_pressed("secondary_" + direction[true]):
+		var new_aiming = Shortcut.get_aiming(Samus, true)
+		if new_aiming != null:
+			Samus.aiming = new_aiming
+		elif Input.is_action_just_released("secondary_" + direction[false]) or Input.is_action_just_released("secondary_pad_down") or Input.is_action_just_released("secondary_pad_up"):
+			Samus.aiming = Samus.aim.NONE
 	
 	if (original_aiming == Samus.aim.NONE or Samus.aiming == Samus.aim.NONE) and original_aiming != Samus.aiming:
 		animations["turn"].play()

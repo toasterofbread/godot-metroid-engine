@@ -1,16 +1,25 @@
 extends Node
 
 signal process_frame
+signal physics_frame
 
 var timers = {}
 var hold_actions = {}
 onready var Timers = Node2D.new()
 onready var Anchor = Node2D.new()
 
+onready var DimLayer: CanvasLayer = CanvasLayer.new()
+onready var DimRect: ColorRect = ColorRect.new()
 onready var RNG = RandomNumberGenerator.new()
 
 func _ready():
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
+	
+	self.add_child(DimLayer)
+	DimLayer.add_child(DimRect)
+	DimRect.visible = false
+	DimRect.rect_size = Vector2(1920, 1080)
+	DimRect.color = Color.black
 	
 	RNG.randomize()
 	Timers.name = "Timers"
@@ -32,7 +41,7 @@ func _process(delta):
 
 
 func _physics_process(_delta):
-	emit_signal("process_frame")
+	emit_signal("physics_frame")
 
 func random_array_item(rng: RandomNumberGenerator, array: Array):
 	return array[rng.randi_range(0, len(array) - 1)]
@@ -143,19 +152,62 @@ func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration:
 # Load JSON file at the specified path and returns data as dict
 func load_json(path: String):
 	var f = File.new()
+	if not f.file_exists(path):
+		return null
 	f.open(path, File.READ)
 	var data = f.get_as_text()
 	f.close()
 	return JSON.parse(data).result
 
-func save_json(path: String, data, pretty: bool = true):
+func save_json(path: String, data, pretty: bool = false):
 	var f = File.new()
 	f.open(path, File.WRITE)
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
-
 	f.close()
 
 func reparent_child(child: Node, new_parent: Node):
 	if child.get_parent():
 		child.get_parent().remove_child(child)
 	new_parent.add_child(child)
+
+func array2vector(array: Array) -> Vector2:
+	return Vector2(array[0], array[1])
+
+func vector2array(vector: Vector2) -> Array:
+	return [vector.x, vector.y]
+
+func text_fade_in(label: RichTextLabel, time: float):
+	var tween: Tween = Tween.new()
+	self.add_child(tween)
+	tween.interpolate_property(label, "percent_visible", 0, 1, time)
+	tween.start()
+	yield(tween, "tween_all_completed")
+	tween.queue_free()
+	
+func text_fade_out(label: RichTextLabel, time: float):
+	var tween: Tween = Tween.new()
+	self.add_child(tween)
+	tween.interpolate_property(label, "percent_visible", label.percent_visible, 0, time)
+	tween.start()
+	yield(tween, "tween_all_completed")
+	tween.queue_free()
+	label.visible = false
+
+func dim_screen(percent_opacity: float, duration: float, layer: int):
+	var tween: Tween = Tween.new()
+	self.add_child(tween)
+	DimLayer.layer = layer
+	tween.interpolate_property(DimRect, "color:a", 0, percent_opacity, duration)
+	tween.start()
+	DimRect.visible = true
+	yield(tween, "tween_all_completed")
+	tween.queue_free()
+
+func undim_screen(duration: float):
+	var tween: Tween = Tween.new()
+	self.add_child(tween)
+	tween.interpolate_property(DimRect, "color:a", DimRect.color.a, 0, duration)
+	tween.start()
+	yield(tween, "tween_all_completed")
+	DimRect.visible = false
+	tween.queue_free()

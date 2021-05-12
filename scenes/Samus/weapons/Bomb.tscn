@@ -55,10 +55,9 @@ script = ExtResource( 1 )
 id = "bomb"
 damage_type = 2
 cooldown = 0.2
-move_by_velocity = false
-amount = -1
 is_morph_weapon = true
 is_base_weapon = true
+unlimited_ammo = true
 
 [node name="Projectile" type="Area2D" parent="."]
 position = Vector2( 43, 2 )
@@ -71,7 +70,7 @@ collision_mask = 524293
 z_index = 4096
 z_as_relative = false
 frames = SubResource( 1 )
-frame = 7
+frame = 6
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]

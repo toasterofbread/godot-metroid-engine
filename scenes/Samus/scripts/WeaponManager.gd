@@ -1,7 +1,10 @@
 extends Node2D
 
+signal scan_status_changed
+
 onready var Samus: KinematicBody2D = get_parent()
 onready var CannonPositions = $CannonPositions
+onready var VisorPositions = $VisorPositions
 
 var added_weapons = {
 	true: [], # Morphball weapons
@@ -15,7 +18,6 @@ var current_weapon = [
 	0, # Current weapon selection index
 	false # Whether the current selection is a morphball weapon
 ]
-
 var all_weapons = {
 	"beam": preload("res://scenes/Samus/weapons/Beam.tscn").instance(),
 	"missile": preload("res://scenes/Samus/weapons/Missile.tscn").instance(),
@@ -23,9 +25,10 @@ var all_weapons = {
 	"bomb": preload("res://scenes/Samus/weapons/Bomb.tscn").instance()
 }
 
-func _ready():
-	for weapon in all_weapons.values():
-		weapon.Samus = Samus
+var current_visor = null
+onready var visors = {
+	Enums.Visor.SCAN: $Visors/ScanVisor
+}
 
 func _process(_delta):
 	
@@ -45,16 +48,35 @@ func _process(_delta):
 		return
 	update_weapon_icons()
 
+func cycle_visor():
+	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/select_visor_shortcut") or Input.is_action_pressed("shortcut")):
+		var checking = current_visor == null
+		var set = false
+		for visor in Enums.Visor.values():
+			if visor == current_visor:
+				checking = true
+			elif checking and Samus.is_upgrade_active(Enums.Visor.keys()[visor].to_lower()):
+				current_visor = visor
+				set = true
+				break
+		if not set:
+			current_visor = null
+		Samus.HUD.display_visor(current_visor)
+	if current_visor != null:
+		return "visor"
+	else:
+		return false
+
 func all_equipped_weapons() -> Array:
 	return added_weapons[false] + added_weapons[true]
 
 func update_weapon_icons():
 	for weapon in all_equipped_weapons():
 		if weapon.Icon:
-			weapon.Icon.update_icon(all_equipped_weapons()[current_weapon[0]] if current_weapon[0] >= 0 else null, Samus.armed)	
+			var selected_weapon = all_equipped_weapons()[current_weapon[0]] if current_weapon[0] >= 0 else null
+			weapon.Icon.update_icon(selected_weapon, Samus.armed)	
 
 func fire():
-	
 	if Settings.get("controls/zm_style_aiming"):
 		if Samus.armed:
 			if len(added_weapons[current_weapon[1]]) > current_weapon[0]:
@@ -86,6 +108,7 @@ func add_weapon(weapon_key: String):
 		for w in all_weapons.values():
 			if w in temp:
 				added_weapons[weapon.is_morph_weapon].append(w)
+	return weapon
 
 func remove_weapon(weapon_key: String, is_morph_weapon: bool):
 	added_weapons[is_morph_weapon].remove(all_weapons[weapon_key])

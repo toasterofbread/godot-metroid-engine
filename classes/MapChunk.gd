@@ -1,7 +1,8 @@
-extends Control
+tool
+extends CollisionShape2D
 class_name MapChunk
 
-export var map_grid_position: Vector2
+export var grid_position: Vector2
 export(MapTile.icons) var icon = MapTile.icons.none
 export(MapTile.colours) var colour = MapTile.colours.blue
 export(MapTile.wall_types) var left_wall = MapTile.wall_types.none
@@ -9,35 +10,37 @@ export(MapTile.wall_types) var right_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var top_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var bottom_wall = MapTile.wall_types.none
 
-onready var CollisionArea: Area2D = Area2D.new()
-onready var CollisionBox: CollisionShape2D = CollisionShape2D.new()
-
+var area: Area2D
 var tile: MapTile
 
 func _ready():
 	
-	Map.chunks_to_load.append(self)
 	
-	self.add_child(CollisionArea)
-	CollisionArea.add_child(CollisionBox)
-	CollisionBox.shape = RectangleShape2D.new()
-	CollisionBox.shape.extents = self.rect_size / 2
-	CollisionBox.position = self.rect_size / 2
-	CollisionBox.modulate = Color("00ff87")
-	CollisionBox.z_as_relative = false
-	CollisionBox.z_index = -100
+	if Engine.is_editor_hint():
+		self.shape = RectangleShape2D.new()
+		self.shape.extents = Vector2(256, 256)
+		self.modulate = Color("00ff87")
+		return
 	
-	CollisionArea.connect("body_entered", Map, "samus_entered_chunk", [self])
+	generate_tile_data()
+	yield(get_parent(), "ready")
+	
+	area = Area2D.new()
+	self.get_parent().add_child(area)
+	Global.reparent_child(self, area)
+	
+	
+	area.connect("body_entered", Map, "samus_entered_chunk", [self])
 	
 	if not Map.tiles:
 		yield(Map, "tiles_loaded")
-	tile = Map.get_tile(map_grid_position)
+	tile = Map.get_tile(grid_position)
 
 func generate_tile_data():
 	var data: Dictionary = Global.load_json(Map.tile_data_path)
 	
-	var x = str(map_grid_position.x)
-	var y = str(map_grid_position.y)
+	var x = str(grid_position.x)
+	var y = str(grid_position.y)
 	
 	if not x in data:
 		data[x] = {}

@@ -17,6 +17,13 @@ var locked: bool = false
 onready var target_spawn_position: Position2D = $TargetSpawnPosition
 var _destructive_damage_types: Array = Enums.DamageType.values()
 
+var sounds = {
+	"open": Sound.new("res://audio/objects/door/sndDoorOpen.wav"),
+	"close": Sound.new("res://audio/objects/door/sndDoorClose.wav"),
+	"lock": Sound.new("res://audio/objects/door/sndDoorLock.wav"),
+	"unlock": Sound.new("res://audio/objects/door/sndDoorUnlock.wav")
+}
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	target_room_scene = load(target_room_path)
@@ -42,11 +49,13 @@ func open(skip_animation: bool = false):
 	$Frame/CollisionShape2D.disabled = true
 	
 	if not skip_animation:
+		sounds["open"].play()
 		yield($Sprite, "animation_finished")
 	
 	$Sprite.visible = false
 
 func close(skip_animation: bool = false):
+	sounds["close"].play()
 	opened = false
 	$Sprite.visible = true
 	$CollisionShape2D.disabled = false
@@ -57,9 +66,11 @@ func close(skip_animation: bool = false):
 		yield($Sprite, "animation_finished")
 
 func lock():
+	sounds["lock"].play()
 	locked = true
 
 func unlock():
+	sounds["unlock"].play()
 	locked = false
 
 func _on_TransitionTriggerArea_body_entered(body):
@@ -75,6 +86,7 @@ func load_target_room():
 		if door.id == target_id:
 			destination_door = door
 			break
+	# DEBUG
 	if not destination_door:
 		assert(false, "No destination door found in room")
 		return

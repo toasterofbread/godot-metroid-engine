@@ -5,24 +5,20 @@ const tile_data_path = "res://scenes/ui/map/tile_data.json"
 
 onready var TileScene: PackedScene = preload("res://scenes/ui/map/MapTile.tscn")
 var Grid: Control
+var Marker: Node2D = preload("res://scenes/ui/map/MapMarker.tscn").instance()
 var tiles = null
 var current_tile: MapTile
 
-var chunks_to_load = []
-
 func _ready():
+	Global.save_json(tile_data_path, {})
 	yield(Loader.Samus, "ready")
+	Marker.load_data()
 	load_tiles()
 
 func get_tile(tile_position: Vector2):
 	var x = str(tile_position.x)
 	var y = str(tile_position.y)
 	return tiles[x][y]
-
-func _process(_delta):
-	for chunk in chunks_to_load:
-		chunk.generate_tile_data()
-		chunks_to_load.erase(chunk)
 
 func samus_entered_chunk(body, chunk: MapChunk):
 	if body != Loader.Samus:
@@ -43,6 +39,8 @@ func load_tiles():
 	var data: Dictionary = Global.load_json(tile_data_path)
 	
 	for x in data:
+		if x == "marker":
+			continue
 		for y in data[x]:
 			var tile = TileScene.instance()
 			tile.load_data(data[x][y])

@@ -29,3 +29,19 @@ Wed 19 April 2021:
  - Continued reworking animator to allow split sprites
  - Rewrote animator from the ground up, animations are now played using an Animation class
  - Estimated 80% completion of new animator
+
+
+Development during this period was highly active
+Progress was made each day, but I just didn't record anything here
+Some progress records exist on the GitHub repo and the Subreddit
+
+Sun 9 May 2021:
+ - (written the day after)
+ - Polished the powegrip mechanics, added functionality for using it from both directions
+ - Various bugfixes and polishing
+
+Mon 10 May 2021:
+ - 12~23
+ - Started recording to devlog again
+ - Started work on scan visor
+ - Various UI adjustments, nothing decided on yet though

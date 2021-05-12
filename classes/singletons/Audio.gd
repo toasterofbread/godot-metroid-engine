@@ -1,7 +1,7 @@
 extends Node
 
 export var starting_channel_amount = 5
-enum types {Master, Voice, Music, Samus, Enemies}
+enum types {Voice, Music, Samus, Enemies, OTHER}
 
 var _playing_sounds = {}
 

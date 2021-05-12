@@ -7,6 +7,7 @@ var map_grid_parent: Node
 
 var map_move_velocity = Vector2.ZERO
 var transitioning = false
+var menu_open = false
 
 func _ready():
 	$CanvasLayer/MapGridPosition.visible = false
@@ -25,8 +26,7 @@ func open_menu():
 		map_grid_parent = Map.Grid.get_parent()
 	
 	Map.Grid.visible = false
-	map_grid_parent.remove_child(Map.Grid)
-	$CanvasLayer.add_child(Map.Grid)
+	Global.reparent_child(Map.Grid, $CanvasLayer)
 	
 	for property in ["rect_size", "rect_scale", "rect_position"]:
 		Map.Grid.set(property, $CanvasLayer/MapGridPosition.get(property))
@@ -37,10 +37,16 @@ func open_menu():
 	
 	yield($Tween, "tween_all_completed")
 	transitioning = false
+	menu_open = true
 
 func resume():
-	if not get_tree().paused:
-		return
+	
+	menu_open = false
+	if Map.Marker.moving:
+		Map.Marker.moving = false
+		Map.Marker.grid_position = null
+		Map.Marker.save_data()
+	
 	get_tree().paused = false
 	transitioning = true
 	
@@ -53,32 +59,37 @@ func resume():
 	$CanvasLayer.remove_child(Map.Grid)
 	map_grid_parent.add_child(Map.Grid)
 	Map.Grid.reset_minimap_properties()
-#	Map.Grid.set_focus_position(Map.current_tile.position, true)
+	Map.Grid.set_focus_position(Map.current_tile.position, true)
 
 	transitioning = false
 
 func _process(delta):
 	
-	if not get_tree().paused or transitioning:
+	if not menu_open or transitioning:
 		return
 	
 	if Input.is_action_just_pressed("pause"):
 		resume()
 	
-	
-	if Input.is_action_pressed("pad_left"):
-		map_move_velocity.x = min(map_move_speed, map_move_velocity.x + map_move_acceleration)
-	elif Input.is_action_pressed("pad_right"):
-		map_move_velocity.x = max(-map_move_speed, map_move_velocity.x - map_move_acceleration)
+	if Input.is_action_just_pressed("select_weapon") and not Map.Marker.moving:
+		if not Map.Marker.grid_position:
+			Map.Marker.grid_position = Map.current_tile.position/8
+		Map.Marker.moving = true
+	elif Input.is_action_just_pressed("ui_accept") and Map.Marker.moving:
+		Map.Marker.moving = false
+		Map.Marker.save_data()
+	elif Map.Marker.moving and Input.is_action_pressed("ui_cancel"):
+		Map.Marker.moving = false
+		Map.Marker.grid_position = null
+		Map.Marker.save_data()
+	elif Map.Marker.moving:
+		Map.Marker.grid_position += Shortcut.get_pad_vector("just_pressed")
+		Map.Grid.focus_position = Map.Marker.position
 	else:
-		map_move_velocity.x = lerp(map_move_velocity.x, 0, 0.1)
-	
-	if Input.is_action_pressed("pad_up"):
-		map_move_velocity.y = min(map_move_speed, map_move_velocity.y + map_move_acceleration)
-	elif Input.is_action_pressed("pad_down"):
-		map_move_velocity.y = max(-map_move_speed, map_move_velocity.y - map_move_acceleration)
-	else:
-		map_move_velocity.y = lerp(map_move_velocity.y, 0, 0.1)
-	
-	Map.Grid.Tiles.position += map_move_velocity * delta
+		var pad_vector = -Shortcut.get_pad_vector("pressed")
+		
+		map_move_velocity.x = Shortcut.add_to_limit(map_move_velocity.x, map_move_acceleration, map_move_speed * pad_vector.x)
+		map_move_velocity.y = Shortcut.add_to_limit(map_move_velocity.y, map_move_acceleration, map_move_speed * pad_vector.y)
+		
+		Map.Grid.Tiles.position += map_move_velocity * delta
 	

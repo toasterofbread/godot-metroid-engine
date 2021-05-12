@@ -10,7 +10,6 @@ onready var camera = $SamusCamera
 
 var facing = Enums.dir.LEFT
 var armed: bool = false
-
 enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
 var aiming = aim.FRONT setget set_aiming
 var aim_none_timer = Global.timer()
@@ -18,12 +17,7 @@ var aim_none_timer = Global.timer()
 signal boost_changed
 var boosting: bool = false setget set_boosting
 var shinespark_charged: bool = false
-var shinespark_affected_collision: bool = false
-
 var fall_time: float = 0
-
-var energy: int = 105
-var etanks: int = 15
 
 var paused: bool = false
 
@@ -34,30 +28,61 @@ onready var states = {
 	"crouch": preload("res://scenes/Samus/states/state_crouch.gd").new(self),
 	"morphball": preload("res://scenes/Samus/states/state_morphball.gd").new(self),
 	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self),
-	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self)
-}
+	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self),
+	"visor": preload("res://scenes/Samus/states/state_visor.gd").new(self)
+	}
 var previous_state_id: String
 onready var current_state: Node = states["neutral"]
 var state_change_record = [["", 0]]
+
+var energy: int
+var etanks: int
+var upgrades: Dictionary
 
 func set_boosting(value: bool):
 	boosting = value
 	emit_signal("boost_changed", value)
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	change_state("neutral")
-	$Animator/TestSprites.queue_free()
 	
+	var data = Loader.Save.data["samus"]
+	self.upgrades = data["upgrades"]
+	
+	etanks = upgrades["etanks"]["amount"]
 	HUD.set_etanks(etanks)
+	
+	energy = data["energy"]
+	if energy < 0:
+		energy = etanks * 100 + 99
 	HUD.set_energy(energy)
 	
-	Weapons.add_weapon("missile")
-	Weapons.add_weapon("supermissile")
-	Weapons.add_weapon("beam")
-	Weapons.add_weapon("bomb")
+
+	for upgrade in upgrades:
+		if upgrade in Weapons.all_weapons and upgrades[upgrade]["amount"] > 0:
+			var weapon: SamusWeapon = Weapons.add_weapon(upgrade)
+			if not weapon.unlimited_ammo:
+				weapon.ammo = upgrades[upgrade]["ammo"]
+			weapon.amount = upgrades[upgrade]["amount"]
+	Weapons.update_weapon_icons()
+	
+	
+	change_state("neutral")
+	
+	# DEBUG
+	$Animator/TestSprites.queue_free()
+	
 
 func _process(delta):
+	
+	# DEBUG
+	if Input.is_action_just_pressed("[DEBUG] increase energy"):
+		energy += 1
+		print("Increased energy to: " + str(energy))
+		HUD.set_energy(energy)
+	elif Input.is_action_just_pressed("[DEBUG] decrease energy"):
+		energy -= 1
+		print("Decreased energy to: " + str(energy))
+		HUD.set_energy(energy)
 	
 	if paused:
 		return
@@ -93,8 +118,10 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	current_state = states[new_state_key]
 	states[new_state_key].init_state(data)
 
-func is_upgrade_active(_upgrade_key: String):
-	return true
+func is_upgrade_active(upgrade_key: String):
+	var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
+	return upgrade["amount"] > 0 and upgrade["active"]
+		
 
 func set_aiming(value: int):
 	if value in [aim.UP, aim.DOWN, aim.SKY, aim.FLOOR]: 

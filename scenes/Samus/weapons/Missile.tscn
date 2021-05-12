@@ -5,7 +5,7 @@
 [ext_resource path="res://sprites/ui/mainhud/icons/missile_2.png" type="Texture" id=3]
 [ext_resource path="res://sprites/ui/mainhud/icons/missile_0.png" type="Texture" id=4]
 [ext_resource path="res://sprites/ui/mainhud/icons/missile_1.png" type="Texture" id=5]
-[ext_resource path="res://scenes/Samus/classes/SamusWeaponIcon.gd" type="Script" id=6]
+[ext_resource path="res://scenes/Samus/classes/WeaponIcon.gd" type="Script" id=6]
 [ext_resource path="res://sprites/samus/weapons/missile/projectile/3.png" type="Texture" id=7]
 [ext_resource path="res://sprites/samus/weapons/missile/burst_collide/7.png" type="Texture" id=8]
 [ext_resource path="res://sprites/samus/weapons/missile/projectile/0.png" type="Texture" id=9]
@@ -136,7 +136,6 @@ damage_type = 4
 velocity = 400.0
 cooldown = 0.15
 falls_to_ground = true
-amount = 100
 
 [node name="MenuIcon" type="Control" parent="."]
 margin_right = 40.0
@@ -157,7 +156,6 @@ __meta__ = {
 [node name="Icon" type="AnimatedSprite" parent="MenuIcon"]
 position = Vector2( 9, 7 )
 frames = SubResource( 1 )
-frame = 2
 
 [node name="Digits" type="Node2D" parent="MenuIcon"]
 position = Vector2( 1, 7 )
@@ -181,11 +179,11 @@ texture = ExtResource( 11 )
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 11 )
 frames = SubResource( 2 )
-frame = 1
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 frames = SubResource( 3 )
+frame = 3
 playing = true
 
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="Projectile"]
