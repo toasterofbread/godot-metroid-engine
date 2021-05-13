@@ -1,6 +1,7 @@
 extends Node2D
 class_name Room
 
+export var unique_id: String
 export var heat_damage: bool = false
 export var all_water: bool = false
 export var all_lava: bool = false

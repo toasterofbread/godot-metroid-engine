@@ -16,6 +16,7 @@
 		"aim_up": {"leftPos": [2, -4], "rightPos": [6, -4]},
 		"turn_aim_down": {"transition": true, "full": false, "leftPos": [3, -7], "rightPos": [3, -7], "state_id": "multiple"},
 		"turn_aim_front": {"transition": true, "full": false, "leftPos": [3, -12], "rightPos": [3, -12], "state_id": "multiple", "id": "turn_aim_front_stand"},
+		"turn_aim_none": {"transition": true, "full": false, "leftPos": [3, -12], "rightPos": [3, -12], "state_id": "multiple", "id": "turn_aim_front_stand"},
 		"turn_aim_sky": {"transition": true, "full": false, "leftPos": [5, -17], "rightPos": [5, -17], "state_id": "multiple"},
 		"turn_aim_up": {"transition": true, "full": false, "leftPos": [2, -15], "rightPos": [2, -15], "state_id": "multiple"},
 		"turn_legs": {"transition": true, "overlay": true, "directional": false, "leftPos": [4, 6], "rightPos": [4, 6], "state_id": "multiple"}
@@ -70,5 +71,11 @@
 		"aim_up": {"leftPos": [7, -2], "rightPos": [2, -2]},
 		"turn": {"transition": true, "leftPos": [5, -1], "rightPos": [3, -1]},
 		"climb": {"transition": true, "leftPos": [2, -2], "rightPos": [7, -1]}
+	},
+	"visor": {
+		"aim_down": {"leftPos": [4, -1], "rightPos": [4, -1], "state_id": "walk"},
+		"aim_front": {"leftPos": [3, -1], "rightPos": [5, -1], "state_id": "walk"},
+		"aim_sky": {"leftPos": [6, -4], "rightPos": [1, -4], "state_id": "walk"},
+		"aim_up": {"leftPos": [3, -3], "rightPos": [5, -3], "state_id": "walk"},
 	}
 }

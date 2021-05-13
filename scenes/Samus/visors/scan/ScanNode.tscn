@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Samus/visors/scan/ScanNode.gd" type="Script" id=8]
+[ext_resource path="res://sprites/samus/visors/scan/ring.png" type="Texture" id=33]
+
+[sub_resource type="Animation" id=1]
+resource_name = "passive"
+length = 5.0
+loop = true
+step = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("OuterRing:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2.5, 5 ),
+"transitions": PoolRealArray( 0.406128, 0.406128, 0.406128 ),
+"update": 0,
+"values": [ Vector2( 1.5, 1.5 ), Vector2( 2, 2 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("InnerRing:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2.5, 5 ),
+"transitions": PoolRealArray( 0.406128, 0.406128, 0.406128 ),
+"update": 0,
+"values": [ Vector2( 1.125, 1.125 ), Vector2( 1.5, 1.5 ), Vector2( 1.125, 1.125 ) ]
+}
+
+[node name="ScanNode" type="Node2D"]
+script = ExtResource( 8 )
+
+[node name="InnerRing" type="Sprite" parent="."]
+modulate = Color( 1, 0.654902, 0, 1 )
+position = Vector2( 8, 8 )
+scale = Vector2( 1.33569, 1.33569 )
+texture = ExtResource( 33 )
+
+[node name="OuterRing" type="Sprite" parent="."]
+modulate = Color( 1, 0.654902, 0, 1 )
+position = Vector2( 8, 8 )
+scale = Vector2( 1.78091, 1.78091 )
+texture = ExtResource( 33 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "passive"
+anims/passive = SubResource( 1 )

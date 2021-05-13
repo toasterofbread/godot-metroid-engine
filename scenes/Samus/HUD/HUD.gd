@@ -4,6 +4,8 @@ const etank_row_size = 10
 var ETank: Control = preload("res://scenes/Samus/HUD/ETank.tscn").instance()
 onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
 
+var current_visor = null
+
 const map_camera_move_speed = 5
 #onready var MapCamera: Camera2D = $CanvasLayer/MapGrid/Viewport/Camera2D
 
@@ -32,6 +34,11 @@ func add_etank():
 
 func set_energy(energy):
 	
+	if energy <= 30:
+		$CanvasLayer/TopBar/AnimationPlayer.play("energy_low_warning")
+	else:
+		$CanvasLayer/TopBar/AnimationPlayer.stop()
+	
 	var etanks = int(energy / 100)
 	for row in rows:
 		for etank in row.get_children():
@@ -46,3 +53,17 @@ func set_energy(energy):
 	
 	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(energy[0])
 	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(energy[1])
+
+func display_visor(visor):
+	if visor == current_visor:
+		return
+	current_visor = visor
+	
+	if visor == null:
+		$AnimationPlayer.play("visor_fade_out")
+	else:
+		match visor:
+			Enums.Visor.SCAN: $CanvasLayer/VisorOverlay.self_modulate = Color.aqua
+			Enums.Visor.XRAY: pass
+		 
+		$AnimationPlayer.play("visor_fade_in")

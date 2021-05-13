@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Metroid Prime Music - Item Acquisition Fanfare.wav-551ce5e7e36497c571d5ca9d19bc0412.sample"
+
+[deps]
+
+source_file="res://audio/objects/upgade_pickup/Metroid Prime Music - Item Acquisition Fanfare.wav"
+dest_files=[ "res://.import/Metroid Prime Music - Item Acquisition Fanfare.wav-551ce5e7e36497c571d5ca9d19bc0412.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

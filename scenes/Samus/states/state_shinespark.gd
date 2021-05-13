@@ -46,8 +46,9 @@ func init_state(data: Dictionary):
 	Physics.apply_gravity = false
 	
 	discharge_shinespark()
-	Physics.vel.y = -50
 	Physics.disable_floor_snap = true
+	if Samus.is_on_floor():
+		Physics.vel.y = -50
 	
 	Samus.boosting = true
 	

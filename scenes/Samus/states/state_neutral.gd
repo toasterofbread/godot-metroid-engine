@@ -62,6 +62,10 @@ func process(_delta):
 	elif Input.is_action_just_pressed("pause"):
 		reset_idle_timer = true
 		Animator.Player.play("neutral_open_map_left")
+	else:
+		var visor = Samus.Weapons.cycle_visor()
+		if visor:
+			change_state(visor)
 	
 	var shortcut_facing = Shortcut.get_facing()
 	if shortcut_facing != null and shortcut_facing != Samus.facing:

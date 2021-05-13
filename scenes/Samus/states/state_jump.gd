@@ -32,11 +32,18 @@ var PowergripCooldownTimer: Timer = Global.timer()
 var powergrip_cooldown: float = 0.25
 
 var animations = {}
+#var sounds = {
+#	"jump": preload("res://audio/samus/jump/sndJump.wav"),
+#	"spin": preload("res://audio/samus/jump/sndSpinJump.wav"),
+#	"walljump": preload("res://audio/samus/jump/sndWallJump.wav"),
+#	"land": preload("res://audio/samus/jump/sndLand.wav")
+#}
+
 var sounds = {
-	"jump": preload("res://audio/samus/jump/sndJump.wav"),
-	"spin": preload("res://audio/samus/jump/sndSpinJump.wav"),
-	"walljump": preload("res://audio/samus/jump/sndWallJump.wav"),
-	"land": preload("res://audio/samus/jump/sndLand.wav")
+	"jump": Sound.new("res://audio/samus/jump/sndJump.wav"),
+	"spin": Sound.new("res://audio/samus/jump/sndSpinJump.wav", true),
+	"walljump": Sound.new("res://audio/samus/jump/sndWallJump.wav"),
+	"land": Sound.new("res://audio/samus/jump/sndLand.wav")
 }
 
 # Called during Samus's readying period
@@ -73,7 +80,7 @@ func init_state(data: Dictionary):
 	if "jump" in options:
 		if not spinning:
 			animations["legs_start"].play()
-			Audio.play(sounds["jump"], Audio.types.Samus)
+			sounds["jump"].play()
 		jump_current_time = jump_time
 		Physics.accelerate_y(jump_speed, jump_acceleration, Enums.dir.UP)
 	if "fall" in options and not spinning:
@@ -95,7 +102,7 @@ func process(_delta):
 			return
 	
 	if Samus.is_on_floor() and not Animator.transitioning(false, true) and not first_frame:
-		Audio.play(sounds["land"], Audio.types.Samus)
+		sounds["land"].play()
 		change_state("neutral")
 		return
 	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true):
@@ -168,10 +175,10 @@ func process(_delta):
 				animations["spin_walljump"].play()
 	
 	if spinning:
-		if not Audio.playing(sounds["spin"]):
-			Audio.play(sounds["spin"], Audio.types.Samus)
+		if sounds["spin"].status != Sound.STATE.PLAYING:
+			sounds["spin"].play()
 	else:
-		Audio.stop(sounds["spin"])
+		sounds["spin"].stop()
 	
 	var animation: String
 	match Samus.aiming:
@@ -200,7 +207,7 @@ func process(_delta):
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-	Audio.stop(sounds["spin"])
+	sounds["spin"].stop()
 	if new_state_key != "morphball":
 		Samus.boosting = false
 	ledge_above_raycast.enabled = false
@@ -219,7 +226,7 @@ func physics_process(delta: float):
 		ledge_above_raycast.position = Vector2(12, -20)
 		ledge_below_raycast.position = Vector2(19, -19)
 	
-	if ledge_above_raycast.enabled:
+	if ledge_above_raycast.enabled and Samus.is_upgrade_active("powergrip"):
 		if Samus.is_on_wall() and PowergripCooldownTimer.time_left == 0:
 			if !ledge_above_raycast.is_colliding() and ledge_below_raycast.is_colliding():
 				change_state("powergrip", {"point": ledge_below_raycast.get_collision_point()})
@@ -241,10 +248,10 @@ func physics_process(delta: float):
 		if Input.is_action_just_pressed("jump"):
 			if walljump_raycasts[Enums.dir.RIGHT].is_colliding() and Input.is_action_pressed("pad_right"):
 				jump_current_time = jump_time
-				Audio.play(sounds["walljump"], Audio.types.Samus)
+				sounds["walljump"].play()
 			elif walljump_raycasts[Enums.dir.LEFT].is_colliding() and Input.is_action_pressed("pad_left"):
 				jump_current_time = jump_time
-				Audio.play(sounds["walljump"], Audio.types.Samus)
+				sounds["walljump"].play()
 		
 		if WalljumpTimer.time_left != 0:
 			return

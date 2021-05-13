@@ -1,3 +1,5 @@
+![icon](icon.png)
+
 # Godot Metroid Engine (working title)
 
 A custom Metroid engine built in the Godot engine. Currently in early development.
@@ -10,10 +12,13 @@ A custom Metroid engine built in the Godot engine. Currently in early developmen
 
 Another Metroid 2 Remake:
 
-- Samus sprites
-
-
-
 Daniel Hernandez:
 
-- Button icons
+Metroid Prime 1 (SFX)
+
+https://www.dafont.com/pixeled.font
+
+
+
+## Included software
+

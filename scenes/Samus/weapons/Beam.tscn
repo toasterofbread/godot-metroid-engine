@@ -55,9 +55,8 @@ id = "beam"
 damage_type = 1
 velocity = 450.0
 cooldown = 0.1
-amount = -1
-capacity = -1
 is_base_weapon = true
+unlimited_ammo = true
 
 [node name="Projectile" type="Area2D" parent="."]
 position = Vector2( 43, 2 )
