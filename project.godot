@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/objects/door/Door.gd"
 }, {
+"base": "",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://git_api.gdns"
+}, {
 "base": "CollisionShape2D",
 "class": "MapChunk",
 "language": "GDScript",
@@ -28,6 +33,11 @@ _global_script_classes=[ {
 "class": "MapTile",
 "language": "GDScript",
 "path": "res://scenes/ui/map/MapTile.gd"
+}, {
+"base": "AnimatedSprite",
+"class": "PositionalAnimatedSprite",
+"language": "GDScript",
+"path": "res://scenes/Samus/classes/PositionalAnimatedSprite.gd"
 }, {
 "base": "Node2D",
 "class": "Room",
@@ -72,8 +82,10 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "DestroyableBlock": "",
 "Door": "",
+"GitAPI": "",
 "MapChunk": "",
 "MapTile": "",
+"PositionalAnimatedSprite": "",
 "Room": "",
 "SamusAnimation": "",
 "SamusCamera": "",
@@ -113,6 +125,10 @@ window/stretch/aspect="keep"
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
+
+[gdnative]
+
+singletons=[ "res://git_api.gdnlib" ]
 
 [importer_defaults]
 

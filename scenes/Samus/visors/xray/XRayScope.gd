@@ -13,13 +13,6 @@ const angle_move_speed: float = 1.0
 func _ready():
 	yield(Samus, "ready")
 	visor_state = Samus.states["visor"]
-	
-#	yield(Global.wait(5), "completed")
-#	print("NEUTRAL SPECIAL")
-#	var image = $Sprite.texture.get_data()
-#	image.flip_y()
-#	var date = OS.get_datetime()
-#	image.save_png("res://screenshots/mask_viewport.png")
 
 # Called every frame while this visor is enabled
 func process():

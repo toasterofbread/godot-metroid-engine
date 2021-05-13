@@ -2,8 +2,6 @@ extends Node2D
 
 onready var Samus: Node2D = get_parent()
 onready var Player: AnimationPlayer = $AnimationPlayer
-const data_json_path = "res://scenes/Samus/animations/data.json"
-
 
 onready var sprites = {
 	false: { # Main
@@ -84,7 +82,7 @@ func load_from_json(state_id: String, json_key = null) -> Dictionary:
 	if json_key == null:
 		json_key = state_id
 	
-	var data = Global.load_json(data_json_path)[json_key]
+	var data = Global.load_json(PositionalAnimatedSprite.data_json_path)[json_key]
 	
 	for animation in data:
 		if not "state_id" in data[animation]:

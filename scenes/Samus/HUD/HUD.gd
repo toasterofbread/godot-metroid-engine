@@ -7,7 +7,6 @@ onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
 var current_visor = null
 
 const map_camera_move_speed = 5
-#onready var MapCamera: Camera2D = $CanvasLayer/MapGrid/Viewport/Camera2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -53,17 +52,3 @@ func set_energy(energy):
 	
 	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(energy[0])
 	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(energy[1])
-
-func display_visor(visor):
-	if visor == current_visor:
-		return
-	current_visor = visor
-	
-	if visor == null:
-		$AnimationPlayer.play("visor_fade_out")
-	else:
-		match visor:
-			Enums.Visor.SCAN: $CanvasLayer/VisorOverlay.self_modulate = Color.aqua
-			Enums.Visor.XRAY: pass
-		 
-		$AnimationPlayer.play("visor_fade_in")
