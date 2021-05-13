@@ -1,7 +1,12 @@
 
 # Godot-specific ignores
 .import/
+screenshots/
 addons/
 build/
 export.cfg
 export_presets.cfg
+
+# Official git plugin
+git_api.*
+bin/

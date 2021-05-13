@@ -6,7 +6,7 @@ var visor_state: Node
 var enabled: bool = false
 var last_emit_pos: Position2D
 onready var GhostAnchor: Node2D = Global.get_anchor("Samus/Visors/Scan")
-onready var scanner: Polygon2D = $Scanner
+onready var scanner: Light2D = $Scanner
 var angle: float = 90
 const angle_move_speed: float = 1.0
 
@@ -19,7 +19,7 @@ func process():
 	
 	var pos = get_emit_pos()
 	if pos != null:
-		self.global_position = get_emit_pos().global_position
+		scanner.global_position = get_emit_pos().global_position
 	spawn_ghost()
 	
 	
@@ -33,12 +33,12 @@ func process():
 		scanner.rotation_degrees = -visor_state.angle - 90
 
 func spawn_ghost():
-	
+	return
 	var tween = Tween.new()
-	self.add_child(tween)
+	scanner.add_child(tween)
 	var ghost = $Scanner.duplicate()
-	self.add_child(ghost)
-	ghost.global_position = self.global_position
+	scanner.add_child(ghost)
+	ghost.global_position = scanner.global_position
 	ghost.rotation = scanner.rotation
 	ghost.color = $Scanner.color
 	ghost.color.a = 0.1

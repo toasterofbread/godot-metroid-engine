@@ -146,3 +146,17 @@ func damage(amount: int):
 
 func shift_position(by_amount: Vector2):
 	self.global_position += by_amount
+
+
+func auto_offset_camera(amount: float = 100.0, time: float = 0.5):
+	var offset: Vector2
+	match aiming:
+		aim.SKY: offset = Vector2(0, -1)
+		aim.UP: offset = Vector2(Global.dir2vector(facing).x, -1)
+		aim.FRONT: offset = Vector2(Global.dir2vector(facing).x, 0)
+		aim.DOWN: offset = Vector2(Global.dir2vector(facing).x, 1)
+	offset *= amount
+	
+	var speed = 0.5
+	$SamusCamera/OffsetTween.interpolate_property($SamusCamera, "offset", $SamusCamera.offset, offset, speed, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	$SamusCamera/OffsetTween.start()

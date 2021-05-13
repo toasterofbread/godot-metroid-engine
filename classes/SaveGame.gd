@@ -17,8 +17,8 @@ const default_data: Dictionary = {
 			"springball": {"amount": 1, "active": true},
 			"powergrip": {"amount": 1, "active": true},
 			"speedbooster": {"amount": 1, "active": true},
-			"xray": {"amount": 1, "active": false},
-			"scan": {"amount": 1, "active": true}
+			"xray": {"amount": 1, "active": true},
+			"scan": {"amount": 1, "active": false}
 		},
 		"energy": -1
 	},

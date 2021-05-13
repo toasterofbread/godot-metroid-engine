@@ -1,0 +1,266 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://sprites/samus/visors/mask.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+onready var Samus: KinematicBody2D = Loader.Samus
+var visor_state: Node
+
+var enabled: bool = false
+var last_emit_pos: Position2D
+onready var GhostAnchor: Node2D = Global.get_anchor(\"Samus/Visors/Scan\")
+onready var scanner: Light2D = $Scanner
+var angle: float = 90
+const angle_move_speed: float = 1.0
+
+func _ready():
+	yield(Samus, \"ready\")
+
+	visor_state = Samus.states[\"visor\"]
+# Called every frame while this visor is enabled
+func process():
+	
+	var pos = get_emit_pos()
+	if pos != null:
+		scanner.global_position = get_emit_pos().global_position
+	spawn_ghost()
+	
+	
+	if not visor_state.analog_visor:
+		if Samus.facing == Enums.dir.LEFT:
+			scanner.rotation_degrees = -visor_state.angle - 90
+		else:
+			scanner.rotation_degrees = visor_state.angle - 90
+			
+	else:
+		scanner.rotation_degrees = -visor_state.angle - 90
+
+func spawn_ghost():
+	return
+	var tween = Tween.new()
+	scanner.add_child(tween)
+	var ghost = $Scanner.duplicate()
+	scanner.add_child(ghost)
+	ghost.global_position = scanner.global_position
+	ghost.rotation = scanner.rotation
+	ghost.color = $Scanner.color
+	ghost.color.a = 0.1
+	tween.interpolate_property(ghost, \"modulate:a\", 0, 0.1, 0.1)
+	tween.start()
+	tween.interpolate_property(ghost, \"modulate:a\", ghost.modulate.a, 0, 0.1)
+	yield(tween, \"tween_completed\")
+	yield(Global.wait(0.01), \"completed\")
+	tween.start()
+	yield(tween, \"tween_completed\")
+	ghost.queue_free()
+	tween.queue_free()
+	
+
+func get_emit_pos():
+	var pos: Position2D = Samus.Weapons.VisorPositions.get_node_or_null(Samus.Animator.current[false].position_node_path)
+	if pos == null:
+		return null
+	pos = pos.duplicate()
+	Samus.add_child(pos)
+	
+	if Samus.facing == Enums.dir.RIGHT:
+		pos.position.x  = pos.position.x * -1 + 8
+	
+	# For some reason the default global_position is the same as the relative position
+	pos.global_position = Samus.global_position + pos.position
+	
+	return pos
+
+func set_overlay(value: bool):
+	
+	if value:
+		$CanvasLayer/AnimationPlayer.play(\"fade_in\")
+	else:
+		$CanvasLayer/AnimationPlayer.play(\"fade_out\")
+
+func enable():
+	enabled = true
+	$AnimationPlayer.play(\"enable_scanner\")
+
+func disable():
+	enabled = false
+	$AnimationPlayer.play(\"disable_scanner\")
+	yield($AnimationPlayer, \"animation_finished\")
+"
+
+[sub_resource type="Animation" id=2]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Scanner:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1e-05 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scanner:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scanner:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Scanner:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.05, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1e-05 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Scanner:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Scanner:enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.05 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("TintOverlay:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.65098 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TintOverlay:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("TintOverlay:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.65098 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TintOverlay:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[node name="XRayScope" type="Node2D"]
+z_index = 999
+z_as_relative = false
+script = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/disable_scanner = SubResource( 2 )
+anims/enable_scanner = SubResource( 3 )
+
+[node name="Scanner" type="Light2D" parent="."]
+enabled = false
+texture = ExtResource( 1 )
+offset = Vector2( 348, 0 )
+texture_scale = 0.2
+mode = 3
+range_item_cull_mask = 2
+
+[node name="Visual" type="Polygon2D" parent="Scanner"]
+visible = false
+light_mask = 0
+color = Color( 1, 1, 1, 0.356863 )
+polygon = PoolVector2Array( 0, 0, 704, 168, 704, -168 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer"]
+anims/fade_in = SubResource( 4 )
+anims/fade_out = SubResource( 5 )
+
+[node name="TintOverlay" type="ColorRect" parent="CanvasLayer"]
+visible = false
+light_mask = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
@@ -12,7 +12,8 @@
 [ext_resource path="res://scenes/Samus/classes/Camera.gd" type="Script" id=10]
 [ext_resource path="res://scenes/Samus/HUD/HUD.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/Samus/HUD/PauseMenu.tscn" type="PackedScene" id=12]
-[ext_resource path="res://scenes/Samus/visors/scan/ScanVisor.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scenes/Samus/visors/xray/XRayScope.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scenes/Samus/classes/PositionalAnimatedSprite.gd" type="Script" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "reset"
@@ -294,6 +295,7 @@ script = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="Raycasts" type="Node2D" parent="Animator"]
+visible = false
 
 [node name="WalljumpLeft" type="RayCast2D" parent="Animator/Raycasts"]
 visible = false
@@ -334,23 +336,18 @@ collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
 
-[node name="TestSpriteL2" type="AnimatedSprite" parent="Animator/TestSprites"]
-visible = false
-position = Vector2( 6, -1 )
+[node name="PositionalAnimatedSprite" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 7, -2 )
 frames = ExtResource( 1 )
-animation = "walk_aim_down_right"
-
-[node name="TestSpriteL" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 1, -2 )
-frames = ExtResource( 1 )
-animation = "neutral_aim_up_left"
+animation = "powergrip_aim_up_right"
+frame = 1
+playing = true
 flip_h = true
-
-[node name="TestSprite" type="AnimatedSprite" parent="Animator/TestSprites"]
-visible = false
-position = Vector2( 5, -3 )
-frames = ExtResource( 1 )
-animation = "walk_aim_up_left"
+script = ExtResource( 14 )
+data = {
+"leftPos": [ 7.0, -2.0 ],
+"rightPos": [ 2.0, -2.0 ]
+}
 
 [node name="Sprites" type="Node2D" parent="Animator"]
 
@@ -372,7 +369,7 @@ visible = false
 position = Vector2( -14, -31 )
 frames = ExtResource( 1 )
 animation = "walk_aim_down_right"
-frame = 6
+frame = 8
 playing = true
 flip_h = true
 
@@ -505,6 +502,7 @@ position = Vector2( -14, -22 )
 rotation = -0.785398
 
 [node name="VisorPositions" type="Node2D" parent="Weapons"]
+visible = false
 z_index = 999
 z_as_relative = false
 
@@ -573,13 +571,14 @@ collision_mask = 524292
 
 [node name="Visors" type="Node2D" parent="Weapons"]
 
-[node name="ScanVisor" parent="Weapons/Visors" instance=ExtResource( 13 )]
+[node name="XRayScope" parent="Weapons/Visors" instance=ExtResource( 13 )]
 
 [node name="Particles" type="Node2D" parent="."]
 z_index = -1
 
 [node name="morphball" type="Particles2D" parent="Particles"]
 position = Vector2( 2, 10 )
+emitting = false
 amount = 100
 lifetime = 0.2
 speed_scale = 2.0
@@ -598,3 +597,5 @@ smoothing_speed = 15.0
 drag_margin_top = 0.01
 drag_margin_right = 0.01
 script = ExtResource( 10 )
+
+[node name="OffsetTween" type="Tween" parent="SamusCamera"]

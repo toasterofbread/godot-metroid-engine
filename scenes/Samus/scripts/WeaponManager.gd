@@ -27,7 +27,7 @@ var all_weapons = {
 
 var current_visor = null
 onready var visors = {
-	Enums.Visor.SCAN: $Visors/ScanVisor
+	Enums.Visor.XRAY: $Visors/XRayScope
 }
 
 func _process(_delta):
@@ -50,7 +50,11 @@ func _process(_delta):
 
 func cycle_visor():
 	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/select_visor_shortcut") or Input.is_action_pressed("shortcut")):
-		var checking = current_visor == null
+		var checking = false
+		if current_visor == null:
+			checking = true
+		else:
+			visors[current_visor].set_overlay(false)
 		var set = false
 		for visor in Enums.Visor.values():
 			if visor == current_visor:
@@ -61,7 +65,8 @@ func cycle_visor():
 				break
 		if not set:
 			current_visor = null
-		Samus.HUD.display_visor(current_visor)
+		else:
+			visors[current_visor].set_overlay(true)
 	if current_visor != null:
 		return "visor"
 	else:

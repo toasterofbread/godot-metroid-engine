@@ -14,6 +14,7 @@ var visor: Node2D
 
 var enabled: bool = false
 var angle: float = 90
+var offset_buffer = [null, 0, false]
 const angle_move_speed: float = 1.0
 var analog_visor: bool
 onready var GhostAnchor: Node2D = Global.get_anchor("Samus/Visors/" + self.id)
@@ -23,7 +24,6 @@ func _init(_Samus: KinematicBody2D):
 	Samus = _Samus
 	Animator = Samus.Animator
 	Physics = Samus.Physics
-	analog_visor = Settings.get("controls/analog_visor_control")
 	animations = Animator.load_from_json(self.id)
 
 func init_state(data: Dictionary):
@@ -37,7 +37,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 
 # Called every frame while the visor is enabled
-func process(_delta: float):
+func process(delta: float):
 	
 	var play_transition: bool = false
 	var original_facing: int = Samus.facing
@@ -88,6 +88,22 @@ func process(_delta: float):
 				play_transition = true
 	
 	Samus.aiming = get_aim_direction()
+#	if enabled:
+#		if offset_buffer[0] != [Samus.aiming, Samus.facing]:
+#			offset_buffer[0] = [Samus.aiming, Samus.facing]
+#			offset_buffer[1] = delta
+#			if offset_buffer[2]:
+#				Samus.auto_offset_camera()
+#		elif not offset_buffer[2]:
+#			if offset_buffer[1] > 1.0:
+#				offset_buffer[2] = true
+#				Samus.auto_offset_camera()
+#			else:
+#				offset_buffer[1] += delta
+#	else:
+#		if offset_buffer[2]:
+#			Samus.auto_offset_camera(0)
+#			offset_buffer[2] = false
 	
 	var animation: String
 	match Samus.aiming:
@@ -124,13 +140,27 @@ func physics_process(_delta: float):
 func angle_process():
 	
 	visor.process()
+	
+	if not enabled:
+		if Input.is_action_pressed("fire_weapon"):
+			enable()
+			analog_visor = false
+			angle = 90
+		else:
+			var joystick_vector = Shortcut.get_joystick_vector("analog_visor")
+			if joystick_vector != Vector2.ZERO:
+				enable()
+				analog_visor = true
+				joystick_vector.y *= -1
+				angle = rad2deg(joystick_vector.angle()) - 90
+			else:
+				return
+	
 	if not analog_visor:
 		
 		if not Input.is_action_pressed("fire_weapon"):
 			disable()
 			return
-		else:
-			enable()
 		
 		var pad_y = Shortcut.get_pad_vector("pressed").y
 		if pad_y != 0:
@@ -138,39 +168,35 @@ func angle_process():
 		
 	else:
 		var joystick_vector: Vector2 = Shortcut.get_joystick_vector("analog_visor")
+		joystick_vector.y *= -1
 		if joystick_vector == Vector2.ZERO:
 			disable()
 			return
-		else:
-			enable()
 		
-		joystick_vector.y *= -1
-		angle = rad2deg(joystick_vector.angle()) - 90
+		angle = rad2deg(lerp_angle(deg2rad(angle), joystick_vector.angle() - deg2rad(90), angle_move_speed/35))
 		
-		var angle_vector = Vector2(0, -1).rotated(deg2rad(angle))
-		if angle_vector.x < 0:
-			if Samus.facing == Enums.dir.LEFT:
-				turn(Enums.dir.RIGHT)
-		elif angle_vector.x > 0:
-			if Samus.facing == Enums.dir.RIGHT:
-				turn(Enums.dir.LEFT)
+		if joystick_vector.x > 0:
+			turn(Enums.dir.RIGHT)
+		elif joystick_vector.x < 0:
+			turn(Enums.dir.LEFT)
+		
 
 func turn(direction: int):
+	if direction == Samus.facing:
+		return
 	Samus.facing = direction
 	force_transition = true
 
 func enable():
 	if enabled:
 		return
-	angle = 90
 	enabled = true
-	visor.get_node("AnimationPlayer").play("enable_scanner")
+	visor.enable()
 
 func disable():
 	if not enabled:
 		return
-	visor.get_node("AnimationPlayer").play("disable_scanner")
-	yield(visor.get_node("AnimationPlayer"), "animation_finished")
+	yield(visor.disable(), "completed")
 	enabled = false
 
 func get_emit_pos():

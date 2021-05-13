@@ -38,6 +38,18 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
+	elif Input.is_action_just_pressed("take_screenshot"):
+		
+		var dir = Directory.new()
+		dir.open("res://")
+		if not dir.dir_exists("screenshots"):
+			dir.make_dir("screenshots")
+		
+		var image = get_viewport().get_texture().get_data()
+		image.flip_y()
+		var date = OS.get_datetime()
+		image.save_png("res://screenshots/" + str(date["year"]) + "-" + str(date["month"]) + "-" + str(date["day"]) + "_" + str(date["hour"]) + "." + str(date["minute"]) + "." + str(date["second"]) + ".png")
+
 
 
 func _physics_process(_delta):
@@ -175,6 +187,14 @@ func array2vector(array: Array) -> Vector2:
 
 func vector2array(vector: Vector2) -> Array:
 	return [vector.x, vector.y]
+
+func dir2vector(direction: int) -> Vector2:
+	match direction:
+		Enums.dir.LEFT: return Vector2(-1, 0)
+		Enums.dir.RIGHT: return Vector2(1, 0)
+		Enums.dir.UP: return Vector2(0, -1)
+		Enums.dir.DOWN: return Vector2(0, 1)
+		_: return Vector2.ZERO
 
 func text_fade_in(label: RichTextLabel, time: float):
 	var tween: Tween = Tween.new()
