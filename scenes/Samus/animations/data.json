@@ -1,81 +1,740 @@
 {
 	"neutral": {
-		"aim_down": {"leftPos": [2, 0], "rightPos": [6, 0]},
-		"aim_front": {"leftPos": [0, 0], "rightPos": [7, 0]},
-		"aim_sky": {"leftPos": [5, -4], "rightPos": [3, -4]},
-		"aim_up": {"leftPos": [1, -2], "rightPos": [6, -2]},
+		"aim_down": {
+			"leftPos": [
+				2,
+				0
+			],
+			"rightPos": [
+				6,
+				0
+			]
+		},
+		"aim_front": {
+			"leftPos": [
+				0,
+				0
+			],
+			"rightPos": [
+				7,
+				0
+			]
+		},
+		"aim_sky": {
+			"leftPos": [
+				5,
+				-4
+			],
+			"rightPos": [
+				3,
+				-4
+			]
+		},
+		"aim_up": {
+			"leftPos": [
+				1,
+				-2
+			],
+			"rightPos": [
+				6,
+				-2
+			]
+		}
 	},
 	"neutral_idle": {
-		"idle_0": {"leftPos": [0, -1], "rightPos": [7, -1]}, 
-		"idle_1": {"leftPos": [0, -1], "rightPos": [7, -1]}, 
+		"idle_0": {
+			"leftPos": [
+				0,
+				-1
+			],
+			"rightPos": [
+				7,
+				-1
+			]
+		},
+		"idle_1": {
+			"leftPos": [
+				0,
+				-1
+			],
+			"rightPos": [
+				7,
+				-1
+			]
+		}
 	},
 	"run": {
-		"aim_down": {"leftPos": [3, -1], "rightPos": [5, 1]},
-		"aim_front": {"leftPos": [1, -1], "rightPos": [7, -1]},
-		"aim_none": {"leftPos": [3, -1], "rightPos": [5, 1]},
-		"aim_up": {"leftPos": [2, -4], "rightPos": [6, -4]},
-		"turn_aim_down": {"transition": true, "full": false, "leftPos": [3, -7], "rightPos": [3, -7], "state_id": "multiple"},
-		"turn_aim_front": {"transition": true, "full": false, "leftPos": [3, -12], "rightPos": [3, -12], "state_id": "multiple", "id": "turn_aim_front_stand"},
-		"turn_aim_none": {"transition": true, "full": false, "leftPos": [3, -12], "rightPos": [3, -12], "state_id": "multiple", "id": "turn_aim_front_stand"},
-		"turn_aim_sky": {"transition": true, "full": false, "leftPos": [5, -17], "rightPos": [5, -17], "state_id": "multiple"},
-		"turn_aim_up": {"transition": true, "full": false, "leftPos": [2, -15], "rightPos": [2, -15], "state_id": "multiple"},
-		"turn_legs": {"transition": true, "overlay": true, "directional": false, "leftPos": [4, 6], "rightPos": [4, 6], "state_id": "multiple"}
+		"aim_down": {
+			"leftPos": [
+				3,
+				-1
+			],
+			"rightPos": [
+				5,
+				1
+			]
+		},
+		"aim_front": {
+			"leftPos": [
+				1,
+				-1
+			],
+			"rightPos": [
+				7,
+				-1
+			]
+		},
+		"aim_none": {
+			"leftPos": [
+				3,
+				-1
+			],
+			"rightPos": [
+				5,
+				1
+			]
+		},
+		"aim_up": {
+			"leftPos": [
+				2,
+				-4
+			],
+			"rightPos": [
+				6,
+				-4
+			]
+		},
+		"turn_aim_down": {
+			"transition": true,
+			"full": false,
+			"leftPos": [
+				3,
+				-7
+			],
+			"rightPos": [
+				3,
+				-7
+			],
+			"state_id": "multiple"
+		},
+		"turn_aim_front": {
+			"transition": true,
+			"full": false,
+			"leftPos": [
+				3,
+				-12
+			],
+			"rightPos": [
+				3,
+				-12
+			],
+			"state_id": "multiple",
+			"id": "turn_aim_front_stand"
+		},
+		"turn_aim_none": {
+			"transition": true,
+			"full": false,
+			"leftPos": [
+				3,
+				-12
+			],
+			"rightPos": [
+				3,
+				-12
+			],
+			"state_id": "multiple",
+			"id": "turn_aim_front_stand"
+		},
+		"turn_aim_sky": {
+			"transition": true,
+			"full": false,
+			"leftPos": [
+				5,
+				-17
+			],
+			"rightPos": [
+				5,
+				-17
+			],
+			"state_id": "multiple"
+		},
+		"turn_aim_up": {
+			"transition": true,
+			"full": false,
+			"leftPos": [
+				2,
+				-15
+			],
+			"rightPos": [
+				2,
+				-15
+			],
+			"state_id": "multiple"
+		},
+		"turn_legs": {
+			"transition": true,
+			"overlay": true,
+			"directional": false,
+			"leftPos": [
+				4,
+				6
+			],
+			"rightPos": [
+				4,
+				6
+			],
+			"state_id": "multiple"
+		}
 	},
 	"jump": {
-		"spin": {"leftPos": [0, 5], "rightPos": [7, 5]},
-		"spin_space": {"directional": false, "leftPos": [0, 5], "rightPos": [7, 5]},
-		"spin_walljump": {"transition": true, "leftPos": [1, 7], "rightPos": [6, 7]},
-		"aim_front": {"leftPos": [-1, -11], "rightPos": [9, -11], "full": false, "state_id": "multiple"},
-		"turn_aim_front": {"leftPos": [4, -11], "rightPos": [3, -11], "transition": true, "full": false, "state_id": "multiple"},
-		"aim_sky": {"leftPos": [4, -17], "rightPos": [4, -17], "full": false, "state_id": "multiple"},
-		"turn_aim_sky": {"leftPos": [4, -16], "rightPos": [4, -16], "transition": true, "full": false, "state_id": "multiple"},
-		"aim_floor": {"leftPos": [5, 5], "rightPos": [3, 5]},
-		"turn_aim_floor": {"leftPos": [4, 5], "rightPos": [4, 5], "full": false, "transition": true},
-		"aim_up": {"leftPos": [0, -14], "rightPos": [8, -14], "full": false, "state_id": "multiple"},
-		"turn_aim_up": {"leftPos": [2, -14], "rightPos": [3, -14], "transition": true, "full": false, "state_id": "multiple"},
-		"aim_down": {"leftPos": [-1, -8], "rightPos": [8, -8], "full": false, "state_id": "multiple"},
-		"turn_aim_down": {"leftPos": [4, -7], "rightPos": [4, -7], "transition": true, "full": false, "state_id": "multiple"},
-		"legs": {"overlay": true, "leftPos": [3, 7], "rightPos": [4, 7], "directional": false},
-		"legs_turn": {"overlay": true, "leftPos": [4, 6], "rightPos": [3, 6], "transition": true, "directional": false},
-		"legs_start": {"transition": true, "overlay": true, "leftPos": [3, 7], "rightPos": [4, 7], "directional": false}
+		"spin": {
+			"leftPos": [
+				3.5,
+				5
+			],
+			"rightPos": [
+				3.5,
+				5
+			]
+		},
+		"spin_space": {
+			"leftPos": [
+				3.5,
+				5
+			],
+			"rightPos": [
+				3.5,
+				5
+			],
+			"directional": false
+		},
+		"spin_walljump": {
+			"transition": true,
+			"leftPos": [
+				1,
+				7
+			],
+			"rightPos": [
+				6,
+				7
+			]
+		},
+		"aim_front": {
+			"leftPos": [
+				-1,
+				-11
+			],
+			"rightPos": [
+				9,
+				-11
+			],
+			"full": false,
+			"state_id": "multiple"
+		},
+		"turn_aim_front": {
+			"leftPos": [
+				4,
+				-11
+			],
+			"rightPos": [
+				3,
+				-11
+			],
+			"transition": true,
+			"full": false,
+			"state_id": "multiple"
+		},
+		"aim_sky": {
+			"leftPos": [
+				4,
+				-17
+			],
+			"rightPos": [
+				4,
+				-17
+			],
+			"full": false,
+			"state_id": "multiple"
+		},
+		"turn_aim_sky": {
+			"leftPos": [
+				4,
+				-16
+			],
+			"rightPos": [
+				4,
+				-16
+			],
+			"transition": true,
+			"full": false,
+			"state_id": "multiple"
+		},
+		"aim_floor": {
+			"leftPos": [
+				5,
+				5
+			],
+			"rightPos": [
+				3,
+				5
+			]
+		},
+		"turn_aim_floor": {
+			"leftPos": [
+				4,
+				5
+			],
+			"rightPos": [
+				4,
+				5
+			],
+			"full": false,
+			"transition": true
+		},
+		"aim_up": {
+			"leftPos": [
+				0,
+				-14
+			],
+			"rightPos": [
+				8,
+				-14
+			],
+			"full": false,
+			"state_id": "multiple"
+		},
+		"turn_aim_up": {
+			"leftPos": [
+				2,
+				-14
+			],
+			"rightPos": [
+				3,
+				-14
+			],
+			"transition": true,
+			"full": false,
+			"state_id": "multiple"
+		},
+		"aim_down": {
+			"leftPos": [
+				-1,
+				-8
+			],
+			"rightPos": [
+				8,
+				-8
+			],
+			"full": false,
+			"state_id": "multiple"
+		},
+		"turn_aim_down": {
+			"leftPos": [
+				4,
+				-7
+			],
+			"rightPos": [
+				4,
+				-7
+			],
+			"transition": true,
+			"full": false,
+			"state_id": "multiple"
+		},
+		"legs": {
+			"overlay": true,
+			"leftPos": [
+				3,
+				7
+			],
+			"rightPos": [
+				4,
+				7
+			],
+			"directional": false
+		},
+		"legs_turn": {
+			"overlay": true,
+			"leftPos": [
+				4,
+				6
+			],
+			"rightPos": [
+				3,
+				6
+			],
+			"transition": true,
+			"directional": false
+		},
+		"legs_start": {
+			"transition": true,
+			"overlay": true,
+			"leftPos": [
+				3,
+				7
+			],
+			"rightPos": [
+				4,
+				7
+			],
+			"directional": false
+		},
+		"spin_space_screw": {
+			"leftPos": [
+				3.5,
+				5
+			],
+			"rightPos": [
+				3.5,
+				5
+			],
+			"directional": false
+		},
+		"screw_spark": {
+			"leftPos": [
+				3.5,
+				5
+			],
+			"rightPos": [
+				3.5,
+				5
+			],
+			"directional": false,
+			"overlay": true
+		}
 	},
 	"crouch": {
-		"aim_down": {"leftPos": [1, 0], "rightPos": [7, 0]},
-		"aim_front": {"leftPos": [1, 0], "rightPos": [7, 0]},
-		"aim_up": {"leftPos": [1, 0], "rightPos": [7, 0]},
-		"turn_aim_down": {"transition": true, "leftPos": [1, 0], "rightPos": [7, 0]},
-		"turn_aim_front": {"transition": true, "leftPos": [1, 0], "rightPos": [7, 0]},
-		"turn_aim_up": {"transition": true, "leftPos": [1, 0], "rightPos": [7, 0]},
+		"aim_down": {
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				7,
+				0
+			]
+		},
+		"aim_front": {
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				7,
+				0
+			]
+		},
+		"aim_up": {
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				7,
+				0
+			]
+		},
+		"turn_aim_down": {
+			"transition": true,
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				7,
+				0
+			]
+		},
+		"turn_aim_front": {
+			"transition": true,
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				7,
+				0
+			]
+		},
+		"turn_aim_up": {
+			"transition": true,
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				7,
+				0
+			]
+		}
 	},
 	"morphball": {
-		"roll": {"directional": false, "leftPos": [2, 10], "rightPos": [5, 10]},
-		"roll_spider": {"directional": false, "leftPos": [2, 10], "rightPos": [5, 10]},
-		"roll_bounce": {"directional": false, "leftPos": [2, 9], "rightPos": [5, 9]},
-		"turn": {"directional": false, "transition": true, "leftPos": [2, 10], "rightPos": [5, 10]},
-		"unmorph": {"directional": false, "transition": true, "leftPos": [2, 8], "rightPos": [5, 8]},
-		"morph": {"directional": false, "transition": true, "leftPos": [2, 8], "rightPos": [5, 8]}
+		"roll": {
+			"directional": false,
+			"leftPos": [
+				2,
+				10
+			],
+			"rightPos": [
+				5,
+				10
+			]
+		},
+		"roll_spider": {
+			"directional": false,
+			"leftPos": [
+				2,
+				10
+			],
+			"rightPos": [
+				5,
+				10
+			]
+		},
+		"roll_bounce": {
+			"directional": false,
+			"leftPos": [
+				2,
+				9
+			],
+			"rightPos": [
+				5,
+				9
+			]
+		},
+		"turn": {
+			"directional": false,
+			"transition": true,
+			"leftPos": [
+				2,
+				10
+			],
+			"rightPos": [
+				5,
+				10
+			]
+		},
+		"unmorph": {
+			"directional": false,
+			"transition": true,
+			"leftPos": [
+				2,
+				8
+			],
+			"rightPos": [
+				5,
+				8
+			]
+		},
+		"morph": {
+			"directional": false,
+			"transition": true,
+			"leftPos": [
+				2,
+				8
+			],
+			"rightPos": [
+				5,
+				8
+			]
+		}
 	},
 	"shinespark": {
-		"horiz": {"leftPos": [0, -2], "rightPos": [8, -2]},
-		"vert": {"leftPos": [4, 0], "rightPos": [4, 0]},
-		"start": {"leftPos": [3, -2], "rightPos": [5, -2]},
-		"end": {"leftPos": [0, 0], "rightPos": [0, 0], "transition": true, "full": true},
-		"roll": {"directional": false, "leftPos": [2, 10], "rightPos": [5, 10], "state_id": "morphball"},
+		"horiz": {
+			"leftPos": [
+				0,
+				-2
+			],
+			"rightPos": [
+				8,
+				-2
+			]
+		},
+		"vert": {
+			"leftPos": [
+				4,
+				0
+			],
+			"rightPos": [
+				4,
+				0
+			]
+		},
+		"start": {
+			"leftPos": [
+				3,
+				-2
+			],
+			"rightPos": [
+				5,
+				-2
+			]
+		},
+		"end": {
+			"leftPos": [
+				0,
+				0
+			],
+			"rightPos": [
+				0,
+				0
+			],
+			"transition": true,
+			"full": true
+		},
+		"roll": {
+			"directional": false,
+			"leftPos": [
+				2,
+				10
+			],
+			"rightPos": [
+				5,
+				10
+			],
+			"state_id": "morphball"
+		}
 	},
 	"powergrip": {
-		"aim_down": {"leftPos": [7, -1], "rightPos": [2, -1]},
-		"aim_floor": {"leftPos": [2, -1], "rightPos": [7, -1]},
-		"aim_front": {"leftPos": [9, -1], "rightPos": [0, -1]},
-		"aim_none": {"leftPos": [2, -1], "rightPos": [7, -1]},
-		"aim_sky": {"leftPos": [2, -6], "rightPos": [7, -6]},
-		"aim_up": {"leftPos": [7, -2], "rightPos": [2, -2]},
-		"turn": {"transition": true, "leftPos": [5, -1], "rightPos": [3, -1]},
-		"climb": {"transition": true, "leftPos": [2, -2], "rightPos": [7, -1]}
+		"aim_down": {
+			"leftPos": [
+				7,
+				-1
+			],
+			"rightPos": [
+				2,
+				-1
+			]
+		},
+		"aim_floor": {
+			"leftPos": [
+				2,
+				-1
+			],
+			"rightPos": [
+				7,
+				-1
+			]
+		},
+		"aim_front": {
+			"leftPos": [
+				9,
+				-1
+			],
+			"rightPos": [
+				0,
+				-1
+			]
+		},
+		"aim_none": {
+			"leftPos": [
+				2,
+				-1
+			],
+			"rightPos": [
+				7,
+				-1
+			]
+		},
+		"aim_sky": {
+			"leftPos": [
+				2,
+				-6
+			],
+			"rightPos": [
+				7,
+				-6
+			]
+		},
+		"aim_up": {
+			"leftPos": [
+				7,
+				-2
+			],
+			"rightPos": [
+				2,
+				-2
+			]
+		},
+		"turn": {
+			"transition": true,
+			"leftPos": [
+				5,
+				-1
+			],
+			"rightPos": [
+				3,
+				-1
+			]
+		},
+		"climb": {
+			"transition": true,
+			"leftPos": [
+				2,
+				-2
+			],
+			"rightPos": [
+				7,
+				-1
+			]
+		}
 	},
 	"visor": {
-		"aim_down": {"leftPos": [4, -1], "rightPos": [4, -1], "state_id": "walk"},
-		"aim_front": {"leftPos": [3, -1], "rightPos": [5, -1], "state_id": "walk"},
-		"aim_sky": {"leftPos": [6, -4], "rightPos": [1, -4], "state_id": "walk"},
-		"aim_up": {"leftPos": [3, -3], "rightPos": [5, -3], "state_id": "walk"},
+		"aim_down": {
+			"leftPos": [
+				4,
+				-1
+			],
+			"rightPos": [
+				4,
+				-1
+			],
+			"state_id": "walk"
+		},
+		"aim_front": {
+			"leftPos": [
+				3,
+				-1
+			],
+			"rightPos": [
+				5,
+				-1
+			],
+			"state_id": "walk"
+		},
+		"aim_sky": {
+			"leftPos": [
+				6,
+				-4
+			],
+			"rightPos": [
+				1,
+				-4
+			],
+			"state_id": "walk"
+		},
+		"aim_up": {
+			"leftPos": [
+				3,
+				-3
+			],
+			"rightPos": [
+				5,
+				-3
+			],
+			"state_id": "walk"
+		}
+	},
+	"": {
+		"": {
+			"leftPos": [
+				7,
+				-2
+			],
+			"rightPos": [
+				2,
+				-2
+			]
+		}
 	}
 }

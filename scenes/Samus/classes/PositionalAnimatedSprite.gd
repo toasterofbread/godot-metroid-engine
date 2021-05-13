@@ -28,6 +28,7 @@ func save_data(value: bool):
 		print("Cannot save data. The following variables have not been set:")
 		print(get_unset_variables())
 		return
+	name = animation_key
 	
 	var loaded_data = load_file()
 	
@@ -45,6 +46,7 @@ func load_data(value: bool):
 		print("Cannot load data. The following variables have not been set:")
 		print(get_unset_variables())
 		return
+	name = animation_key
 	
 	var loaded_data = load_file()
 	

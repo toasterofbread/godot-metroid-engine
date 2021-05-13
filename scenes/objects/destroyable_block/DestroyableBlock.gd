@@ -2,14 +2,24 @@ tool
 extends StaticBody2D
 class_name DestroyableBlock
 
+onready var Samus: KinematicBody2D = Loader.Samus
+
 export(Enums.DamageType) var type = Enums.DamageType.BEAM setget set_type
 export var reappear_time: float = 2.5
 export var overlay: Texture setget set_overlay
+export var show_overlay_in_editor: bool = false setget set_show_overlay_in_editor
 onready var default_collision_layer = self.collision_layer
 onready var destructive_damage_types: Array = Enums.DamageType.values()
 onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
 
-var broken_by_boosting: bool = false
+var samus_hitbox_damage_applies = false
+
+enum STATES {NORMAL, DESTROYED, COLLISIONDISABLED}
+var state: int = STATES.NORMAL
+
+func set_show_overlay_in_editor(value: bool):
+	$Overlay.visible = value
+	show_overlay_in_editor = value
 
 func set_type(value: int):
 	if Engine.is_editor_hint():
@@ -24,13 +34,11 @@ func set_overlay(value: Texture):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	$AnimationPlayer.play("fade")
-	
 	if Engine.is_editor_hint():
 		return
 	
 	set_overlay(overlay)
-	$AnimationPlayer.queue_free()
+	$Overlay.visible = true
 	$Overlay.modulate.a = 1
 
 	if type == Enums.DamageType.CRUMBLE:
@@ -44,26 +52,49 @@ func _ready():
 		Enums.DamageType.MISSILE: destructive_damage_types = [Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE]
 		_: destructive_damage_types = [type]
 	
-	if Enums.DamageType.SPEEDBOOSTER in destructive_damage_types:
-		Loader.Samus.connect("boost_changed", self, "boost_changed")
-		$WeaponCollisionArea.connect("body_entered", self, "body_entered_area")
+	if Enums.DamageType.SPEEDBOOSTER in destructive_damage_types or Enums.DamageType.SCREWATTACK in destructive_damage_types:
+		samus_hitbox_damage_applies = true
+	
+	$WeaponCollisionArea.connect("body_entered", self, "body_entered_area")
 	
 	$AnimatedSprite.play(sprite_name)
+
+func set_reverse(value, property: String):
+	set(property, value)
 
 func damage(type: int, _value: float):
 	if type in destructive_damage_types:
 		_destroy()
 
-func boost_changed(value: bool):
-	if not broken_by_boosting:
-		$CollisionShape2D.disabled = value
+func get_disable() -> bool:
+	for type in Samus.self_damage:
+		if type in destructive_damage_types:
+			return true
+	return false
+
+func _process(_delta: float):
+	
+	if Engine.editor_hint or not samus_hitbox_damage_applies:
+		return
+	
+	var disable = get_disable()
+	
+	if disable:
+		self.set_collision_layer_bit(19, false)
+		state = STATES.COLLISIONDISABLED
+	elif state == STATES.COLLISIONDISABLED and not disable:
+		self.set_collision_layer_bit(19 , true)
+#		$CollisionShape2D.disabled = false
+		state = STATES.NORMAL
+			
 
 func body_entered_area(body):
-	if body == Loader.Samus and Loader.Samus.boosting:
-		broken_by_boosting = true
-		_destroy()
+	if body == Samus:
+		if get_disable():
+			_destroy()
 
 func _destroy(time: float = reappear_time):
+	state = STATES.DESTROYED
 	$Overlay.visible = false
 	if type == Enums.DamageType.CRUMBLE:
 		$CrumbleArea/CollisionShape2D.set_deferred("disabled", true)
@@ -79,8 +110,8 @@ func _destroy(time: float = reappear_time):
 		$ReappearTimer.start(time)
 
 func _reappear():
+	state = STATES.NORMAL
 	self.visible = true
-	broken_by_boosting = false
 	$AnimatedSprite.play("reappear")
 	yield($AnimatedSprite, "animation_finished")
 	$WeaponCollisionArea/CollisionShape2D.set_deferred("disabled", false)

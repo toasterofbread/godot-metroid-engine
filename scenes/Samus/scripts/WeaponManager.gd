@@ -22,7 +22,8 @@ var all_weapons = {
 	"beam": preload("res://scenes/Samus/weapons/Beam.tscn").instance(),
 	"missile": preload("res://scenes/Samus/weapons/Missile.tscn").instance(),
 	"supermissile": preload("res://scenes/Samus/weapons/SuperMissile.tscn").instance(),
-	"bomb": preload("res://scenes/Samus/weapons/Bomb.tscn").instance()
+	"bomb": preload("res://scenes/Samus/weapons/Bomb.tscn").instance(),
+	"powerbomb": preload("res://scenes/Samus/weapons/PowerBomb.tscn").instance()
 }
 
 var current_visor = null
