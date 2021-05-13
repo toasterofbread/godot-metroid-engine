@@ -336,17 +336,39 @@ collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
 
-[node name="PositionalAnimatedSprite" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 7, -2 )
+[node name="screw_spark2" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 3.5, 5 )
 frames = ExtResource( 1 )
-animation = "powergrip_aim_up_right"
+animation = "jump_screw_spark"
+frame = 2
+playing = true
+flip_h = true
+script = ExtResource( 14 )
+state_key = "jump"
+animation_key = "screw_spark"
+data = {
+"directional": false,
+"leftPos": [ 3.5, 5.0 ],
+"overlay": true,
+"rightPos": [ 3.5, 5.0 ]
+}
+
+[node name="screw_spark" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 0, 5 )
+frames = ExtResource( 1 )
+animation = "jump_screw_spark"
 frame = 1
 playing = true
 flip_h = true
 script = ExtResource( 14 )
+state_key = "jump"
+animation_key = "screw_spark"
 data = {
-"leftPos": [ 7.0, -2.0 ],
-"rightPos": [ 2.0, -2.0 ]
+"directional": false,
+"leftPos": [ 0.0, 5.0 ],
+"overlay": true,
+"rightPos": [ 7.0, 5.0 ]
 }
 
 [node name="Sprites" type="Node2D" parent="Animator"]
@@ -355,28 +377,28 @@ data = {
 visible = false
 position = Vector2( 4, 6 )
 frames = ExtResource( 1 )
-animation = "walk_aim_down_right"
+animation = "jump_screw_spark"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
-animation = "walk_aim_down_right"
+animation = "jump_screw_spark"
 
 [node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 position = Vector2( -14, -31 )
 frames = ExtResource( 1 )
-animation = "walk_aim_down_right"
-frame = 8
+animation = "jump_screw_spark"
+frame = 1
 playing = true
 flip_h = true
 
 [node name="sMainRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 frames = ExtResource( 1 )
-animation = "walk_aim_down_right"
+animation = "jump_screw_spark"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 anims/reset = SubResource( 1 )

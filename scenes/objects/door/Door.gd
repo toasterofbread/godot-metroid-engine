@@ -29,7 +29,7 @@ func _ready():
 	target_room_scene = load(target_room_path)
 	
 	match _colour:
-		DOOR_COLOURS.blue: _destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.GRAPPLE]
+		DOOR_COLOURS.blue: _destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.GRAPPLE, Enums.DamageType.POWERBOMB]
 		DOOR_COLOURS.red: _destructive_damage_types = [Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE]
 		DOOR_COLOURS.green: _destructive_damage_types = [Enums.DamageType.SUPERMISSILE]
 		DOOR_COLOURS.yellow: _destructive_damage_types = [Enums.DamageType.POWERBOMB]

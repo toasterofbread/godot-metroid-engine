@@ -2,9 +2,9 @@
 
 [ext_resource path="res://scenes/Samus/weapons/Missile.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://sprites/ui/mainhud/icons/missile_2.png" type="Texture" id=3]
-[ext_resource path="res://sprites/ui/mainhud/icons/missile_0.png" type="Texture" id=4]
-[ext_resource path="res://sprites/ui/mainhud/icons/missile_1.png" type="Texture" id=5]
+[ext_resource path="res://sprites/ui/mainhud/icons/sGUIMissile_0.png" type="Texture" id=3]
+[ext_resource path="res://sprites/ui/mainhud/icons/sGUIMissile_2.png" type="Texture" id=4]
+[ext_resource path="res://sprites/ui/mainhud/icons/sGUIMissile_1.png" type="Texture" id=5]
 [ext_resource path="res://scenes/Samus/classes/WeaponIcon.gd" type="Script" id=6]
 [ext_resource path="res://sprites/samus/weapons/missile/projectile/3.png" type="Texture" id=7]
 [ext_resource path="res://sprites/samus/weapons/missile/burst_collide/7.png" type="Texture" id=8]
@@ -33,10 +33,10 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 3 ) ],
-"loop": true,
+"frames": [ ExtResource( 3 ), ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": false,
 "name": "default",
-"speed": 5.0
+"speed": 0.0
 } ]
 
 [sub_resource type="SpriteFrames" id=2]
@@ -179,11 +179,11 @@ texture = ExtResource( 11 )
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 11 )
 frames = SubResource( 2 )
+frame = 1
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 frames = SubResource( 3 )
-frame = 3
 playing = true
 
 [node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="Projectile"]

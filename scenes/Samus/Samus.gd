@@ -14,7 +14,8 @@ enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
 var aiming = aim.FRONT setget set_aiming
 var aim_none_timer = Global.timer()
 
-signal boost_changed
+var self_damage = {}
+
 var boosting: bool = false setget set_boosting
 var shinespark_charged: bool = false
 var fall_time: float = 0
@@ -41,7 +42,13 @@ var upgrades: Dictionary
 
 func set_boosting(value: bool):
 	boosting = value
-	emit_signal("boost_changed", value)
+	set_hurtbox_damage(states["shinespark"].damage_type, states["shinespark"].damage_amount if boosting else null)
+
+func set_hurtbox_damage(type: int, amount):
+	if amount != null:
+		self_damage[type] = amount
+	elif type in self_damage:
+		self_damage.erase(type)
 
 func _ready():
 	
@@ -56,7 +63,7 @@ func _ready():
 		energy = etanks * 100 + 99
 	HUD.set_energy(energy)
 	
-
+	
 	for upgrade in upgrades:
 		if upgrade in Weapons.all_weapons and upgrades[upgrade]["amount"] > 0:
 			var weapon: SamusWeapon = Weapons.add_weapon(upgrade)
@@ -93,7 +100,7 @@ func _process(delta):
 	
 var prev = ""
 func _physics_process(delta):
-	
+	print(self_damage)
 	if paused:
 		return
 	

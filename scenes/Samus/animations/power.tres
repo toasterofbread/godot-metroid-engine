@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=503 format=2]
+[gd_resource type="SpriteFrames" load_steps=514 format=2]
 
 [ext_resource path="res://sprites/samus/power/multiple/turn/legs/sTurn_0.png" type="Texture" id=1]
 [ext_resource path="res://sprites/samus/power/neutral/aim_sky/sStandAimUp_0.png" type="Texture" id=2]
@@ -502,6 +502,17 @@
 [ext_resource path="res://sprites/samus/power/visor/aim_front/sWalkLeft_0.png" type="Texture" id=500]
 [ext_resource path="res://sprites/samus/power/visor/aim_front/sWalkLeft_5.png" type="Texture" id=501]
 [ext_resource path="res://sprites/samus/power/visor/aim_sky/sWalkAimUpL_3.png" type="Texture" id=502]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw_spark/sScrewSpark_2.png" type="Texture" id=503]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw_spark/sScrewSpark_1.png" type="Texture" id=504]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited4.png" type="Texture" id=505]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited6.png" type="Texture" id=506]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited1.png" type="Texture" id=507]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited7.png" type="Texture" id=508]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited8.png" type="Texture" id=509]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw_spark/sScrewSpark_0.png" type="Texture" id=510]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited5.png" type="Texture" id=511]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited3.png" type="Texture" id=512]
+[ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited2.png" type="Texture" id=513]
 
 [resource]
 animations = [ {
@@ -1014,4 +1025,14 @@ animations = [ {
 "loop": true,
 "name": "walk_aim_up_right",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 510 ), ExtResource( 504 ), ExtResource( 503 ) ],
+"loop": true,
+"name": "jump_screw_spark",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 507 ), ExtResource( 513 ), ExtResource( 512 ), ExtResource( 505 ), ExtResource( 511 ), ExtResource( 506 ), ExtResource( 508 ), ExtResource( 509 ) ],
+"loop": true,
+"name": "jump_spin_space_screw",
+"speed": 60.0
 } ]

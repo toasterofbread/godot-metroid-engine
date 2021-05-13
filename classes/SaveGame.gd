@@ -9,18 +9,24 @@ const default_data: Dictionary = {
 	},
 	"samus": {
 		"upgrades": {
+			"etanks": {"amount": 1, "active": true},
 			"missile": {"amount": 10, "ammo": 5, "active": true},
 			"supermissile": {"amount": 100, "ammo": 69, "active": true},
-			"bomb": {"amount": 1, "active": true},
-			"beam": {"amount": 1, "active": true},
-			"etanks": {"amount": 1, "active": true},
+			"powerbomb": {"amount": 100, "ammo": 69, "active": true},
+			
 			"springball": {"amount": 1, "active": true},
 			"powergrip": {"amount": 1, "active": true},
 			"speedbooster": {"amount": 1, "active": true},
+			"spacejump": {"amount": 1, "active": true},
+			"screwattack": {"amount": 1, "active": true},
+			
+			"beam": {"amount": 1, "active": true},
+			"bomb": {"amount": 1, "active": true},
+			
 			"xray": {"amount": 1, "active": true},
 			"scan": {"amount": 1, "active": false}
 		},
-		"energy": -1
+		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},
 	"map": {
 		"marker": null

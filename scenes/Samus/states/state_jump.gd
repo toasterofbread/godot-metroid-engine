@@ -6,6 +6,9 @@ var Physics: Node
 
 const id = "jump"
 
+const damage_type = Enums.DamageType.SCREWATTACK
+const damage_amount = 0 
+
 # PHYSICS
 const jump_speed = 250
 const jump_acceleration = 99999
@@ -20,6 +23,7 @@ const spin_horiz_deceleration = 10
 
 var first_frame = false
 var spinning: bool = false
+var screwattacking: bool = false
 
 var ledge_above_raycast: RayCast2D
 var ledge_below_raycast: RayCast2D
@@ -32,18 +36,18 @@ var PowergripCooldownTimer: Timer = Global.timer()
 var powergrip_cooldown: float = 0.25
 
 var animations = {}
-#var sounds = {
-#	"jump": preload("res://audio/samus/jump/sndJump.wav"),
-#	"spin": preload("res://audio/samus/jump/sndSpinJump.wav"),
-#	"walljump": preload("res://audio/samus/jump/sndWallJump.wav"),
-#	"land": preload("res://audio/samus/jump/sndLand.wav")
-#}
 
 var sounds = {
 	"jump": Sound.new("res://audio/samus/jump/sndJump.wav"),
-	"spin": Sound.new("res://audio/samus/jump/sndSpinJump.wav", true),
 	"walljump": Sound.new("res://audio/samus/jump/sndWallJump.wav"),
 	"land": Sound.new("res://audio/samus/jump/sndLand.wav")
+}
+
+var sounds_spin = {
+	"spin": Sound.new("res://audio/samus/jump/sndSpinJump.wav", true),
+	"spin_space": Sound.new("res://audio/samus/jump/sndSpaceJump.wav", true),
+	"spin_screw": Sound.new("res://audio/samus/jump/sndScrewAttack.wav", true),
+	"spin_space_screw": Sound.new("res://audio/samus/jump/sndSpaceScrewAttack.wav", true),
 }
 
 # Called during Samus's readying period
@@ -93,6 +97,8 @@ func process(_delta):
 	var play_transition = false
 	var fire_weapon = false
 	
+	Samus.set_hurtbox_damage(damage_type, damage_amount if Samus.is_upgrade_active("screwattack") and spinning else null)
+	
 	if Settings.get("controls/zm_style_aiming"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
@@ -113,7 +119,6 @@ func process(_delta):
 	elif Input.is_action_just_pressed("fire_weapon"):
 		fire_weapon = true
 		spinning = false
-	
 	
 	if Input.is_action_pressed("aim_weapon"):
 		if Input.is_action_just_pressed("pad_up"):
@@ -174,11 +179,9 @@ func process(_delta):
 				WalljumpTimer.start()
 				animations["spin_walljump"].play()
 	
-	if spinning:
-		if sounds["spin"].status != Sound.STATE.PLAYING:
-			sounds["spin"].play()
-	else:
-		sounds["spin"].stop()
+	if not spinning:
+		for sound in sounds_spin.values():
+			sound.stop()
 	
 	var animation: String
 	match Samus.aiming:
@@ -197,7 +200,19 @@ func process(_delta):
 			if not Animator.transitioning(true, true) and Samus.aiming != Samus.aim.FLOOR:
 				animations["legs"].play(false, false, true)
 		elif not Animator.transitioning(false, true):
-			animations["spin"].play(true)
+			
+			var spin_animation = "spin"
+			
+			if Samus.is_upgrade_active("spacejump"):
+				spin_animation = spin_animation + "_space"
+			if Samus.is_upgrade_active("screwattack"):
+				spin_animation = spin_animation + "_screw"
+				animations["screw_spark"].play()
+			
+			animations[spin_animation].play(true)
+			
+			if sounds_spin[spin_animation].status != Sound.STATE.PLAYING:
+				sounds_spin[spin_animation].play()
 	
 	if not spinning or play_transition:
 		Samus.boosting = false
@@ -207,12 +222,14 @@ func process(_delta):
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-	sounds["spin"].stop()
+	for sound in sounds_spin.values():
+		sound.stop()
 	if new_state_key != "morphball":
 		Samus.boosting = false
 	ledge_above_raycast.enabled = false
 	ledge_below_raycast.enabled = false
 	set_walljump_raycasts_state(false)
+	Samus.set_hurtbox_damage(damage_type, null)
 	Samus.change_state(new_state_key, data)
 
 func physics_process(delta: float):
@@ -252,6 +269,8 @@ func physics_process(delta: float):
 			elif walljump_raycasts[Enums.dir.LEFT].is_colliding() and Input.is_action_pressed("pad_left"):
 				jump_current_time = jump_time
 				sounds["walljump"].play()
+			elif Samus.is_upgrade_active("spacejump"):
+				jump_current_time = jump_time
 		
 		if WalljumpTimer.time_left != 0:
 			return
@@ -277,3 +296,8 @@ func physics_process(delta: float):
 func set_walljump_raycasts_state(enabled: bool):
 	for raycast in walljump_raycasts.values():
 		raycast.enabled = enabled
+
+#func set_screwattacking(value: bool):
+#	if screwattacking != value:
+#		screwattacking = value
+#		emit_signal("screwattacking_changed", value)

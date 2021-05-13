@@ -13,6 +13,7 @@ export var move_by_velocity: bool = true
 export var is_morph_weapon: bool
 export var is_base_weapon: bool
 export var unlimited_ammo: bool
+export var burst_start: bool = true
 var ammo: int setget set_ammo
 var amount: int
 
@@ -41,8 +42,9 @@ class Projectile extends KinematicBody2D:
 		
 		damage_type = Weapon.damage_type
 		
-		self.Burst = self.get_node("Burst")
-		self.Burst.visible = false
+		self.Burst = self.get_node_or_null("Burst")
+		if self.Burst:
+			self.Burst.visible = false
 		self.AnimationPlayer = self.get_node_or_null("AnimationPlayer")
 		
 		self.collision_layer = Weapon.BaseProjectile.collision_layer
@@ -208,7 +210,8 @@ func fire():
 	
 	var projectile = Projectile.new(self, velocity, pos)
 	Anchor.add_child(projectile)
-	projectile.burst_start(pos)
+	if burst_start:
+		projectile.burst_start(pos)
 	projectile_fired(projectile)
 	Cooldown.start(cooldown)
 	
