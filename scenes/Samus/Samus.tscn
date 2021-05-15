@@ -269,7 +269,7 @@ tracks/3/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 17, 13 )
+extents = Vector2( 7.5, 7.5 )
 
 [node name="Samus" type="KinematicBody2D"]
 pause_mode = 1
@@ -295,70 +295,89 @@ script = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="Raycasts" type="Node2D" parent="Animator"]
+
+[node name="jump" type="Node2D" parent="Animator/Raycasts"]
 visible = false
 
-[node name="WalljumpLeft" type="RayCast2D" parent="Animator/Raycasts"]
+[node name="WalljumpLeft" type="RayCast2D" parent="Animator/Raycasts/jump"]
 visible = false
 position = Vector2( 3.5, 4 )
 rotation = -1.5708
 cast_to = Vector2( 0, 20 )
 collision_mask = 524288
 
-[node name="WalljumpRight" type="RayCast2D" parent="Animator/Raycasts"]
+[node name="WalljumpRight" type="RayCast2D" parent="Animator/Raycasts/jump"]
 visible = false
 position = Vector2( 3.5, 4 )
 rotation = -1.5708
 cast_to = Vector2( 0, -20 )
 collision_mask = 524288
 
-[node name="MorphballCeiling" type="RayCast2D" parent="Animator/Raycasts"]
-visible = false
-position = Vector2( 2, 3 )
-cast_to = Vector2( 0, -11 )
-collision_mask = 524288
-
-[node name="CrouchCeiling" type="RayCast2D" parent="Animator/Raycasts"]
-position = Vector2( 4, -8 )
-cast_to = Vector2( 0, -5 )
-collision_mask = 524288
-
-[node name="LedgeAbove" type="RayCast2D" parent="Animator/Raycasts"]
+[node name="LedgeAbove" type="RayCast2D" parent="Animator/Raycasts/jump"]
 visible = false
 position = Vector2( 12, -20 )
 cast_to = Vector2( 15, 0 )
 collision_mask = 524288
 
-[node name="LedgeBelow" type="RayCast2D" parent="Animator/Raycasts"]
+[node name="LedgeBelow" type="RayCast2D" parent="Animator/Raycasts/jump"]
 visible = false
 position = Vector2( 19, -19 )
 cast_to = Vector2( 0, 5 )
 collision_mask = 524288
 
+[node name="morphball" type="Node2D" parent="Animator/Raycasts"]
+visible = false
+
+[node name="Ceiling" type="RayCast2D" parent="Animator/Raycasts/morphball"]
+visible = false
+position = Vector2( 2, 3 )
+cast_to = Vector2( 0, -11 )
+collision_mask = 524288
+
+[node name="crouch" type="Node2D" parent="Animator/Raycasts"]
+visible = false
+
+[node name="Ceiling" type="RayCast2D" parent="Animator/Raycasts/crouch"]
+position = Vector2( 4, -8 )
+cast_to = Vector2( 0, -5 )
+collision_mask = 524288
+
+[node name="spiderball" type="Node2D" parent="Animator/Raycasts"]
+position = Vector2( 5, 10 )
+
+[node name="FloorL" type="RayCast2D" parent="Animator/Raycasts/spiderball"]
+position = Vector2( -1, 12 )
+cast_to = Vector2( -10, 0 )
+collision_mask = 524288
+
+[node name="FloorR" type="RayCast2D" parent="Animator/Raycasts/spiderball"]
+position = Vector2( 1, 12 )
+cast_to = Vector2( 10, 0 )
+collision_mask = 524288
+
 [node name="TestSprites" type="Node2D" parent="Animator"]
 
-[node name="screw_spark2" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 3.5, 5 )
+[node name="roll_spider_reverse" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 5, 10 )
 frames = ExtResource( 1 )
-animation = "jump_screw_spark"
-frame = 2
+animation = "morphball_roll_spider_reverse"
 playing = true
-flip_h = true
 script = ExtResource( 14 )
-state_key = "jump"
-animation_key = "screw_spark"
+state_key = "morphball"
+animation_key = "roll_spider_reverse"
+facing = 1
 data = {
 "directional": false,
-"leftPos": [ 3.5, 5.0 ],
-"overlay": true,
-"rightPos": [ 3.5, 5.0 ]
+"leftPos": [ 2.0, 10.0 ],
+"rightPos": [ 5.0, 10.0 ]
 }
 
 [node name="screw_spark" type="AnimatedSprite" parent="Animator/TestSprites"]
 visible = false
 position = Vector2( 0, 5 )
 frames = ExtResource( 1 )
-animation = "jump_screw_spark"
-frame = 1
+animation = "morphball_roll_spider_reverse"
+frame = 6
 playing = true
 flip_h = true
 script = ExtResource( 14 )
@@ -377,28 +396,28 @@ data = {
 visible = false
 position = Vector2( 4, 6 )
 frames = ExtResource( 1 )
-animation = "jump_screw_spark"
+animation = "morphball_roll_spider_reverse"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
-animation = "jump_screw_spark"
+animation = "morphball_roll_spider_reverse"
 
 [node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 position = Vector2( -14, -31 )
 frames = ExtResource( 1 )
-animation = "jump_screw_spark"
-frame = 1
+animation = "morphball_roll_spider_reverse"
+frame = 6
 playing = true
 flip_h = true
 
 [node name="sMainRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 frames = ExtResource( 1 )
-animation = "jump_screw_spark"
+animation = "morphball_roll_spider_reverse"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 anims/reset = SubResource( 1 )
@@ -410,8 +429,7 @@ anims/powergrip_climb_left = SubResource( 4 )
 anims/powergrip_climb_right = SubResource( 5 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 0, -3 )
+position = Vector2( 5, 10 )
 shape = SubResource( 6 )
 script = ExtResource( 7 )
 
@@ -505,6 +523,12 @@ visible = false
 [node name="roll" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 
+[node name="roll_spider" type="Position2D" parent="Weapons/CannonPositions/morphball"]
+position = Vector2( 2, 10 )
+
+[node name="roll_spider_reverse" type="Position2D" parent="Weapons/CannonPositions/morphball"]
+position = Vector2( 2, 10 )
+
 [node name="roll_turn" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 
@@ -594,6 +618,7 @@ collision_mask = 524292
 [node name="Visors" type="Node2D" parent="Weapons"]
 
 [node name="XRayScope" parent="Weapons/Visors" instance=ExtResource( 13 )]
+position = Vector2( -4, 3 )
 
 [node name="Particles" type="Node2D" parent="."]
 z_index = -1
@@ -614,7 +639,6 @@ current = true
 zoom = Vector2( 5, 5 )
 limit_smoothed = true
 drag_margin_v_enabled = true
-smoothing_enabled = true
 smoothing_speed = 15.0
 drag_margin_top = 0.01
 drag_margin_right = 0.01

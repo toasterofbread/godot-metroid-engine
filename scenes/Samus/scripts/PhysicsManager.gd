@@ -18,7 +18,7 @@ var on_slope: bool = false
 
 var time = -1
 
-func _physics_process(_delta):
+func _physics_process(delta: float):
 	
 	if Samus.is_on_ceiling() or Samus.is_on_wall():
 		Samus.boosting = false
@@ -36,8 +36,6 @@ func _physics_process(_delta):
 			vel.y = result_velocity.y
 		else:
 			vel = result_velocity
-	
-		
 	
 	disable_floor_snap = false
 

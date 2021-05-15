@@ -1035,4 +1035,9 @@ animations = [ {
 "loop": true,
 "name": "jump_spin_space_screw",
 "speed": 60.0
+}, {
+"frames": [ ExtResource( 295 ), ExtResource( 267 ), ExtResource( 266 ), ExtResource( 212 ), ExtResource( 213 ), ExtResource( 193 ), ExtResource( 197 ), ExtResource( 209 ) ],
+"loop": true,
+"name": "morphball_roll_spider_reverse",
+"speed": 20.0
 } ]

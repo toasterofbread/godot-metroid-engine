@@ -60,5 +60,11 @@ shape = SubResource( 3 )
 [node name="ReappearTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="VisibilityEnabler2D" type="VisibilityEnabler2D" parent="."]
+position = Vector2( 16, 16 )
+rect = Rect2( -16, -16, 16, 16 )
+process_parent = true
+physics_process_parent = true
+
 [connection signal="body_entered" from="CrumbleArea" to="." method="_on_CrumbleArea_body_entered"]
 [connection signal="timeout" from="ReappearTimer" to="." method="_reappear"]

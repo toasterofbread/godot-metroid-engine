@@ -18,10 +18,11 @@ tile_data = PoolIntArray( -2228258, 0, 0, -2228257, 0, 0, -2228256, 0, 0, -21627
 [node name="Doors" type="Node2D" parent="."]
 
 [node name="Door" parent="Doors" instance=ExtResource( 4 )]
-position = Vector2( -464, -480 )
-target_room_path = "res://scenes/rooms/TEST/TestLevel.tscn"
+position = Vector2( -226, -320 )
+rotation = 3.14159
+target_room_path = "res://scenes/rooms/TEST2/TestLevel.tscn"
 id = "left"
-target_id = "right"
+target_id = "left"
 
 [node name="SpawnPosition" type="Position2D" parent="." groups=[
 "SamusSpawnPositions",

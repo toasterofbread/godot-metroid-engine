@@ -46,10 +46,9 @@ func process(delta: float):
 	if not visor:
 		change_state("neutral")
 		return
-	angle_process()
 	
 	if Settings.get("controls/zm_style_aiming"):
-		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
+		Animator.set_armed(false)
 	
 	if Input.is_action_just_pressed("morph_shortcut"):
 		change_state("morphball", {"options": ["animate"]})
@@ -69,13 +68,7 @@ func process(delta: float):
 		return
 	elif Input.is_action_just_pressed("pause"):
 		Animator.Player.play("neutral_open_map_left")
-	
-	if Shortcut.get_pad_vector("pressed").x == 0:
-		var shortcut_facing = Shortcut.get_facing("analog_visor")
-		if shortcut_facing != null and shortcut_facing != Samus.facing:
-			Samus.facing = shortcut_facing
-			play_transition = true
-	
+
 	if not Animator.transitioning() and not enabled:
 		
 		if Input.is_action_pressed("pad_left"):
@@ -88,22 +81,6 @@ func process(delta: float):
 				play_transition = true
 	
 	Samus.aiming = get_aim_direction()
-#	if enabled:
-#		if offset_buffer[0] != [Samus.aiming, Samus.facing]:
-#			offset_buffer[0] = [Samus.aiming, Samus.facing]
-#			offset_buffer[1] = delta
-#			if offset_buffer[2]:
-#				Samus.auto_offset_camera()
-#		elif not offset_buffer[2]:
-#			if offset_buffer[1] > 1.0:
-#				offset_buffer[2] = true
-#				Samus.auto_offset_camera()
-#			else:
-#				offset_buffer[1] += delta
-#	else:
-#		if offset_buffer[2]:
-#			Samus.auto_offset_camera(0)
-#			offset_buffer[2] = false
 	
 	var animation: String
 	match Samus.aiming:
@@ -113,7 +90,7 @@ func process(delta: float):
 		_: animation = "aim_front"
 	
 	var reverse: bool = false
-	if analog_visor and enabled:
+	if enabled:
 		var pad_vector: float = Shortcut.get_pad_vector("pressed").x
 		if pad_vector != 0:
 			reverse = (pad_vector == 1 and Samus.facing == Enums.dir.LEFT) or (pad_vector == -1 and Samus.facing == Enums.dir.RIGHT)
@@ -129,6 +106,8 @@ func process(delta: float):
 			animations[animation].play(true, false, false, reverse)
 
 func physics_process(_delta: float):
+	
+	angle_process()
 	
 	var pad_vector: float = Shortcut.get_pad_vector("pressed").x
 	
@@ -166,6 +145,11 @@ func angle_process():
 		if pad_y != 0:
 			angle = min(180, max(0, angle + angle_move_speed * pad_y))
 		
+		if Input.is_action_just_pressed("arm_weapon"):
+			turn(Enums.dir.RIGHT)
+		elif Input.is_action_just_pressed("aim_weapon"):
+			turn(Enums.dir.LEFT)
+		
 	else:
 		var joystick_vector: Vector2 = Shortcut.get_joystick_vector("analog_visor")
 		joystick_vector.y *= -1
@@ -175,14 +159,16 @@ func angle_process():
 		
 		angle = rad2deg(lerp_angle(deg2rad(angle), joystick_vector.angle() - deg2rad(90), angle_move_speed/35))
 		
-		if joystick_vector.x > 0:
+		var ang = rad2deg(Vector2(1, 0).rotated(deg2rad(angle)).angle())
+		
+		if ang <= 0:
 			turn(Enums.dir.RIGHT)
-		elif joystick_vector.x < 0:
+		elif ang > 0:
 			turn(Enums.dir.LEFT)
 		
 
 func turn(direction: int):
-	if direction == Samus.facing:
+	if direction == Samus.facing or Animator.transitioning():
 		return
 	Samus.facing = direction
 	force_transition = true

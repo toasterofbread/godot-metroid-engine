@@ -33,7 +33,7 @@ onready var visors = {
 
 func _process(_delta):
 	
-	current_weapon[1] = Samus.current_state.id == "morphball"
+	current_weapon[1] = Samus.current_state.id in ["morphball", "spiderball"]
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
 		current_weapon[0] = 0 if Settings.get("controls/zm_style_aiming") else -1

@@ -28,9 +28,10 @@ onready var states = {
 	"run": preload("res://scenes/Samus/states/state_run.gd").new(self),
 	"crouch": preload("res://scenes/Samus/states/state_crouch.gd").new(self),
 	"morphball": preload("res://scenes/Samus/states/state_morphball.gd").new(self),
+	"spiderball": preload("res://scenes/Samus/states/state_spiderball.gd").new(self),
 	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self),
 	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self),
-	"visor": preload("res://scenes/Samus/states/state_visor.gd").new(self)
+	"visor": preload("res://scenes/Samus/states/state_visor.gd").new(self),
 	}
 var previous_state_id: String
 onready var current_state: Node = states["neutral"]
@@ -49,6 +50,9 @@ func set_hurtbox_damage(type: int, amount):
 		self_damage[type] = amount
 	elif type in self_damage:
 		self_damage.erase(type)
+
+func shift_position(position: Vector2):
+	self.position += position
 
 func _ready():
 	
@@ -100,7 +104,9 @@ func _process(delta):
 	
 var prev = ""
 func _physics_process(delta):
-	print(self_damage)
+	
+	vOverlay.SET("State", current_state.id)
+	
 	if paused:
 		return
 	
@@ -150,10 +156,6 @@ func damage(amount: int):
 	
 	if energy == 0:
 		_death()
-
-func shift_position(by_amount: Vector2):
-	self.global_position += by_amount
-
 
 func auto_offset_camera(amount: float = 100.0, time: float = 0.5):
 	var offset: Vector2

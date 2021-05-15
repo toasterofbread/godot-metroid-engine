@@ -15,10 +15,11 @@ const default_data: Dictionary = {
 			"powerbomb": {"amount": 100, "ammo": 69, "active": true},
 			
 			"springball": {"amount": 1, "active": true},
-			"powergrip": {"amount": 1, "active": true},
 			"speedbooster": {"amount": 1, "active": true},
+			"powergrip": {"amount": 1, "active": true},
 			"spacejump": {"amount": 1, "active": true},
 			"screwattack": {"amount": 1, "active": true},
+			"spiderball": {"amount": 1, "active": true},
 			
 			"beam": {"amount": 1, "active": true},
 			"bomb": {"amount": 1, "active": true},

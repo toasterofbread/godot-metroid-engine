@@ -69,9 +69,9 @@ func process(_delta):
 			else:
 				Animator.Player.play("powergrip_climb_right")
 			
-			var MorphballRaycast: RayCast2D = Animator.raycasts.get_node("MorphballCeiling")
+			var MorphballRaycast: RayCast2D = Animator.raycasts.get_node("morphball/Ceiling")
 			MorphballRaycast.enabled = true
-			var CrouchRaycast: RayCast2D = Animator.raycasts.get_node("CrouchCeiling")
+			var CrouchRaycast: RayCast2D = Animator.raycasts.get_node("crouch/Ceiling")
 			var crouch_offset = 5
 			CrouchRaycast.enabled = true
 			CrouchRaycast.cast_to.y -= crouch_offset
