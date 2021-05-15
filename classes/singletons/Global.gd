@@ -196,6 +196,18 @@ func dir2vector(direction: int) -> Vector2:
 		Enums.dir.DOWN: return Vector2(0, 1)
 		_: return Vector2.ZERO
 
+func axis2dir(axis_value, x_axis: bool = true):
+	axis_value = sign(axis_value) 
+	if x_axis:
+		match axis_value:
+			1: return Enums.dir.RIGHT
+			-1: return Enums.dir.LEFT
+	else:
+		match axis_value:
+			1: return Enums.dir.DOWN
+			-1: return Enums.dir.UP
+	return null
+
 func text_fade_in(label: RichTextLabel, time: float):
 	var tween: Tween = Tween.new()
 	self.add_child(tween)

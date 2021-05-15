@@ -108,6 +108,8 @@ func _destroy(time: float = reappear_time):
 	
 	if time > 0:
 		$ReappearTimer.start(time)
+	else:
+		self.queue_free()
 
 func _reappear():
 	state = STATES.NORMAL

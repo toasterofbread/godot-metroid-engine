@@ -41,14 +41,33 @@ func transition(origin_door: Door):
 	transitioning = true
 	Samus.paused = true
 	
-	yield(origin_door.load_target_room(), "completed")
-	var room = origin_door.target_room_instance
-	var destination_door = origin_door.destination_door
+	var room = origin_door.target_room_scene.instance()
+	
+	var destination_door: Door
+	for door in room.get_node("Doors").get_children():
+		if door.id == origin_door.target_id:
+			destination_door = door
+			break
+	
+	# DEBUG
+	if not destination_door:
+		assert(false, "No destination door found in room")
+		return
+	
+	Loader.room_container.call_deferred("add_child", room)
+	yield(room, "ready")
+	
+	destination_door.locked = true
+	destination_door.open(true)
+	
+	var spawn_point = origin_door.target_spawn_position.global_position
+	var offset = room.global_position - destination_door.global_position
+	room.global_position = spawn_point + offset
 	
 	# Move Samus to new loaded room and reposition her
 	var samus_position = Samus.global_position
 	Global.reparent_child(Samus, room)
-	Samus.global_position = samus_position# + Vector2(-50, 0).rotated(deg2rad(origin_door.rotation_degrees))
+	Samus.global_position = samus_position
 	yield(Global.wait(0.1), "completed")
 	Samus.paused = false
 	
@@ -57,4 +76,7 @@ func transition(origin_door: Door):
 	transitioning = false
 	
 	yield(Global.wait(1.0), "completed")
-	destination_door.close()
+	if not Samus in destination_door.get_node("FullDoorArea").get_overlapping_bodies():
+		destination_door.close()
+	destination_door.locked = false
+	

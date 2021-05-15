@@ -9,8 +9,6 @@ export(DOOR_COLOURS) var _colour: int = DOOR_COLOURS.blue
 export(int, 3) var frame_colour: int = 0
 
 var target_room_scene: PackedScene
-var destination_door: Door
-var target_room_instance
 var opened: bool = false
 var locked: bool = false
 
@@ -46,7 +44,6 @@ func open(skip_animation: bool = false):
 	opened = true
 	$Sprite.play(DOOR_COLOURS.keys()[_colour] + "_open")
 	$CollisionShape2D.disabled = true
-	$Frame/CollisionShape2D.disabled = true
 	
 	if not skip_animation:
 		sounds["open"].play()
@@ -59,7 +56,6 @@ func close(skip_animation: bool = false):
 	opened = false
 	$Sprite.visible = true
 	$CollisionShape2D.disabled = false
-	$Frame/CollisionShape2D.disabled = false
 	$Sprite.play(DOOR_COLOURS.keys()[_colour] + "_close")
 	
 	if not skip_animation:
@@ -78,26 +74,3 @@ func _on_TransitionTriggerArea_body_entered(body):
 		return
 	
 	Loader.transition(self)
-
-func load_target_room():
-	target_room_instance = target_room_scene.instance()
-	
-	for door in target_room_instance.get_node("Doors").get_children():
-		if door.id == target_id:
-			destination_door = door
-			break
-	# DEBUG
-	if not destination_door:
-		assert(false, "No destination door found in room")
-		return
-	
-	Loader.room_container.call_deferred("add_child", target_room_instance)
-	yield(target_room_instance, "ready")
-	
-	destination_door.open(true)
-	
-	var spawn_point = target_spawn_position.global_position
-	var offset = target_room_instance.global_position - destination_door.global_position
-	target_room_instance.global_position = spawn_point + offset
-	
-	return destination_door

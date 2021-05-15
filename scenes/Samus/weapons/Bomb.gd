@@ -26,7 +26,7 @@ func projectile_fired(projectile: Projectile):
 			processed_bodies.append(body)
 			
 			if body == Samus:
-				if Samus.current_state.id == "morphball":
+				if Samus.current_state.id in ["morphball", "spiderball"]:
 					
 					Samus.current_state.bounce(bomb_bounce_amount)
 					

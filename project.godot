@@ -104,6 +104,7 @@ config/icon="res://icon.png"
 
 [autoload]
 
+vOverlay="*res://addons/Var_Overlay/overlay.gd"
 Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
 Settings="*res://classes/singletons/Settings.gd"
@@ -119,7 +120,7 @@ window/size/height=1080
 window/size/test_width=1280
 window/size/test_height=720
 window/vsync/use_vsync=false
-window/stretch/mode="viewport"
+window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
 [editor_plugins]
@@ -151,6 +152,16 @@ texture={
 "size_limit": 0,
 "stream": false,
 "svg/scale": 1.0
+}
+wav={
+"compress/mode": 0,
+"edit/loop": false,
+"edit/normalize": false,
+"edit/trim": false,
+"force/8_bit": false,
+"force/max_rate": false,
+"force/max_rate_hz": 44100,
+"force/mono": false
 }
 
 [input]
@@ -338,7 +349,7 @@ take_screenshot={
 
 [layer_names]
 
-2d_physics/layer_1="Samus hutboxes"
+2d_physics/layer_1="Samus hurtboxes"
 2d_render/layer_2="Hidden by X-Ray scope"
 2d_physics/layer_2="Samus hitboxes"
 2d_physics/layer_3="Enemy hurtboxes"

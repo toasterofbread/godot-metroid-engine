@@ -16,7 +16,7 @@ func _init(_samus: Node2D):
 	self.Animator = Samus.Animator
 	self.Physics = Samus.Physics
 	
-	self.CeilingRaycast = Animator.raycasts.get_node("CrouchCeiling")
+	self.CeilingRaycast = Animator.raycasts.get_node("crouch/Ceiling")
 	
 	animations = Animator.load_from_json(self.id)
 

@@ -45,3 +45,12 @@ Mon 10 May 2021:
  - Started recording to devlog again
  - Started work on scan visor
  - Various UI adjustments, nothing decided on yet though
+
+Thu 13 May 2021:
+ - 12~23
+ - Finished X-Ray scope
+ - Added space jump (literally one line of code excluding animation)
+ - Added screw attack (needed a shit ton of optimisation because using signals for this was insanely resource-intensive)
+ - Added power bombs (pretty much done, just needs visual polish and sound)
+ - Started spiderball state (technically did, even if it was just 2 minutes before going to bed)
+ 

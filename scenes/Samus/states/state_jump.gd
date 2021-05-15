@@ -56,11 +56,11 @@ func _init(_samus: Node2D):
 	self.Animator = Samus.Animator
 	self.Physics = Samus.Physics
 	
-	self.ledge_above_raycast = Animator.raycasts.get_node("LedgeAbove")
-	self.ledge_below_raycast = Animator.raycasts.get_node("LedgeBelow")
+	self.ledge_above_raycast = Animator.raycasts.get_node("jump/LedgeAbove")
+	self.ledge_below_raycast = Animator.raycasts.get_node("jump/LedgeBelow")
 	self.walljump_raycasts = {
-		Enums.dir.LEFT: Animator.raycasts.get_node("WalljumpLeft"),
-		Enums.dir.RIGHT: Animator.raycasts.get_node("WalljumpRight")
+		Enums.dir.LEFT: Animator.raycasts.get_node("jump/WalljumpLeft"),
+		Enums.dir.RIGHT: Animator.raycasts.get_node("jump/WalljumpRight")
 	}
 	self.WalljumpTimer = Global.start_timer("WalljumpPeriod", WalljumpPeriod, {}, null)
 	WalljumpTimer.stop()

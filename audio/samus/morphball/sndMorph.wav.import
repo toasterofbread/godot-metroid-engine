@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/sndWallJump.wav-19ceb19ded3f98836ff99acffae841aa.sample"
+path="res://.import/sndMorph.wav-ea3e96c57ad4944e4c5344f48c2bb5d2.sample"
 
 [deps]
 
-source_file="res://audio/samus/jump/sndWallJump.wav"
-dest_files=[ "res://.import/sndWallJump.wav-19ceb19ded3f98836ff99acffae841aa.sample" ]
+source_file="res://audio/samus/morphball/sndMorph.wav"
+dest_files=[ "res://.import/sndMorph.wav-ea3e96c57ad4944e4c5344f48c2bb5d2.sample" ]
 
 [params]
 

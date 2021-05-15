@@ -537,6 +537,17 @@
 				5,
 				8
 			]
+		},
+		"roll_spider_reverse": {
+			"directional": false,
+			"leftPos": [
+				2,
+				10
+			],
+			"rightPos": [
+				5,
+				10
+			]
 		}
 	},
 	"shinespark": {
