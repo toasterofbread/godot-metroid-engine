@@ -56,7 +56,7 @@ func process(_delta):
 	if Settings.get("controls/zm_style_aiming"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
-	if (Settings.get("controls/spiderball_hold") and not Input.is_action_pressed("spiderball")) or Input.is_action_just_released("spiderball"):
+	if (Settings.get("controls/spiderball_hold") and not Input.is_action_pressed("spiderball")) or (not Settings.get("controls/spiderball_hold") and Input.is_action_just_pressed("spiderball")):
 		change_state("morphball", {"options": []})
 		return
 	
@@ -119,33 +119,28 @@ func get_direction() -> int:
 		else:
 			trigger_action = null
 	
-	# Cardinal directions
-	if FLOOR.x == 0 or FLOOR.y == 0:
-		
-		if FLOOR == Vector2.DOWN or FLOOR == Vector2.UP:
-			if Input.is_action_pressed("pad_left"):
-				trigger_action = "pad_left"
-				ret = -1
-			elif Input.is_action_pressed("pad_right"):
-				trigger_action = "pad_right"
-				ret = 1
-			if FLOOR == Vector2.DOWN:
-				ret *= -1
-			return ret
-		else:
-			if Input.is_action_pressed("pad_up"):
-				trigger_action = "pad_up"
-				ret = -1
-			elif Input.is_action_pressed("pad_down"):
-				trigger_action = "pad_down"
-				ret = 1
-			if FLOOR == Vector2.LEFT:
-				ret *= -1
-			return ret
-	# Slopes
-	else:
-		return 1
+	var slope = FLOOR.x != 0 and FLOOR.y != 0
 	
+	if (FLOOR == Vector2.DOWN or FLOOR == Vector2.UP) or slope:
+		if Input.is_action_pressed("pad_left"):
+			trigger_action = "pad_left"
+			ret = -1
+		elif Input.is_action_pressed("pad_right"):
+			trigger_action = "pad_right"
+			ret = 1
+		if ret != 0:
+			if FLOOR.y > 0:
+				ret *= -1
+			return ret
+	
+	if Input.is_action_pressed("pad_up"):
+		trigger_action = "pad_up"
+		ret = -1
+	elif Input.is_action_pressed("pad_down"):
+		trigger_action = "pad_down"
+		ret = 1
+	if FLOOR.x < 0:
+		ret *= -1
 	return ret
 
 var direction
@@ -155,7 +150,7 @@ func attached_physics_process(delta: float):
 	if direction == 0:
 		return
 	
-	var collided = Samus.move_and_collide(FLOOR*delta*100) != null
+	var collided = Samus.move_and_collide(FLOOR*delta*spider_max_speed) != null
 	
 	var set = false
 	if not collided:
@@ -180,7 +175,7 @@ func bounce(amount: float):
 	Physics.vel.y = -amount
 
 func physics_process(delta: float):
-	vOverlay.SET("Spiderball FLOOR", Samus.is_on_floor())
+	vOverlay.SET("Spiderball FLOOR", FLOOR)
 	if attached:
 		attached_physics_process(delta)
 		return

@@ -65,7 +65,7 @@ func process(_delta):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
 	if Samus.is_upgrade_active("spiderball"):
-		if (Settings.get("controls/spiderball_hold") and Input.is_action_pressed("spiderball")) or Input.is_action_pressed("spiderball"):
+		if (Settings.get("controls/spiderball_hold") and Input.is_action_pressed("spiderball")) or (not Settings.get("controls/spiderball_hold") and Input.is_action_just_pressed("spiderball")):
 			change_state("spiderball")
 			return
 	
