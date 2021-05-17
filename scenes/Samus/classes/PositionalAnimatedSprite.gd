@@ -23,7 +23,7 @@ func _set(property: String, value) -> bool:
 		return true
 	return false
 
-func save_data(value: bool):
+func save_data(_value: bool):
 	if get_unset_variables() != []:
 		print("Cannot save data. The following variables have not been set:")
 		print(get_unset_variables())
@@ -41,7 +41,7 @@ func save_data(value: bool):
 	
 	print("Sprite data has been succesfully saved")
 
-func load_data(value: bool):
+func load_data(_value: bool):
 	if get_unset_variables() != []:
 		print("Cannot load data. The following variables have not been set:")
 		print(get_unset_variables())

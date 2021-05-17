@@ -6,6 +6,7 @@ onready var Collision = $Collision
 onready var Physics = $Physics
 onready var Weapons = $Weapons
 onready var HUD = $HUD
+onready var PauseMenu = $PauseMenu
 onready var camera = $SamusCamera
 
 var facing = Enums.dir.LEFT
@@ -59,7 +60,7 @@ func _ready():
 	var data = Loader.Save.data["samus"]
 	self.upgrades = data["upgrades"]
 	
-	etanks = upgrades["etanks"]["amount"]
+	etanks = upgrades[Enums.Upgrade.ETANK]["amount"]
 	HUD.set_etanks(etanks)
 	
 	energy = data["energy"]
@@ -67,10 +68,10 @@ func _ready():
 		energy = etanks * 100 + 99
 	HUD.set_energy(energy)
 	
-	
+	Weapons.add_weapon(Enums.Upgrade.BEAM)
 	for upgrade in upgrades:
 		if upgrade in Weapons.all_weapons and upgrades[upgrade]["amount"] > 0:
-			var weapon: SamusWeapon = Weapons.add_weapon(upgrade)
+			var weapon: SamusProjectile = Weapons.add_weapon(upgrade)
 			if not weapon.unlimited_ammo:
 				weapon.ammo = upgrades[upgrade]["ammo"]
 			weapon.amount = upgrades[upgrade]["amount"]
@@ -99,13 +100,16 @@ func _process(delta):
 		return
 	
 	current_state.process(delta)
-	if is_upgrade_active("speedbooster"):
+	if is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		states["shinespark"].speedbooster_process(delta)
 	
 var prev = ""
 func _physics_process(delta):
 	
 	vOverlay.SET("State", current_state.id)
+	vOverlay.SET("Pad", Shortcut.get_pad_vector("pressed"))
+	vOverlay.SET("Aiming analog", Shortcut.get_joystick_vector("secondary_pad"))
+	vOverlay.SET("Visor analog", Shortcut.get_joystick_vector("analog_visor"))
 	
 	if paused:
 		return
@@ -122,7 +126,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	if paused:
 		return
 	
-	if new_state_key == "crouch" and is_upgrade_active("speedbooster"):
+	if new_state_key == "crouch" and is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		if states["shinespark"].ShinesparkStoreWindow.time_left > 0 or boosting:
 			states["shinespark"].charge_shinespark()
 	
@@ -131,7 +135,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	current_state = states[new_state_key]
 	states[new_state_key].init_state(data)
 
-func is_upgrade_active(upgrade_key: String):
+func is_upgrade_active(upgrade_key: int):
 	var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
 	return upgrade["amount"] > 0 and upgrade["active"]
 		
@@ -166,6 +170,5 @@ func auto_offset_camera(amount: float = 100.0, time: float = 0.5):
 		aim.DOWN: offset = Vector2(Global.dir2vector(facing).x, 1)
 	offset *= amount
 	
-	var speed = 0.5
-	$SamusCamera/OffsetTween.interpolate_property($SamusCamera, "offset", $SamusCamera.offset, offset, speed, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	$SamusCamera/OffsetTween.interpolate_property($SamusCamera, "offset", $SamusCamera.offset, offset, time, Tween.TRANS_EXPO, Tween.EASE_OUT)
 	$SamusCamera/OffsetTween.start()

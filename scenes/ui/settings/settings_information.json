@@ -1,0 +1,30 @@
+{
+	"display": {
+		"description": "Graphics and window settings",
+		"options": {
+			"fullscreen": {"type": null, "default": false, "title": "Fullscreen", "description": "Sets the game window to fullscreen on startup"},
+		}
+	},
+	"audio": {
+		"description": "Sound volume options by type",
+		"options": {
+			"master_volume": {"type": [0, 100], "default": 50, "title": "Master volume", "description": "Applies to all sounds in the game"}
+		}
+	},
+	"controls": {
+		"description": "Control schemes and preferences",
+		"options": {
+			"aiming_style": {"type": ["Fusion / Zero Mission", "Super Metroid"], "default": 0, "title": "Aiming control scheme style", "description": "Changes the style of aiming used between one inspired by Metroid: Fusion and Zero Mission and one inspired by Super Metroid"},
+			"spin_from_jump": {"type": null, "default": true, "title": "Jump to spin mid-air", "description": "If enabled, Samus can spin mid-air if the jump button is pressed, like in Metroid: Fusion, Zero Mission, and Samus Returns"},
+			"spiderball_relative_controls": {"type": null, "default": true, "title": "Relative Spider Ball controls", "description": "Changes Samus's controls while stuck to a surface with the Spider Ball based on her orientation, instead of using static left and right inputs"},
+			"spiderball_style": {"type": ["Hold", "Toggle", "Classic"], "default": 0, "title": "Spider Ball control scheme style", "description": "Changes the control scheme for enabling the Spider Ball between toggle, hold, and a classic style similar to Metroid II: Return of Samus"},
+			"visor_combo": {"type": null, "default": true, "title": "Use combo to cycle visor", "description": "If enabled, visors will only be cycled if the visor input is pressed at the same time as the combo input"},
+		}
+	},
+	"miscellaneous": {
+		"description": "Various tweaks",
+		"options": {
+			"joypad_button_icon_style": {"type": ["PlayStation", "Xbox", "Nintendo"], "default": 0, "title": "Controller buton icon style", "description": "Changes the style of controller icons used in button prompts (does not apply to keyboard icons)"},
+		}
+	}
+}

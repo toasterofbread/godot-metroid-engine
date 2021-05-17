@@ -9,23 +9,23 @@ const default_data: Dictionary = {
 	},
 	"samus": {
 		"upgrades": {
-			"etanks": {"amount": 1, "active": true},
-			"missile": {"amount": 10, "ammo": 5, "active": true},
-			"supermissile": {"amount": 100, "ammo": 69, "active": true},
-			"powerbomb": {"amount": 100, "ammo": 69, "active": true},
+			Enums.Upgrade.ETANK: {"amount": 1, "active": true},
+			Enums.Upgrade.MISSILE: {"amount": 10, "ammo": 5, "active": true},
+			Enums.Upgrade.SUPERMISSILE: {"amount": 100, "ammo": 69, "active": true},
+			Enums.Upgrade.POWERBOMB: {"amount": 100, "ammo": 69, "active": true},
 			
-			"springball": {"amount": 1, "active": true},
-			"speedbooster": {"amount": 1, "active": true},
-			"powergrip": {"amount": 1, "active": true},
-			"spacejump": {"amount": 1, "active": true},
-			"screwattack": {"amount": 1, "active": true},
-			"spiderball": {"amount": 1, "active": true},
+			Enums.Upgrade.MORPHBALL: {"amount": 1, "active": true},
+			Enums.Upgrade.SPRINGBALL: {"amount": 1, "active": true},
+			Enums.Upgrade.SPEEDBOOSTER: {"amount": 1, "active": true},
+			Enums.Upgrade.POWERGRIP: {"amount": 1, "active": true},
+			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
+			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": true},
+			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
 			
-			"beam": {"amount": 1, "active": true},
-			"bomb": {"amount": 1, "active": true},
+			Enums.Upgrade.BOMB: {"amount": 1, "active": true},
 			
-			"xray": {"amount": 1, "active": true},
-			"scan": {"amount": 1, "active": false}
+			Enums.Visor.XRAY: {"amount": 1, "active": true},
+			Enums.Visor.SCAN: {"amount": 1, "active": false}
 		},
 		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},

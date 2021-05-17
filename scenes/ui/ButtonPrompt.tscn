@@ -1,44 +1,65 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://sprites/ui/button_icons/playstation/square.png" type="Texture" id=1]
-[ext_resource path="res://sprites/ui/button_icons/playstation/triangle.png" type="Texture" id=2]
+[ext_resource path="res://sprites/ui/button_prompt/playstation/face_buttons/circle.png" type="Texture" id=1]
+[ext_resource path="res://fonts/Pixel-Life.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/ui/ButtonPrompt.gd" type="Script" id=3]
-[ext_resource path="res://sprites/ui/button_icons/playstation/cross.png" type="Texture" id=4]
-[ext_resource path="res://sprites/ui/button_icons/playstation/circle.png" type="Texture" id=5]
 
-[sub_resource type="SpriteFrames" id=1]
-animations = [ {
-"frames": [ ExtResource( 4 ) ],
-"loop": false,
-"name": "0",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 5 ) ],
-"loop": false,
-"name": "1",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 1 ) ],
-"loop": false,
-"name": "2",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": false,
-"name": "3",
-"speed": 0.0
-} ]
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
 
-[node name="ButtonPrompt" type="Node2D"]
+[node name="ButtonPrompt" type="Node2D" groups=[
+"notify_when_settings_change",
+]]
 script = ExtResource( 3 )
+action_keys = [  ]
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 1 )
-animation = "3"
+[node name="Labels" type="Node2D" parent="."]
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="Template" type="RichTextLabel" parent="Labels"]
+margin_left = 14.0
+margin_top = -8.0
+margin_right = 524.0
+margin_bottom = 10.0
+rect_scale = Vector2( 1.25, 1.25 )
+custom_fonts/normal_font = SubResource( 1 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Icons" type="Control" parent="."]
+margin_left = 7.60001
+margin_top = -16.0
+margin_right = 7.60001
+margin_bottom = 64.0
+size_flags_horizontal = 0
+size_flags_vertical = 5
+
+[node name="Template" type="HBoxContainer" parent="Icons"]
+anchor_right = 1.0
+margin_left = -151.6
+margin_right = 227.4
+margin_bottom = 80.0
+rect_scale = Vector2( 0.4, 0.4 )
+size_flags_vertical = 4
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Icons/Template"]
+margin_left = 331.0
+margin_right = 379.0
+margin_bottom = 80.0
+size_flags_horizontal = 0
+size_flags_vertical = 5
+texture = ExtResource( 1 )
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EnabledTween" type="Tween" parent="."]
+
+[node name="IndexTween" type="Tween" parent="."]

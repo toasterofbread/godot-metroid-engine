@@ -391,16 +391,16 @@
 			"directional": false
 		},
 		"screw_spark": {
-			"leftPos": [
-				3.5,
-				5
-			],
-			"rightPos": [
-				3.5,
-				5
-			],
 			"directional": false,
-			"overlay": true
+			"leftPos": [
+				0,
+				5
+			],
+			"overlay": true,
+			"rightPos": [
+				7,
+				5
+			]
 		}
 	},
 	"crouch": {

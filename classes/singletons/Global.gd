@@ -27,6 +27,13 @@ func _ready():
 	self.add_child(Anchor)
 	Anchor.name = "Anchor"
 	Anchor.pause_mode = Node.PAUSE_MODE_STOP
+	
+	yield(Settings, "ready")
+#	Settings.connect("settings_changed", self, "settings_changed")
+	OS.window_fullscreen = Settings.get("display/fullscreen")
+
+#func settings_changed(path: String, value):
+#	pass
 
 func _process(delta):
 	emit_signal("process_frame")
@@ -82,10 +89,10 @@ func timer(connect = null):
 	timer.pause_mode = Node.PAUSE_MODE_STOP
 	return timer
 
-func wait(seconds: float):
+func wait(seconds: float, ignore_pause: bool = false):
 	var timer = Timer.new()
 	Timers.add_child(timer)
-	timer.pause_mode = Node.PAUSE_MODE_STOP
+	timer.pause_mode = Node.PAUSE_MODE_PROCESS if ignore_pause else Node.PAUSE_MODE_STOP
 	timer.start(seconds)
 	yield(timer, "timeout")
 	timer.queue_free()
@@ -96,7 +103,13 @@ func clear_timer(timer_id: String):
 	
 	timers[timer_id][0].queue_free()
 	timers.erase(timer_id)
-	
+
+func tween() -> Tween:
+	var tween = Tween.new()
+	tween.pause_mode = Node.PAUSE_MODE_STOP
+	self.add_child(tween)
+	return tween
+
 func create_hold_action(action: String):
 	if not action in hold_actions:
 		hold_actions[action] = 0
@@ -208,20 +221,21 @@ func axis2dir(axis_value, x_axis: bool = true):
 			-1: return Enums.dir.UP
 	return null
 
-func text_fade_in(label: RichTextLabel, time: float):
+func text_fade_in(label, time: float):
 	var tween: Tween = Tween.new()
 	self.add_child(tween)
+	label.visible = true
 	tween.interpolate_property(label, "percent_visible", 0, 1, time)
 	tween.start()
-	yield(tween, "tween_all_completed")
+	yield(wait(time), "completed")
 	tween.queue_free()
 	
-func text_fade_out(label: RichTextLabel, time: float):
+func text_fade_out(label, time: float):
 	var tween: Tween = Tween.new()
 	self.add_child(tween)
 	tween.interpolate_property(label, "percent_visible", label.percent_visible, 0, time)
 	tween.start()
-	yield(tween, "tween_all_completed")
+	yield(wait(time), "completed")
 	tween.queue_free()
 	label.visible = false
 

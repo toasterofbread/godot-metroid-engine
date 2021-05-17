@@ -1,4 +1,4 @@
-extends SamusWeapon
+extends SamusProjectile
 
 const bomb_detonation_time: float = 0.6
 const bomb_bounce_amount: float = 325.0

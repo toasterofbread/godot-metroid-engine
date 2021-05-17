@@ -1,4 +1,4 @@
-extends SamusWeapon
+extends SamusProjectile
 
 func projectile_collided(_projectile: Projectile):
 	if id == "supermissile":

@@ -6,9 +6,6 @@ onready var Animator: Node2D
 const collision_data_json_path = "res://scenes/Samus/animations/collision_data.json"
 onready var collision_data = Global.load_json(collision_data_json_path)
 
-const speedbooster_collision_data_path = "res://scenes/Samus/animations/speedbooster_collision_data.json"
-onready var speedbooster_collision_data = Global.load_json(speedbooster_collision_data_path)
-
 func _ready():
 	yield(Samus, "ready")
 	Animator = Samus.Animator
@@ -20,12 +17,6 @@ func _ready():
 			i += 1
 		i = 0
 	
-	i = 0
-	for key in speedbooster_collision_data:
-		for value in speedbooster_collision_data[key]:
-			speedbooster_collision_data[key][i] = Vector2(value[0], value[1])
-			i += 1
-		i = 0
 	
 func set_collider(animation: SamusAnimation):
 	

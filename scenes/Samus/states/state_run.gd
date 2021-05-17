@@ -36,7 +36,7 @@ func process(_delta):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style"):
 		if Input.is_action_pressed("arm_weapon"):
 			Animator.set_armed(true)
 		else:
@@ -118,7 +118,7 @@ func process(_delta):
 # Called when Samus' state is changed to this one
 func init_state(data: Dictionary):
 	Samus.boosting = data["boost"]
-	if Samus.is_upgrade_active("speedbooster"):
+	if Samus.is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		SpeedboostTimer.start(speedboost_charge_time)
 	return self
 

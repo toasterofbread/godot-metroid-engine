@@ -46,13 +46,16 @@ func trigger(upgrade_type: int):
 	
 
 func _show_element(element_name: String):
-	match element_name:
-		"Label": Global.text_fade_in($CanvasLayer/Label, show_duration/2)
-		"AddedLabel": Global.text_fade_in($CanvasLayer/AddedLabel, show_duration/2)
-		"TotalLabel": Global.text_fade_in($CanvasLayer/TotalLabel, show_duration/2)
+	if element_name == "Label":
+		Global.text_fade_in($CanvasLayer/Label, show_duration/2)
+	else:
+		Global.text_fade_in($CanvasLayer/Total, show_duration/2)
+		Global.text_fade_in($CanvasLayer/Added, show_duration/2)
 
 func _hide_element(element_name: String):
-	match element_name:
-		"Label": Global.text_fade_out($CanvasLayer/Label, show_duration/2)
-		"AddedLabel": Global.text_fade_out($CanvasLayer/AddedLabel, show_duration/2)
-		"TotalLabel": Global.text_fade_out($CanvasLayer/TotalLabel, show_duration/2)
+	if element_name == "Label":
+		Global.text_fade_out($CanvasLayer/Label, show_duration/2)
+	else:
+		Global.text_fade_out($CanvasLayer/Total, show_duration/2)
+		Global.text_fade_out($CanvasLayer/Added, show_duration/2)
+

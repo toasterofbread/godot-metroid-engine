@@ -1,7 +1,5 @@
 extends Node2D
 
-signal scan_status_changed
-
 onready var Samus: KinematicBody2D = get_parent()
 onready var CannonPositions = $CannonPositions
 onready var VisorPositions = $VisorPositions
@@ -19,11 +17,11 @@ var current_weapon = [
 	false # Whether the current selection is a morphball weapon
 ]
 var all_weapons = {
-	"beam": preload("res://scenes/Samus/weapons/Beam.tscn").instance(),
-	"missile": preload("res://scenes/Samus/weapons/Missile.tscn").instance(),
-	"supermissile": preload("res://scenes/Samus/weapons/SuperMissile.tscn").instance(),
-	"bomb": preload("res://scenes/Samus/weapons/Bomb.tscn").instance(),
-	"powerbomb": preload("res://scenes/Samus/weapons/PowerBomb.tscn").instance()
+	Enums.Upgrade.BEAM: preload("res://scenes/Samus/weapons/Beam.tscn").instance(),
+	Enums.Upgrade.MISSILE: preload("res://scenes/Samus/weapons/Missile.tscn").instance(),
+	Enums.Upgrade.SUPERMISSILE: preload("res://scenes/Samus/weapons/SuperMissile.tscn").instance(),
+	Enums.Upgrade.BOMB: preload("res://scenes/Samus/weapons/Bomb.tscn").instance(),
+	Enums.Upgrade.POWERBOMB: preload("res://scenes/Samus/weapons/PowerBomb.tscn").instance()
 }
 
 var current_visor = null
@@ -36,10 +34,10 @@ func _process(_delta):
 	current_weapon[1] = Samus.current_state.id in ["morphball", "spiderball"]
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
-		current_weapon[0] = 0 if Settings.get("controls/zm_style_aiming") else -1
+		current_weapon[0] = 0 if Settings.get("controls/aiming_style") == 0 else -1
 	elif Input.is_action_just_pressed("select_weapon"):
 		current_weapon[0] += 1
-		if Settings.get("controls/zm_style_aiming"):
+		if Settings.get("controls/aiming_style") == 0:
 			if current_weapon[0] >= len(added_weapons[current_weapon[1]]):
 				current_weapon[0] = 0
 		else:
@@ -50,7 +48,7 @@ func _process(_delta):
 	update_weapon_icons()
 
 func cycle_visor():
-	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/select_visor_shortcut") or Input.is_action_pressed("shortcut")):
+	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/visor_combo") or Input.is_action_pressed("shortcut")):
 		var checking = false
 		if current_visor == null:
 			checking = true
@@ -83,7 +81,7 @@ func update_weapon_icons():
 			weapon.Icon.update_icon(selected_weapon, Samus.armed)	
 
 func fire():
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style") == 0:
 		if Samus.armed:
 			if len(added_weapons[current_weapon[1]]) > current_weapon[0]:
 				added_weapons[current_weapon[1]][current_weapon[0]].fire()
@@ -99,7 +97,7 @@ func fire():
 		else:
 			(added_weapons[true] + added_weapons[false])[current_weapon[0]].fire()
 
-func add_weapon(weapon_key: String):
+func add_weapon(weapon_key: int):
 
 	var weapon = all_weapons[weapon_key]
 	Samus.get_node("Weapons").add_child(weapon)

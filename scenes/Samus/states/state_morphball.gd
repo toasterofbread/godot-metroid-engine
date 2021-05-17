@@ -61,11 +61,11 @@ func process(_delta):
 	var original_facing = Samus.facing
 	var fire_weapon = false
 
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style"):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
-	if Samus.is_upgrade_active("spiderball"):
-		if (Settings.get("controls/spiderball_hold") and Input.is_action_pressed("spiderball")) or (not Settings.get("controls/spiderball_hold") and Input.is_action_just_pressed("spiderball")):
+	if Samus.is_upgrade_active(Enums.Upgrade.SPIDERBALL):
+		if (Settings.get("controls/spiderball_style") == 0 and Input.is_action_pressed("spiderball")) or (Settings.get("controls/spiderball_style") == 1 and Input.is_action_just_pressed("spiderball")):
 			change_state("spiderball")
 			return
 	
@@ -126,7 +126,7 @@ func physics_process(delta: float):
 		sounds["bounce"].play()
 	
 	# Vertical
-	if Samus.is_upgrade_active("springball"):
+	if Samus.is_upgrade_active(Enums.Upgrade.SPRINGBALL):
 		if Input.is_action_just_pressed("jump") and Samus.is_on_floor():
 			springball_current_time = springball_time
 			Physics.accelerate_y(springball_acceleration, springball_speed, Enums.dir.UP)

@@ -18,7 +18,7 @@ var on_slope: bool = false
 
 var time = -1
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	
 	if Samus.is_on_ceiling() or Samus.is_on_wall():
 		Samus.boosting = false

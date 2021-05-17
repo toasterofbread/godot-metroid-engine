@@ -29,10 +29,9 @@ func _ready():
 	self.get_parent().add_child(area)
 	Global.reparent_child(self, area)
 	
-	
 	area.connect("body_entered", Map, "samus_entered_chunk", [self])
 	
-	if not Map.tiles:
+	if Map.tiles == null:
 		yield(Map, "tiles_loaded")
 	tile = Map.get_tile(grid_position)
 

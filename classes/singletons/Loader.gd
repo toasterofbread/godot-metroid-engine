@@ -54,8 +54,11 @@ func transition(origin_door: Door):
 		assert(false, "No destination door found in room")
 		return
 	
+	# DEBUG | Map tiles don't need to be reloaded on room change normally
+	Map.tiles = null
 	Loader.room_container.call_deferred("add_child", room)
 	yield(room, "ready")
+	Map.load_tiles()
 	
 	destination_door.locked = true
 	destination_door.open(true)
