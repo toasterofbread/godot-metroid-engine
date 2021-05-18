@@ -49,9 +49,9 @@ func update_index(index: int, previous_index: int = -1):
 #		current_node = $Categories.get_children()[index].get_node("Value")
 #		$Tween.interpolate_property(current_node, "percent_visible", current_node.percent_visible, 1, 0.15)
 		$Description.text = $Categories.get_children()[index].option_data["description"]
-#		if not $Description.visible:
-#			$Tween.interpolate_property($Description, "percent_visible", 0, 1, 0.2)
-#			$Description.visible = true
+		if not $Description.visible:
+			$Tween.interpolate_property($Description, "percent_visible", 0, 1, 0.2)
+			$Description.visible = true
 	if previous_index >= 0:
 		var previous_node = $Categories.get_children()[previous_index].get_node("Title/Background")
 		$Tween.interpolate_property(previous_node, "rect_position:x", previous_node.rect_position.x, -1500, 0.1)

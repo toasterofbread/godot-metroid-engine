@@ -3,7 +3,7 @@ class_name SamusProjectile
 
 onready var Samus: KinematicBody2D = Loader.Samus
 
-export var id: String
+export(Enums.Upgrade) var id: int
 export(Enums.DamageType) var damage_type
 export var damage_amount: float
 export var velocity: float
@@ -19,8 +19,8 @@ var amount: int
 
 var Icon: SamusWeaponIcon
 var Burst: AnimatedSprite
-onready var Anchor: Node2D = Global.get_anchor("Samus/Weapons/" + self.id)
-onready var AnchorBurst: Node2D = Global.get_anchor("Samus/Weapons/" + self.id + "_burst")
+onready var Anchor: Node2D = Global.get_anchor("Samus/Weapons/" + str(self.id))
+onready var AnchorBurst: Node2D = Global.get_anchor("Samus/Weapons/" + str(self.id) + "_burst")
 var Cooldown: Timer = Timer.new()
 onready var BaseProjectile: Area2D = $Projectile
 
@@ -50,7 +50,7 @@ class Projectile extends KinematicBody2D:
 		self.collision_layer = Weapon.BaseProjectile.collision_layer
 		self.collision_mask = Weapon.BaseProjectile.collision_mask
 		
-		self.global_position = pos.global_position
+		self.global_position = pos.position
 		
 		if self.get_node_or_null("VisibilityNotifier"):
 			self.get_node("VisibilityNotifier").connect("screen_exited", Weapon, "on_projectile_screen_exited", [self])
@@ -85,7 +85,7 @@ class Projectile extends KinematicBody2D:
 		var burst: AnimatedSprite = self.Burst.duplicate()
 		burst.visible = true
 		Weapon.Samus.add_child(burst)
-		burst.global_position = pos.global_position
+		burst.global_position = pos.position
 		burst.play("fire")
 		if self.AnimationPlayer:
 			self.AnimationPlayer.play("start")
@@ -187,12 +187,10 @@ func get_fire_pos():
 	if pos == null:
 		return null
 	pos = pos.duplicate()
-	AnchorBurst.add_child(pos)
 	
 	if Samus.facing == Enums.dir.RIGHT:
 		pos.position.x  = pos.position.x * -1 + 8
 	
-	# For some reason the default global_position is the same as the relative position
 	pos.global_position = Samus.global_position + pos.position
 	
 	if Samus.facing == Enums.dir.RIGHT:
@@ -209,6 +207,7 @@ func fire():
 		return
 	
 	var projectile = Projectile.new(self, velocity, pos)
+	pos.queue_free()
 	Anchor.add_child(projectile)
 	if burst_start:
 		projectile.burst_start(pos)

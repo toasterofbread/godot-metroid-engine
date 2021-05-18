@@ -12,6 +12,7 @@ const default_data: Dictionary = {
 			Enums.Upgrade.ETANK: {"amount": 1, "active": true},
 			Enums.Upgrade.MISSILE: {"amount": 10, "ammo": 5, "active": true},
 			Enums.Upgrade.SUPERMISSILE: {"amount": 100, "ammo": 69, "active": true},
+			Enums.Upgrade.GRAPPLEBEAM: {"amount": 1, "active": true},
 			Enums.Upgrade.POWERBOMB: {"amount": 100, "ammo": 69, "active": true},
 			
 			Enums.Upgrade.MORPHBALL: {"amount": 1, "active": true},
@@ -24,8 +25,8 @@ const default_data: Dictionary = {
 			
 			Enums.Upgrade.BOMB: {"amount": 1, "active": true},
 			
-			Enums.Visor.XRAY: {"amount": 1, "active": true},
-			Enums.Visor.SCAN: {"amount": 1, "active": false}
+			Enums.Upgrade.XRAY: {"amount": 1, "active": true},
+			Enums.Upgrade.SCAN: {"amount": 1, "active": false}
 		},
 		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},

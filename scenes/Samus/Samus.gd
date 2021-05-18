@@ -33,6 +33,7 @@ onready var states = {
 	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self),
 	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self),
 	"visor": preload("res://scenes/Samus/states/state_visor.gd").new(self),
+	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self)
 	}
 var previous_state_id: String
 onready var current_state: Node = states["neutral"]
@@ -71,7 +72,7 @@ func _ready():
 	Weapons.add_weapon(Enums.Upgrade.BEAM)
 	for upgrade in upgrades:
 		if upgrade in Weapons.all_weapons and upgrades[upgrade]["amount"] > 0:
-			var weapon: SamusProjectile = Weapons.add_weapon(upgrade)
+			var weapon = Weapons.add_weapon(upgrade)
 			if not weapon.unlimited_ammo:
 				weapon.ammo = upgrades[upgrade]["ammo"]
 			weapon.amount = upgrades[upgrade]["amount"]
@@ -107,9 +108,6 @@ var prev = ""
 func _physics_process(delta):
 	
 	vOverlay.SET("State", current_state.id)
-	vOverlay.SET("Pad", Shortcut.get_pad_vector("pressed"))
-	vOverlay.SET("Aiming analog", Shortcut.get_joystick_vector("secondary_pad"))
-	vOverlay.SET("Visor analog", Shortcut.get_joystick_vector("analog_visor"))
 	
 	if paused:
 		return
@@ -126,7 +124,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	if paused:
 		return
 	
-	if new_state_key == "crouch" and is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
+	if new_state_key in ["crouch", "morphball"] and is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		if states["shinespark"].ShinesparkStoreWindow.time_left > 0 or boosting:
 			states["shinespark"].charge_shinespark()
 	

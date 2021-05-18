@@ -19,8 +19,8 @@ const default_amounts = {
 	Enums.Upgrade.SCREWATTACK: 1,
 	Enums.Upgrade.SPIDERBALL: 1,
 	
-	Enums.Visor.XRAY: 1,
-	Enums.Visor.SCAN: 1,
+	Enums.Upgrade.XRAY: 1,
+	Enums.Upgrade.SCAN: 1,
 }
 
 var unique_id: int

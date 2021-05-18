@@ -61,7 +61,7 @@ func process(_delta):
 	var original_facing = Samus.facing
 	var fire_weapon = false
 
-	if Settings.get("controls/aiming_style"):
+	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
 	if Samus.is_upgrade_active(Enums.Upgrade.SPIDERBALL):

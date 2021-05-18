@@ -106,7 +106,7 @@ animations = [ {
 
 [node name="PowerBomb" type="Node2D"]
 script = ExtResource( 14 )
-id = "powerbomb"
+id = 11
 damage_type = 3
 cooldown = 5.0
 move_by_velocity = false

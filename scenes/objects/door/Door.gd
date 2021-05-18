@@ -13,7 +13,7 @@ var opened: bool = false
 var locked: bool = false
 
 onready var target_spawn_position: Position2D = $TargetSpawnPosition
-var _destructive_damage_types: Array = Enums.DamageType.values()
+var destructive_damage_types: Array = Enums.DamageType.values()
 
 var sounds = {
 	"open": Sound.new("res://audio/objects/door/sndDoorOpen.wav"),
@@ -27,23 +27,23 @@ func _ready():
 	target_room_scene = load(target_room_path)
 	
 	match _colour:
-		DOOR_COLOURS.blue: _destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.GRAPPLE, Enums.DamageType.POWERBOMB]
-		DOOR_COLOURS.red: _destructive_damage_types = [Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE]
-		DOOR_COLOURS.green: _destructive_damage_types = [Enums.DamageType.SUPERMISSILE]
-		DOOR_COLOURS.yellow: _destructive_damage_types = [Enums.DamageType.POWERBOMB]
+		DOOR_COLOURS.blue: destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.POWERBOMB]
+		DOOR_COLOURS.red: destructive_damage_types = [Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE]
+		DOOR_COLOURS.green: destructive_damage_types = [Enums.DamageType.SUPERMISSILE]
+		DOOR_COLOURS.yellow: destructive_damage_types = [Enums.DamageType.POWERBOMB]
 		
 
 func damage(damage_type: int, _damage_amount: int):
 	if locked:
 		return
 	
-	if damage_type in _destructive_damage_types:
+	if damage_type in destructive_damage_types:
 		open()
 
 func open(skip_animation: bool = false):
 	opened = true
 	$Sprite.play(DOOR_COLOURS.keys()[_colour] + "_open")
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
 	
 	if not skip_animation:
 		sounds["open"].play()

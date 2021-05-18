@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/ui/ButtonPrompt.gd"
 }, {
-"base": "StaticBody2D",
-"class": "DestroyableBlock",
-"language": "GDScript",
-"path": "res://scenes/objects/destroyable_block/GrappleBlock.gd"
-}, {
 "base": "Node2D",
 "class": "Door",
 "language": "GDScript",
@@ -96,7 +91,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ButtonPrompt": "",
-"DestroyableBlock": "",
 "Door": "",
 "ExTween": "",
 "GitAPI": "",
@@ -118,6 +112,7 @@ _global_script_class_icons={
 
 config/name="Godot Metroid Engine"
 run/main_scene="res://scenes/ui/main_menu/MainMenu.tscn"
+boot_splash/image="res://icon.png"
 config/icon="res://icon.png"
 
 [autoload]
@@ -133,8 +128,11 @@ Audio="*res://classes/singletons/Audio.gd"
 
 [debug]
 
+gdscript/warnings/unassigned_variable=false
+gdscript/warnings/unassigned_variable_op_assign=false
 gdscript/warnings/unused_variable=false
 gdscript/warnings/shadowed_variable=false
+gdscript/warnings/unused_argument=false
 gdscript/warnings/unreachable_code=false
 gdscript/warnings/narrowing_conversion=false
 gdscript/warnings/variable_conflicts_function=false
@@ -397,6 +395,10 @@ take_screenshot={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":9,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [layer_names]
 

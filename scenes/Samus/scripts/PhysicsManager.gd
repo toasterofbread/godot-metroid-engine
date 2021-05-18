@@ -36,6 +36,7 @@ func _physics_process(_delta: float):
 			vel.y = result_velocity.y
 		else:
 			vel = result_velocity
+	vOverlay.SET("Physics.vel", vel)
 	
 	disable_floor_snap = false
 

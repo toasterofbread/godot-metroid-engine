@@ -2,7 +2,7 @@ extends Control
 class_name SamusWeaponIcon
 
 const digit_width = 7
-onready var Digits = $Digits
+onready var Digits = get_node_or_null("Digits")
 onready var Icon = $Icon
 
 onready var digit_node = AnimatedSprite.new()

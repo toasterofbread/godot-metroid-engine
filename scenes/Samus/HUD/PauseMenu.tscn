@@ -1013,7 +1013,6 @@ modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 141.176, 0 )
 action_keys = [ "ui_cancel" ]
 text = [ "Delete marker" ]
-enabled = false
 
 [node name="Rename" parent="CanvasLayer2/ButtonPrompts/Marker/ButtonPrompts" instance=ExtResource( 2 )]
 visible = false
@@ -1021,7 +1020,6 @@ modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 286.118, 0 )
 action_keys = [ "ui_special_1", "#ui_special_1" ]
 text = [ "Rename marker", "Confirm rename" ]
-enabled = false
 
 [node name="Tween" type="Tween" parent="CanvasLayer2/ButtonPrompts/Marker"]
 
@@ -1094,7 +1092,6 @@ modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -94.1218, 6.10352e-05 )
 action_keys = [ "ui_cancel" ]
 text = [ "Cancel" ]
-enabled = false
 
 [node name="Tween" type="Tween" parent="CanvasLayer2/ButtonPrompts/Areas"]
 

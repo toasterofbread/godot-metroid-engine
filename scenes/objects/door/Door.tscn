@@ -12,14 +12,14 @@ extents = Vector2( 28, 32 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
-"loop": false,
-"name": "blue_open",
-"speed": 20.0
-}, {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
 "loop": false,
 "name": "blue_close",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "blue_open",
 "speed": 20.0
 } ]
 
@@ -55,7 +55,6 @@ monitorable = false
 collision_layer = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FullDoorArea"]
-visible = false
 position = Vector2( -12, 0 )
 shape = SubResource( 1 )
 

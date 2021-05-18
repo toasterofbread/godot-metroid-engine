@@ -173,6 +173,8 @@ func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration:
 	timer.queue_free()
 	tween.queue_free()
 
+func invert_angle(angle: float):
+	return -(180 - angle)
 
 # Load JSON file at the specified path and returns data as dict
 func load_json(path: String):
@@ -190,10 +192,17 @@ func save_json(path: String, data, pretty: bool = false):
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
 	f.close()
 
-func reparent_child(child: Node, new_parent: Node):
+func reparent_child(child: Node, new_parent: Node, maintain_global_position:=true):
+	var position
+	if maintain_global_position:
+		position = child.global_position
 	if child.get_parent():
-		child.get_parent().remove_child(child)
-	new_parent.add_child(child)
+		child.get_parent().call_deferred("remove_child", child)
+		yield(child, "tree_exited")
+	new_parent.call_deferred("add_child", child)
+	yield(child, "tree_entered")
+	if maintain_global_position:
+		child.global_position = position
 
 func array2vector(array: Array) -> Vector2:
 	return Vector2(array[0], array[1])

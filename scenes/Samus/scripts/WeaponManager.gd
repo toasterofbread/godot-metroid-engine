@@ -21,12 +21,13 @@ var all_weapons = {
 	Enums.Upgrade.MISSILE: preload("res://scenes/Samus/weapons/Missile.tscn").instance(),
 	Enums.Upgrade.SUPERMISSILE: preload("res://scenes/Samus/weapons/SuperMissile.tscn").instance(),
 	Enums.Upgrade.BOMB: preload("res://scenes/Samus/weapons/Bomb.tscn").instance(),
-	Enums.Upgrade.POWERBOMB: preload("res://scenes/Samus/weapons/PowerBomb.tscn").instance()
+	Enums.Upgrade.POWERBOMB: preload("res://scenes/Samus/weapons/PowerBomb.tscn").instance(),
+	Enums.Upgrade.GRAPPLEBEAM: preload("res://scenes/Samus/weapons/grapple_beam/GrappleBeam.tscn").instance()
 }
 
 var current_visor = null
 onready var visors = {
-	Enums.Visor.XRAY: $Visors/XRayScope
+	Enums.Upgrade.XRAY: $Visors/XRayScope
 }
 
 func _process(_delta):
@@ -55,10 +56,10 @@ func cycle_visor():
 		else:
 			visors[current_visor].set_overlay(false)
 		var set = false
-		for visor in Enums.Visor.values():
+		for visor in Enums.Visors:
 			if visor == current_visor:
 				checking = true
-			elif checking and Samus.is_upgrade_active(Enums.Visor.keys()[visor].to_lower()):
+			elif checking and Samus.is_upgrade_active(visor):
 				current_visor = visor
 				set = true
 				break
@@ -98,17 +99,17 @@ func fire():
 			(added_weapons[true] + added_weapons[false])[current_weapon[0]].fire()
 
 func add_weapon(weapon_key: int):
-
+	
 	var weapon = all_weapons[weapon_key]
 	Samus.get_node("Weapons").add_child(weapon)
-
+	
 	if weapon.is_base_weapon:
 		added_weapons_base[weapon.is_morph_weapon] = weapon
 	else:
 		added_weapons[weapon.is_morph_weapon].append(weapon)
 		var temp = added_weapons[weapon.is_morph_weapon]
 		added_weapons[weapon.is_morph_weapon] = []
-
+	
 		for w in all_weapons.values():
 			if w in temp:
 				added_weapons[weapon.is_morph_weapon].append(w)

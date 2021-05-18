@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://classes/Room.gd" type="Script" id=1]
 [ext_resource path="res://basic_tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://classes/MapChunk.gd" type="Script" id=3]
 [ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/objects/destroyable_block/GrappleBlock.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 256, 256 )
@@ -72,3 +73,6 @@ grid_position = Vector2( 1, -1 )
 left_wall = 1
 right_wall = 2
 top_wall = 2
+
+[node name="GrappleBlock" parent="." instance=ExtResource( 5 )]
+position = Vector2( -272, -352 )

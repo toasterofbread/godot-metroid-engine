@@ -63,8 +63,6 @@ func process(_delta):
 	if Input.is_action_just_pressed("fire_weapon"):
 		Samus.Weapons.fire()
 	
-	vOverlay.SET("direction", direction)
-	
 	if not attached:
 		if Input.is_action_pressed("pad_left"):
 			Samus.facing = Enums.dir.LEFT
@@ -173,7 +171,6 @@ func bounce(amount: float):
 	Physics.vel.y = -amount
 
 func physics_process(delta: float):
-	vOverlay.SET("Spiderball FLOOR", FLOOR)
 	if attached:
 		attached_physics_process(delta)
 		return

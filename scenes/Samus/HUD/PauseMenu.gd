@@ -70,8 +70,6 @@ func reset_minimap():
 
 func _process(delta: float):
 	
-	vOverlay.SET("Pause menu mode", MODES.keys()[mode])
-	
 	if mode == MODES.CLOSED or transitioning:
 		return
 	

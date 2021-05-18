@@ -736,16 +736,6 @@
 			"state_id": "walk"
 		}
 	},
-	"": {
-		"": {
-			"leftPos": [
-				7,
-				-2
-			],
-			"rightPos": [
-				2,
-				-2
-			]
-		}
+	"grapple": {
 	}
 }

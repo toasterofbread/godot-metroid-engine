@@ -47,7 +47,7 @@ func process(_delta: float):
 		change_state("neutral")
 		return
 	
-	if Settings.get("controls/aiming_style"):
+	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(false)
 	
 	if Input.is_action_just_pressed("morph_shortcut"):
