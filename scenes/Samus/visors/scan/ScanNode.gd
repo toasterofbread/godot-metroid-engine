@@ -12,8 +12,6 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 	scan_status_changed(false)
-	yield(Loader.Samus, "ready")
-	Loader.Samus.Weapons.connect("scan_status_changed", self, "scan_status_changed")
 
 func scan_status_changed(engaged: bool):
 	if engaged:

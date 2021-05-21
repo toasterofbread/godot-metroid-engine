@@ -55,7 +55,7 @@ func process(_delta):
 	
 	var original_aiming = Samus.aiming
 	
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if Input.is_action_just_pressed("morph_shortcut"):

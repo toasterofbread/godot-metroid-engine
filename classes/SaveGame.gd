@@ -9,23 +9,24 @@ const default_data: Dictionary = {
 	},
 	"samus": {
 		"upgrades": {
-			"etanks": {"amount": 1, "active": true},
-			"missile": {"amount": 10, "ammo": 5, "active": true},
-			"supermissile": {"amount": 100, "ammo": 69, "active": true},
-			"powerbomb": {"amount": 100, "ammo": 69, "active": true},
+			Enums.Upgrade.ETANK: {"amount": 1, "active": true},
+			Enums.Upgrade.MISSILE: {"amount": 0, "ammo": 0, "active": true},
+			Enums.Upgrade.SUPERMISSILE: {"amount": 50, "ammo": 50, "active": true},
+			Enums.Upgrade.GRAPPLEBEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.POWERBOMB: {"amount": 50, "ammo": 50, "active": true},
 			
-			"springball": {"amount": 1, "active": true},
-			"speedbooster": {"amount": 1, "active": true},
-			"powergrip": {"amount": 1, "active": true},
-			"spacejump": {"amount": 1, "active": true},
-			"screwattack": {"amount": 1, "active": true},
-			"spiderball": {"amount": 1, "active": true},
+			Enums.Upgrade.MORPHBALL: {"amount": 1, "active": true},
+			Enums.Upgrade.SPRINGBALL: {"amount": 1, "active": true},
+			Enums.Upgrade.SPEEDBOOSTER: {"amount": 1, "active": true},
+			Enums.Upgrade.POWERGRIP: {"amount": 1, "active": true},
+			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
+			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": true},
+			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
 			
-			"beam": {"amount": 1, "active": true},
-			"bomb": {"amount": 1, "active": true},
+			Enums.Upgrade.BOMB: {"amount": 1, "active": true},
 			
-			"xray": {"amount": 1, "active": true},
-			"scan": {"amount": 1, "active": false}
+			Enums.Upgrade.XRAY: {"amount": 1, "active": true},
+			Enums.Upgrade.SCAN: {"amount": 1, "active": false}
 		},
 		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},
@@ -53,7 +54,7 @@ func load_file():
 	else:
 		data = file
 
-func get_data_key(keys: Array):
+func get_data_key(keys: Array, create_new_keys:=false):
 	
 	var current_value = data
 	var new_keys_created = false
@@ -61,22 +62,23 @@ func get_data_key(keys: Array):
 	for key in keys:
 		if key in current_value:
 			current_value = current_value[key]
-		else:
+		elif create_new_keys:
 			current_value[key] = {}
 			current_value = current_value[key]
 			new_keys_created = true
+		else:
+			return null
 	
 	return null if new_keys_created else current_value
 
 func set_data_key(keys: Array, value):
 	
 	var current_value = data
-	
 	var i = 0
 	for key in keys:
 		if i == len(keys) - 1:
 			current_value[key] = value
-			return
+			break
 		else:
 			if key in current_value:
 				current_value = current_value[key]

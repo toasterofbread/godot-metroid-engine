@@ -6,8 +6,6 @@ onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
 
 var current_visor = null
 
-const map_camera_move_speed = 5
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Map.Grid = $CanvasLayer/MapGrid
@@ -20,6 +18,8 @@ func add_weapon(weapon_icon: SamusWeaponIcon):
 func remove_weapon(weapon_icon: SamusWeaponIcon):
 	if weapon_icon in $CanvasLayer/TopBar/WeaponIcons.get_children():
 		$CanvasLayer/TopBar/WeaponIcons.remove_child(weapon_icon)
+		return true
+	return false
 
 func set_etanks(etanks: int):
 	for _i in range(etanks):

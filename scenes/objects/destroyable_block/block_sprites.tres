@@ -1,85 +1,59 @@
-[gd_resource type="SpriteFrames" load_steps=29 format=2]
+[gd_resource type="SpriteFrames" load_steps=13 format=2]
 
-[ext_resource path="res://sprites/destroyable_block/sBlockSpeed_0.png" type="Texture" id=1]
+[ext_resource path="res://sprites/destroyable_block/sBlockShoot_0.png" type="Texture" id=1]
 [ext_resource path="res://sprites/destroyable_block/sBlockPBomb_0.png" type="Texture" id=2]
-[ext_resource path="res://sprites/destroyable_block/sBlockShoot_0.png" type="Texture" id=3]
-[ext_resource path="res://sprites/destroyable_block/sBlockSMissile_0.png" type="Texture" id=4]
+[ext_resource path="res://sprites/destroyable_block/sBlockScrew_0.png" type="Texture" id=3]
+[ext_resource path="res://sprites/destroyable_block/sBlockMissile_0.png" type="Texture" id=4]
 [ext_resource path="res://sprites/destroyable_block/sBlockStep_0.png" type="Texture" id=5]
-[ext_resource path="res://sprites/destroyable_block/sBlockMissile_0.png" type="Texture" id=6]
-[ext_resource path="res://sprites/destroyable_block/sBlockBomb_0.png" type="Texture" id=7]
-[ext_resource path="res://sprites/destroyable_block/sBlockScrew_0.png" type="Texture" id=8]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_15.png" type="Texture" id=9]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_14.png" type="Texture" id=10]
+[ext_resource path="res://sprites/destroyable_block/sBlockSMissile_0.png" type="Texture" id=6]
+[ext_resource path="res://sprites/destroyable_block/sBlockSpeed_0.png" type="Texture" id=7]
+[ext_resource path="res://sprites/destroyable_block/sBlockBomb_0.png" type="Texture" id=8]
 [ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_0.png" type="Texture" id=11]
 [ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_1.png" type="Texture" id=12]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_10.png" type="Texture" id=13]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_11.png" type="Texture" id=14]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_8.png" type="Texture" id=15]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_9.png" type="Texture" id=16]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_0.png" type="Texture" id=17]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_1.png" type="Texture" id=18]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_6.png" type="Texture" id=19]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_7.png" type="Texture" id=20]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_5.png" type="Texture" id=21]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_4.png" type="Texture" id=22]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_13.png" type="Texture" id=23]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_12.png" type="Texture" id=24]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_3.png" type="Texture" id=25]
 [ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_2.png" type="Texture" id=26]
 [ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_3.png" type="Texture" id=27]
-[ext_resource path="res://sprites/destroyable_block/sand/sBlockSand_2.png" type="Texture" id=28]
 
 [resource]
 animations = [ {
-"frames": [ ExtResource( 17 ), ExtResource( 18 ), ExtResource( 28 ), ExtResource( 25 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 10 ), ExtResource( 9 ) ],
-"loop": false,
-"name": "sand",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 8 ) ],
-"loop": true,
-"name": "screwattack",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 6 ) ],
-"loop": true,
-"name": "missile",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 27 ), ExtResource( 26 ), ExtResource( 12 ), ExtResource( 11 ) ],
-"loop": false,
-"name": "reappear",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 1 ) ],
-"loop": true,
-"name": "speedbooster",
-"speed": 5.0
+"loop": false,
+"name": "beam",
+"speed": 0.0
 }, {
 "frames": [ ExtResource( 2 ) ],
 "loop": false,
 "name": "powerbomb",
 "speed": 0.0
 }, {
-"frames": [ ExtResource( 3 ) ],
-"loop": true,
-"name": "beam",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 4 ) ],
-"loop": true,
-"name": "supermissile",
-"speed": 5.0
+"loop": false,
+"name": "missile",
+"speed": 0.0
 }, {
-"frames": [ ExtResource( 5 ) ],
-"loop": true,
-"name": "crumble",
-"speed": 5.0
+"frames": [ ExtResource( 6 ) ],
+"loop": false,
+"name": "supermissile",
+"speed": 0.0
 }, {
 "frames": [ ExtResource( 7 ) ],
-"loop": true,
+"loop": false,
+"name": "speedbooster",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": false,
 "name": "bomb",
-"speed": 5.0
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "screwattack",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": false,
+"name": "crumble",
+"speed": 0.0
 }, {
 "frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": false,

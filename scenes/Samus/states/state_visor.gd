@@ -26,7 +26,7 @@ func _init(_Samus: KinematicBody2D):
 	Physics = Samus.Physics
 	animations = Animator.load_from_json(self.id)
 
-func init_state(data: Dictionary):
+func init_state(_data: Dictionary):
 	visor = Samus.Weapons.visors[Samus.Weapons.current_visor]
 
 # Changes Samus's state to the passed state script
@@ -37,7 +37,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 
 # Called every frame while the visor is enabled
-func process(delta: float):
+func process(_delta: float):
 	
 	var play_transition: bool = false
 	var original_facing: int = Samus.facing
@@ -47,7 +47,7 @@ func process(delta: float):
 		change_state("neutral")
 		return
 	
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(false)
 	
 	if Input.is_action_just_pressed("morph_shortcut"):

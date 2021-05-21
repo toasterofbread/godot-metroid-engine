@@ -18,11 +18,15 @@ var on_slope: bool = false
 
 var time = -1
 
-func _physics_process(delta: float):
+func _physics_process(_delta: float):
 	
 	if Samus.is_on_ceiling() or Samus.is_on_wall():
 		Samus.boosting = false
-
+	
+	if get_tree().paused:
+		Samus.move_and_slide_with_snap(Vector2.ZERO, Vector2.ZERO)
+		return
+	
 	if apply_gravity:
 		vel.y = min(vel.y + GRAVITY, FALL_SPEED_CAP)
 	
@@ -36,6 +40,7 @@ func _physics_process(delta: float):
 			vel.y = result_velocity.y
 		else:
 			vel = result_velocity
+	vOverlay.SET("Physics.vel", vel)
 	
 	disable_floor_snap = false
 

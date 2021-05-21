@@ -1,1 +1,1 @@
-extends SamusWeapon
+extends SamusProjectile

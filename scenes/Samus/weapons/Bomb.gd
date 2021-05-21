@@ -1,4 +1,4 @@
-extends SamusWeapon
+extends SamusProjectile
 
 const bomb_detonation_time: float = 0.6
 const bomb_bounce_amount: float = 325.0
@@ -40,7 +40,7 @@ func projectile_fired(projectile: Projectile):
 						morphball_horiz_bounce(bomb_horiz_bounce_amount, direction)
 					
 					if not Samus.is_on_floor():
-						Samus.damage(samus_aerial_damage)
+						Samus.damage(Enums.DamageType.BOMB, samus_aerial_damage)
 			else:
 				if body.has_method("damage"):
 					body.damage(damage_type, damage_amount)

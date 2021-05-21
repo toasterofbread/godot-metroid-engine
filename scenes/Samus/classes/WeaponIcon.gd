@@ -2,7 +2,7 @@ extends Control
 class_name SamusWeaponIcon
 
 const digit_width = 7
-onready var Digits = $Digits
+onready var Digits = get_node_or_null("Digits")
 onready var Icon = $Icon
 
 onready var digit_node = AnimatedSprite.new()
@@ -38,7 +38,7 @@ func update_digits(amount: int):
 		digit.frame = int(str(amount)[i])
 		i += 1
 
-func update_icon(selected_weapon, armed: bool = false):
+func update_icon(selected_weapon, armed: bool):
 	if selected_weapon and selected_weapon.Icon == self:
 		Icon.frame = 2 if armed else 1
 	else:

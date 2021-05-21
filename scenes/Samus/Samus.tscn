@@ -9,7 +9,7 @@
 [ext_resource path="res://scenes/Samus/scripts/CollisionManager.gd" type="Script" id=7]
 [ext_resource path="res://scenes/Samus/particles/morphball_trail/sBallTrail_0.png" type="Texture" id=8]
 [ext_resource path="res://scenes/Samus/particles/morphball_trail/morphball_trail.tres" type="Material" id=9]
-[ext_resource path="res://scenes/Samus/classes/Camera.gd" type="Script" id=10]
+[ext_resource path="res://classes/ExCamera2D.gd" type="Script" id=10]
 [ext_resource path="res://scenes/Samus/HUD/HUD.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/Samus/HUD/PauseMenu.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/Samus/visors/xray/XRayScope.tscn" type="PackedScene" id=13]
@@ -272,9 +272,8 @@ tracks/3/keys = {
 extents = Vector2( 7.5, 7.5 )
 
 [node name="Samus" type="KinematicBody2D"]
-pause_mode = 1
+pause_mode = 2
 position = Vector2( 2, -2 )
-z_index = -1
 z_as_relative = false
 collision_mask = 524288
 script = ExtResource( 2 )
@@ -282,19 +281,23 @@ script = ExtResource( 2 )
 [node name="PauseMenu" parent="." instance=ExtResource( 12 )]
 
 [node name="HUD" parent="." instance=ExtResource( 11 )]
+pause_mode = 1
 margin_right = 1920.0
 margin_bottom = 1080.0
 
 [node name="Physics" type="Node" parent="."]
+pause_mode = 2
 script = ExtResource( 5 )
 
 [node name="Audio" type="Node" parent="."]
+pause_mode = 1
 script = ExtResource( 3 )
 
 [node name="Animator" type="Node2D" parent="."]
 script = ExtResource( 4 )
 
 [node name="Raycasts" type="Node2D" parent="Animator"]
+pause_mode = 1
 
 [node name="jump" type="Node2D" parent="Animator/Raycasts"]
 visible = false
@@ -361,7 +364,6 @@ collision_mask = 524288
 position = Vector2( 5, 10 )
 frames = ExtResource( 1 )
 animation = "morphball_roll_spider_reverse"
-frame = 2
 playing = true
 script = ExtResource( 14 )
 state_key = "morphball"
@@ -377,7 +379,7 @@ data = {
 visible = false
 position = Vector2( 0, 5 )
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider_reverse"
+animation = "jump_screw_spark"
 playing = true
 flip_h = true
 script = ExtResource( 14 )
@@ -391,6 +393,7 @@ data = {
 }
 
 [node name="Sprites" type="Node2D" parent="Animator"]
+pause_mode = 1
 
 [node name="sOverlayLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
@@ -410,6 +413,7 @@ visible = false
 position = Vector2( -14, -31 )
 frames = ExtResource( 1 )
 animation = "morphball_roll_spider_reverse"
+frame = 6
 playing = true
 flip_h = true
 
@@ -419,10 +423,12 @@ frames = ExtResource( 1 )
 animation = "morphball_roll_spider_reverse"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
+pause_mode = 1
 anims/reset = SubResource( 1 )
 anims/speedboost = SubResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Animator"]
+pause_mode = 1
 anims/neutral_open_map_left = SubResource( 3 )
 anims/powergrip_climb_left = SubResource( 4 )
 anims/powergrip_climb_right = SubResource( 5 )
@@ -433,6 +439,7 @@ shape = SubResource( 6 )
 script = ExtResource( 7 )
 
 [node name="Weapons" type="Node2D" parent="."]
+pause_mode = 1
 script = ExtResource( 6 )
 
 [node name="CannonPositions" type="Node2D" parent="Weapons"]
@@ -620,6 +627,7 @@ collision_mask = 524292
 position = Vector2( -4, 3 )
 
 [node name="Particles" type="Node2D" parent="."]
+pause_mode = 1
 z_index = -1
 
 [node name="morphball" type="Particles2D" parent="Particles"]
@@ -634,13 +642,17 @@ process_material = ExtResource( 9 )
 texture = ExtResource( 8 )
 
 [node name="SamusCamera" type="Camera2D" parent="."]
+pause_mode = 2
 current = true
-zoom = Vector2( 5, 5 )
+zoom = Vector2( 0.25, 0.25 )
 limit_smoothed = true
+drag_margin_h_enabled = true
 drag_margin_v_enabled = true
-smoothing_speed = 15.0
-drag_margin_top = 0.01
-drag_margin_right = 0.01
+drag_margin_left = 0.4
+drag_margin_top = 0.4
+drag_margin_right = 0.4
+drag_margin_bottom = 0.4
 script = ExtResource( 10 )
 
 [node name="OffsetTween" type="Tween" parent="SamusCamera"]
+pause_mode = 2

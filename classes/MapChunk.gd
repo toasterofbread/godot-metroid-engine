@@ -15,7 +15,6 @@ var tile: MapTile
 
 func _ready():
 	
-	
 	if Engine.is_editor_hint():
 		self.shape = RectangleShape2D.new()
 		self.shape.extents = Vector2(256, 256)
@@ -29,10 +28,9 @@ func _ready():
 	self.get_parent().add_child(area)
 	Global.reparent_child(self, area)
 	
-	
 	area.connect("body_entered", Map, "samus_entered_chunk", [self])
 	
-	if not Map.tiles:
+	if Map.tiles == null:
 		yield(Map, "tiles_loaded")
 	tile = Map.get_tile(grid_position)
 

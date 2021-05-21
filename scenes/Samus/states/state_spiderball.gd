@@ -42,7 +42,7 @@ func _init(_samus: Node2D):
 	
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary):
+func init_state(_data: Dictionary):
 	Samus.aiming = Samus.aim.NONE
 	if Samus.is_on_floor():
 		set_floor(Vector2.DOWN)
@@ -53,17 +53,15 @@ func process(_delta):
 	
 	var original_facing = Samus.facing
 
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
-	if (Settings.get("controls/spiderball_hold") and not Input.is_action_pressed("spiderball")) or (not Settings.get("controls/spiderball_hold") and Input.is_action_just_pressed("spiderball")):
+	if (Settings.get("controls/spiderball_style") == 0 and not Input.is_action_pressed("spiderball")) or (Settings.get("controls/spiderball_style") == 1 and Input.is_action_just_pressed("spiderball")):
 		change_state("morphball", {"options": []})
 		return
 	
 	if Input.is_action_just_pressed("fire_weapon"):
 		Samus.Weapons.fire()
-	
-	vOverlay.SET("direction", direction)
 	
 	if not attached:
 		if Input.is_action_pressed("pad_left"):
@@ -120,27 +118,25 @@ func get_direction() -> int:
 			trigger_action = null
 	
 	var slope = FLOOR.x != 0 and FLOOR.y != 0
-	
-	if (FLOOR == Vector2.DOWN or FLOOR == Vector2.UP) or slope:
+
+	if FLOOR == Vector2.DOWN or FLOOR == Vector2.UP or slope:
 		if Input.is_action_pressed("pad_left"):
 			trigger_action = "pad_left"
 			ret = -1
 		elif Input.is_action_pressed("pad_right"):
 			trigger_action = "pad_right"
 			ret = 1
-		if ret != 0:
-			if FLOOR.y > 0:
-				ret *= -1
-			return ret
-	
-	if Input.is_action_pressed("pad_up"):
-		trigger_action = "pad_up"
-		ret = -1
-	elif Input.is_action_pressed("pad_down"):
-		trigger_action = "pad_down"
-		ret = 1
-	if FLOOR.x < 0:
-		ret *= -1
+		if FLOOR.y > 0:
+			ret *= -1
+	if FLOOR == Vector2.RIGHT or FLOOR == Vector2.LEFT or slope:
+		if Input.is_action_pressed("pad_up"):
+			trigger_action = "pad_up"
+			ret = -1
+		elif Input.is_action_pressed("pad_down"):
+			trigger_action = "pad_down"
+			ret = 1
+		if FLOOR.x < 0:
+			ret *= -1
 	return ret
 
 var direction
@@ -175,7 +171,6 @@ func bounce(amount: float):
 	Physics.vel.y = -amount
 
 func physics_process(delta: float):
-	vOverlay.SET("Spiderball FLOOR", FLOOR)
 	if attached:
 		attached_physics_process(delta)
 		return

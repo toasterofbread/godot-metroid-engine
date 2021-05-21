@@ -52,7 +52,7 @@ radius = 16.0
 
 [node name="Bomb" type="Node2D"]
 script = ExtResource( 1 )
-id = "bomb"
+id = 2
 damage_type = 2
 cooldown = 0.2
 is_morph_weapon = true
@@ -70,7 +70,6 @@ collision_mask = 524293
 z_index = 4096
 z_as_relative = false
 frames = SubResource( 1 )
-frame = 1
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]

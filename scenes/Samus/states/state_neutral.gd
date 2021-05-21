@@ -35,7 +35,7 @@ func process(_delta):
 	var reset_idle_timer = false
 	var fire_weapon = false
 	
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
@@ -63,7 +63,7 @@ func process(_delta):
 		fire_weapon = true
 		reset_idle_timer = true
 		Samus.aim_none_timer.start()
-	elif Input.is_action_just_pressed("pause"):
+	elif Input.is_action_just_pressed("pause") and Samus.PauseMenu.mode == Samus.PauseMenu.MODES.CLOSED:
 		reset_idle_timer = true
 		Animator.Player.play("neutral_open_map_left")
 	

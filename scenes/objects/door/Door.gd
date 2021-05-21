@@ -1,7 +1,7 @@
 extends Node2D
 class_name Door
 
-export(String, FILE) var target_room_path: String
+export var target_room_id: String
 export var id: String
 export var target_id: String
 enum DOOR_COLOURS {blue, red, green, yellow}
@@ -13,7 +13,7 @@ var opened: bool = false
 var locked: bool = false
 
 onready var target_spawn_position: Position2D = $TargetSpawnPosition
-var _destructive_damage_types: Array = Enums.DamageType.values()
+var destructive_damage_types: Array = Enums.DamageType.values()
 
 var sounds = {
 	"open": Sound.new("res://audio/objects/door/sndDoorOpen.wav"),
@@ -24,26 +24,28 @@ var sounds = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	target_room_scene = load(target_room_path)
+	z_index = Enums.Layers.DOOR
+	
+	target_room_scene = Loader.rooms[target_room_id]
 	
 	match _colour:
-		DOOR_COLOURS.blue: _destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.GRAPPLE, Enums.DamageType.POWERBOMB]
-		DOOR_COLOURS.red: _destructive_damage_types = [Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE]
-		DOOR_COLOURS.green: _destructive_damage_types = [Enums.DamageType.SUPERMISSILE]
-		DOOR_COLOURS.yellow: _destructive_damage_types = [Enums.DamageType.POWERBOMB]
+		DOOR_COLOURS.blue: destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.POWERBOMB]
+		DOOR_COLOURS.red: destructive_damage_types = [Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE]
+		DOOR_COLOURS.green: destructive_damage_types = [Enums.DamageType.SUPERMISSILE]
+		DOOR_COLOURS.yellow: destructive_damage_types = [Enums.DamageType.POWERBOMB]
 		
 
 func damage(damage_type: int, _damage_amount: int):
 	if locked:
 		return
 	
-	if damage_type in _destructive_damage_types:
+	if damage_type in destructive_damage_types:
 		open()
 
 func open(skip_animation: bool = false):
 	opened = true
 	$Sprite.play(DOOR_COLOURS.keys()[_colour] + "_open")
-	$CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
 	
 	if not skip_animation:
 		sounds["open"].play()
@@ -74,3 +76,13 @@ func _on_TransitionTriggerArea_body_entered(body):
 		return
 	
 	Loader.transition(self)
+
+func fade_out(duration: float):
+	$Tween.interpolate_property(self, "modulate:a", 1, 0, duration)
+	$Tween.start()
+	yield($Tween, "tween_completed")
+
+func fade_in(duration: float):
+	$Tween.interpolate_property(self, "modulate:a", 0, 1, duration)
+	$Tween.start()
+	yield($Tween, "tween_completed")

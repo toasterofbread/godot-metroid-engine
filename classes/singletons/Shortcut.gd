@@ -1,5 +1,18 @@
 extends Node
 
+var using_keyboard: bool = false
+
+signal keyboard_mode_changed
+
+func _input(event: InputEvent):
+	
+	if event is InputEventJoypadButton and using_keyboard:
+		using_keyboard = false
+		emit_signal("keyboard_mode_changed", false)
+	elif event is InputEventKey and not using_keyboard:
+		using_keyboard = true
+		emit_signal("keyboard_mode_changed", true)
+	
 func get_facing(pad_name: String = "secondary_pad"):
 	if Input.is_action_just_pressed(pad_name + "_left"):
 		return Enums.dir.LEFT

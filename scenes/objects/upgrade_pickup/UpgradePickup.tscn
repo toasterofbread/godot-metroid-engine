@@ -24,9 +24,11 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 8, 8 )
 frames = ExtResource( 1 )
-animation = "bomb"
+animation = "missile"
+frame = 2
 playing = true
 
 [node name="ScanNode" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [connection signal="body_entered" from="." to="." method="_on_UpgradePickup_body_entered"]

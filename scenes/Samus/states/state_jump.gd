@@ -97,9 +97,9 @@ func process(_delta):
 	var play_transition = false
 	var fire_weapon = false
 	
-	Samus.set_hurtbox_damage(damage_type, damage_amount if Samus.is_upgrade_active("screwattack") and spinning else null)
+	Samus.set_hurtbox_damage(damage_type, damage_amount if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning else null)
 	
-	if Settings.get("controls/zm_style_aiming"):
+	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if Samus.shinespark_charged and not spinning:
@@ -203,9 +203,9 @@ func process(_delta):
 			
 			var spin_animation = "spin"
 			
-			if Samus.is_upgrade_active("spacejump"):
+			if Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP):
 				spin_animation = spin_animation + "_space"
-			if Samus.is_upgrade_active("screwattack"):
+			if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK):
 				spin_animation = spin_animation + "_screw"
 				animations["screw_spark"].play()
 			
@@ -243,7 +243,7 @@ func physics_process(delta: float):
 		ledge_above_raycast.position = Vector2(12, -20)
 		ledge_below_raycast.position = Vector2(19, -19)
 	
-	if ledge_above_raycast.enabled and Samus.is_upgrade_active("powergrip"):
+	if ledge_above_raycast.enabled and Samus.is_upgrade_active(Enums.Upgrade.POWERGRIP):
 		if Samus.is_on_wall() and PowergripCooldownTimer.time_left == 0:
 			if !ledge_above_raycast.is_colliding() and ledge_below_raycast.is_colliding():
 				change_state("powergrip", {"point": ledge_below_raycast.get_collision_point()})
@@ -269,7 +269,7 @@ func physics_process(delta: float):
 			elif walljump_raycasts[Enums.dir.LEFT].is_colliding() and Input.is_action_pressed("pad_left"):
 				jump_current_time = jump_time
 				sounds["walljump"].play()
-			elif Samus.is_upgrade_active("spacejump"):
+			elif Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP):
 				jump_current_time = jump_time
 		
 		if WalljumpTimer.time_left != 0:
@@ -287,8 +287,11 @@ func physics_process(delta: float):
 					Enums.dir.LEFT: Physics.vel.x = -max(spin_horiz_speed, abs(Physics.vel.x))
 					Enums.dir.RIGHT: Physics.vel.x = max(spin_horiz_speed, abs(Physics.vel.x))
 	else:
-		if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
-			Physics.accelerate_x(horiz_acceleration, horiz_speed, Samus.facing)
+		
+		var pad_x = Shortcut.get_pad_vector("pressed").x
+		
+		if pad_x != 0:
+			Physics.vel.x = Shortcut.add_to_limit(Physics.vel.x, horiz_acceleration, max(horiz_speed, abs(Physics.vel.x)) * pad_x)
 		else:
 			Physics.decelerate_x(horiz_acceleration)
 	first_frame = false
@@ -296,8 +299,3 @@ func physics_process(delta: float):
 func set_walljump_raycasts_state(enabled: bool):
 	for raycast in walljump_raycasts.values():
 		raycast.enabled = enabled
-
-#func set_screwattacking(value: bool):
-#	if screwattacking != value:
-#		screwattacking = value
-#		emit_signal("screwattacking_changed", value)

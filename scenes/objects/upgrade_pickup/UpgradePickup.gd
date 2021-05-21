@@ -1,34 +1,52 @@
 tool
 extends Area2D
+class_name UpgradePickup
 
-export var unique_id: String
-export (Enums.Upgrade) var upgrade_type: int setget set_upgrade_type
+onready var Samus: KinematicBody2D = Loader.Samus
+export (Enums.Upgrade) var upgrade_type: int = Enums.Upgrade.MISSILE setget set_upgrade_type
 
-var _save_path_acquired: Array
-var acquired: bool = false setget set_acquired
+var unique_id: int
+var save_path_acquired: Array
+var acquired = false setget set_acquired
+
+var gain_amount: int
 
 func set_upgrade_type(value: int):
 	$AnimatedSprite.play(Enums.Upgrade.keys()[value].to_lower())
 	upgrade_type = value
 
-func set_acquired(value: bool):
-	Loader.Save.set_data_key(_save_path_acquired, value)
+func set_acquired(value):
+	if value == null:
+		value = false
+	
 	self.visible = !value
 	$CollisionShape2D.set_deferred("disabled", value)
 	acquired = value
+	
+	Loader.Save.set_data_key(save_path_acquired, value)
 
 func _ready():
 	
 	if Engine.is_editor_hint():
 		return
-	_save_path_acquired = ["rooms", Loader.current_room.unique_id, "UpgradePickups", unique_id]
+	save_path_acquired = ["rooms", Loader.current_room.id, "UpgradePickups", str(unique_id)]
 	$AnimatedSprite.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
-	set_acquired(Loader.Save.get_data_key(_save_path_acquired) or false)
+	gain_amount = Enums.upgrade_data[Enums.Upgrade.keys()[upgrade_type]]["gain_amount"]
+	
+	set_acquired(Loader.Save.get_data_key(save_path_acquired))
 
 func _on_UpgradePickup_body_entered(body):
 	if body != Loader.Samus:
 		return
 	
-	$CollectionPopup.trigger(upgrade_type)
+	var current_amount: int = Loader.Save.get_data_key(["samus", "upgrades", upgrade_type, "amount"])
+	Loader.Save.set_data_key(["samus", "upgrades", upgrade_type, "amount"], current_amount + gain_amount)
+	
+	if upgrade_type in Samus.Weapons.all_weapons:
+		Samus.Weapons.all_weapons[upgrade_type].ammo += gain_amount
+		if Samus.is_upgrade_active(upgrade_type):
+			Samus.Weapons.add_weapon(upgrade_type)
+	
 	set_acquired(true)
-
+	
+	$CollectionPopup.trigger(upgrade_type, gain_amount, current_amount+gain_amount)

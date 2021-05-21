@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/Samus/classes/WeaponIcon.gd" type="Script" id=1]
+[ext_resource path="res://sprites/ui/mainhud/icons/grapple_0.png" type="Texture" id=2]
+[ext_resource path="res://sprites/ui/mainhud/icons/grapple_2.png" type="Texture" id=3]
+[ext_resource path="res://scenes/Samus/weapons/grapple_beam/GrappleBeam.gd" type="Script" id=4]
+[ext_resource path="res://sprites/ui/mainhud/icons/grapple_1.png" type="Texture" id=5]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 5 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "default",
+"speed": 0.0
+} ]
+
+[node name="GrappleBeam" type="Node2D"]
+z_index = -3
+z_as_relative = false
+script = ExtResource( 4 )
+
+[node name="MenuIcon" type="Control" parent="."]
+margin_right = 18.0
+margin_bottom = 14.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="MenuIcon"]
+margin_right = 18.0
+margin_bottom = 14.0
+color = Color( 0, 0, 0, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="AnimatedSprite" parent="MenuIcon"]
+position = Vector2( 9, 7 )
+frames = SubResource( 1 )
