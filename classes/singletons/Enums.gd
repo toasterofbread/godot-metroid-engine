@@ -16,4 +16,9 @@ func dir_angle(direction: int) -> int:
 
 enum DamageType {NONE, BEAM, BOMB, POWERBOMB, MISSILE, SUPERMISSILE, SCREWATTACK, SPEEDBOOSTER, CRUMBLE}
 enum Upgrade {GRAPPLEBEAM, BEAM, BOMB, CHARGEBEAM, ETANK, GRAVITY, HIGHJUMP, ICEBEAM, MISSILE, MORPHBALL, PLASMABEAM, POWERBOMB, POWERGRIP, SCREWATTACK, SPACEJUMP, SPAZERBEAM, SPEEDBOOSTER, SPIDERBALL, SPRINGBALL, SUPERMISSILE, VARIA, WAVEBEAM, SCAN, XRAY}
+var upgrade_data: Dictionary
 var Visors: Array = [Upgrade.XRAY, Upgrade.SCAN]
+enum Layers {ENEMY, PROJECTILE, SAMUS, WORLD, DOOR}
+
+func _ready():
+	upgrade_data = Global.load_json("res://scenes/objects/upgrade_pickup/upgrade_data.json")

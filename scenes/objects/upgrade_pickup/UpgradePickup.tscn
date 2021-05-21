@@ -13,7 +13,6 @@ extents = Vector2( 7, 8 )
 ]]
 collision_layer = 262144
 script = ExtResource( 145 )
-gain_amount = 5
 
 [node name="CollectionPopup" parent="." instance=ExtResource( 2 )]
 
@@ -26,9 +25,10 @@ shape = SubResource( 1 )
 position = Vector2( 8, 8 )
 frames = ExtResource( 1 )
 animation = "missile"
-frame = 3
+frame = 2
 playing = true
 
 [node name="ScanNode" parent="." instance=ExtResource( 3 )]
+visible = false
 
 [connection signal="body_entered" from="." to="." method="_on_UpgradePickup_body_entered"]

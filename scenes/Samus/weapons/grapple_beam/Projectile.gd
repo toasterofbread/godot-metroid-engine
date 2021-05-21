@@ -30,6 +30,8 @@ func _process(delta):
 
 func _ready():
 	$Area2D.connect("body_entered", self, "collided")
+	z_as_relative = false
+	z_index = Enums.Layers.PROJECTILE
 
 func collided(body):
 	if not moving:
@@ -43,6 +45,6 @@ func collided(body):
 		get_parent().attach(anchor, self)
 		$Texture.visible = false
 		$Line2D.add_point(to_local(anchor.global_position))
-		$Line2D.add_point(Vector2.ZERO)
+		$Line2D.add_point(Vector2(0, 2))
 	else:
 		self.queue_free()

@@ -23,6 +23,7 @@ func _ready():
 
 func pause():
 	get_tree().paused = true
+	Loader.Samus.paused = true
 
 func open_menu():
 	
@@ -52,6 +53,7 @@ func resume():
 		return
 	
 	get_tree().paused = false
+	Loader.Samus.paused = false
 	transitioning = true
 	
 	$AnimationPlayer.play("close_menu", -1, 0.5)

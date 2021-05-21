@@ -70,7 +70,6 @@ func _init(_samus: Node2D):
 # Called when Samus's state is changed to this one
 func init_state(data: Dictionary):
 	var options: Array = data["options"]
-	print(options)
 	first_frame = true
 	
 	if Samus.previous_state_id == "powergrip":

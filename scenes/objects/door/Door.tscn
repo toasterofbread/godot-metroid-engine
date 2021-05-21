@@ -12,14 +12,14 @@ extents = Vector2( 28, 32 )
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
-"loop": false,
-"name": "blue_close",
-"speed": 20.0
-}, {
 "frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "blue_open",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
+"loop": false,
+"name": "blue_close",
 "speed": 20.0
 } ]
 
@@ -67,5 +67,7 @@ shape = SubResource( 4 )
 
 [node name="TargetSpawnPosition" type="Position2D" parent="."]
 position = Vector2( -32, 0 )
+
+[node name="Tween" type="Tween" parent="."]
 
 [connection signal="body_entered" from="TransitionTriggerArea" to="." method="_on_TransitionTriggerArea_body_entered"]

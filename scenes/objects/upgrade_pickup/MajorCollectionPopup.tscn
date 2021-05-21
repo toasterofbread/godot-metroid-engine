@@ -12,7 +12,7 @@ outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_top = 11
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=2]
 size = 64
 font_data = ExtResource( 4 )
 
@@ -244,7 +244,6 @@ rotation = 0.00140782
 scale = Vector2( 7.5, 7.5 )
 frames = ExtResource( 2 )
 animation = "missile"
-frame = 2
 playing = true
 
 [node name="Added" type="Label" parent="CanvasLayer"]
@@ -252,7 +251,7 @@ margin_left = 1024.0
 margin_top = 426.0
 margin_right = 1292.0
 margin_bottom = 486.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 2 )
 text = "Added: 5"
 align = 2
 valign = 1
@@ -265,7 +264,7 @@ margin_left = 1024.0
 margin_top = 497.0
 margin_right = 1292.0
 margin_bottom = 557.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 2 )
 text = "Total: 15"
 align = 2
 valign = 1

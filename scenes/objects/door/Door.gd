@@ -1,7 +1,7 @@
 extends Node2D
 class_name Door
 
-export(String, FILE) var target_room_path: String
+export var target_room_id: String
 export var id: String
 export var target_id: String
 enum DOOR_COLOURS {blue, red, green, yellow}
@@ -24,7 +24,9 @@ var sounds = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	target_room_scene = load(target_room_path)
+	z_index = Enums.Layers.DOOR
+	
+	target_room_scene = Loader.rooms[target_room_id]
 	
 	match _colour:
 		DOOR_COLOURS.blue: destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.POWERBOMB]
@@ -74,3 +76,13 @@ func _on_TransitionTriggerArea_body_entered(body):
 		return
 	
 	Loader.transition(self)
+
+func fade_out(duration: float):
+	$Tween.interpolate_property(self, "modulate:a", 1, 0, duration)
+	$Tween.start()
+	yield($Tween, "tween_completed")
+
+func fade_in(duration: float):
+	$Tween.interpolate_property(self, "modulate:a", 0, 1, duration)
+	$Tween.start()
+	yield($Tween, "tween_completed")

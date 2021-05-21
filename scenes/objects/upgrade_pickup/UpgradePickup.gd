@@ -2,60 +2,51 @@ tool
 extends Area2D
 class_name UpgradePickup
 
-export var gain_amount: int = 0
+onready var Samus: KinematicBody2D = Loader.Samus
 export (Enums.Upgrade) var upgrade_type: int = Enums.Upgrade.MISSILE setget set_upgrade_type
-const default_amounts = {
-	Enums.Upgrade.ETANK: 1,
-	Enums.Upgrade.MISSILE: 5,
-	Enums.Upgrade.SUPERMISSILE: 5,
-	Enums.Upgrade.POWERBOMB: 1,
-	
-	Enums.Upgrade.BOMB: 1,
-	Enums.Upgrade.MORPHBALL: 1,
-	Enums.Upgrade.SPRINGBALL: 1,
-	Enums.Upgrade.SPEEDBOOSTER: 1,
-	Enums.Upgrade.POWERGRIP: 1,
-	Enums.Upgrade.SPACEJUMP: 1,
-	Enums.Upgrade.SCREWATTACK: 1,
-	Enums.Upgrade.SPIDERBALL: 1,
-	
-	Enums.Upgrade.XRAY: 1,
-	Enums.Upgrade.SCAN: 1,
-}
 
 var unique_id: int
-var _save_path_acquired: Array
-var acquired: bool = false setget set_acquired
+var save_path_acquired: Array
+var acquired = false setget set_acquired
 
+var gain_amount: int
 
 func set_upgrade_type(value: int):
 	$AnimatedSprite.play(Enums.Upgrade.keys()[value].to_lower())
-	gain_amount = default_amounts[value]
 	upgrade_type = value
 
-func set_acquired(value: bool):
+func set_acquired(value):
+	if value == null:
+		value = false
+	
 	self.visible = !value
 	$CollisionShape2D.set_deferred("disabled", value)
 	acquired = value
+	
+	Loader.Save.set_data_key(save_path_acquired, value)
 
 func _ready():
 	
 	if Engine.is_editor_hint():
 		return
-	assert(upgrade_type in default_amounts, "Invalid upgrade type")
-	_save_path_acquired = ["rooms", Loader.current_room.unique_id, "UpgradePickups", str(unique_id)]
+	save_path_acquired = ["rooms", Loader.current_room.id, "UpgradePickups", str(unique_id)]
 	$AnimatedSprite.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
-	gain_amount = default_amounts[upgrade_type]
-	set_acquired(Loader.Save.get_data_key(_save_path_acquired) or false)
-	print(gain_amount)
+	gain_amount = Enums.upgrade_data[Enums.Upgrade.keys()[upgrade_type]]["gain_amount"]
+	
+	set_acquired(Loader.Save.get_data_key(save_path_acquired))
 
 func _on_UpgradePickup_body_entered(body):
 	if body != Loader.Samus:
 		return
 	
-	$CollectionPopup.trigger(upgrade_type)
-	set_acquired(true)
-	Loader.Save.set_data_key(_save_path_acquired, true)
-	
 	var current_amount: int = Loader.Save.get_data_key(["samus", "upgrades", upgrade_type, "amount"])
 	Loader.Save.set_data_key(["samus", "upgrades", upgrade_type, "amount"], current_amount + gain_amount)
+	
+	if upgrade_type in Samus.Weapons.all_weapons:
+		Samus.Weapons.all_weapons[upgrade_type].ammo += gain_amount
+		if Samus.is_upgrade_active(upgrade_type):
+			Samus.Weapons.add_weapon(upgrade_type)
+	
+	set_acquired(true)
+	
+	$CollectionPopup.trigger(upgrade_type, gain_amount, current_amount+gain_amount)

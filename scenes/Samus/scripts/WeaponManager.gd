@@ -32,7 +32,10 @@ onready var visors = {
 
 func _process(_delta):
 	
-	current_weapon[1] = Samus.current_state.id in ["morphball", "spiderball"]
+	var morphball_changed = current_weapon[1] != (Samus.current_state.id in ["morphball", "spiderball"])
+	if morphball_changed:
+		current_weapon[1] = Samus.current_state.id in ["morphball", "spiderball"]
+		current_weapon[0] = 0
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
 		current_weapon[0] = 0 if Settings.get("controls/aiming_style") == 0 else -1
@@ -44,7 +47,7 @@ func _process(_delta):
 		else:
 			if current_weapon[0] >= len(all_equipped_weapons()):
 				current_weapon[0] = -1
-	else:
+	elif not morphball_changed:
 		return
 	update_weapon_icons()
 
@@ -72,14 +75,18 @@ func cycle_visor():
 	else:
 		return false
 
-func all_equipped_weapons() -> Array:
-	return added_weapons[false] + added_weapons[true]
+func all_equipped_weapons(include_base_weapons:=false) -> Array:
+	var ret = added_weapons[false] + added_weapons[true]
+	if include_base_weapons:
+		ret += [added_weapons_base[false], added_weapons_base[true]]
+	
+	return ret
 
 func update_weapon_icons():
 	for weapon in all_equipped_weapons():
 		if weapon.Icon:
-			var selected_weapon = all_equipped_weapons()[current_weapon[0]] if current_weapon[0] >= 0 else null
-			weapon.Icon.update_icon(selected_weapon, Samus.armed)	
+			var selected_weapon = added_weapons[current_weapon[1]][current_weapon[0]] if current_weapon[0] >= 0 else null
+			weapon.Icon.update_icon(selected_weapon, Samus.armed)
 
 func fire():
 	if Settings.get("controls/aiming_style") == 0:
@@ -100,25 +107,53 @@ func fire():
 
 func add_weapon(weapon_key: int):
 	
+	if all_weapons[weapon_key] in all_equipped_weapons(true):
+		return
+	
 	var weapon = all_weapons[weapon_key]
-	Samus.get_node("Weapons").add_child(weapon)
+	Samus.get_node("Weapons").call_deferred("add_child", weapon)
+	yield(weapon, "ready")
 	
 	if weapon.is_base_weapon:
 		added_weapons_base[weapon.is_morph_weapon] = weapon
 	else:
 		added_weapons[weapon.is_morph_weapon].append(weapon)
-		var temp = added_weapons[weapon.is_morph_weapon]
-		added_weapons[weapon.is_morph_weapon] = []
-	
-		for w in all_weapons.values():
-			if w in temp:
-				added_weapons[weapon.is_morph_weapon].append(w)
+		sort_weapons(weapon.is_morph_weapon)
 	return weapon
 
-func remove_weapon(weapon_key: String, is_morph_weapon: bool):
+func sort_weapons(is_morph_weapon: bool):
+	
+	var selected_weapon = added_weapons[current_weapon[1]][current_weapon[0]]
+	var temp = added_weapons[is_morph_weapon]
+	added_weapons[is_morph_weapon] = []
+	
+	for w in all_weapons.values():
+		Samus.HUD.remove_weapon(w.Icon)
+	
+	var i = 0
+	for w in all_weapons.values():
+		if w in temp:
+			if selected_weapon != null:
+				if w == selected_weapon:
+					current_weapon[0] = i
+					selected_weapon = null
+				elif w.is_morph_weapon == current_weapon[1]:
+					i += 1
+			added_weapons[is_morph_weapon].append(w)
+	
+	for w in all_equipped_weapons():
+		Samus.HUD.add_weapon(w.Icon)
+
+func remove_weapon(weapon_key: int, is_morph_weapon: bool):
+	
+	if not all_weapons[weapon_key] in all_equipped_weapons(true):
+		return
+	
 	added_weapons[is_morph_weapon].remove(all_weapons[weapon_key])
 	Samus.HUD.remove_weapon(all_weapons[weapon_key])
 
+func is_weapon_equipped(weapon_key: int):
+	return weapon_key in all_equipped_weapons() + added_weapons_base[false] + added_weapons_base[true]
 
 func _on_SpeedboosterDamageArea_body_entered(body):
 	var shinespark = Samus.states["shinespark"]

@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 signal process_frame
 signal physics_frame
@@ -8,18 +8,20 @@ var hold_actions = {}
 onready var Timers = Node2D.new()
 onready var Anchor = Node2D.new()
 
-onready var DimLayer: CanvasLayer = CanvasLayer.new()
-onready var DimRect: ColorRect = ColorRect.new()
+onready var DimLayer: = Sprite.new()
 onready var RNG = RandomNumberGenerator.new()
 
 func _ready():
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
 	
 	self.add_child(DimLayer)
-	DimLayer.add_child(DimRect)
-	DimRect.visible = false
-	DimRect.rect_size = Vector2(1920, 1080)
-	DimRect.color = Color.black
+	DimLayer.texture = preload("res://sprites/flat.png")
+	DimLayer.scale = Vector2(1920, 1080)/64
+	DimLayer.position = Vector2(1920, 1080)/2
+	DimLayer.visible = false
+	DimLayer.modulate = Color.black
+	DimLayer.modulate.a = 0
+	DimLayer.z_as_relative = false
 	
 	RNG.randomize()
 	Timers.name = "Timers"
@@ -42,6 +44,8 @@ func _process(delta):
 			hold_actions[action] += delta
 		else:
 			hold_actions[action] = 0
+	
+	DimLayer.global_position = Loader.Samus.camera.global_position
 	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
@@ -192,18 +196,23 @@ func save_json(path: String, data, pretty: bool = false):
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
 	f.close()
 
-func reparent_child(child: Node, new_parent: Node, maintain_global_position:=true):
-	var position
-	if maintain_global_position:
-		position = child.global_position
+func reparent_child(child: Node, new_parent: Node):
+#	var position: Vector2
+#	if maintain_global_position:
+#		if child is Node2D:
+#			position = child.global_position
+#		elif child is Control:
+#			position = child.rect_global_position
 	if child.get_parent():
-		child.get_parent().call_deferred("remove_child", child)
-		yield(child, "tree_exited")
-	new_parent.call_deferred("add_child", child)
+		child.get_parent().remove_child(child)
+#		yield(child, "tree_exited")
+	new_parent.add_child(child)
 	yield(child, "tree_entered")
-	if maintain_global_position:
-		child.global_position = position
-
+#	if maintain_global_position and position:
+#		if child is Node2D:
+#			child.global_position = position
+#		elif child is Control:
+#			child.rect_global_position = position
 func array2vector(array: Array) -> Vector2:
 	return Vector2(array[0], array[1])
 
@@ -248,21 +257,30 @@ func text_fade_out(label, time: float):
 	tween.queue_free()
 	label.visible = false
 
-func dim_screen(percent_opacity: float, duration: float, layer: int):
+func dim_screen(duration: float, percent_opacity:=1.0, z_index:=0):
 	var tween: Tween = Tween.new()
 	self.add_child(tween)
-	DimLayer.layer = layer
-	tween.interpolate_property(DimRect, "color:a", 0, percent_opacity, duration)
+	DimLayer.z_index = z_index
+	tween.interpolate_property(DimLayer, "modulate:a", 0, percent_opacity, duration)
 	tween.start()
-	DimRect.visible = true
-	yield(tween, "tween_all_completed")
+	DimLayer.visible = true
+	yield(tween, "tween_completed")
 	tween.queue_free()
 
 func undim_screen(duration: float):
 	var tween: Tween = Tween.new()
 	self.add_child(tween)
-	tween.interpolate_property(DimRect, "color:a", DimRect.color.a, 0, duration)
+	tween.interpolate_property(DimLayer, "modulate:a", DimLayer.modulate.a, 0, duration)
 	tween.start()
-	yield(tween, "tween_all_completed")
-	DimRect.visible = false
+	yield(tween, "tween_completed")
+	DimLayer.visible = false
 	tween.queue_free()
+
+#func get_camera_center(camera: Camera2D):
+#	var vtrans = camera.get_canvas_transform()
+#	var top_left = -vtrans.get_origin() / vtrans.get_scale()
+#	var vsize = camera.get_viewport_rect().size
+#	return (top_left + 0.5*vsize/vtrans.get_scale()) + Loader.current_room.global_position
+#	var transform : Transform2D = get_viewport_transform()
+#	var scale : Vector2 = transform.get_scale()
+#	return (-transform.origin / scale + get_viewport_rect().size / scale / 2)# + (Loader.current_room.global_position*5)

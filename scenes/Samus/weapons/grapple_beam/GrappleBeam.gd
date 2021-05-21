@@ -4,7 +4,7 @@ onready var Samus: KinematicBody2D = Loader.Samus
 
 const id: int = Enums.Upgrade.GRAPPLEBEAM
 const damage_type: int = Enums.DamageType.BEAM
-const cooldown: float = 0.5
+const cooldown: float = 0.01
 export var damage_amount: float
 export var is_morph_weapon: bool
 export var is_base_weapon: bool

@@ -14,10 +14,25 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/ui/ButtonPrompt.gd"
 }, {
+"base": "CollisionShape2D",
+"class": "CameraChunk",
+"language": "GDScript",
+"path": "res://classes/CameraChunk.gd"
+}, {
+"base": "StaticBody2D",
+"class": "DestroyableBlock",
+"language": "GDScript",
+"path": "res://scenes/objects/destroyable_block/DestroyableBlock.gd"
+}, {
 "base": "Node2D",
 "class": "Door",
 "language": "GDScript",
 "path": "res://scenes/objects/door/Door.gd"
+}, {
+"base": "Camera2D",
+"class": "ExCamera2D",
+"language": "GDScript",
+"path": "res://classes/ExCamera2D.gd"
 }, {
 "base": "Tween",
 "class": "ExTween",
@@ -54,11 +69,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Samus/classes/Animation.gd"
 }, {
-"base": "Camera2D",
-"class": "SamusCamera",
-"language": "GDScript",
-"path": "res://scenes/Samus/classes/Camera.gd"
-}, {
 "base": "Node2D",
 "class": "SamusProjectile",
 "language": "GDScript",
@@ -91,7 +101,10 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ButtonPrompt": "",
+"CameraChunk": "",
+"DestroyableBlock": "",
 "Door": "",
+"ExCamera2D": "",
 "ExTween": "",
 "GitAPI": "",
 "MapChunk": "",
@@ -99,7 +112,6 @@ _global_script_class_icons={
 "PositionalAnimatedSprite": "",
 "Room": "",
 "SamusAnimation": "",
-"SamusCamera": "",
 "SamusProjectile": "",
 "SamusWeaponIcon": "",
 "SaveGame": "",
@@ -113,7 +125,12 @@ _global_script_class_icons={
 config/name="Godot Metroid Engine"
 run/main_scene="res://scenes/ui/main_menu/MainMenu.tscn"
 boot_splash/image="res://icon.png"
+boot_splash/fullsize=false
 config/icon="res://icon.png"
+
+[audio]
+
+driver=""
 
 [autoload]
 
@@ -153,6 +170,10 @@ window/size/test_height=720
 window/vsync/use_vsync=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
+
+[editor]
+
+search_in_file_extensions=PoolStringArray( "gd", "shader", "json" )
 
 [editor_plugins]
 
@@ -320,7 +341,7 @@ spiderball={
 toggle_fullscreen={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777254,"unicode":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":21,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 pause={
@@ -413,7 +434,9 @@ pointing/emulate_touch_from_mouse=true
 
 [rendering]
 
+quality/driver/fallback_to_gles2=true
 quality/intended_usage/framebuffer_allocation=1
 quality/intended_usage/framebuffer_allocation.mobile=1
+2d/snapping/use_gpu_pixel_snap=true
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false

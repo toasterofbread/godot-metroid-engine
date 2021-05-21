@@ -15,6 +15,8 @@ animations = [ {
 } ]
 
 [node name="GrappleBeam" type="Node2D"]
+z_index = -3
+z_as_relative = false
 script = ExtResource( 4 )
 
 [node name="MenuIcon" type="Control" parent="."]

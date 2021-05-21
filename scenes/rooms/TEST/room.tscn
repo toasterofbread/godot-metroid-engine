@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://classes/MapChunk.gd" type="Script" id=1]
-[ext_resource path="res://sprites/block.png" type="Texture" id=2]
-[ext_resource path="res://classes/Room.gd" type="Script" id=3]
-[ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/objects/destroyable_block/GrappleBlock.tscn" type="PackedScene" id=5]
+[ext_resource path="res://classes/CameraChunk.gd" type="Script" id=1]
+[ext_resource path="res://classes/Room.gd" type="Script" id=2]
+[ext_resource path="res://classes/MapChunk.gd" type="Script" id=3]
+[ext_resource path="res://sprites/block.png" type="Texture" id=4]
+[ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/objects/destroyable_block/GrappleBlock.tscn" type="PackedScene" id=6]
+[ext_resource path="res://sprites/debug_background.png" type="Texture" id=7]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
@@ -14,7 +16,7 @@ points = PoolVector2Array( 0, 16, 16, 0, 16, 16 )
 
 [sub_resource type="TileSet" id=3]
 0/name = "block.png 0"
-0/texture = ExtResource( 2 )
+0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 16, 16 )
@@ -35,7 +37,7 @@ points = PoolVector2Array( 0, 16, 16, 0, 16, 16 )
 } ]
 0/z_index = 0
 1/name = "block.png 1"
-1/texture = ExtResource( 2 )
+1/texture = ExtResource( 4 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 0, 16, 16 )
@@ -65,11 +67,15 @@ extents = Vector2( 256, 256 )
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 256, 256 )
 
-[node name="TestLevel" type="Node2D"]
-script = ExtResource( 3 )
-unique_id = "test1"
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 336, 224 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TestLevel" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="World"]
 position = Vector2( -16, 0 )
 tile_set = SubResource( 3 )
 cell_size = Vector2( 16, 16 )
@@ -79,42 +85,80 @@ collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -589962, 0, 0, -589961, 0, 0, -589960, 0, 0, -589959, 0, 0, -589958, 0, 0, -589957, 0, 0, -589956, 0, 0, -589955, 0, 0, -589954, 0, 0, -589953, 0, 0, -589952, 0, 0, -589951, 0, 0, -589950, 0, 0, -589949, 0, 0, -589948, 0, 0, -589947, 0, 0, -589946, 0, 0, -589945, 0, 0, -589944, 0, 0, -589943, 0, 0, -589942, 0, 0, -589941, 0, 0, -589940, 0, 0, -589939, 0, 0, -589938, 0, 0, -589937, 0, 0, -589936, 0, 0, -589935, 0, 0, -589934, 0, 0, -589933, 0, 0, -589932, 0, 0, -589931, 0, 0, -589930, 0, 0, -589929, 0, 0, -589928, 0, 0, -589927, 0, 0, -589926, 0, 0, -589925, 0, 0, -589924, 0, 0, -589923, 0, 0, -589922, 0, 0, -589921, 0, 0, -589920, 0, 0, -589919, 0, 0, -589918, 0, 0, -589917, 0, 0, -589916, 0, 0, -589915, 0, 0, -589914, 0, 0, -589913, 0, 0, -589912, 0, 0, -589911, 0, 0, -589910, 0, 0, -589909, 0, 0, -589908, 0, 0, -589907, 0, 0, -589906, 0, 0, -589905, 0, 0, -589904, 0, 0, -589903, 0, 0, -589902, 0, 0, -589901, 0, 0, -589900, 0, 0, -589899, 0, 0, -589898, 0, 0, -589897, 0, 0, -589896, 0, 0, -589895, 0, 0, -589894, 0, 0, -589893, 0, 0, -589892, 0, 0, -589891, 0, 0, -589890, 0, 0, -589889, 0, 0, -589888, 0, 0, -589887, 0, 0, -589886, 0, 0, -589885, 0, 0, -589884, 0, 0, -589883, 0, 0, -589882, 0, 0, -589881, 0, 0, -589880, 0, 0, -589879, 0, 0, -589878, 0, 0, -589877, 0, 0, -589876, 0, 0, -589875, 0, 0, -589874, 0, 0, -589873, 0, 0, -589872, 0, 0, -589871, 0, 0, -589870, 0, 0, -589869, 0, 0, -589868, 0, 0, -589867, 0, 0, -589866, 0, 0, -589865, 0, 0, -589864, 0, 0, -589863, 0, 0, -589862, 0, 0, -589861, 0, 0, -589860, 0, 0, -589859, 0, 0, -589858, 0, 0 )
 
-[node name="Doors" type="Node2D" parent="."]
+[node name="Doors" type="Node2D" parent="World"]
 
-[node name="Door" parent="Doors" instance=ExtResource( 4 )]
+[node name="Door" parent="World/Doors" instance=ExtResource( 5 )]
 position = Vector2( -592, -192 )
 rotation = 3.14159
-target_room_path = "res://scenes/rooms/TEST2/TestLevel.tscn"
+target_room_id = "TEST2"
 id = "right"
 target_id = "left"
 
+[node name="GrappleBlock13" parent="World" instance=ExtResource( 6 )]
+position = Vector2( -992, -320 )
+
+[node name="Spawnpos" type="Position2D" parent="World" groups=[
+"SamusSpawnPositions",
+]]
+position = Vector2( -696, -359 )
+
+[node name="Node2D" type="Node2D" parent="World"]
+z_index = -4096
+z_as_relative = false
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="TextureRect" type="TextureRect" parent="World/Node2D"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -2416.0
+margin_top = -1152.0
+margin_right = 32.0
+margin_bottom = 320.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="MapChunks" type="Node2D" parent="."]
-visible = false
 
 [node name="MapChunk2" type="CollisionShape2D" parent="MapChunks"]
 modulate = Color( 0, 1, 0.529412, 1 )
 position = Vector2( -1216, -416 )
 shape = SubResource( 4 )
-script = ExtResource( 1 )
-grid_position = Vector2( -1, -1 )
+script = ExtResource( 3 )
+grid_position = Vector2( -2, 0 )
 bottom_wall = 2
 
 [node name="MapChunk4" type="CollisionShape2D" parent="MapChunks"]
 modulate = Color( 0, 1, 0.529412, 1 )
 position = Vector2( -1728, -416 )
 shape = SubResource( 5 )
-script = ExtResource( 1 )
-grid_position = Vector2( -2, -1 )
+script = ExtResource( 3 )
+grid_position = Vector2( 0, -3 )
 bottom_wall = 2
 
 [node name="MapChunk3" type="CollisionShape2D" parent="MapChunks"]
 modulate = Color( 0, 1, 0.529412, 1 )
 position = Vector2( -704, -416 )
 shape = SubResource( 6 )
-script = ExtResource( 1 )
-grid_position = Vector2( 0, -1 )
+script = ExtResource( 3 )
+grid_position = Vector2( -1, 0 )
 right_wall = 1
 bottom_wall = 2
 
-[node name="GrappleBlock" parent="." instance=ExtResource( 5 )]
-position = Vector2( -1056, -336 )
+[node name="CameraChunks" type="Node2D" parent="."]
+visible = false
+
+[node name="CameraChunk" type="CollisionShape2D" parent="CameraChunks"]
+modulate = Color( 0, 1, 0.529412, 1 )
+position = Vector2( -880, -368 )
+shape = SubResource( 7 )
+script = ExtResource( 1 )
+apply_left = true
+apply_right = true
+apply_bottom = true

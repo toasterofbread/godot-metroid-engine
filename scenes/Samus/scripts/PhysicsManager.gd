@@ -22,7 +22,11 @@ func _physics_process(_delta: float):
 	
 	if Samus.is_on_ceiling() or Samus.is_on_wall():
 		Samus.boosting = false
-
+	
+	if get_tree().paused:
+		Samus.move_and_slide_with_snap(Vector2.ZERO, Vector2.ZERO)
+		return
+	
 	if apply_gravity:
 		vel.y = min(vel.y + GRAVITY, FALL_SPEED_CAP)
 	

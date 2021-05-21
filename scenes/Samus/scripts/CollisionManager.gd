@@ -39,25 +39,3 @@ func set_collider(animation: SamusAnimation):
 			1: self.position = value
 			2: if Samus.facing == Enums.dir.RIGHT: self.position = value
 		i += 1
-
-#func set_speedbooster_collider(animation: SamusAnimation):
-#
-#	var key: String
-#	if animation.position_node_path in speedbooster_collision_data:
-#		key = animation.position_node_path
-#	elif animation.position_node_path.split("/")[0] in speedbooster_collision_data:
-#		key = animation.position_node_path.split("/")[0]
-#	else:
-#		return
-#
-#	var i = 0
-#
-#	var shape = Samus.SpeedboosterDamageArea.get_child(0)
-#
-#	shape.position = animation.positions[Samus.facing]
-#	for value in speedbooster_collision_data[key]:
-#		match i:
-#			0: shape.shape.extents = value
-#			1: shape.position = value
-#			2: if Samus.facing == Enums.dir.RIGHT: shape.position = value
-#		i += 1

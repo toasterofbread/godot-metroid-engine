@@ -49,6 +49,8 @@ class Projectile extends KinematicBody2D:
 		
 		self.collision_layer = Weapon.BaseProjectile.collision_layer
 		self.collision_mask = Weapon.BaseProjectile.collision_mask
+		self.z_index = Enums.Layers.PROJECTILE
+		self.z_as_relative = false
 		
 		self.global_position = pos.position
 		

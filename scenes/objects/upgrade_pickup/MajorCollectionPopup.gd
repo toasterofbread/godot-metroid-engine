@@ -11,7 +11,7 @@ func _ready():
 	for node in $CanvasLayer.get_children():
 		node.visible = false
 
-func trigger(upgrade_type: int):
+func trigger(upgrade_type: int, added: int, total: int):
 	
 	get_tree().paused = true
 	sounds["major_fanfare"].play()
@@ -20,12 +20,15 @@ func trigger(upgrade_type: int):
 	match upgrade_type:
 		Enums.Upgrade.MISSILE: upgrade_name = "MISSILE TANK"
 	
-	Global.dim_screen(0.75, show_duration*2, 5)
+	$CanvasLayer/Added.text = "Added: " + str(added)
+	$CanvasLayer/Total.text = "Total: " + str(total)
+	
+	Global.dim_screen(show_duration*2, 0.75, 5)
 	
 	$CanvasLayer/Icon.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
 	$CanvasLayer/Label.bbcode_text = "[center]" + upgrade_name + "\nacquired[/center]"
 	$CanvasLayer/Label.percent_visible = 0
-
+	
 	self.visible = true
 	$AnimationPlayer.play("show", -1, 1/show_duration)
 	
