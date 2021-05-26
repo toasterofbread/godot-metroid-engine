@@ -9,7 +9,7 @@ onready var Timers = Node2D.new()
 onready var Anchor = Node2D.new()
 
 onready var DimLayer: = Sprite.new()
-onready var RNG = RandomNumberGenerator.new()
+onready var rng = RandomNumberGenerator.new()
 
 func _ready():
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
@@ -23,7 +23,7 @@ func _ready():
 	DimLayer.modulate.a = 0
 	DimLayer.z_as_relative = false
 	
-	RNG.randomize()
+	rng.randomize()
 	Timers.name = "Timers"
 	self.add_child(Timers)
 	self.add_child(Anchor)
@@ -33,9 +33,6 @@ func _ready():
 	yield(Settings, "ready")
 #	Settings.connect("settings_changed", self, "settings_changed")
 	OS.window_fullscreen = Settings.get("display/fullscreen")
-
-#func settings_changed(path: String, value):
-#	pass
 
 func _process(delta):
 	emit_signal("process_frame")
@@ -63,8 +60,8 @@ func _process(delta):
 
 
 
-func _physics_process(_delta):
-	emit_signal("physics_frame")
+func _physics_process(delta):
+	emit_signal("physics_frame", delta)
 
 func random_array_item(rng: RandomNumberGenerator, array: Array):
 	return array[rng.randi_range(0, len(array) - 1)]
@@ -165,7 +162,7 @@ func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration:
 	timer.start(duration)
 	
 	while timer.time_left > shake_frequency:
-		var rand = Vector2(RNG.randf_range(-intensity, intensity), RNG.randf_range(-intensity, intensity))
+		var rand = Vector2(rng.randf_range(-intensity, intensity), rng.randf_range(-intensity, intensity))
 		tween.interpolate_property(camera, "offset", camera.offset, rand, shake_frequency, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 		tween.start()
 		yield(tween, "tween_completed")
@@ -275,12 +272,3 @@ func undim_screen(duration: float):
 	yield(tween, "tween_completed")
 	DimLayer.visible = false
 	tween.queue_free()
-
-#func get_camera_center(camera: Camera2D):
-#	var vtrans = camera.get_canvas_transform()
-#	var top_left = -vtrans.get_origin() / vtrans.get_scale()
-#	var vsize = camera.get_viewport_rect().size
-#	return (top_left + 0.5*vsize/vtrans.get_scale()) + Loader.current_room.global_position
-#	var transform : Transform2D = get_viewport_transform()
-#	var scale : Vector2 = transform.get_scale()
-#	return (-transform.origin / scale + get_viewport_rect().size / scale / 2)# + (Loader.current_room.global_position*5)

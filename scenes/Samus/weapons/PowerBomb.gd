@@ -1,4 +1,4 @@
-extends SamusProjectile
+extends SamusWeapon
 
 const bomb_detonation_time: float = 0.6
 const bomb_bounce_amount: float = 325.0
@@ -8,7 +8,7 @@ const samus_aerial_damage: int = 10
 func _ready():
 	pass
 
-func projectile_fired(projectile: Projectile):
+func fired(projectile: SamusKinematicProjectile):
 	var sprite: AnimatedSprite = projectile.get_node("Sprite")
 	sprite.play("default")
 	yield(sprite, "animation_finished")
@@ -27,10 +27,18 @@ func projectile_fired(projectile: Projectile):
 				continue
 			processed_bodies.append(body)
 			
-			if body != Samus:
+			if body != Loader.Samus:
 				if body.has_method("damage"):
 					body.damage(damage_type, damage_amount)
 		
 		yield(Global, "process_frame")
 	
-	projectile.kill()
+	projectile.queue_free()
+
+func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
+	if Cooldown.time_left > 0 or ammo == 0:
+		return null
+	set_ammo(max(0, ammo - 1))
+	var projectile = ProjectileNode.duplicate()
+	projectile.init(self, pos, chargebeam_damage_multiplier)
+	return projectile

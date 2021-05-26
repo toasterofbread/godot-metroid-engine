@@ -128,6 +128,9 @@ func get_direction() -> int:
 			ret = 1
 		if FLOOR.y > 0:
 			ret *= -1
+		if ret != 0:
+			return ret
+	
 	if FLOOR == Vector2.RIGHT or FLOOR == Vector2.LEFT or slope:
 		if Input.is_action_pressed("pad_up"):
 			trigger_action = "pad_up"
@@ -137,6 +140,9 @@ func get_direction() -> int:
 			ret = 1
 		if FLOOR.x < 0:
 			ret *= -1
+		if ret != 0:
+			return ret
+	
 	return ret
 
 var direction

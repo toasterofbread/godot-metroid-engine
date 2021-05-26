@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
@@ -14,9 +14,152 @@
 [ext_resource path="res://scenes/Samus/HUD/PauseMenu.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/Samus/visors/xray/XRayScope.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/Samus/classes/PositionalAnimatedSprite.gd" type="Script" id=14]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_2.png" type="Texture" id=15]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1B_0.png" type="Texture" id=16]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_4.png" type="Texture" id=17]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_3.png" type="Texture" id=18]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_2.png" type="Texture" id=19]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_5.png" type="Texture" id=20]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_1.png" type="Texture" id=21]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_5.png" type="Texture" id=22]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_0.png" type="Texture" id=23]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_2.png" type="Texture" id=24]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_4.png" type="Texture" id=25]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_4.png" type="Texture" id=26]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_5.png" type="Texture" id=27]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_12.png" type="Texture" id=28]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_0.png" type="Texture" id=29]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_3.png" type="Texture" id=30]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_1.png" type="Texture" id=31]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_3.png" type="Texture" id=32]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_4.png" type="Texture" id=33]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_12.png" type="Texture" id=34]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_13.png" type="Texture" id=35]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1B_1.png" type="Texture" id=36]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1B_1.png" type="Texture" id=37]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1B_0.png" type="Texture" id=38]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1B_0.png" type="Texture" id=39]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_12.png" type="Texture" id=40]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sChargeBeamSpark1_13.png" type="Texture" id=41]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1B_1.png" type="Texture" id=42]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_13.png" type="Texture" id=43]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_1.png" type="Texture" id=44]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_1.png" type="Texture" id=45]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1B_0.png" type="Texture" id=46]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_3.png" type="Texture" id=47]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_5.png" type="Texture" id=48]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_12.png" type="Texture" id=49]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1B_1.png" type="Texture" id=50]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_2.png" type="Texture" id=51]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_13.png" type="Texture" id=52]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_0.png" type="Texture" id=53]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_0.png" type="Texture" id=54]
 
-[sub_resource type="Animation" id=1]
-resource_name = "reset"
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float whitening;
+uniform bool enabled;
+
+void fragment() {
+	if (enabled) {
+	    vec4 texture_color = texture(TEXTURE, UV);
+	    COLOR = vec4(mix(texture_color.rgb, vec3(1,1,1), whitening), texture_color.a);
+	}
+	else {
+		COLOR = texture(TEXTURE, UV)
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/whitening = 0.0
+shader_param/enabled = true
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:material:shader_param/whitening")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites:material:shader_param/enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites:material:shader_param/enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites:material:shader_param/whitening")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.75, 0.0, 0.75 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( -0.000760269, 0.1, 0.198479 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.133333, 0.133333, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0.133333, 0.133333, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprites:modulate")
@@ -31,25 +174,250 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "speedboost"
-length = 0.2
-loop = true
+[sub_resource type="Animation" id=7]
+length = 0.266667
+step = 0.0666667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:modulate")
+tracks/0/path = NodePath("ChargebeamStartBurst:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0.792157, 0.184314, 0.184314, 1 ), Color( 1, 1, 1, 1 ), Color( 0.792157, 0.184314, 0.184314, 1 ) ]
+"times": PoolRealArray( 0, 0.266667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "CHARGEBEAM 2 start", "CHARGEBEAM 2" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ChargebeamStartBurst:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ChargebeamStartBurst:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "neutral_open_map_left"
+[sub_resource type="Animation" id=8]
+length = 0.266667
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("ChargebeamStartBurst:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.266667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "ICEBEAM 2 start", "ICEBEAM 2" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ChargebeamStartBurst:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ChargebeamStartBurst:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 0.266667
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("ChargebeamStartBurst:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.266667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "PLASMABEAM 2 start", "PLASMABEAM 2" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ChargebeamStartBurst:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ChargebeamStartBurst:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.266667
+step = 0.0666667
+tracks/0/type = "value"
+tracks/0/path = NodePath("ChargebeamStartBurst:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.266667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ "WAVEBEAM 2 start", "WAVEBEAM 2" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ChargebeamStartBurst:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ChargebeamStartBurst:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ ExtResource( 23 ), ExtResource( 31 ), ExtResource( 51 ), ExtResource( 32 ) ],
+"loop": false,
+"name": "PLASMABEAM 2 start",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 33 ), ExtResource( 48 ) ],
+"loop": true,
+"name": "PLASMABEAM 2",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ) ],
+"loop": false,
+"name": "CHARGEBEAM 2 start",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 22 ) ],
+"loop": true,
+"name": "ICEBEAM 2",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 35 ) ],
+"loop": true,
+"name": "ICEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 39 ), ExtResource( 36 ) ],
+"loop": true,
+"name": "WAVEBEAM 0",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 49 ), ExtResource( 43 ) ],
+"loop": true,
+"name": "WAVEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 54 ), ExtResource( 44 ), ExtResource( 15 ), ExtResource( 30 ) ],
+"loop": false,
+"name": "WAVEBEAM 2 start",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
+"loop": true,
+"name": "WAVEBEAM 2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "PLASMABEAM 0",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 53 ), ExtResource( 45 ), ExtResource( 24 ), ExtResource( 47 ) ],
+"loop": false,
+"name": "ICEBEAM 2 start",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 25 ), ExtResource( 20 ) ],
+"loop": true,
+"name": "CHARGEBEAM 2",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 38 ), ExtResource( 37 ) ],
+"loop": true,
+"name": "CHARGEBEAM 0",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 34 ), ExtResource( 52 ) ],
+"loop": true,
+"name": "PLASMABEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 40 ), ExtResource( 41 ) ],
+"loop": true,
+"name": "CHARGEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 50 ) ],
+"loop": true,
+"name": "ICEBEAM 0",
+"speed": 15.0
+} ]
+
+[sub_resource type="Animation" id=12]
 step = 0.0333333
 tracks/0/type = "method"
 tracks/0/path = NodePath("../PauseMenu")
@@ -105,7 +473,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=13]
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
@@ -186,8 +554,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "powergrip_climb_right"
+[sub_resource type="Animation" id=14]
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
@@ -268,7 +635,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 7.5, 7.5 )
 
 [node name="Samus" type="KinematicBody2D"]
@@ -360,82 +727,119 @@ collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
 
-[node name="roll_spider_reverse" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 5, 10 )
+[node name="aim_front" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 1, -1 )
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider_reverse"
-playing = true
-script = ExtResource( 14 )
-state_key = "morphball"
-animation_key = "roll_spider_reverse"
-facing = 1
-data = {
-"directional": false,
-"leftPos": [ 2.0, 10.0 ],
-"rightPos": [ 5.0, 10.0 ]
-}
-
-[node name="screw_spark" type="AnimatedSprite" parent="Animator/TestSprites"]
-visible = false
-position = Vector2( 0, 5 )
-frames = ExtResource( 1 )
-animation = "jump_screw_spark"
+animation = "run_aim_front_left"
+frame = 6
 playing = true
 flip_h = true
 script = ExtResource( 14 )
-state_key = "jump"
-animation_key = "screw_spark"
+state_key = "run"
+animation_key = "aim_front"
 data = {
-"directional": false,
-"leftPos": [ 0.0, 5.0 ],
-"overlay": true,
-"rightPos": [ 7.0, 5.0 ]
+"leftPos": [ 1.0, -1.0 ],
+"rightPos": [ 7.0, -1.0 ]
+}
+
+[node name="turn_aim_sky" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 7, -17 )
+frames = ExtResource( 1 )
+animation = "multiple_turn_aim_sky_right"
+frame = 2
+playing = true
+script = ExtResource( 14 )
+state_key = "grapple"
+animation_key = "turn_aim_sky"
+facing = 1
+data = {
+"full": false,
+"leftPos": [ 2.0, -17.0 ],
+"rightPos": [ 7.0, -17.0 ],
+"state_id": "multiple",
+"transition": true
+}
+
+[node name="aim_sky" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 4, -17 )
+frames = ExtResource( 1 )
+animation = "multiple_aim_sky_right"
+frame = 1
+playing = true
+script = ExtResource( 14 )
+state_key = "grapple"
+animation_key = "aim_sky"
+facing = 1
+data = {
+"full": false,
+"leftPos": [ 4.0, -17.0 ],
+"rightPos": [ 4.0, -17.0 ],
+"state_id": "multiple"
 }
 
 [node name="Sprites" type="Node2D" parent="Animator"]
 pause_mode = 1
+material = SubResource( 2 )
 
 [node name="sOverlayLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
+use_parent_material = true
 position = Vector2( 4, 6 )
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider_reverse"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
+use_parent_material = true
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider_reverse"
 
 [node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
+use_parent_material = true
 position = Vector2( -14, -31 )
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider_reverse"
-frame = 6
 playing = true
 flip_h = true
 
 [node name="sMainRight" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
+use_parent_material = true
 frames = ExtResource( 1 )
-animation = "morphball_roll_spider_reverse"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
-anims/reset = SubResource( 1 )
-anims/speedboost = SubResource( 2 )
+anims/reset = SubResource( 3 )
+anims/speedboost = SubResource( 4 )
+
+[node name="ChargebeamAnimationPlayer" type="AnimationPlayer" parent="Animator"]
+pause_mode = 1
+anims/charge = SubResource( 5 )
+anims/reset = SubResource( 6 )
+
+[node name="ChargebeamStartBurstPlayer" type="AnimationPlayer" parent="Animator"]
+"anims/CHARGEBEAM 2" = SubResource( 7 )
+"anims/ICEBEAM 2" = SubResource( 8 )
+"anims/PLASMABEAM 2" = SubResource( 9 )
+"anims/WAVEBEAM 2" = SubResource( 10 )
+
+[node name="ChargebeamStartBurst" type="AnimatedSprite" parent="Animator"]
+position = Vector2( 40, 8 )
+frames = SubResource( 11 )
+animation = "CHARGEBEAM 2 start"
+frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
-anims/neutral_open_map_left = SubResource( 3 )
-anims/powergrip_climb_left = SubResource( 4 )
-anims/powergrip_climb_right = SubResource( 5 )
+anims/neutral_open_map_left = SubResource( 12 )
+anims/powergrip_climb_left = SubResource( 13 )
+anims/powergrip_climb_right = SubResource( 14 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 position = Vector2( 5, 10 )
-shape = SubResource( 6 )
+shape = SubResource( 15 )
 script = ExtResource( 7 )
 
 [node name="Weapons" type="Node2D" parent="."]
@@ -443,11 +847,11 @@ pause_mode = 1
 script = ExtResource( 6 )
 
 [node name="CannonPositions" type="Node2D" parent="Weapons"]
-visible = false
 z_index = 999
 z_as_relative = false
 
 [node name="powergrip" type="Node2D" parent="Weapons/CannonPositions"]
+visible = false
 
 [node name="aim_sky" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
 position = Vector2( 9, -29 )
@@ -486,6 +890,39 @@ position = Vector2( 1, -25 )
 position = Vector2( -9, -21 )
 rotation = -0.785398
 
+[node name="grapple" type="Node2D" parent="Weapons/CannonPositions"]
+visible = false
+
+[node name="walk_aim_down" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( -8, 1 )
+rotation = -2.35619
+
+[node name="walk_aim_front" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( -12, -9 )
+rotation = -1.5708
+
+[node name="walk_aim_sky" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( 1, -25 )
+
+[node name="walk_aim_up" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( -9, -21 )
+rotation = -0.785398
+
+[node name="stand_aim_down" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( -8, 1 )
+rotation = -2.35619
+
+[node name="stand_aim_front" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( -12, -9 )
+rotation = -1.5708
+
+[node name="stand_aim_sky" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( 1, -25 )
+
+[node name="stand_aim_up" type="Position2D" parent="Weapons/CannonPositions/grapple"]
+position = Vector2( -9, -21 )
+rotation = -0.785398
+
 [node name="jump" type="Node2D" parent="Weapons/CannonPositions"]
 visible = false
 
@@ -502,9 +939,28 @@ position = Vector2( -10, -9 )
 rotation = -1.5708
 
 [node name="aim_sky" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( 0, -29 )
+position = Vector2( 0, -26 )
 
 [node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/jump"]
+position = Vector2( -8, -24 )
+rotation = -0.785398
+
+[node name="turn_aim_down" type="Position2D" parent="Weapons/CannonPositions/jump"]
+position = Vector2( -8, -2 )
+rotation = -2.35619
+
+[node name="turn_aim_floor" type="Position2D" parent="Weapons/CannonPositions/jump"]
+position = Vector2( 1, 8 )
+rotation = 3.14159
+
+[node name="turn_aim_front" type="Position2D" parent="Weapons/CannonPositions/jump"]
+position = Vector2( -10, -9 )
+rotation = -1.5708
+
+[node name="turn_aim_sky" type="Position2D" parent="Weapons/CannonPositions/jump"]
+position = Vector2( 4, -26 )
+
+[node name="turn_aim_up" type="Position2D" parent="Weapons/CannonPositions/jump"]
 position = Vector2( -8, -24 )
 rotation = -0.785398
 
@@ -525,8 +981,12 @@ rotation = -0.785398
 
 [node name="morphball" type="Node2D" parent="Weapons/CannonPositions"]
 visible = false
+position = Vector2( 0, 10 )
 
 [node name="roll" type="Position2D" parent="Weapons/CannonPositions/morphball"]
+position = Vector2( 2, 10 )
+
+[node name="morph" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 
 [node name="roll_spider" type="Position2D" parent="Weapons/CannonPositions/morphball"]
@@ -535,23 +995,32 @@ position = Vector2( 2, 10 )
 [node name="roll_spider_reverse" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 
-[node name="roll_turn" type="Position2D" parent="Weapons/CannonPositions/morphball"]
+[node name="turn" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 
+[node name="unmorph" type="Position2D" parent="Weapons/CannonPositions/morphball"]
+position = Vector2( -11, -6 )
+rotation = -1.5708
+
 [node name="run" type="Node2D" parent="Weapons/CannonPositions"]
-visible = false
 
 [node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/run"]
-position = Vector2( -13, 0 )
+position = Vector2( -10, -4.76837e-07 )
 rotation = -2.35619
 
 [node name="aim_front" type="Position2D" parent="Weapons/CannonPositions/run"]
 position = Vector2( -17, -10 )
 rotation = -1.5708
 
+[node name="aim_none" type="Position2D" parent="Weapons/CannonPositions/run"]
+position = Vector2( -17, -10 )
+rotation = -1.5708
+
 [node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/run"]
-position = Vector2( -14, -22 )
+position = Vector2( -13, -23 )
 rotation = -0.785398
+
+[node name="CannonPositionAnchor" type="Node2D" parent="Weapons"]
 
 [node name="VisorPositions" type="Node2D" parent="Weapons"]
 visible = false
@@ -648,10 +1117,6 @@ zoom = Vector2( 0.25, 0.25 )
 limit_smoothed = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
-drag_margin_left = 0.4
-drag_margin_top = 0.4
-drag_margin_right = 0.4
-drag_margin_bottom = 0.4
 script = ExtResource( 10 )
 
 [node name="OffsetTween" type="Tween" parent="SamusCamera"]

@@ -18,45 +18,50 @@ animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": false,
 "name": "beam",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 2 ) ],
-"loop": false,
-"name": "powerbomb",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 4 ) ],
-"loop": false,
-"name": "missile",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 6 ) ],
-"loop": false,
-"name": "supermissile",
-"speed": 0.0
-}, {
-"frames": [ ExtResource( 7 ) ],
-"loop": false,
-"name": "speedbooster",
-"speed": 0.0
+"speed": 1.0
 }, {
 "frames": [ ExtResource( 8 ) ],
 "loop": false,
 "name": "bomb",
-"speed": 0.0
+"speed": 1.0
 }, {
-"frames": [ ExtResource( 3 ) ],
+"frames": [ ExtResource( 27 ), ExtResource( 26 ), ExtResource( 12 ), ExtResource( 11 ) ],
 "loop": false,
-"name": "screwattack",
-"speed": 0.0
+"name": "reappear",
+"speed": 15.0
 }, {
-"frames": [ ExtResource( 5 ) ],
+"frames": [ ExtResource( 4 ) ],
 "loop": false,
-"name": "crumble",
-"speed": 0.0
+"name": "missile",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": false,
+"name": "supermissile",
+"speed": 1.0
 }, {
 "frames": [ ExtResource( 11 ), ExtResource( 12 ), ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": false,
 "name": "destroy",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": false,
+"name": "powerbomb",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": false,
+"name": "crumble",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "screwattack",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": false,
+"name": "speedbooster",
+"speed": 1.0
 } ]

@@ -77,7 +77,7 @@ func set_text(value: Array):
 	text = value
 
 func set_text_colour(value: Color):
-	if Engine.is_editor_hint():
+	if Engine.editor_hint:
 		return
 	$Labels/Template.set("custom_colors/default_color", value)
 	text_colour = value

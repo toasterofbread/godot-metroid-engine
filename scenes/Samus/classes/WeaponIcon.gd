@@ -27,6 +27,9 @@ func remove_digit():
 	digit_to_remove.queue_free()
 
 func update_digits(amount: int):
+	if not Digits:
+		return
+	
 	var i = 0
 	
 	while len(Digits.get_children()) < len(str(amount)):

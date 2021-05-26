@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://sprites/samus/weapons/powerbomb/sPBomb_20.png" type="Texture" id=1]
 [ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://sprites/samus/weapons/powerbomb/sPBomb_21.png" type="Texture" id=30]
 [ext_resource path="res://sprites/ui/mainhud/icons/sGUIPBomb_0.png" type="Texture" id=31]
 [ext_resource path="res://sprites/samus/weapons/powerbomb/sPBomb_03.png" type="Texture" id=32]
+[ext_resource path="res://scenes/Samus/classes/KinematicProjectile.gd" type="Script" id=33]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -109,16 +110,13 @@ script = ExtResource( 14 )
 id = 11
 damage_type = 3
 cooldown = 5.0
-move_by_velocity = false
 is_morph_weapon = true
-burst_start = false
 
-[node name="Projectile" type="Area2D" parent="."]
+[node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
-monitoring = false
-monitorable = false
 collision_layer = 2
 collision_mask = 524293
+script = ExtResource( 33 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 z_index = 4095

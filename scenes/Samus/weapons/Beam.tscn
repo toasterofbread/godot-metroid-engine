@@ -1,91 +1,433 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=107 format=2]
 
 [ext_resource path="res://scenes/Samus/weapons/Beam.gd" type="Script" id=1]
-[ext_resource path="res://sprites/samus/weapons/beam/burst_fire/1.png" type="Texture" id=2]
-[ext_resource path="res://sprites/samus/weapons/beam/projectile.png" type="Texture" id=3]
-[ext_resource path="res://sprites/samus/weapons/beam/burst_fire/0.png" type="Texture" id=4]
-[ext_resource path="res://sprites/samus/weapons/beam/trail.png" type="Texture" id=5]
-[ext_resource path="res://sprites/samus/weapons/beam/burst_collide/0.png" type="Texture" id=6]
-[ext_resource path="res://sprites/samus/weapons/beam/burst_collide/1.png" type="Texture" id=7]
-[ext_resource path="res://sprites/samus/weapons/beam/burst_collide/2.png" type="Texture" id=8]
-[ext_resource path="res://sprites/samus/weapons/beam/burst_collide/3.png" type="Texture" id=9]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl_3.png" type="Texture" id=2]
+[ext_resource path="res://sprites/samus/weapons/beam/w/sWBeam_0.png" type="Texture" id=3]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sIBeamExpl_3.png" type="Texture" id=4]
+[ext_resource path="res://sprites/samus/weapons/beam/b/sBeam_0.png" type="Texture" id=5]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sWBeamExpl_3.png" type="Texture" id=6]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sWBeamExpl_1.png" type="Texture" id=7]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sIBeamExpl_2.png" type="Texture" id=8]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sPBeamExpl_1.png" type="Texture" id=9]
+[ext_resource path="res://sprites/samus/weapons/beam/p/sPBeam_0.png" type="Texture" id=10]
+[ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam_1.png" type="Texture" id=11]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice_particles/FX.png" type="Texture" id=12]
+[ext_resource path="res://sprites/samus/weapons/beam/b/sBeam2_3.png" type="Texture" id=13]
+[ext_resource path="res://scenes/Samus/classes/KinematicProjectile.gd" type="Script" id=14]
+[ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam_2.png" type="Texture" id=15]
+[ext_resource path="res://sprites/samus/weapons/beam/p/sPBeam_1.png" type="Texture" id=16]
+[ext_resource path="res://sprites/samus/weapons/beam/ps/sSPBeam_1.png" type="Texture" id=17]
+[ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam_0.png" type="Texture" id=18]
+[ext_resource path="res://sprites/samus/weapons/beam/ipsw/sISWPBeam_1.png" type="Texture" id=19]
+[ext_resource path="res://sprites/samus/weapons/beam/w/sWBeam_1.png" type="Texture" id=20]
+[ext_resource path="res://sprites/samus/weapons/beam/ps/sSPBeam_0.png" type="Texture" id=21]
+[ext_resource path="res://sprites/samus/weapons/beam/s/sSBeam_1.png" type="Texture" id=22]
+[ext_resource path="res://sprites/samus/weapons/beam/ipsw/sISWPBeam_0.png" type="Texture" id=23]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam_2.png" type="Texture" id=24]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam_3.png" type="Texture" id=25]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam_1.png" type="Texture" id=26]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam_0.png" type="Texture" id=27]
+[ext_resource path="res://sprites/samus/weapons/beam/ips/sISPBeam_0.png" type="Texture" id=28]
+[ext_resource path="res://sprites/samus/weapons/beam/ips/sISPBeam_1.png" type="Texture" id=29]
+[ext_resource path="res://sprites/samus/weapons/beam/ipw/sIWBeam_1.png" type="Texture" id=30]
+[ext_resource path="res://sprites/samus/weapons/beam/ipw/sIWBeam_0.png" type="Texture" id=31]
+[ext_resource path="res://sprites/samus/weapons/beam/is/sISBeam_0.png" type="Texture" id=32]
+[ext_resource path="res://sprites/samus/weapons/beam/is/sISBeam_1.png" type="Texture" id=33]
+[ext_resource path="res://sprites/samus/weapons/beam/iw/sIWBeam_1.png" type="Texture" id=34]
+[ext_resource path="res://sprites/samus/weapons/beam/iw/sIWBeam_0.png" type="Texture" id=35]
+[ext_resource path="res://sprites/samus/weapons/beam/isw/sIWBeam_1.png" type="Texture" id=36]
+[ext_resource path="res://sprites/samus/weapons/beam/isw/sIWBeam_0.png" type="Texture" id=37]
+[ext_resource path="res://sprites/samus/weapons/beam/b/sBeam2_0.png" type="Texture" id=38]
+[ext_resource path="res://sprites/samus/weapons/beam/b/sBeam2_2.png" type="Texture" id=39]
+[ext_resource path="res://sprites/samus/weapons/beam/b/sBeam2_1.png" type="Texture" id=40]
+[ext_resource path="res://sprites/samus/weapons/beam/ipw/sIWBeam2_0.png" type="Texture" id=41]
+[ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam2_0.png" type="Texture" id=42]
+[ext_resource path="res://sprites/samus/weapons/beam/ipw/sIWBeam2_1.png" type="Texture" id=43]
+[ext_resource path="res://sprites/samus/weapons/beam/ipsw/sISWPBeam2_1.png" type="Texture" id=44]
+[ext_resource path="res://sprites/samus/weapons/beam/iw/sIWBeam2_1.png" type="Texture" id=45]
+[ext_resource path="res://sprites/samus/weapons/beam/ips/sISPBeam2_1.png" type="Texture" id=46]
+[ext_resource path="res://sprites/samus/weapons/beam/p/sPBeam2_0.png" type="Texture" id=47]
+[ext_resource path="res://sprites/samus/weapons/beam/ps/sSPBeam2_0.png" type="Texture" id=48]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam2_2.png" type="Texture" id=49]
+[ext_resource path="res://sprites/samus/weapons/beam/isw/sIWBeam2_1.png" type="Texture" id=50]
+[ext_resource path="res://sprites/samus/weapons/beam/ipsw/sISWPBeam2_0.png" type="Texture" id=51]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam2_1.png" type="Texture" id=52]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam2_3.png" type="Texture" id=53]
+[ext_resource path="res://sprites/samus/weapons/beam/iw/sIWBeam2_0.png" type="Texture" id=54]
+[ext_resource path="res://sprites/samus/weapons/beam/ip/sIPBeam2_0.png" type="Texture" id=55]
+[ext_resource path="res://sprites/samus/weapons/beam/ps/sSPBeam2_1.png" type="Texture" id=56]
+[ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam2_1.png" type="Texture" id=57]
+[ext_resource path="res://sprites/samus/weapons/beam/ips/sISPBeam2_0.png" type="Texture" id=58]
+[ext_resource path="res://sprites/samus/weapons/beam/isw/sIWBeam2_0.png" type="Texture" id=59]
+[ext_resource path="res://sprites/samus/weapons/beam/s/sSBeam2_0.png" type="Texture" id=60]
+[ext_resource path="res://sprites/samus/weapons/beam/w/sWBeam2_1.png" type="Texture" id=61]
+[ext_resource path="res://sprites/samus/weapons/beam/w/sWBeam2_0.png" type="Texture" id=62]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sPBeamExpl_3.png" type="Texture" id=63]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sPBeamExpl_4.png" type="Texture" id=64]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sPBeamExpl_6.png" type="Texture" id=65]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sWBeamExpl_6.png" type="Texture" id=66]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sWBeamExpl_4.png" type="Texture" id=67]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sPBeamExpl_0.png" type="Texture" id=68]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl_1.png" type="Texture" id=69]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sIBeamExpl_1.png" type="Texture" id=70]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl_0.png" type="Texture" id=71]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sWBeamExpl_2.png" type="Texture" id=72]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sPBeamExpl_2.png" type="Texture" id=73]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sWBeamExpl_0.png" type="Texture" id=74]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sWBeamExpl_5.png" type="Texture" id=75]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl_2.png" type="Texture" id=76]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sIBeamExpl_5.png" type="Texture" id=77]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sIBeamExpl_6.png" type="Texture" id=78]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sPBeamExpl_5.png" type="Texture" id=79]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sIBeamExpl_4.png" type="Texture" id=80]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sIBeamExpl_0.png" type="Texture" id=81]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl2_0.png" type="Texture" id=82]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl2_6.png" type="Texture" id=83]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl2_2.png" type="Texture" id=84]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl2_1.png" type="Texture" id=85]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl2_5.png" type="Texture" id=86]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl2_4.png" type="Texture" id=87]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl2_3.png" type="Texture" id=88]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/fire_1.png" type="Texture" id=89]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/fire_1.png" type="Texture" id=90]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/fire_0.png" type="Texture" id=91]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/wave/fire_1.png" type="Texture" id=92]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/fire_1.png" type="Texture" id=93]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/fire_0.png" type="Texture" id=94]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/beam/fire_0.png" type="Texture" id=95]
+[ext_resource path="res://sprites/samus/weapons/beam/fx/ice/fire_0.png" type="Texture" id=96]
 
-[sub_resource type="Gradient" id=1]
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 1
+particles_anim_loop = false
 
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 2
+emission_box_extents = Vector3( 1, 1, 1 )
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+gravity = Vector3( 0, 150, 0 )
+angular_velocity = 50.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+anim_speed = 1.0
 
-[sub_resource type="ParticlesMaterial" id=3]
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.995708, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.0343348, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
 flag_disable_z = true
 direction = Vector3( 0, 1, 0 )
 spread = 0.0
-gravity = Vector3( 0, 100, 0 )
+gravity = Vector3( -100, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-color_ramp = SubResource( 2 )
-
-[sub_resource type="SpriteFrames" id=4]
-animations = [ {
-"frames": [ ExtResource( 3 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 2, 5 )
+color_ramp = SubResource( 4 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 9 ) ],
+"frames": [ ExtResource( 5 ) ],
+"loop": false,
+"name": "b",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 22 ) ],
 "loop": true,
-"name": "collide",
+"name": "s",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "w",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 11 ), ExtResource( 18 ), ExtResource( 11 ) ],
+"loop": true,
+"name": "i",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 27 ), ExtResource( 26 ), ExtResource( 24 ), ExtResource( 25 ) ],
+"loop": true,
+"name": "ip",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 30 ), ExtResource( 31 ) ],
+"loop": false,
+"name": "ipw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 16 ) ],
+"loop": false,
+"name": "psw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 16 ) ],
+"loop": false,
+"name": "p",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 20 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "sw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 34 ), ExtResource( 35 ) ],
+"loop": false,
+"name": "iw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 17 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "ps",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 29 ) ],
+"loop": false,
+"name": "ips",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 36 ), ExtResource( 37 ) ],
+"loop": false,
+"name": "isw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 23 ) ],
+"loop": true,
+"name": "ipsw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 16 ) ],
+"loop": false,
+"name": "pw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": true,
+"name": "is",
+"speed": 15.0
+} ]
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ ExtResource( 38 ), ExtResource( 40 ), ExtResource( 39 ), ExtResource( 13 ) ],
+"loop": true,
+"name": "b",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 60 ) ],
+"loop": true,
+"name": "s",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 61 ), ExtResource( 62 ) ],
+"loop": false,
+"name": "w",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 42 ), ExtResource( 57 ) ],
+"loop": true,
+"name": "i",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 55 ), ExtResource( 52 ), ExtResource( 49 ), ExtResource( 53 ) ],
+"loop": true,
+"name": "ip",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 43 ), ExtResource( 41 ) ],
+"loop": false,
+"name": "ipw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 47 ) ],
+"loop": false,
+"name": "psw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 47 ) ],
+"loop": false,
+"name": "p",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 61 ), ExtResource( 62 ) ],
+"loop": false,
+"name": "sw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 45 ), ExtResource( 54 ) ],
+"loop": false,
+"name": "iw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 56 ), ExtResource( 48 ) ],
+"loop": true,
+"name": "ps",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 58 ), ExtResource( 46 ) ],
+"loop": true,
+"name": "ips",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 50 ), ExtResource( 59 ) ],
+"loop": false,
+"name": "isw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 51 ), ExtResource( 44 ) ],
+"loop": true,
+"name": "ipsw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 47 ) ],
+"loop": false,
+"name": "pw",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": true,
+"name": "is",
+"speed": 15.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 2.5, 5 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ ExtResource( 96 ), ExtResource( 93 ), ExtResource( 93 ) ],
+"loop": false,
+"name": "ICEBEAM start",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 4 ), ExtResource( 2 ), ExtResource( 2 ) ],
+"frames": [ ExtResource( 74 ), ExtResource( 7 ), ExtResource( 72 ), ExtResource( 6 ), ExtResource( 67 ), ExtResource( 75 ), ExtResource( 66 ), ExtResource( 66 ) ],
 "loop": false,
-"name": "fire",
+"name": "WAVEBEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 94 ), ExtResource( 90 ), ExtResource( 90 ) ],
+"loop": false,
+"name": "PLASMABEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
+"loop": false,
+"name": "BEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 91 ), ExtResource( 92 ), ExtResource( 92 ) ],
+"loop": false,
+"name": "WAVEBEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 81 ), ExtResource( 70 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 80 ), ExtResource( 77 ), ExtResource( 78 ), ExtResource( 78 ) ],
+"loop": false,
+"name": "ICEBEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 68 ), ExtResource( 9 ), ExtResource( 73 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 79 ), ExtResource( 65 ), ExtResource( 65 ) ],
+"loop": false,
+"name": "PLASMABEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 71 ), ExtResource( 69 ), ExtResource( 76 ), ExtResource( 2 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "BEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 82 ), ExtResource( 85 ), ExtResource( 84 ), ExtResource( 88 ), ExtResource( 87 ), ExtResource( 86 ), ExtResource( 83 ), ExtResource( 83 ) ],
+"loop": false,
+"name": "CHARGEBEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
+"loop": false,
+"name": "CHARGEBEAM start",
 "speed": 60.0
 } ]
+
+[sub_resource type="Environment" id=10]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 8.0
+glow_strength = 1.12
+glow_blend_mode = 0
+glow_bicubic_upscale = true
 
 [node name="Beam" type="Node2D"]
 script = ExtResource( 1 )
 id = 1
 damage_type = 1
-velocity = 450.0
 cooldown = 0.1
 is_base_weapon = true
-unlimited_ammo = true
 
-[node name="Projectile" type="Area2D" parent="."]
+[node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
 collision_layer = 2
 collision_mask = 524292
+script = ExtResource( 14 )
+base_velocity = 450.0
+
+[node name="IceParticles" type="Particles2D" parent="Projectile"]
+material = SubResource( 1 )
+position = Vector2( -0.395031, -0.499632 )
+emitting = false
+amount = 5
+lifetime = 0.35
+randomness = 0.5
+local_coords = false
+process_material = SubResource( 2 )
+texture = ExtResource( 12 )
 
 [node name="Trail" type="Particles2D" parent="Projectile"]
 visible = false
-position = Vector2( 0, 1 )
+position = Vector2( 0.499397, 0.162918 )
+rotation = -1.5708
+emitting = false
 amount = 10
-lifetime = 0.7
+lifetime = 0.5
 preprocess = 1.0
-process_material = SubResource( 3 )
-texture = ExtResource( 5 )
+process_material = SubResource( 5 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
-frames = SubResource( 4 )
-
-[node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="Projectile"]
 visible = false
-position = Vector2( 5.96046e-08, 0.5 )
-scale = Vector2( 0.4, 0.75 )
+position = Vector2( 0.111362, -0.111362 )
+rotation = -1.5708
+frames = SubResource( 6 )
+animation = "b"
+playing = true
+
+[node name="SpriteChargebeam" type="AnimatedSprite" parent="Projectile"]
+position = Vector2( 0.111362, -0.111362 )
+rotation = -1.5708
+frames = SubResource( 7 )
+animation = "s"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
-shape = SubResource( 5 )
+position = Vector2( 0.5, -1.622 )
+rotation = -1.5708
+shape = SubResource( 8 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
-position = Vector2( -60, -2 )
+visible = false
 z_index = 999
 z_as_relative = false
-frames = SubResource( 6 )
-animation = "collide"
+frames = SubResource( 9 )
+animation = "CHARGEBEAM start"
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Projectile"]
+visible = false
+position = Vector2( 0.53093, -0.679844 )
+scale = Vector2( 0.4, 0.75 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 10 )
+
+[node name="Tween" type="Tween" parent="."]

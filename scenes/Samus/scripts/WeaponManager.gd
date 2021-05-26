@@ -1,8 +1,22 @@
 extends Node2D
 
 onready var Samus: KinematicBody2D = get_parent()
+onready var Animator: Node2D  = get_parent().Animator
 onready var CannonPositions = $CannonPositions
 onready var VisorPositions = $VisorPositions
+
+onready var ChargebeamAnimationPlayer: AnimationPlayer = get_parent().get_node("Animator/ChargebeamAnimationPlayer")
+onready var ChargebeamStartBurstPlayer: AnimationPlayer = get_parent().get_node("Animator/ChargebeamStartBurstPlayer")
+onready var ChargebeamStartBurst: AnimatedSprite = get_parent().get_node("Animator/ChargebeamStartBurst")
+onready var CannonPositionAnchor: Node2D = $CannonPositionAnchor
+
+const charge_times = {1.5: 2.0, 1.0: 1.0, 0.5: 1.0}
+var reversed_charge_times
+var charge_time_current: float = 0.0
+var weapon_fired: = false
+
+var fire_pos
+var fire_pos_nodes: = {}
 
 var added_weapons = {
 	true: [], # Morphball weapons
@@ -30,11 +44,30 @@ onready var visors = {
 	Enums.Upgrade.XRAY: $Visors/XRayScope
 }
 
-func _process(_delta):
+func _ready():
+	reversed_charge_times = charge_times.keys().duplicate()
+	reversed_charge_times.invert()
 	
-	var morphball_changed = current_weapon[1] != (Samus.current_state.id in ["morphball", "spiderball"])
+	for node in [ChargebeamStartBurst, ChargebeamStartBurstPlayer]:
+		Global.reparent_child(node, CannonPositionAnchor)
+	ChargebeamStartBurst.position = Vector2.ZERO
+	
+	for state in CannonPositions.get_children():
+		for animation in state.get_children():
+			fire_pos_nodes[state.name + "/" + animation.name] = animation
+
+func _process(delta: float):
+	
+	reset_fire_pos()
+	
+	if Samus.is_upgrade_active(Enums.Upgrade.CHARGEBEAM) and delta:
+		process_chargebeam(delta)
+	weapon_fired = false
+	
+	var morphball = Samus.current_state.id in ["morphball", "spiderball"]
+	var morphball_changed = morphball != current_weapon[1]
 	if morphball_changed:
-		current_weapon[1] = Samus.current_state.id in ["morphball", "spiderball"]
+		current_weapon[1] = morphball
 		current_weapon[0] = 0
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
@@ -51,6 +84,47 @@ func _process(_delta):
 		return
 	update_weapon_icons()
 
+func process_chargebeam(delta: float):
+	if charge_time_current >= charge_times.keys()[len(charge_times) - 1]:
+		ChargebeamAnimationPlayer.play("charge")
+	else:
+		ChargebeamAnimationPlayer.play("reset")
+	
+	var fire = true
+	if Samus.current_state.id in ["neutral", "run", "jump", "crouch", "powergrip"] and Input.is_action_pressed("fire_weapon"):
+		charge_time_current += delta
+		fire = false
+	
+	ChargebeamStartBurst.visible = false
+	if charge_time_current != 0.0:
+		if charge_time_current > charge_times.keys()[len(charge_times) - 1]:
+			
+			for time in charge_times:
+				if charge_time_current >= time:
+					var animation = Enums.Upgrade.keys()[all_weapons[Enums.Upgrade.BEAM].get_base_type(true)]
+					var i = charge_times.keys().find(time)
+					animation += " " + str(i)
+					if i == 2:
+						ChargebeamStartBurstPlayer.play(animation)
+					else:
+						ChargebeamStartBurst.play(animation)
+					if fire_pos:
+						ChargebeamStartBurst.visible = true
+					
+					if fire:
+						if Samus.current_state.has_method("chargebeam_fired"):
+							Samus.current_state.chargebeam_fired()
+						
+						var morphball = Samus.current_state.id in ["morphball", "spiderball"]
+						if morphball != current_weapon[1]:
+							current_weapon[1] = morphball
+							current_weapon[0] = 0
+							update_weapon_icons()
+						fire(charge_times[time])
+					break
+		if fire:
+			charge_time_current = 0.0
+
 func cycle_visor():
 	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/visor_combo") or Input.is_action_pressed("shortcut")):
 		var checking = false
@@ -59,7 +133,7 @@ func cycle_visor():
 		else:
 			visors[current_visor].set_overlay(false)
 		var set = false
-		for visor in Enums.Visors:
+		for visor in Enums.UpgradeTypes["visor"]:
 			if visor == current_visor:
 				checking = true
 			elif checking and Samus.is_upgrade_active(visor):
@@ -88,23 +162,31 @@ func update_weapon_icons():
 			var selected_weapon = added_weapons[current_weapon[1]][current_weapon[0]] if current_weapon[0] >= 0 else null
 			weapon.Icon.update_icon(selected_weapon, Samus.armed)
 
-func fire():
+# TODO | Yeah this defintely needs an overhaul
+func fire(chargebeam_damage_multiplier=null):
+	var weapon: SamusWeapon
 	if Settings.get("controls/aiming_style") == 0:
 		if Samus.armed:
 			if len(added_weapons[current_weapon[1]]) > current_weapon[0]:
-				added_weapons[current_weapon[1]][current_weapon[0]].fire()
+				weapon = added_weapons[current_weapon[1]][current_weapon[0]]
 			elif added_weapons_base[current_weapon[1]] != null:
-				added_weapons_base[current_weapon[1]].fire()
+				weapon = added_weapons_base[current_weapon[1]]
 		else:
 			if added_weapons_base[current_weapon[1]] != null:
-				added_weapons_base[current_weapon[1]].fire()
+				weapon = added_weapons_base[current_weapon[1]]
 	else:
 		if current_weapon[0] == -1:
 			if added_weapons_base[current_weapon[1]] != null:
-				added_weapons_base[current_weapon[1]].fire()
+				weapon = added_weapons_base[current_weapon[1]]
 		else:
-			(added_weapons[true] + added_weapons[false])[current_weapon[0]].fire()
-
+			weapon = (added_weapons[true] + added_weapons[false])[current_weapon[0]]
+	
+	if weapon:
+		weapon_fired = weapon.fire(chargebeam_damage_multiplier)
+		return weapon_fired
+	else:
+		return false
+	
 func add_weapon(weapon_key: int):
 	
 	if all_weapons[weapon_key] in all_equipped_weapons(true):
@@ -159,3 +241,29 @@ func _on_SpeedboosterDamageArea_body_entered(body):
 	var shinespark = Samus.states["shinespark"]
 	if body.has_method("damage"):
 		body.damage(shinespark.damage_type, shinespark.damage_amount)
+
+func get_fire_pos(facing_override:=Samus.facing):
+	
+	if not Samus.Animator.current[false]:
+		return
+	
+	var position_node_path = Samus.Animator.current[false].position_node_path
+	if not position_node_path:
+		return null
+	var pos: Position2D = fire_pos_nodes[position_node_path]
+	
+	var ret = pos.duplicate()
+	ret.global_position = pos.global_position
+	
+	if facing_override == Enums.dir.RIGHT:
+		ret.position.x += (pos.position.x * -1 + 8) - pos.position.x
+		ret.rotation = (Vector2(-1, 0).rotated(pos.rotation) * Vector2(-1, 1)).angle()
+	
+	CannonPositionAnchor.global_position = ret.position
+	
+	return ret
+
+func reset_fire_pos():
+	if fire_pos:
+		fire_pos.queue_free()
+	fire_pos = get_fire_pos()

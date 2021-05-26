@@ -22,7 +22,7 @@ func set_show_overlay_in_editor(value: bool):
 	show_overlay_in_editor = value
 
 func set_type(value: int):
-	if Engine.is_editor_hint():
+	if Engine.editor_hint:
 		$AnimatedSprite.play(Enums.DamageType.keys()[value].to_lower())
 	type = value
 
@@ -34,7 +34,7 @@ func set_overlay(value: Texture):
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	if Engine.is_editor_hint():
+	if Engine.editor_hint:
 		return
 	
 	set_overlay(overlay)
@@ -59,12 +59,12 @@ func _ready():
 	
 	$AnimatedSprite.play(sprite_name)
 
-func set_reverse(value, property: String):
-	set(property, value)
+#func set_reverse(value, property: String):
+#	set(property, value)
 
 func damage(type: int, _value: float):
 	if type in destructive_damage_types:
-		_destroy()
+		destroy()
 
 func get_disable() -> bool:
 	for type in Samus.self_damage:
@@ -91,11 +91,12 @@ func _process(_delta: float):
 func body_entered_area(body):
 	if body == Samus:
 		if get_disable():
-			_destroy()
+			destroy()
 
-func _destroy(time: float = reappear_time):
+func destroy(time: float = reappear_time):
 	state = STATES.DESTROYED
 	$Overlay.visible = false
+	
 	if type == Enums.DamageType.CRUMBLE:
 		$CrumbleArea/CollisionShape2D.set_deferred("disabled", true)
 	else:
@@ -111,21 +112,27 @@ func _destroy(time: float = reappear_time):
 	else:
 		self.queue_free()
 
-func _reappear():
+func reappear():
 	state = STATES.NORMAL
 	self.visible = true
 	$AnimatedSprite.play("reappear")
 	yield($AnimatedSprite, "animation_finished")
+	
 	$WeaponCollisionArea/CollisionShape2D.set_deferred("disabled", false)
-	if len($WeaponCollisionArea.get_overlapping_bodies()) != 0:
-		_destroy(0.5)
-	else:
-		if type == Enums.DamageType.CRUMBLE:
-			$CrumbleArea/CollisionShape2D.set_deferred("disabled", false)
-			$WeaponCollisionArea/CollisionShape2D.set_deferred("disabled", true)
-		$CollisionShape2D.set_deferred("disabled", false)
-		$AnimatedSprite.play(Enums.DamageType.keys()[type].to_lower())
+	yield(get_tree(), "idle_frame")
+	yield(Global, "physics_frame")
+	
+	for body in $WeaponCollisionArea.get_overlapping_bodies():
+		if body.get_collision_layer_bit(0) or body.get_collision_layer_bit(2):
+			destroy(0.5)
+			return
+	
+	if type == Enums.DamageType.CRUMBLE:
+		$CrumbleArea/CollisionShape2D.set_deferred("disabled", false)
+		$WeaponCollisionArea/CollisionShape2D.set_deferred("disabled", true)
+	$CollisionShape2D.set_deferred("disabled", false)
+	$AnimatedSprite.play(sprite_name)
 
 
 func _on_CrumbleArea_body_entered(_body):
-	_destroy()
+	destroy()

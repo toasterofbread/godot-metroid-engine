@@ -118,7 +118,7 @@ func transition(origin_door: Door):
 		previous_room.queue_free()
 		current_room.World.visible = true
 		
-		yield(Samus.camerachunk_entered(Samus.current_camerachunk, true, 0.5), "completed")
+		yield(Samus.camerachunk_entered(Samus.current_camerachunk, true, 0.45), "completed")
 		
 		destination_door.fade_in(0.25)
 		yield(Global.undim_screen(0.25), "completed")

@@ -27,11 +27,11 @@ func set_acquired(value):
 
 func _ready():
 	
-	if Engine.is_editor_hint():
+	if Engine.editor_hint:
 		return
 	save_path_acquired = ["rooms", Loader.current_room.id, "UpgradePickups", str(unique_id)]
 	$AnimatedSprite.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
-	gain_amount = Enums.upgrade_data[Enums.Upgrade.keys()[upgrade_type]]["gain_amount"]
+	gain_amount = Enums.upgrade_data[upgrade_type]["gain_amount"]
 	
 	set_acquired(Loader.Save.get_data_key(save_path_acquired))
 

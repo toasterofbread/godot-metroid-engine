@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-var rng = RandomNumberGenerator.new()
 onready var Animator = $Animator
 onready var Collision = $Collision
 onready var Physics = $Physics
@@ -73,11 +72,10 @@ func _ready():
 		energy = etanks * 100 + 99
 	HUD.set_energy(energy)
 	
-	Weapons.add_weapon(Enums.Upgrade.BEAM)
 	for upgrade in upgrades:
 		if upgrade in Weapons.all_weapons and upgrades[upgrade]["amount"] > 0:
 			var weapon = yield(Weapons.add_weapon(upgrade), "completed")
-			if not weapon.unlimited_ammo:
+			if "ammo" in upgrades[upgrade]:
 				weapon.ammo = upgrades[upgrade]["ammo"]
 			weapon.amount = upgrades[upgrade]["amount"]
 	Weapons.update_weapon_icons()
@@ -104,8 +102,10 @@ func _process(delta):
 	
 	current_state.process(delta)
 	if is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
-		states["shinespark"].speedbooster_process(delta)
-	
+		states["shinespark"].process_speedboooster(delta)
+#	if is_upgrade_active(Enums.Upgrade.CHARGEBEAM):
+#		process_chargebeam(delta)
+
 var prev = ""
 func _physics_process(delta):
 	

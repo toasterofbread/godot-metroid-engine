@@ -3,7 +3,7 @@ extends Node
 onready var Samus: KinematicBody2D = get_parent()
 
 # GRAVITY
-const GRAVITY = 20
+const GRAVITY = 20*60
 const FALL_SPEED_CAP = 325
 const UP_DIRECTION = Vector2.UP
 const SNAP_DIRECTION = Vector2.DOWN
@@ -18,7 +18,7 @@ var on_slope: bool = false
 
 var time = -1
 
-func _physics_process(_delta: float):
+func _physics_process(delta: float):
 	
 	if Samus.is_on_ceiling() or Samus.is_on_wall():
 		Samus.boosting = false
@@ -28,7 +28,7 @@ func _physics_process(_delta: float):
 		return
 	
 	if apply_gravity:
-		vel.y = min(vel.y + GRAVITY, FALL_SPEED_CAP)
+		vel.y = min(vel.y + GRAVITY*delta, FALL_SPEED_CAP)
 	
 	var slope_angle = Samus.get_floor_normal().dot(Vector2.UP)
 	on_slope = slope_angle != 0 and slope_angle != 1

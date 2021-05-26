@@ -13,15 +13,13 @@ export var data: Dictionary = {}
 
 export var save_data: bool setget save_data
 export var load_data: bool setget load_data
+export var set_position_data: bool setget set_position_data
 
-func _set(property: String, value) -> bool:
-	if property == "position":
-		match facing:
-			FACING.LEFT: data["leftPos"] = [value.x, value.y]
-			FACING.RIGHT: data["rightPos"] = [value.x, value.y]
-		position = value
-		return true
-	return false
+func set_position_data(value: bool):
+	match facing:
+		FACING.LEFT: data["leftPos"] = [position.x, position.y]
+		FACING.RIGHT: data["rightPos"] = [position.x, position.y]
+	print("Position set")
 
 func save_data(_value: bool):
 	if get_unset_variables() != []:

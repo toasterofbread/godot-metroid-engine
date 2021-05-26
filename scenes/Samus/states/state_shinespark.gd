@@ -154,7 +154,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 func physics_process(_delta: float):
 	return
 
-func speedbooster_process(_delta: float):
+func process_speedboooster(_delta: float):
 	
 	if Samus.boosting:
 		if Samus.current_state.id == "run":

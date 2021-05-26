@@ -10,7 +10,6 @@ var tiles = null
 var current_tile: MapTile
 
 func _ready():
-	# TODO | Create a global room registry so that chunks of all rooms can be generated at once
 #	Global.save_json(tile_data_path, {})
 	yield(Loader.Samus, "ready")
 	Marker.load_data()

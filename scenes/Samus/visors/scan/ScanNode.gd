@@ -9,7 +9,7 @@ func set_major(value: bool):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Engine.is_editor_hint():
+	if Engine.editor_hint:
 		return
 	scan_status_changed(false)
 

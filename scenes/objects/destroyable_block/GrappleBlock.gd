@@ -13,8 +13,8 @@ func set_show_overlay_in_editor(value: bool):
 	$Overlay.visible = value
 	show_overlay_in_editor = value
 
-func set_reverse(value, property: String):
-	set(property, value)
+#func set_reverse(value, property: String):
+#	set(property, value)
 
 func _destroy(time: float = crumble_reappear_time):
 	state = STATES.DESTROYED

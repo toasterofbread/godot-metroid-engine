@@ -76,7 +76,7 @@ func process(_delta):
 		Samus.aiming = Samus.aim.DOWN
 		
 	else:
-		if Samus.aim_none_timer.time_left == 0:
+		if Samus.aim_none_timer.time_left == 0 and Samus.Weapons.charge_time_current == 0:
 			Samus.aiming = Samus.aim.NONE
 		else:
 			Samus.aiming = Samus.aim.FRONT

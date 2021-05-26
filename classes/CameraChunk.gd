@@ -14,7 +14,7 @@ var room: Room
 
 func _ready():
 	
-	if Engine.is_editor_hint() and self.shape == null:
+	if Engine.editor_hint and self.shape == null:
 		self.shape = RectangleShape2D.new()
 		self.shape.extents = Vector2(1920, 1080)/5
 		self.modulate = Color("00ff87")

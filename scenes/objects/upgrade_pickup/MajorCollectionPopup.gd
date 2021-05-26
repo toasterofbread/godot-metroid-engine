@@ -17,8 +17,11 @@ func trigger(upgrade_type: int, added: int, total: int):
 	sounds["major_fanfare"].play()
 	
 	var upgrade_name: String
-	match upgrade_type:
-		Enums.Upgrade.MISSILE: upgrade_name = "MISSILE TANK"
+	if "pickup_name" in Enums.upgrade_data[upgrade_type]:
+		upgrade_name = Enums.upgrade_data[upgrade_type]["pickup_name"]
+	else:
+		upgrade_name = Enums.upgrade_data[upgrade_type]["name"]
+		
 	
 	$CanvasLayer/Added.text = "Added: " + str(added)
 	$CanvasLayer/Total.text = "Total: " + str(total)
@@ -26,7 +29,7 @@ func trigger(upgrade_type: int, added: int, total: int):
 	Global.dim_screen(show_duration*2, 0.75, 5)
 	
 	$CanvasLayer/Icon.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
-	$CanvasLayer/Label.bbcode_text = "[center]" + upgrade_name + "\nacquired[/center]"
+	$CanvasLayer/Label.text = upgrade_name + "\nacquired"
 	$CanvasLayer/Label.percent_visible = 0
 	
 	self.visible = true
