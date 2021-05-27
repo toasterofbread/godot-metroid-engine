@@ -1,5 +1,7 @@
 class_name SaveGame
 
+signal value_set
+
 var filename: String
 var data: Dictionary
 
@@ -9,11 +11,20 @@ const default_data: Dictionary = {
 	},
 	"samus": {
 		"upgrades": {
-			Enums.Upgrade.ETANK: {"amount": 1, "active": true},
-			Enums.Upgrade.MISSILE: {"amount": 0, "ammo": 0, "active": true},
+			Enums.Upgrade.ETANK: {"amount": 15, "active": true},
+			Enums.Upgrade.MISSILE: {"amount": 50, "ammo": 50, "active": true},
 			Enums.Upgrade.SUPERMISSILE: {"amount": 50, "ammo": 50, "active": true},
 			Enums.Upgrade.GRAPPLEBEAM: {"amount": 1, "active": true},
+			
+			Enums.Upgrade.BOMB: {"amount": 1, "active": true},
 			Enums.Upgrade.POWERBOMB: {"amount": 50, "ammo": 50, "active": true},
+			
+			Enums.Upgrade.CHARGEBEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.BEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.ICEBEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.SPAZERBEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.WAVEBEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.PLASMABEAM: {"amount": 1, "active": true},
 			
 			Enums.Upgrade.MORPHBALL: {"amount": 1, "active": true},
 			Enums.Upgrade.SPRINGBALL: {"amount": 1, "active": true},
@@ -22,8 +33,6 @@ const default_data: Dictionary = {
 			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
 			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": true},
 			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
-			
-			Enums.Upgrade.BOMB: {"amount": 1, "active": true},
 			
 			Enums.Upgrade.XRAY: {"amount": 1, "active": true},
 			Enums.Upgrade.SCAN: {"amount": 1, "active": false}
@@ -72,6 +81,8 @@ func get_data_key(keys: Array, create_new_keys:=false):
 	return null if new_keys_created else current_value
 
 func set_data_key(keys: Array, value):
+	
+	emit_signal("value_set", keys, value)
 	
 	var current_value = data
 	var i = 0

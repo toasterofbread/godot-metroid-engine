@@ -152,7 +152,7 @@ func process(_delta):
 	
 # Called when Samus's state changes to this one
 func init_state(_data: Dictionary):
-	idle_timer.start(Samus.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
+	idle_timer.start(Global.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
 	return self
 
 # Changes Samus's state to the passed state script
@@ -164,13 +164,13 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 func play_idle_animation():
 
 	# Play a random idle animation and wait for it to finish
-	var anim = Global.random_array_item(Samus.rng, idle_animations)
+	var anim = Global.random_array_item(Global.rng, idle_animations)
 	anim.play()
 	yield(anim, "finished")
 	
 	if Samus.current_state == self:
 		# Restart the timer with a random time
-		idle_timer.start(Samus.rng.randi_range(4, 10))
+		idle_timer.start(Global.rng.randi_range(4, 10))
 #		Animator.play("aim_front", {})
 
 func physics_process(_delta: float):

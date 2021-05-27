@@ -27,7 +27,7 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 8, 8 )
 frames = ExtResource( 1 )
-animation = "bomb"
+animation = "beam"
 playing = true
 
 [node name="Overlay" type="Sprite" parent="."]
@@ -44,7 +44,7 @@ linear_damp = 0.0
 angular_damp = 0.0
 priority = 128.0
 collision_layer = 524288
-collision_mask = 10
+collision_mask = 15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponCollisionArea"]
 visible = false
@@ -70,4 +70,4 @@ process_parent = true
 physics_process_parent = true
 
 [connection signal="body_entered" from="CrumbleArea" to="." method="_on_CrumbleArea_body_entered"]
-[connection signal="timeout" from="ReappearTimer" to="." method="_reappear"]
+[connection signal="timeout" from="ReappearTimer" to="." method="reappear"]

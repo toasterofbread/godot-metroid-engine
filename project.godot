@@ -44,6 +44,21 @@ _global_script_classes=[ {
 "language": "NativeScript",
 "path": "res://git_api.gdns"
 }, {
+"base": "Resource",
+"class": "LocalizationData",
+"language": "GDScript",
+"path": "res://addons/localization_editor/model/LocalizationData.gd"
+}, {
+"base": "Reference",
+"class": "LocalizationKeys",
+"language": "GDScript",
+"path": "res://localization/LocalizationKeys.gd"
+}, {
+"base": "Reference",
+"class": "LocalizationPlaceholders",
+"language": "GDScript",
+"path": "res://localization/LocalizationPlaceholders.gd"
+}, {
 "base": "CollisionShape2D",
 "class": "MapChunk",
 "language": "GDScript",
@@ -69,10 +84,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Samus/classes/Animation.gd"
 }, {
-"base": "Node2D",
-"class": "SamusProjectile",
+"base": "KinematicBody2D",
+"class": "SamusKinematicProjectile",
 "language": "GDScript",
-"path": "res://scenes/Samus/classes/Projectile.gd"
+"path": "res://scenes/Samus/classes/KinematicProjectile.gd"
+}, {
+"base": "RigidBody2D",
+"class": "SamusRigidProjectile",
+"language": "GDScript",
+"path": "res://scenes/Samus/classes/RigidProjectile.gd"
+}, {
+"base": "Node2D",
+"class": "SamusWeapon",
+"language": "GDScript",
+"path": "res://scenes/Samus/classes/Weapon.gd"
 }, {
 "base": "Control",
 "class": "SamusWeaponIcon",
@@ -107,12 +132,17 @@ _global_script_class_icons={
 "ExCamera2D": "",
 "ExTween": "",
 "GitAPI": "",
+"LocalizationData": "",
+"LocalizationKeys": "",
+"LocalizationPlaceholders": "",
 "MapChunk": "",
 "MapTile": "",
 "PositionalAnimatedSprite": "",
 "Room": "",
 "SamusAnimation": "",
-"SamusProjectile": "",
+"SamusKinematicProjectile": "",
+"SamusRigidProjectile": "",
+"SamusWeapon": "",
 "SamusWeaponIcon": "",
 "SaveGame": "",
 "Sound": "",
@@ -127,6 +157,7 @@ run/main_scene="res://scenes/ui/main_menu/MainMenu.tscn"
 boot_splash/image="res://icon.png"
 boot_splash/fullsize=false
 config/icon="res://icon.png"
+config/quit_on_go_back=false
 
 [audio]
 
@@ -167,7 +198,6 @@ window/size/width=1920
 window/size/height=1080
 window/size/test_width=1280
 window/size/test_height=720
-window/vsync/use_vsync=false
 window/stretch/mode="viewport"
 window/stretch/aspect="keep"
 
@@ -177,7 +207,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "json" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/localization_editor/plugin.cfg" )
 
 [gdnative]
 
@@ -432,11 +462,16 @@ pointing/emulate_touch_from_mouse=true
 2d_physics/layer_19="Static pickups"
 2d_physics/layer_20="World"
 
+[locale]
+
+translations=PoolStringArray( "res://localization/localizations.en.translation", "res://localization/localizations.ja.translation" )
+locale_filter=[ 0, [  ] ]
+
 [rendering]
 
 quality/driver/fallback_to_gles2=true
-quality/intended_usage/framebuffer_allocation=1
-quality/intended_usage/framebuffer_allocation.mobile=1
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false

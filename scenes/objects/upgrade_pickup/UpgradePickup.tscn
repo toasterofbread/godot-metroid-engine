@@ -25,7 +25,7 @@ shape = SubResource( 1 )
 position = Vector2( 8, 8 )
 frames = ExtResource( 1 )
 animation = "missile"
-frame = 2
+frame = 3
 playing = true
 
 [node name="ScanNode" parent="." instance=ExtResource( 3 )]

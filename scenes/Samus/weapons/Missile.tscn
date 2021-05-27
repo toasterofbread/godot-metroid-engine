@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://scenes/Samus/weapons/Missile.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
@@ -30,6 +30,7 @@
 [ext_resource path="res://sprites/samus/weapons/missile/burst_collide/2.png" type="Texture" id=28]
 [ext_resource path="res://sprites/samus/weapons/missile/flame_1.png" type="Texture" id=29]
 [ext_resource path="res://sprites/samus/weapons/missile/flame_0.png" type="Texture" id=30]
+[ext_resource path="res://scenes/Samus/classes/KinematicProjectile.gd" type="Script" id=31]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -61,13 +62,13 @@ extents = Vector2( 2, 6 )
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
 "frames": [ ExtResource( 21 ), ExtResource( 25 ), ExtResource( 28 ), ExtResource( 27 ), ExtResource( 12 ), ExtResource( 26 ), ExtResource( 14 ), ExtResource( 8 ), ExtResource( 22 ), ExtResource( 24 ), ExtResource( 20 ), ExtResource( 15 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 23 ), ExtResource( 23 ) ],
-"loop": true,
-"name": "collide",
+"loop": false,
+"name": "end",
 "speed": 60.0
 }, {
 "frames": [  ],
 "loop": false,
-"name": "fire",
+"name": "start",
 "speed": 60.0
 } ]
 
@@ -133,9 +134,7 @@ tracks/1/keys = {
 script = ExtResource( 1 )
 id = 8
 damage_type = 4
-velocity = 400.0
 cooldown = 0.15
-falls_to_ground = true
 
 [node name="MenuIcon" type="Control" parent="."]
 margin_right = 40.0
@@ -166,10 +165,12 @@ frames = ExtResource( 2 )
 animation = "fontB"
 frame = 8
 
-[node name="Projectile" type="Area2D" parent="."]
+[node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
 collision_layer = 2
 collision_mask = 524292
+script = ExtResource( 31 )
+base_velocity = 400.0
 
 [node name="Trail" type="Sprite" parent="Projectile"]
 position = Vector2( 0, 11.5 )
@@ -179,17 +180,13 @@ texture = ExtResource( 11 )
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 11 )
 frames = SubResource( 2 )
+frame = 1
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 frames = SubResource( 3 )
-frame = 3
+frame = 2
 playing = true
-
-[node name="VisibilityNotifier" type="VisibilityNotifier2D" parent="Projectile"]
-visible = false
-position = Vector2( 5.96046e-08, 0.5 )
-scale = Vector2( 0.4, 0.75 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
 shape = SubResource( 4 )
@@ -198,8 +195,13 @@ shape = SubResource( 4 )
 position = Vector2( -60, -2 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 5 )
-animation = "collide"
+animation = "start"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Projectile"]
 anims/end = SubResource( 6 )
 anims/start = SubResource( 7 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Projectile"]
+visible = false
+position = Vector2( 5.96046e-08, 0.5 )
+scale = Vector2( 0.4, 0.75 )

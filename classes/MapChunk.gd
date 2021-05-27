@@ -15,7 +15,7 @@ var tile: MapTile
 
 func _ready():
 	
-	if Engine.is_editor_hint():
+	if Engine.editor_hint:
 		self.shape = RectangleShape2D.new()
 		self.shape.extents = Vector2(256, 256)
 		self.modulate = Color("00ff87")

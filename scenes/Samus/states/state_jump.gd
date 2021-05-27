@@ -96,6 +96,7 @@ func process(_delta):
 	
 	var play_transition = false
 	var fire_weapon = false
+	var original_spinning = spinning
 	
 	Samus.set_hurtbox_damage(damage_type, damage_amount if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning else null)
 	
@@ -218,6 +219,8 @@ func process(_delta):
 		Samus.boosting = false
 	
 	if fire_weapon:
+		if spinning != original_spinning:
+			Samus.Weapons.reset_fire_pos()
 		Samus.Weapons.fire()
 
 # Changes Samus's state to the passed state script
@@ -299,3 +302,9 @@ func physics_process(delta: float):
 func set_walljump_raycasts_state(enabled: bool):
 	for raycast in walljump_raycasts.values():
 		raycast.enabled = enabled
+
+func chargebeam_fired():
+	if spinning:
+		spinning = false
+		process(0)
+		Samus.Weapons.reset_fire_pos()

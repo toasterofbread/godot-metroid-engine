@@ -88,7 +88,12 @@ func load_from_json(state_id: String, json_key = null) -> Dictionary:
 		if not "state_id" in data[animation]:
 			data[animation]["state_id"] = state_id
 		var id = animation
-		data[animation]["position_node_path"] = json_key + "/" + animation
+		
+		if json_key + "/" + animation in Samus.Weapons.fire_pos_nodes:
+			data[animation]["position_node_path"] = json_key + "/" + animation
+		else:
+			data[animation]["position_node_path"] = null
+		
 		if "id" in data[animation]:
 			id = data[animation]["id"]
 		
