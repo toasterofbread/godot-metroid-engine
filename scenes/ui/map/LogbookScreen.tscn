@@ -1,0 +1,360 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://fonts/Pixel-Life.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://fonts/Pixeled.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://sprites/ui/map/logbook_images/block_grapple.png" type="Texture" id=3]
+[ext_resource path="res://scenes/ui/map/LogbookScreen.gd" type="Script" id=5]
+[ext_resource path="res://scenes/ui/ButtonPrompt.tscn" type="PackedScene" id=6]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.027451, 0.156863, 0.270588, 1 )
+
+[sub_resource type="Theme" id=4]
+Label/colors/font_color = Color( 1, 1, 1, 1 )
+Label/colors/font_color_shadow = Color( 0, 0, 0, 0 )
+Label/colors/font_outline_modulate = Color( 1, 1, 1, 1 )
+Label/constants/line_spacing = 3
+Label/constants/shadow_as_outline = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = null
+Label/styles/normal = null
+
+[sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0, 0, 0, 0.466667 )
+expand_margin_left = 8.0
+expand_margin_top = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxEmpty" id=8]
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.027451, 0.0509804, 0.0901961, 1 )
+corner_detail = 1
+shadow_size = 1
+shadow_offset = Vector2( 1.638, 3.04 )
+
+[sub_resource type="Theme" id=10]
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/styles/grabber = SubResource( 9 )
+VScrollBar/styles/grabber_highlight = SubResource( 9 )
+VScrollBar/styles/grabber_pressed = SubResource( 9 )
+VScrollBar/styles/scroll = null
+VScrollBar/styles/scroll_focus = null
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0, 0.963636, 1 )
+colors = PoolColorArray( 0.00784314, 0.537255, 1, 1, 0.027451, 0.156863, 0.270588, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=12]
+gradient = SubResource( 11 )
+
+[sub_resource type="StyleBoxTexture" id=13]
+texture = SubResource( 12 )
+region_rect = Rect2( 0, 0, 2048, 1 )
+
+[sub_resource type="DynamicFont" id=14]
+extra_spacing_top = -22
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=15]
+tracks/0/type = "value"
+tracks/0/path = NodePath("List:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.287175, 0.287175 ),
+"update": 0,
+"values": [ Vector2( 128, 40 ), Vector2( 128, 228 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Info:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.108819, 0.108819 ),
+"update": 0,
+"values": [ Vector2( 400, 6.4 ), Vector2( 121.6, 6.4 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("List:rect_clip_content")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[node name="LogbookScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1536.0
+margin_bottom = -864.0
+rect_scale = Vector2( 5, 5 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="ColorRect" parent="."]
+margin_left = 121.6
+margin_top = 6.4
+margin_right = 377.599
+margin_bottom = 172.4
+color = Color( 0.0431373, 0.0588235, 0.196078, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Info"]
+margin_left = 3.2
+margin_top = 9.6
+margin_right = 356.2
+margin_bottom = 60.6
+rect_scale = Vector2( 0.7, 0.7 )
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Bendezium"
+align = 2
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleUnderline" type="Line2D" parent="Info"]
+position = Vector2( 252.8, 45.1659 )
+scale = Vector2( 1.35617, 1 )
+points = PoolVector2Array( 0, 7.62939e-06, -144, 7.62939e-06 )
+width = 3.056
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="Shadow" type="Line2D" parent="Info/TitleUnderline"]
+show_behind_parent = true
+position = Vector2( 1.22009, 1.28802 )
+points = PoolVector2Array( 0, 7.62939e-06, -144, 7.62939e-06 )
+width = 3.056
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Profile" type="Label" parent="Info"]
+margin_left = 115.2
+margin_top = 60.8
+margin_right = 339.2
+margin_bottom = 296.8
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "An attachment point with a mechanism that allows grapple beam users to securely tether themselves. The Federation frequently makes use of these to allow passage over wide gaps in situations where constructing a bridge would be unneccesary or impossible."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Image" type="TextureRect" parent="Info"]
+margin_left = 6.39999
+margin_top = 57.6
+margin_right = 106.4
+margin_bottom = 157.6
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="List" type="Panel" parent="."]
+margin_left = 9.6
+margin_right = 137.6
+margin_bottom = 228.0
+rect_scale = Vector2( 0.8, 0.8 )
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="template" type="Button" parent="List"]
+margin_left = -132.5
+margin_top = 36.0
+margin_right = -31.5
+margin_bottom = 51.0
+size_flags_horizontal = 3
+theme = SubResource( 4 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 2 )
+shortcut_in_tooltip = false
+button_mask = 0
+text = "Varia suit"
+clip_text = true
+align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="List"]
+margin_left = 11.0
+margin_top = 52.0
+margin_right = 156.0
+margin_bottom = 276.0
+rect_scale = Vector2( 0.75, 0.75 )
+rect_clip_content = false
+theme = SubResource( 10 )
+follow_focus = true
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Keys" type="VBoxContainer" parent="List/ScrollContainer"]
+margin_right = 145.0
+margin_bottom = 90.0
+size_flags_horizontal = 3
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="template" type="Label" parent="List/ScrollContainer/Keys"]
+margin_right = 145.0
+margin_bottom = 15.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 2 )
+text = "Varia suit"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="template2" type="Label" parent="List/ScrollContainer/Keys"]
+margin_top = 25.0
+margin_right = 145.0
+margin_bottom = 40.0
+custom_fonts/font = SubResource( 2 )
+text = "Varia suit"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="template3" type="Label" parent="List/ScrollContainer/Keys"]
+margin_top = 50.0
+margin_right = 145.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 2 )
+text = "Varia suit"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="template4" type="Label" parent="List/ScrollContainer/Keys"]
+margin_top = 75.0
+margin_right = 145.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 2 )
+text = "Varia suit"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CoverPanel" type="Panel" parent="List"]
+margin_top = 44.0
+margin_right = 160.0
+margin_bottom = 54.0
+rect_scale = Vector2( 0.8, 0.8 )
+custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="List"]
+margin_left = 128.0
+margin_right = 172.0
+margin_bottom = 128.0
+rect_rotation = 90.0
+custom_styles/panel = SubResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Group" type="Label" parent="List"]
+anchor_right = 1.0
+margin_left = 20.0
+margin_right = 67.0
+margin_bottom = 104.0
+rect_scale = Vector2( 0.5, 0.5 )
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 14 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Suit upgrades"
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonPrompts" type="Node2D" parent="List"]
+
+[node name="PreviousGroup" parent="List/ButtonPrompts" instance=ExtResource( 6 )]
+position = Vector2( 12, 22 )
+scale = Vector2( 0.75, 0.75 )
+action_keys = [ "pad_left" ]
+
+[node name="NextGroup" parent="List/ButtonPrompts" instance=ExtResource( 6 )]
+position = Vector2( 116, 22 )
+scale = Vector2( 0.75, 0.75 )
+action_keys = [ "pad_right" ]
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 384, 180 )
+scale = Vector2( 50, 50 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/open = SubResource( 15 )

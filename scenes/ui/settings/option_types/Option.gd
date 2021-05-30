@@ -50,10 +50,15 @@ func load_value():
 
 func save_value():
 	assert(current_value != null, "Cannot save, value is null")
+	
+	var original_value = Settings.get_split(path[0], path[1])
+	
 	if type in [TYPES.INT, TYPES.PERCENTAGE, TYPES.ENUM]:
 		Settings.set_split(path[0], path[1], int(round(current_value)))
 	else:
 		Settings.set_split(path[0], path[1], current_value)
+	
+	return original_value != Settings.get_split(path[0], path[1])
 
 func reset():
 	current_value = option_data["default"]
@@ -91,7 +96,7 @@ func process_bool():
 func process_int():
 	var pad_x = Shortcut.get_pad_vector("pressed").x
 	if pad_x != 0:
-		current_value += pad_x/10
+		current_value += pad_x/5
 		if option_data["type"] is Array:
 			current_value = max(min(current_value, option_data["type"][1]), option_data["type"][0])
 		set_value_label()

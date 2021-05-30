@@ -76,10 +76,10 @@ margin_bottom = -1052.0
 rect_scale = Vector2( 2, 2 )
 
 [node name="TopBar" type="HBoxContainer" parent="CanvasLayer"]
-margin_left = 16.0
-margin_top = 9.0
-margin_right = 251.0
-margin_bottom = 23.0
+margin_left = 12.0
+margin_top = 11.0
+margin_right = 247.0
+margin_bottom = 25.0
 rect_pivot_offset = Vector2( 0, 7 )
 custom_constants/separation = 3
 __meta__ = {
@@ -139,3 +139,17 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/TopBar"]
 anims/energy_low_warning = SubResource( 3 )
+
+[node name="VisorIcons" type="HBoxContainer" parent="CanvasLayer"]
+margin_left = 440.0
+margin_top = 9.0
+margin_right = 491.0
+margin_bottom = 21.0
+rect_scale = Vector2( 2, 2 )
+custom_constants/separation = 2
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/VisorIcons"]

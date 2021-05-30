@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Area2D",
+"class": "AmmoPickup",
+"language": "GDScript",
+"path": "res://scenes/objects/ammo_pickup/AmmoPickup.gd"
+}, {
 "base": "Node2D",
 "class": "ButtonPrompt",
 "language": "GDScript",
@@ -69,6 +74,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/ui/map/MapTile.gd"
 }, {
+"base": "Control",
+"class": "NotificationBaseVariant",
+"language": "GDScript",
+"path": "res://classes/singletons/Notification/variants/BaseVariant.gd"
+}, {
 "base": "AnimatedSprite",
 "class": "PositionalAnimatedSprite",
 "language": "GDScript",
@@ -84,6 +94,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Samus/classes/Animation.gd"
 }, {
+"base": "Control",
+"class": "SamusHUDIcon",
+"language": "GDScript",
+"path": "res://scenes/Samus/classes/HUDIcon.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "SamusKinematicProjectile",
 "language": "GDScript",
@@ -95,19 +110,24 @@ _global_script_classes=[ {
 "path": "res://scenes/Samus/classes/RigidProjectile.gd"
 }, {
 "base": "Node2D",
+"class": "SamusVisor",
+"language": "GDScript",
+"path": "res://scenes/Samus/classes/Visor.gd"
+}, {
+"base": "Node2D",
 "class": "SamusWeapon",
 "language": "GDScript",
 "path": "res://scenes/Samus/classes/Weapon.gd"
-}, {
-"base": "Control",
-"class": "SamusWeaponIcon",
-"language": "GDScript",
-"path": "res://scenes/Samus/classes/WeaponIcon.gd"
 }, {
 "base": "Reference",
 "class": "SaveGame",
 "language": "GDScript",
 "path": "res://classes/SaveGame.gd"
+}, {
+"base": "Node2D",
+"class": "ScanNode",
+"language": "GDScript",
+"path": "res://scenes/Samus/visors/scan/ScanNode.gd"
 }, {
 "base": "Node",
 "class": "Sound",
@@ -125,6 +145,7 @@ _global_script_classes=[ {
 "path": "res://scenes/objects/upgrade_pickup/UpgradePickup.gd"
 } ]
 _global_script_class_icons={
+"AmmoPickup": "",
 "ButtonPrompt": "",
 "CameraChunk": "",
 "DestroyableBlock": "",
@@ -137,14 +158,17 @@ _global_script_class_icons={
 "LocalizationPlaceholders": "",
 "MapChunk": "",
 "MapTile": "",
+"NotificationBaseVariant": "",
 "PositionalAnimatedSprite": "",
 "Room": "",
 "SamusAnimation": "",
+"SamusHUDIcon": "",
 "SamusKinematicProjectile": "",
 "SamusRigidProjectile": "",
+"SamusVisor": "",
 "SamusWeapon": "",
-"SamusWeaponIcon": "",
 "SaveGame": "",
+"ScanNode": "",
 "Sound": "",
 "SoundManager": "",
 "UpgradePickup": ""
@@ -166,8 +190,10 @@ driver=""
 [autoload]
 
 vOverlay="*res://addons/Var_Overlay/overlay.gd"
+Notification="*res://classes/singletons/Notification/Notification.tscn"
 Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
+Data="*res://classes/singletons/Data.gd"
 Settings="*res://classes/singletons/Settings.gd"
 Loader="*res://classes/singletons/Loader.gd"
 Map="*res://classes/singletons/Map.gd"
@@ -456,8 +482,13 @@ pointing/emulate_touch_from_mouse=true
 2d_physics/layer_1="Samus hurtboxes"
 2d_render/layer_2="Hidden by X-Ray scope"
 2d_physics/layer_2="Samus hitboxes"
+2d_render/layer_3="Shown by X-Ray scope"
 2d_physics/layer_3="Enemy hurtboxes"
+2d_render/layer_4="Hidden by Scan visor"
 2d_physics/layer_4="Enemy hitboxes"
+2d_render/layer_5="Shown by Scan visor"
+2d_physics/layer_5="Scan visor"
+2d_physics/layer_17="Scan nodes"
 2d_physics/layer_18="Dynamic pickups"
 2d_physics/layer_19="Static pickups"
 2d_physics/layer_20="World"
@@ -466,6 +497,10 @@ pointing/emulate_touch_from_mouse=true
 
 translations=PoolStringArray( "res://localization/localizations.en.translation", "res://localization/localizations.ja.translation" )
 locale_filter=[ 0, [  ] ]
+
+[physics]
+
+2d/default_gravity=750
 
 [rendering]
 

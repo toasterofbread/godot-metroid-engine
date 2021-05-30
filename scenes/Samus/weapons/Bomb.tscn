@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://scenes/Samus/weapons/Bomb.gd" type="Script" id=1]
 [ext_resource path="res://sprites/samus/weapons/bomb/sBomb_4.png" type="Texture" id=2]
@@ -25,12 +25,16 @@
 [ext_resource path="res://sprites/samus/weapons/bomb/explosion/sBombExpl_1.png" type="Texture" id=23]
 [ext_resource path="res://sprites/samus/weapons/bomb/sBomb_3.png" type="Texture" id=24]
 [ext_resource path="res://sprites/samus/weapons/bomb/sBomb_6.png" type="Texture" id=25]
+[ext_resource path="res://scenes/Samus/classes/KinematicProjectile.gd" type="Script" id=26]
 [ext_resource path="res://scenes/Samus/classes/RigidProjectile.gd" type="Script" id=27]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="PhysicsMaterial" id=1]
+bounce = 0.5
+
+[sub_resource type="CircleShape2D" id=2]
 radius = 4.12311
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 19 ), ExtResource( 10 ), ExtResource( 24 ), ExtResource( 2 ), ExtResource( 15 ), ExtResource( 25 ), ExtResource( 21 ), ExtResource( 7 ), ExtResource( 18 ) ],
 "loop": true,
@@ -38,7 +42,7 @@ animations = [ {
 "speed": 30.0
 } ]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ ExtResource( 12 ), ExtResource( 23 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 14 ), ExtResource( 20 ), ExtResource( 4 ), ExtResource( 13 ), ExtResource( 22 ), ExtResource( 11 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 16 ), ExtResource( 17 ) ],
 "loop": false,
@@ -51,42 +55,79 @@ animations = [ {
 "speed": 0.0
 } ]
 
-[sub_resource type="CircleShape2D" id=4]
-radius = 16.0
+[sub_resource type="CircleShape2D" id=5]
+radius = 12.0
 
 [node name="Bomb" type="Node2D"]
 script = ExtResource( 1 )
-id = 2
+id = 4
 damage_type = 2
 cooldown = 0.2
 is_morph_weapon = true
 is_base_weapon = true
 
-[node name="Projectile" type="RigidBody2D" parent="."]
+[node name="Projectiles" type="Node2D" parent="."]
+
+[node name="Rigid" type="RigidBody2D" parent="Projectiles"]
 position = Vector2( 43, 2 )
-collision_mask = 524288
-sleeping = true
+collision_layer = 2
+collision_mask = 524292
+physics_material_override = SubResource( 1 )
+continuous_cd = 2
+contacts_reported = 1
+contact_monitor = true
 script = ExtResource( 27 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Projectile"]
-shape = SubResource( 1 )
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Projectiles/Rigid"]
+shape = SubResource( 2 )
 
-[node name="Sprite" type="AnimatedSprite" parent="Projectile"]
+[node name="Sprite" type="AnimatedSprite" parent="Projectiles/Rigid"]
 z_index = 4096
 z_as_relative = false
-frames = SubResource( 2 )
+frames = SubResource( 3 )
+frame = 5
 playing = true
 
-[node name="Burst" type="AnimatedSprite" parent="Projectile"]
+[node name="Burst" type="AnimatedSprite" parent="Projectiles/Rigid"]
 position = Vector2( -59, -1 )
 z_index = 999
 z_as_relative = false
-frames = SubResource( 3 )
+frames = SubResource( 4 )
 animation = "start"
 
-[node name="Area2D" type="Area2D" parent="Projectile"]
+[node name="Area2D" type="Area2D" parent="Projectiles/Rigid"]
 collision_layer = 2
 collision_mask = 524293
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile/Area2D"]
-shape = SubResource( 4 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectiles/Rigid/Area2D"]
+shape = SubResource( 5 )
+
+[node name="Kinematic" type="KinematicBody2D" parent="Projectiles"]
+position = Vector2( 43, 2 )
+collision_layer = 2
+collision_mask = 524292
+script = ExtResource( 26 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Projectiles/Kinematic"]
+shape = SubResource( 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="Projectiles/Kinematic"]
+z_index = 4096
+z_as_relative = false
+frames = SubResource( 3 )
+frame = 4
+playing = true
+
+[node name="Burst" type="AnimatedSprite" parent="Projectiles/Kinematic"]
+position = Vector2( -59, -1 )
+z_index = 999
+z_as_relative = false
+frames = SubResource( 4 )
+animation = "start"
+
+[node name="Area2D" type="Area2D" parent="Projectiles/Kinematic"]
+collision_layer = 2
+collision_mask = 524293
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectiles/Kinematic/Area2D"]
+shape = SubResource( 5 )

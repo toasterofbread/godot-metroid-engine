@@ -222,6 +222,10 @@ func dir2vector(direction: int) -> Vector2:
 		Enums.dir.RIGHT: return Vector2(1, 0)
 		Enums.dir.UP: return Vector2(0, -1)
 		Enums.dir.DOWN: return Vector2(0, 1)
+		Enums.dir.TOPLEFT: return Vector2(-1, -1)
+		Enums.dir.TOPRIGHT: return Vector2(1, -1)
+		Enums.dir.BOTLEFT: return Vector2(-1, 1)
+		Enums.dir.BOTRIGHT: return Vector2(1, 1)
 		_: return Vector2.ZERO
 
 func axis2dir(axis_value, x_axis: bool = true):
@@ -235,6 +239,18 @@ func axis2dir(axis_value, x_axis: bool = true):
 			1: return Enums.dir.DOWN
 			-1: return Enums.dir.UP
 	return null
+
+#func dir2angle(direction: int) -> int:
+#	match direction:
+#		Enums.dir.LEFT: return -90
+#		Enums.dir.RIGHT: return 90
+#		Enums.dir.UP: return 0
+#		Enums.dir.DOWN: return 180
+#		Enums.dir.TOPLEFT: return -45
+#		Enums.dir.TOPRIGHT: return 45
+#		Enums.dir.BOTLEFT: return -135
+#		Enums.dir.BOTRIGHT: return 135
+#		_: return 0
 
 func text_fade_in(label, time: float):
 	var tween: Tween = Tween.new()
@@ -272,3 +288,10 @@ func undim_screen(duration: float):
 	yield(tween, "tween_completed")
 	DimLayer.visible = false
 	tween.queue_free()
+
+func random_item(array: Array, rng:=rng):
+	return array[rng.randi_range(0, len(array) - 1)]
+
+func angle_difference(angle1, angle2):
+	var diff = angle2 - angle1
+	return diff if abs(diff) < 180 else diff + (360 * -sign(diff))

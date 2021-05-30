@@ -58,7 +58,7 @@ func process(_delta):
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
-	if Input.is_action_just_pressed("morph_shortcut"):
+	if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump"):
@@ -77,8 +77,9 @@ func process(_delta):
 			CrouchRaycast.cast_to.y -= crouch_offset
 			yield(Animator.Player, "animation_finished")
 			
+			# TODO | Disable powergrip climb if there's no space to crouch and not Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL)
 			# Check the space available to see if Samus should morph
-			if MorphballRaycast.is_colliding():
+			if MorphballRaycast.is_colliding() and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 				CrouchRaycast.enabled = false
 				change_state("morphball", {"options": ["animate"]})
 				return

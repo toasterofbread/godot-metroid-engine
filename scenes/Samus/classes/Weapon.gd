@@ -2,7 +2,7 @@ extends Node2D
 class_name SamusWeapon
 
 onready var Samus: KinematicBody2D = Loader.Samus
-onready var Weapons: Node2D = Loader.Samus.Weapons
+var Weapons: Node2D
 
 export(Enums.Upgrade) var id: int
 export(Enums.DamageType) var damage_type
@@ -14,18 +14,34 @@ export var is_base_weapon: bool
 var ammo: int setget set_ammo
 var amount: int
 
-var Icon: SamusWeaponIcon
+var Icon: SamusHUDIcon
 var ProjectileNode
 onready var GlobalAnchor: Node2D = Global.get_anchor("Samus/Weapons/" + str(self.id))
-onready var LocalAnchor: Node2D = Samus.Weapons.CannonPositionAnchor
+var LocalAnchor: Node2D
 var Cooldown: Timer = Timer.new()
+var index: int
 
 func set_ammo(value: int):
 	if Icon:
 		Icon.update_digits(value)
 	ammo = value
 
+func _save_value_set(path: Array, _value):
+	if len(path) != 4 or path[0] != "samus" or path[1] != "upgrades" or not path[2] == self.id:
+		return
+	set_enabled()
+
+func save_value_set(_path: Array, _value):
+	pass
+
+func set_enabled():
+	if Samus.is_upgrade_active(self.id):
+		Weapons.add_weapon(self)
+	else:
+		Weapons.remove_weapon(self)
+
 func _ready():
+	
 	
 	if has_node("Projectile"):
 		ProjectileNode = $Projectile
@@ -38,12 +54,9 @@ func _ready():
 		$Projectiles.queue_free()
 	
 	for child in get_children():
-		if child is SamusWeaponIcon:
+		if child is SamusHUDIcon:
 			Icon = child
 			self.remove_child(Icon)
-			Samus.HUD.add_weapon(Icon)
-			Samus.Weapons.update_weapon_icons()
-			Icon.update_digits(ammo)
 	
 	for child in self.get_children():
 		if child != Icon and "visible" in child:
@@ -51,6 +64,13 @@ func _ready():
 	
 	self.Cooldown.one_shot = true 
 	self.add_child(Cooldown)
+	
+	Loader.Save.connect("value_set", self, "_save_value_set")
+	
+	yield(Samus, "ready")
+	Weapons = Samus.Weapons
+	set_enabled()
+	LocalAnchor = Weapons.CannonPositionAnchor
 
 func projectile_physics_process(_projectile, _collision: KinematicCollision2D, _delta: float):
 	pass
@@ -70,11 +90,12 @@ func fire(chargebeam_damage_multiplier):
 	if not projectile:
 		return false
 	
-	if not projectile is Array:
-		projectile = [projectile]
-	for p in projectile:
-		GlobalAnchor.add_child(p)
-		fired(p)
+	if not projectile is bool:
+		if not projectile is Array:
+			projectile = [projectile]
+		for p in projectile:
+			GlobalAnchor.add_child(p)
+			fired(p)
 	
 	Cooldown.start(cooldown)
 	

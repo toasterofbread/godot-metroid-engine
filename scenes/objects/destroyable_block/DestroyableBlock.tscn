@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/objects/destroyable_block/block_sprites.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://sprites/block.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Samus/visors/scan/ScanNode.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/objects/destroyable_block/DestroyableBlock.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -66,8 +67,13 @@ one_shot = true
 visible = false
 position = Vector2( 16, 16 )
 rect = Rect2( -16, -16, 16, 16 )
-process_parent = true
-physics_process_parent = true
+pause_animations = false
+freeze_bodies = false
+pause_particles = false
+pause_animated_sprites = false
+
+[node name="ScanNode" parent="." instance=ExtResource( 3 )]
+position = Vector2( 8, 8 )
 
 [connection signal="body_entered" from="CrumbleArea" to="." method="_on_CrumbleArea_body_entered"]
 [connection signal="timeout" from="ReappearTimer" to="." method="reappear"]

@@ -2,7 +2,6 @@ extends Node
 
 onready var Samus: KinematicBody2D = get_parent()
 
-# GRAVITY
 const GRAVITY = 20*60
 const FALL_SPEED_CAP = 325
 const UP_DIRECTION = Vector2.UP
@@ -16,7 +15,8 @@ var apply_velocity: bool = true
 var disable_floor_snap: bool = false
 var on_slope: bool = false
 
-var time = -1
+# Keeping this around for the memories
+#var time = -1
 
 func _physics_process(delta: float):
 	
@@ -43,6 +43,15 @@ func _physics_process(delta: float):
 	vOverlay.SET("Physics.vel", vel)
 	
 	disable_floor_snap = false
+
+func can_walk(direction: int):
+	var collision = Samus.move_and_collide(Vector2(1*direction, 0), true, true, true)
+	if not collision:
+		return true
+	else:
+		var slope_angle = abs(collision.normal.dot(Vector2.UP))
+		print(slope_angle)
+		return slope_angle < 0.785398 and slope_angle != 0
 
 func decelerate_x(amount: float):
 	if vel.x > 0:

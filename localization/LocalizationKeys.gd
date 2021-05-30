@@ -3,8 +3,8 @@
 tool
 class_name LocalizationKeys
 
-const key1 = "key1"
+const logbook_group_lifeform = "logbook_group_lifeform"
 
 const KEYS = [
- "key1"
+ "logbook_group_lifeform"
 ]

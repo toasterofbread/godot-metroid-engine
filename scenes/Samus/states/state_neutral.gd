@@ -39,11 +39,10 @@ func process(_delta):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
-	var visor = Samus.Weapons.cycle_visor()
-	if visor:
-		change_state(visor)
+	if Samus.Weapons.cycle_visor():
+		change_state("visor")
 	
-	if Input.is_action_just_pressed("morph_shortcut"):
+	if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump"):
@@ -87,7 +86,7 @@ func process(_delta):
 			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
 				reset_idle_timer = true
-			elif not Samus.is_on_wall():
+			elif not Samus.is_on_wall() and Physics.can_walk(-1):
 				change_state("run", {"boost": false})
 				return
 		elif Input.is_action_pressed("pad_right"):
@@ -95,7 +94,7 @@ func process(_delta):
 			if original_facing == Enums.dir.LEFT:
 				play_transition = true
 				reset_idle_timer = true
-			elif not Samus.is_on_wall():
+			elif not Samus.is_on_wall() and Physics.can_walk(1):
 				change_state("run", {"boost": false})
 				return
 	

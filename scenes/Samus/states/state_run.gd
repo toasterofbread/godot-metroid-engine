@@ -15,7 +15,7 @@ const run_deceleration = 50
 const max_run_speed = 170
 
 const boost_acceleration = 15
-const boost_deceleration = 50
+#const boost_deceleration = 50
 const max_boost_speed = 500
 
 
@@ -32,7 +32,7 @@ func process(_delta):
 	var play_transition = false
 	var fire_weapon = false
 	
-	if Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning():
+	if Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning() and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	
@@ -42,9 +42,8 @@ func process(_delta):
 		else:
 			Animator.set_armed(false)
 	
-	var visor = Samus.Weapons.cycle_visor()
-	if visor:
-		change_state(visor)
+	if Samus.Weapons.cycle_visor():
+		change_state("visor")
 	
 	if Samus.is_on_wall():
 		change_state("neutral")
@@ -107,6 +106,7 @@ func process(_delta):
 			return
 	
 	if play_transition:
+		SpeedboostTimer.start(speedboost_charge_time)
 		animations["turn_legs"].play()
 		animations["turn_" + animation].play()
 	elif not Animator.transitioning(false, true):
@@ -134,16 +134,13 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 func physics_process(_delta: float):
 	
-	if Samus.boosting:
-		if Samus.facing == Enums.dir.LEFT and not Input.is_action_pressed("pad_left"):
-			Samus.boosting = false
-		elif Samus.facing == Enums.dir.RIGHT and not Input.is_action_pressed("pad_right"):
-			Samus.boosting = false
+	var pad_x = Shortcut.get_pad_vector("pressed").x
+	if Samus.boosting and pad_x != Global.dir2vector(Samus.facing).x:
+		Samus.boosting = false
 	
-	if Animator.transitioning():
-		return
-	
-	if Samus.boosting:
-		Physics.accelerate_x(boost_acceleration, max_boost_speed, Samus.facing)
+	if Physics.vel.x != 0 and sign(Physics.vel.x) != pad_x:
+		Physics.vel.x = move_toward(Physics.vel.x, 0, run_deceleration)
+	elif Samus.boosting:
+		Physics.vel.x = move_toward(Physics.vel.x, max_boost_speed*pad_x, boost_acceleration)
 	else:
-		Physics.accelerate_x(run_acceleration, max_run_speed, Samus.facing)
+		Physics.vel.x = move_toward(Physics.vel.x, max_run_speed*pad_x, run_acceleration)

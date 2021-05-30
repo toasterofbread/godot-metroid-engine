@@ -73,9 +73,16 @@ func end():
 	modulate.a = 1
 
 func save():
+	var new_value = false
 	for node in $Categories.get_children():
-		node.save_value()
-	Settings.save_file()
+		if node.save_value():
+			new_value = true
+	
+	if new_value:
+		Settings.save_file()
+		Notification.trigger("BottomPopup", {"text": "CHANGES SAVED", "animation_duration": 0.25, "show_duration": 1.0})
+	else:
+		Notification.trigger("BottomPopup", {"text": "NO CHANGES MADE", "animation_duration": 0.25, "show_duration": 1.0})
 
 func reset():
 	for node in $Categories.get_children():

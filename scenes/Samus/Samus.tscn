@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
@@ -6,13 +6,12 @@
 [ext_resource path="res://scenes/Samus/scripts/Animator.gd" type="Script" id=4]
 [ext_resource path="res://scenes/Samus/scripts/PhysicsManager.gd" type="Script" id=5]
 [ext_resource path="res://scenes/Samus/scripts/WeaponManager.gd" type="Script" id=6]
-[ext_resource path="res://scenes/Samus/scripts/CollisionManager.gd" type="Script" id=7]
 [ext_resource path="res://scenes/Samus/particles/morphball_trail/sBallTrail_0.png" type="Texture" id=8]
 [ext_resource path="res://scenes/Samus/particles/morphball_trail/morphball_trail.tres" type="Material" id=9]
 [ext_resource path="res://classes/ExCamera2D.gd" type="Script" id=10]
 [ext_resource path="res://scenes/Samus/HUD/HUD.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/Samus/HUD/PauseMenu.tscn" type="PackedScene" id=12]
-[ext_resource path="res://scenes/Samus/visors/xray/XRayScope.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scenes/Samus/visors/Visor.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/Samus/classes/PositionalAnimatedSprite.gd" type="Script" id=14]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_2.png" type="Texture" id=15]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1B_0.png" type="Texture" id=16]
@@ -636,7 +635,17 @@ tracks/3/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=15]
-extents = Vector2( 7.5, 7.5 )
+extents = Vector2( 15, 30 )
+
+[sub_resource type="CircleShape2D" id=16]
+radius = 15.0
+
+[sub_resource type="Environment" id=17]
+background_mode = 4
+glow_intensity = 8.0
+glow_strength = 1.12
+glow_blend_mode = 0
+glow_bicubic_upscale = true
 
 [node name="Samus" type="KinematicBody2D"]
 pause_mode = 2
@@ -731,7 +740,7 @@ collision_mask = 524288
 position = Vector2( 1, -1 )
 frames = ExtResource( 1 )
 animation = "run_aim_front_left"
-frame = 6
+frame = 2
 playing = true
 flip_h = true
 script = ExtResource( 14 )
@@ -838,9 +847,14 @@ anims/powergrip_climb_left = SubResource( 13 )
 anims/powergrip_climb_right = SubResource( 14 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2( 5, 10 )
+position = Vector2( -19, 0 )
 shape = SubResource( 15 )
-script = ExtResource( 7 )
+
+[node name="CollisionHead" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( -19, -30 )
+shape = SubResource( 16 )
+disabled = true
 
 [node name="Weapons" type="Node2D" parent="."]
 pause_mode = 1
@@ -1090,10 +1104,9 @@ position = Vector2( -4, -1 )
 rotation = 0.349066
 collision_mask = 524292
 
-[node name="Visors" type="Node2D" parent="Weapons"]
+[node name="SamusVisors" parent="Weapons" instance=ExtResource( 13 )]
 
-[node name="XRayScope" parent="Weapons/Visors" instance=ExtResource( 13 )]
-position = Vector2( -4, 3 )
+[node name="SamusWeapons" type="Node2D" parent="Weapons"]
 
 [node name="Particles" type="Node2D" parent="."]
 pause_mode = 1
@@ -1121,3 +1134,6 @@ script = ExtResource( 10 )
 
 [node name="OffsetTween" type="Tween" parent="SamusCamera"]
 pause_mode = 2
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 17 )

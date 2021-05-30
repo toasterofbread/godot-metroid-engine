@@ -2,6 +2,7 @@ extends Node2D
 
 const id: String = "visor"
 var Samus: KinematicBody2D
+var Weapons: Node2D
 var Animator: Node2D
 var Physics: Node
 var animations: Dictionary
@@ -10,24 +11,73 @@ const walk_acceleration = 15
 const walk_deceleration = 50
 const max_walk_speed = 75
 
-var visor: Node2D
+onready var scanner: Node2D = $Scanner
 
 var enabled: bool = false
 var angle: float = 90
+var movement_speed_multiplier: = 1.0
+var scanner_scale_multiplier = Vector2(1, 1)
 var offset_buffer = [null, 0, false]
 const angle_move_speed: float = 1.0
 var analog_visor: bool
 onready var GhostAnchor: Node2D = Global.get_anchor("Samus/Visors/" + self.id)
 var force_transition: bool = false
+var fire_pos = null
 
-func _init(_Samus: KinematicBody2D):
-	Samus = _Samus
+func _ready():
+	$Scanner.visible = false
+	Samus = Loader.Samus
+	yield(Samus, "ready")
 	Animator = Samus.Animator
 	Physics = Samus.Physics
+	Weapons = Samus.Weapons
 	animations = Animator.load_from_json(self.id)
+	Samus.Weapons.connect("visor_mode_changed", self, "visor_mode_changed")
 
-func init_state(_data: Dictionary):
-	visor = Samus.Weapons.visors[Samus.Weapons.current_visor]
+func init_state(_data:={}):
+	movement_speed_multiplier = 1
+	if Weapons.current_visor != null:
+		
+#		var mask: int = 0
+#		match Weapons.current_visor.id:
+#			Enums.Upgrade.XRAYVISOR: mask = 2
+#			Enums.Upgrade.SCANVISOR: mask = 8
+		
+		for light in $Scanner/Lights.get_children():
+			light.visible = light.name == str(Weapons.current_visor.id)
+		
+		if not $CanvasLayer/TintOverlay.visible:
+			$CanvasLayer/TintOverlay.visible = true
+			$CanvasLayer/Tween.interpolate_property(
+				$CanvasLayer/TintOverlay,
+				"modulate:a",
+				0,
+				1,
+				0.5
+			)
+			$CanvasLayer/TintOverlay.color = Weapons.current_visor.background_tint
+		else:
+			$CanvasLayer/Tween.interpolate_property(
+				$CanvasLayer/TintOverlay, 
+				"color", 
+				$CanvasLayer/TintOverlay.color, 
+				Weapons.current_visor.background_tint,
+				0.5
+			)
+		$CanvasLayer/Tween.start()
+		
+	elif $CanvasLayer/TintOverlay.visible:
+		$CanvasLayer/Tween.interpolate_property(
+			$CanvasLayer/TintOverlay, 
+			"modulate:a", 
+			1, 
+			0,
+			0.5
+		)
+		$CanvasLayer/Tween.start()
+		yield($CanvasLayer/Tween, "tween_completed")
+		$CanvasLayer/TintOverlay.visible = false
+
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -37,20 +87,30 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 
 # Called every frame while the visor is enabled
-func process(_delta: float):
+func process(delta: float):
 	
 	var play_transition: bool = false
 	var original_facing: int = Samus.facing
 	
-	var visor = Samus.Weapons.cycle_visor()
-	if not visor:
+	if not Samus.Weapons.cycle_visor():
 		change_state("neutral")
+		init_state()
 		return
+	
+	if Weapons.current_visor != null:
+		Weapons.current_visor.process(delta)
+	
+	scanner.get_node("Lights").scale.x = scanner_scale_multiplier.x
+	scanner.get_node("Lights").scale.y = scanner.get_node("Lights").scale.x * scanner_scale_multiplier.y
+	
+	if fire_pos:
+		fire_pos.queue_free()
+	fire_pos = get_emit_pos()
 	
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(false)
 	
-	if Input.is_action_just_pressed("morph_shortcut"):
+	if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump"):
@@ -105,20 +165,24 @@ func process(_delta: float):
 		else:
 			animations[animation].play(true, false, false, reverse)
 
-func physics_process(_delta: float):
+func physics_process(delta: float):
+	
+	if Weapons.current_visor != null:
+		Weapons.current_visor.physics_process(delta)
 	
 	angle_process()
 	
 	var pad_vector: float = Shortcut.get_pad_vector("pressed").x
 	
 	if pad_vector != 0:
-		Physics.vel.x = Shortcut.add_to_limit(Physics.vel.x, walk_acceleration, max_walk_speed*pad_vector)
+		Physics.vel.x = move_toward(Physics.vel.x, max_walk_speed*pad_vector, walk_acceleration)
 	else:
-		Physics.vel.x = Shortcut.add_to_limit(Physics.vel.x, walk_deceleration, 0)
+		Physics.vel.x = move_toward(Physics.vel.x, 0, walk_deceleration)
 
 func angle_process():
 	
-	visor.process()
+	if fire_pos:
+		scanner.global_position = fire_pos.global_position
 	
 	if not enabled:
 		if Input.is_action_pressed("fire_weapon"):
@@ -143,12 +207,19 @@ func angle_process():
 		
 		var pad_y = Shortcut.get_pad_vector("pressed").y
 		if pad_y != 0:
-			angle = min(180, max(0, angle + angle_move_speed * pad_y))
+			angle = min(180, max(0, angle + angle_move_speed * pad_y * movement_speed_multiplier))
+#		elif fire_pos:
+#			angle = lerp_angle(angle, rad2deg((Vector2.UP.rotated(fire_pos.global_position.angle_to_point(lock_target.get_global_position())) * Vector2(1, -1)).angle()) + lock_target_offset, 0.25)
 		
 		if Input.is_action_just_pressed("arm_weapon"):
 			turn(Enums.dir.RIGHT)
 		elif Input.is_action_just_pressed("aim_weapon"):
 			turn(Enums.dir.LEFT)
+		
+		if Samus.facing == Enums.dir.LEFT:
+			scanner.rotation_degrees = -angle - 90
+		else:
+			scanner.rotation_degrees = angle - 90
 		
 	else:
 		var joystick_vector: Vector2 = Shortcut.get_joystick_vector("analog_visor")
@@ -157,7 +228,10 @@ func angle_process():
 			disable()
 			return
 		
-		angle = rad2deg(lerp_angle(deg2rad(angle), joystick_vector.angle() - deg2rad(90), angle_move_speed/35))
+#		if not lock_target:
+		angle = rad2deg(lerp_angle(deg2rad(angle), joystick_vector.angle() - deg2rad(90), angle_move_speed/35*movement_speed_multiplier))
+#		elif fire_pos:
+#			angle = lerp_angle(angle, rad2deg((Vector2.UP.rotated(fire_pos.global_position.angle_to_point(lock_target.get_global_position())) * Vector2(1, -1)).angle()) + lock_target_offset, 0.25)
 		
 		var ang = rad2deg(Vector2(1, 0).rotated(deg2rad(angle)).angle())
 		
@@ -165,6 +239,8 @@ func angle_process():
 			turn(Enums.dir.RIGHT)
 		elif ang > 0:
 			turn(Enums.dir.LEFT)
+		
+		scanner.rotation_degrees = -angle - 90
 		
 
 func turn(direction: int):
@@ -177,13 +253,15 @@ func enable():
 	if enabled:
 		return
 	enabled = true
-	visor.enable()
+	$AnimationPlayer.play("enable_scanner")
 
 func disable():
 	if not enabled:
 		return
-	yield(visor.disable(), "completed")
+	$AnimationPlayer.play("disable_scanner")
+	yield($AnimationPlayer, "animation_finished")
 	enabled = false
+	movement_speed_multiplier = 1
 
 func get_emit_pos():
 	var pos: Position2D = Samus.Weapons.VisorPositions.get_node_or_null(Samus.Animator.current[false].position_node_path)
@@ -215,3 +293,30 @@ func get_aim_direction():
 		return Samus.aim.FRONT
 	else:
 		return Samus.aim.DOWN
+
+func visor_process():
+	if fire_pos:
+		scanner.global_position = fire_pos.global_position
+	
+	if not analog_visor:
+		if Samus.facing == Enums.dir.LEFT:
+			scanner.rotation_degrees = -angle - 90
+		else:
+			scanner.rotation_degrees = angle - 90
+			
+	else:
+		scanner.rotation_degrees = -angle - 90
+
+func visor_mode_changed(mode):
+	if mode != null:
+		init_state()
+
+
+func _on_Area2D_area_exited(area):
+	if Samus.current_state == self and Weapons.current_visor:
+		Weapons.current_visor._on_Area2D_area_exited(area)
+
+
+func _on_Area2D_area_entered(area):
+	if Samus.current_state == self and Weapons.current_visor:
+		Weapons.current_visor._on_Area2D_area_entered(area)

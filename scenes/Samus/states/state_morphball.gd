@@ -13,16 +13,16 @@ const bounce_fall_time: float = 0.5 # The morphball will bounce if it lands afte
 const bounce_fall_amount: float = 200.0 # The amount to bounce in the above case
 
 # PHYSICS
-const roll_ground_acceleration = 25
-const roll_ground_deceleration = 50
+const roll_ground_acceleration = 25*60
+const roll_ground_deceleration = 50*60
 const roll_ground_speed = 225
 
-const roll_air_acceleration = 25
-const roll_air_deceleration = 50
+const roll_air_acceleration = 25*60
+const roll_air_deceleration = 50*60
 const roll_air_speed = 150
 
 const springball_speed = 300
-const springball_acceleration = 400
+const springball_acceleration = 400*60
 const springball_time = 0.125
 var springball_current_time = 0
 
@@ -129,9 +129,11 @@ func physics_process(delta: float):
 	if Samus.is_upgrade_active(Enums.Upgrade.SPRINGBALL):
 		if Input.is_action_just_pressed("jump") and Samus.is_on_floor():
 			springball_current_time = springball_time
-			Physics.accelerate_y(springball_acceleration, springball_speed, Enums.dir.UP)
+			Physics.vel.y = move_toward(Physics.vel.y, -springball_speed, springball_acceleration*delta)
+			Physics.disable_floor_snap = true
 		elif not Samus.is_on_floor() and springball_current_time != 0 and Input.is_action_pressed("jump"):
-			Physics.accelerate_y(springball_acceleration, springball_speed, Enums.dir.UP)
+			Physics.disable_floor_snap = true
+			Physics.vel.y = move_toward(Physics.vel.y, -springball_speed, springball_acceleration*delta)
 			springball_current_time -= delta
 			if springball_current_time <= 0:
 				springball_current_time = 0
@@ -139,16 +141,11 @@ func physics_process(delta: float):
 			springball_current_time = 0
 	
 	# Horizontal
+	var pad_x = Shortcut.get_pad_vector("pressed").x
 	if not Samus.is_on_floor():
-		if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
-			Physics.accelerate_x(roll_air_acceleration, max(roll_air_speed, abs(Physics.vel.x)), Samus.facing)
-		else:
-			Physics.decelerate_x(roll_air_deceleration)
+		Physics.vel.x = move_toward(Physics.vel.x, roll_air_speed*pad_x, (roll_air_acceleration if pad_x != 0 else roll_air_deceleration)*delta)
 	else:
-		if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
-			Physics.accelerate_x(roll_ground_acceleration, max(roll_ground_speed, abs(Physics.vel.x)), Samus.facing)
-		else:
-			Physics.decelerate_x(roll_ground_deceleration)
+		Physics.vel.x = move_toward(Physics.vel.x, roll_ground_speed*pad_x, (roll_ground_acceleration if pad_x != 0 else roll_ground_deceleration)*delta)
 	
 	CeilingRaycast.global_position.x = Animator.current[false].sprites[Samus.facing].global_position.x
 	particles.emitting = Physics.vel != Vector2.ZERO

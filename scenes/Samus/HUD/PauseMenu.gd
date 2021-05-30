@@ -2,14 +2,14 @@ extends Control
 
 const menu_open_duration: float = 0.45
 const map_move_speed = 100
-const map_move_acceleration = 2.5
+const map_move_acceleration = 500
 var map_grid_parent: Node
 
 var map_move_velocity = Vector2.ZERO
 var transitioning = false
 
 onready var Buttons = $CanvasLayer2/ButtonPrompts
-enum MODES {CLOSED, MAP, MAPMARKER, MAPAREA, SETTINGS, SETTINGSOPTION}
+enum MODES {CLOSED, MAP, MAPMARKER, MAPAREA, SETTINGS, SETTINGSOPTION, EQUIPMENT, LOGBOOK}
 var mode: int = MODES.CLOSED
 
 func _ready():
@@ -20,10 +20,12 @@ func _ready():
 		var animation = $AnimationPlayer.get_animation(animation_name)
 		for track in animation.get_track_count():
 			animation.track_set_path(track, str(animation.track_get_path(track)).replace("CanvasLayer/MapGridPosition", "CanvasLayer/MapGrid"))
-
+	
+	$CanvasLayer.layer = Enums.CanvasLayers.PAUSEMENU
+	$CanvasLayer2.layer = Enums.CanvasLayers.PAUSEMENU
+	
 func pause():
 	get_tree().paused = true
-	Loader.Samus.paused = true
 
 func open_menu():
 	
@@ -53,7 +55,6 @@ func resume():
 		return
 	
 	get_tree().paused = false
-	Loader.Samus.paused = false
 	transitioning = true
 	
 	$AnimationPlayer.play("close_menu", -1, 0.5)
@@ -105,20 +106,44 @@ func _process(delta: float):
 		elif Buttons.get_node("Settings").just_pressed() and $AnimationPlayer.current_animation == "":
 			$AnimationPlayer.play("open_settings")
 			mode = MODES.SETTINGS
+		elif Buttons.get_node("Equipment").just_pressed() and $AnimationPlayer.current_animation == "":
+			$AnimationPlayer.play("open_equipment")
+			mode = MODES.EQUIPMENT
 		else:
 			var pad_vector = -Shortcut.get_pad_vector("pressed")
-			map_move_velocity.x = Shortcut.add_to_limit(map_move_velocity.x, map_move_acceleration, map_move_speed * pad_vector.x)
-			map_move_velocity.y = Shortcut.add_to_limit(map_move_velocity.y, map_move_acceleration, map_move_speed * pad_vector.y)
+			map_move_velocity.x = move_toward(map_move_velocity.x, map_move_speed*pad_vector.x, map_move_acceleration*delta)
+			map_move_velocity.y = move_toward(map_move_velocity.y, map_move_speed*pad_vector.y, map_move_acceleration*delta)
 			Map.Grid.Tiles.position += map_move_velocity * delta
+#			Map.Grid.Tiles.position += Vector2(map_move_speed, map_move_speed) * pad_vector * delta
 	else:
 		match mode:
 			MODES.MAPMARKER: process_marker(false, resuming)
 			MODES.MAPAREA: process_area(resuming)
 			MODES.SETTINGS: process_settings(resuming)
 			MODES.SETTINGSOPTION: process_settings_option(resuming)
+			MODES.EQUIPMENT: process_equipment(resuming)
+			MODES.LOGBOOK: process_logbook(resuming)
 	
 	if resuming:
 		resume()
+
+func process_logbook(last_frame: bool):
+	
+	if Buttons.get_node("Settings").just_pressed():
+		pass
+	else:
+		$CanvasLayer2/LogbookScreen.process()
+
+func process_equipment(last_frame: bool):
+	
+	if Buttons.get_node("Settings").just_pressed():
+		$AnimationPlayer.play("close_equipment")
+		mode = MODES.MAP
+	elif Buttons.get_node("Equipment").just_pressed():
+		$AnimationPlayer.play("open_logbook")
+		mode = MODES.LOGBOOK
+	else:
+		$CanvasLayer2/EquipmentScreen.process()
 
 func process_marker(first_frame: bool, last_frame: bool):
 	
@@ -143,7 +168,7 @@ func process_marker(first_frame: bool, last_frame: bool):
 	elif Buttons.get_node("Marker/ButtonPrompts/Rename").just_pressed():
 		if Buttons.get_node("Marker/ButtonPrompts/Rename").switch_to_index(!Map.Marker.editable_name, 0.25):
 			Map.Marker.editable_name = !Map.Marker.editable_name
-			Map.Marker.moving = !Map.Marker.editable_name
+			Map.Marker.moving = !Map.Marker.editable_name\
 	
 	if mode != MODES.MAPMARKER or last_frame:
 		

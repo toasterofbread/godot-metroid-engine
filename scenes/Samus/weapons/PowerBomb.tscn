@@ -2,7 +2,7 @@
 
 [ext_resource path="res://sprites/samus/weapons/powerbomb/sPBomb_20.png" type="Texture" id=1]
 [ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://scenes/Samus/classes/WeaponIcon.gd" type="Script" id=3]
+[ext_resource path="res://scenes/Samus/classes/HUDIcon.gd" type="Script" id=3]
 [ext_resource path="res://sprites/ui/mainhud/icons/sGUIPBomb_1.png" type="Texture" id=4]
 [ext_resource path="res://sprites/ui/mainhud/icons/sGUIPBomb_2.png" type="Texture" id=5]
 [ext_resource path="res://sprites/samus/weapons/powerbomb/sPBomb_19.png" type="Texture" id=6]
@@ -107,7 +107,7 @@ animations = [ {
 
 [node name="PowerBomb" type="Node2D"]
 script = ExtResource( 14 )
-id = 11
+id = 3
 damage_type = 3
 cooldown = 5.0
 is_morph_weapon = true

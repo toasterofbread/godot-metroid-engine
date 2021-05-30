@@ -1,0 +1,12 @@
+{
+	"TEMPLATE": {"title": "", "classification": "", "body": ""},
+	"CLASSIFICATIONS": [
+		"upgrade",
+		"lifeform",
+		"fed_tech",
+		"chozo_tech",
+	],
+	"pickup_missile": {"title": "Missile Tank", "classification": "upgrade", "body": "A compact tank designed to store up to 5 missile. If integrated into Samus's power suit, it will contribute to the total supply of ammunition."},
+	"pickup_supermissile": {"title": "Super Missile Tank", "classification": "upgrade", "body": "HELLO THERE"},
+	"block_grapple": {"title": "Grapple beam attachment point", "classification": "fed_tech", "body": "GRPPLAPLAPLAPALPLAPLAL"},
+}

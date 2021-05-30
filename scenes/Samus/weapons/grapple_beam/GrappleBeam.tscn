@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scenes/Samus/classes/WeaponIcon.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Samus/classes/HUDIcon.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ui/mainhud/icons/grapple_0.png" type="Texture" id=2]
 [ext_resource path="res://sprites/ui/mainhud/icons/grapple_2.png" type="Texture" id=3]
 [ext_resource path="res://scenes/Samus/weapons/grapple_beam/GrappleBeam.gd" type="Script" id=4]
@@ -18,7 +18,8 @@ animations = [ {
 z_index = -3
 z_as_relative = false
 script = ExtResource( 4 )
-unlimited_ammo = true
+id = 22
+damage_type = 1
 
 [node name="MenuIcon" type="Control" parent="."]
 margin_right = 18.0

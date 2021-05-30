@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://classes/CameraChunk.gd" type="Script" id=1]
 [ext_resource path="res://classes/Room.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/objects/destroyable_block/GrappleBlock.tscn" type="PackedScene" id=6]
 [ext_resource path="res://sprites/debug_background.png" type="Texture" id=7]
+[ext_resource path="res://scenes/objects/upgrade_pickup/UpgradePickup.tscn" type="PackedScene" id=8]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
@@ -106,7 +107,7 @@ position = Vector2( -848, -320 )
 position = Vector2( -768, -192 )
 
 [node name="Node2D" type="Node2D" parent="World"]
-z_index = -4096
+z_index = -1024
 z_as_relative = false
 __meta__ = {
 "_edit_group_": true,
@@ -126,6 +127,9 @@ stretch_mode = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="UpgradePickup" parent="World" instance=ExtResource( 8 )]
+position = Vector2( -912, -176 )
 
 [node name="MapChunks" type="Node2D" parent="."]
 visible = false

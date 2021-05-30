@@ -1,0 +1,126 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scenes/Samus/classes/HUDIcon.gd" type="Script" id=1]
+[ext_resource path="res://sprites/ui/mainhud/visor/icons/scan_2.png" type="Texture" id=2]
+[ext_resource path="res://scenes/Samus/visors/scan/ScanVisor.gd" type="Script" id=3]
+[ext_resource path="res://sprites/ui/mainhud/visor/icons/scan_1.png" type="Texture" id=4]
+[ext_resource path="res://sprites/ui/mainhud/visor/icons/scan_0.png" type="Texture" id=5]
+[ext_resource path="res://fonts/Pixel-Life.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://sprites/samus/visors/mask_inverted.png" type="Texture" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "default",
+"speed": 0.0
+} ]
+
+[sub_resource type="CanvasItemMaterial" id=2]
+light_mode = 2
+
+[sub_resource type="DynamicFont" id=3]
+extra_spacing_char = 2
+font_data = ExtResource( 6 )
+
+[node name="ScanVisor" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 3 )
+background_tint = Color( 0, 0, 0, 0 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="ProgressTween" type="Tween" parent="."]
+
+[node name="MenuIcon" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="MenuIcon"]
+margin_right = 10.0
+margin_bottom = 10.0
+color = Color( 0, 0, 0, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="AnimatedSprite" parent="MenuIcon"]
+position = Vector2( 5, 5 )
+frames = SubResource( 1 )
+
+[node name="ProgressIndicator" type="ColorRect" parent="MenuIcon"]
+margin_left = 9.0
+margin_top = 9.0
+margin_right = 17.0
+margin_bottom = 9.0
+rect_rotation = 180.0
+color = Color( 0, 1, 0.227451, 0.501961 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScannerProgressIndicator" type="Polygon2D" parent="."]
+visible = false
+light_mask = 16
+material = SubResource( 2 )
+position = Vector2( -0.105118, 0 )
+rotation = 0.467748
+color = Color( 0, 0.764706, 0.407843, 0.356863 )
+polygon = PoolVector2Array( 0, 0, 704, 168, 704, -168 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ProgressBar" type="ColorRect" parent="."]
+light_mask = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 16.8837
+margin_top = 21.9734
+margin_right = 176.884
+margin_bottom = 77.9734
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ProgressBar"]
+margin_top = 5.0
+margin_right = 160.0
+margin_bottom = 31.0
+custom_fonts/font = SubResource( 3 )
+text = "SCANNING..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bar" type="ColorRect" parent="ProgressBar"]
+margin_left = 16.0
+margin_top = 35.0
+margin_right = 144.0
+margin_bottom = 47.0
+color = Color( 0, 1, 0.227451, 0.501961 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScanInfo" type="CanvasLayer" parent="."]
+
+[node name="Light" type="Node2D" parent="."]
+
+[node name="Light" type="Light2D" parent="Light"]
+scale = Vector2( 1, 1.2 )
+texture = ExtResource( 7 )
+offset = Vector2( 348, 0 )
+texture_scale = 0.2
+color = Color( 0, 1, 0.227451, 0.839216 )
+energy = 0.75
+__meta__ = {
+"_edit_lock_": true
+}
