@@ -1,0 +1,127 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://scenes/Samus/classes/PositionalAnimatedSprite.gd" type="Script" id=2]
+[ext_resource path="res://sprites/samus/weapons/grapplebeam/grapple_rotated.png" type="Texture" id=3]
+[ext_resource path="res://sprites/destroyable_block/grapple_block.png" type="Texture" id=4]
+[ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_0.png" type="Texture" id=5]
+[ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_2.png" type="Texture" id=6]
+[ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_1.png" type="Texture" id=7]
+[ext_resource path="res://scenes/Samus/visors/scan/ScanNode.tscn" type="PackedScene" id=8]
+[ext_resource path="res://sprites/destroyable_block/destroy/sBlockDestroy_3.png" type="Texture" id=9]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "grapple",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 7 ), ExtResource( 6 ), ExtResource( 9 ) ],
+"loop": false,
+"name": "destroy",
+"speed": 15.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8, 8 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Samus" type="Node2D" parent="."]
+position = Vector2( 207.485, -211.684 )
+rotation = 0.441568
+z_as_relative = false
+
+[node name="Line2D" type="Line2D" parent="Samus"]
+position = Vector2( 16.4094, -21.0353 )
+rotation = 0.509636
+scale = Vector2( 0.5, 0.5 )
+z_index = -9
+z_as_relative = false
+points = PoolVector2Array( -0.279404, 0.206604, 42.5321, -131.498 )
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 3 )
+texture_mode = 1
+
+[node name="aim_up" type="AnimatedSprite" parent="Samus"]
+position = Vector2( 8, -14 )
+frames = ExtResource( 1 )
+animation = "multiple_aim_up_right"
+playing = true
+script = ExtResource( 2 )
+state_key = "jump"
+animation_key = "aim_up"
+facing = 1
+data = {
+"full": false,
+"leftPos": [ 0.0, -14.0 ],
+"rightPos": [ 8.0, -14.0 ],
+"state_id": "multiple"
+}
+
+[node name="legs" type="AnimatedSprite" parent="Samus"]
+position = Vector2( 4, 7 )
+frames = ExtResource( 1 )
+animation = "jump_legs"
+playing = true
+script = ExtResource( 2 )
+state_key = "jump"
+animation_key = "legs"
+facing = 1
+data = {
+"directional": false,
+"leftPos": [ 3.0, 7.0 ],
+"overlay": true,
+"rightPos": [ 4.0, 7.0 ]
+}
+
+[node name="GrappleBlock" type="StaticBody2D" parent="."]
+position = Vector2( 290.363, -254.304 )
+z_index = -7
+z_as_relative = false
+collision_layer = 524288
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrappleBlock"]
+visible = false
+position = Vector2( 8, 8 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="GrappleBlock"]
+position = Vector2( 8, 8 )
+frames = SubResource( 2 )
+animation = "grapple"
+playing = true
+
+[node name="WeaponCollisionArea" type="Area2D" parent="GrappleBlock"]
+position = Vector2( 8, 8 )
+input_pickable = false
+gravity = 0.0
+linear_damp = 0.0
+angular_damp = 0.0
+priority = 128.0
+monitoring = false
+monitorable = false
+collision_layer = 524288
+collision_mask = 10
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrappleBlock/WeaponCollisionArea"]
+visible = false
+shape = SubResource( 3 )
+
+[node name="Anchor" type="Node2D" parent="GrappleBlock"]
+position = Vector2( 8, 8 )
+
+[node name="ScanNode" parent="GrappleBlock" instance=ExtResource( 8 )]
+visible = false
+position = Vector2( 8, 8 )
+data_key = "block_grapple"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 261.98, -231.41 )
+current = true
+zoom = Vector2( 0.1, 0.1 )

@@ -8,16 +8,26 @@ var current_visor = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$CanvasLayer.layer = Enums.CanvasLayers.HUD
 	Map.Grid = $CanvasLayer/MapGrid
 	rows.invert()
 	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
 
-func add_weapon(weapon_icon: SamusWeaponIcon):
+func add_weapon(weapon_icon: SamusHUDIcon):
 	$CanvasLayer/TopBar/WeaponIcons.add_child(weapon_icon)
 
-func remove_weapon(weapon_icon: SamusWeaponIcon):
+func remove_weapon(weapon_icon: SamusHUDIcon):
 	if weapon_icon in $CanvasLayer/TopBar/WeaponIcons.get_children():
 		$CanvasLayer/TopBar/WeaponIcons.remove_child(weapon_icon)
+		return true
+	return false
+
+func add_visor(visor_icon: SamusHUDIcon):
+	$CanvasLayer/VisorIcons.add_child(visor_icon)
+
+func remove_visor(visor_icon: SamusHUDIcon):
+	if visor_icon in $CanvasLayer/VisorIcons.get_children():
+		$CanvasLayer/VisorIcons.remove_child(visor_icon)
 		return true
 	return false
 

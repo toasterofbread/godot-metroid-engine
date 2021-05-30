@@ -13,22 +13,23 @@ func _ready():
 
 func trigger(upgrade_type: int, added: int, total: int):
 	
+	var upgrade_type_string = Enums.Upgrade.keys()[upgrade_type]
+	
 	get_tree().paused = true
 	sounds["major_fanfare"].play()
 	
 	var upgrade_name: String
-	if "pickup_name" in Enums.upgrade_data[upgrade_type]:
-		upgrade_name = Enums.upgrade_data[upgrade_type]["pickup_name"]
+	if "pickup_name" in Data.logbook[upgrade_type_string]:
+		upgrade_name = Data.logbook[upgrade_type_string]["pickup_name"]
 	else:
-		upgrade_name = Enums.upgrade_data[upgrade_type]["name"]
-		
+		upgrade_name = Data.logbook[upgrade_type_string]["name"]
 	
 	$CanvasLayer/Added.text = "Added: " + str(added)
 	$CanvasLayer/Total.text = "Total: " + str(total)
 	
 	Global.dim_screen(show_duration*2, 0.75, 5)
 	
-	$CanvasLayer/Icon.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
+	$CanvasLayer/Icon.play(upgrade_type_string.to_lower())
 	$CanvasLayer/Label.text = upgrade_name + "\nacquired"
 	$CanvasLayer/Label.percent_visible = 0
 	

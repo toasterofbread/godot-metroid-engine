@@ -80,7 +80,7 @@ func init_state(data: Dictionary):
 	else:
 		direction = Enums.dir.UP
 	
-	velocity = Vector2(0, -speed).rotated(deg2rad(Enums.dir_angle(direction)))
+	velocity = Global.dir2vector(direction)*speed
 	
 	if not ballspark:
 		animation_key = "horiz"
@@ -99,7 +99,7 @@ func init_state(data: Dictionary):
 func process(_delta):
 
 	if animation_key:
-		Samus.Collision.set_collider(animations[animation_key])
+		Samus.set_collider(animations[animation_key])
 	
 	if not moving:
 		return

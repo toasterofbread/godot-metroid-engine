@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=2]
+[gd_scene load_steps=106 format=2]
 
 [ext_resource path="res://scenes/Samus/weapons/Beam.gd" type="Script" id=1]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl_3.png" type="Texture" id=2]
@@ -312,16 +312,6 @@ animations = [ {
 "name": "WAVEBEAM end",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 94 ), ExtResource( 90 ), ExtResource( 90 ) ],
-"loop": false,
-"name": "PLASMABEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
-"loop": false,
-"name": "BEAM start",
-"speed": 60.0
-}, {
 "frames": [ ExtResource( 91 ), ExtResource( 92 ), ExtResource( 92 ) ],
 "loop": false,
 "name": "WAVEBEAM start",
@@ -332,14 +322,14 @@ animations = [ {
 "name": "ICEBEAM end",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 68 ), ExtResource( 9 ), ExtResource( 73 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 79 ), ExtResource( 65 ), ExtResource( 65 ) ],
+"frames": [ ExtResource( 94 ), ExtResource( 90 ), ExtResource( 90 ) ],
 "loop": false,
-"name": "PLASMABEAM end",
+"name": "PLASMABEAM start",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 71 ), ExtResource( 69 ), ExtResource( 76 ), ExtResource( 2 ), ExtResource( 2 ) ],
+"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
 "loop": false,
-"name": "BEAM end",
+"name": "CHARGEBEAM start",
 "speed": 60.0
 }, {
 "frames": [ ExtResource( 82 ), ExtResource( 85 ), ExtResource( 84 ), ExtResource( 88 ), ExtResource( 87 ), ExtResource( 86 ), ExtResource( 83 ), ExtResource( 83 ) ],
@@ -347,23 +337,25 @@ animations = [ {
 "name": "CHARGEBEAM end",
 "speed": 60.0
 }, {
+"frames": [ ExtResource( 68 ), ExtResource( 9 ), ExtResource( 73 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 79 ), ExtResource( 65 ), ExtResource( 65 ) ],
+"loop": false,
+"name": "PLASMABEAM end",
+"speed": 60.0
+}, {
 "frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
 "loop": false,
-"name": "CHARGEBEAM start",
+"name": "POWERBEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 71 ), ExtResource( 69 ), ExtResource( 76 ), ExtResource( 2 ), ExtResource( 2 ) ],
+"loop": false,
+"name": "POWERBEAM end",
 "speed": 60.0
 } ]
 
-[sub_resource type="Environment" id=10]
-background_mode = 4
-glow_enabled = true
-glow_intensity = 8.0
-glow_strength = 1.12
-glow_blend_mode = 0
-glow_bicubic_upscale = true
-
 [node name="Beam" type="Node2D"]
 script = ExtResource( 1 )
-id = 1
+id = 16
 damage_type = 1
 cooldown = 0.1
 is_base_weapon = true
@@ -420,14 +412,11 @@ visible = false
 z_index = 999
 z_as_relative = false
 frames = SubResource( 9 )
-animation = "CHARGEBEAM start"
+animation = "POWERBEAM start"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Projectile"]
 visible = false
 position = Vector2( 0.53093, -0.679844 )
 scale = Vector2( 0.4, 0.75 )
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 10 )
 
 [node name="Tween" type="Tween" parent="."]

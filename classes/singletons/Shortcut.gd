@@ -57,17 +57,3 @@ func get_joystick_vector(joystick_name: String):
 	vector.x = Input.get_action_strength(joystick_name + "_right") - Input.get_action_strength(joystick_name + "_left")
 	vector.y = Input.get_action_strength(joystick_name + "_down") - Input.get_action_strength(joystick_name + "_up")
 	return vector.normalized()
-
-func add_to_limit(value: float, amount: float, limit: float):
-	
-	if amount == 0:
-		return value
-	
-	amount = abs(amount)
-	
-	if value > limit:
-		value = max(limit, value - amount)
-	elif value < limit:
-		value = min(limit, value + amount)
-	
-	return value

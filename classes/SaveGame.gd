@@ -11,36 +11,44 @@ const default_data: Dictionary = {
 	},
 	"samus": {
 		"upgrades": {
+			
+			Enums.Upgrade.POWERSUIT: {"amount": 1, "active": true},
+			Enums.Upgrade.VARIASUIT: {"amount": 0, "active": true},
+			Enums.Upgrade.GRAVITYSUIT: {"amount": 0, "active": true},
+			
 			Enums.Upgrade.ETANK: {"amount": 15, "active": true},
 			Enums.Upgrade.MISSILE: {"amount": 50, "ammo": 50, "active": true},
 			Enums.Upgrade.SUPERMISSILE: {"amount": 50, "ammo": 50, "active": true},
-			Enums.Upgrade.GRAPPLEBEAM: {"amount": 1, "active": true},
-			
-			Enums.Upgrade.BOMB: {"amount": 1, "active": true},
 			Enums.Upgrade.POWERBOMB: {"amount": 50, "ammo": 50, "active": true},
 			
 			Enums.Upgrade.CHARGEBEAM: {"amount": 1, "active": true},
-			Enums.Upgrade.BEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.POWERBEAM: {"amount": 1, "active": true},
 			Enums.Upgrade.ICEBEAM: {"amount": 1, "active": true},
 			Enums.Upgrade.SPAZERBEAM: {"amount": 1, "active": true},
-			Enums.Upgrade.WAVEBEAM: {"amount": 1, "active": true},
 			Enums.Upgrade.PLASMABEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.WAVEBEAM: {"amount": 1, "active": true},
+			Enums.Upgrade.GRAPPLEBEAM: {"amount": 1, "active": true},
 			
+			Enums.Upgrade.BOMB: {"amount": 1, "active": true},
 			Enums.Upgrade.MORPHBALL: {"amount": 1, "active": true},
 			Enums.Upgrade.SPRINGBALL: {"amount": 1, "active": true},
 			Enums.Upgrade.SPEEDBOOSTER: {"amount": 1, "active": true},
 			Enums.Upgrade.POWERGRIP: {"amount": 1, "active": true},
+			Enums.Upgrade.HIGHJUMP: {"amount": 1, "active": true},
 			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
 			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": true},
 			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
 			
-			Enums.Upgrade.XRAY: {"amount": 1, "active": true},
-			Enums.Upgrade.SCAN: {"amount": 1, "active": false}
+			Enums.Upgrade.SCANVISOR: {"amount": 1, "active": true},
+			Enums.Upgrade.XRAYVISOR: {"amount": 1, "active": true},
 		},
 		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},
 	"map": {
 		"marker": null
+	},
+	"logbook": {
+		"recorded_entries": ["POWERSUIT", "POWERBEAM"]
 	}
 }
 
@@ -82,8 +90,6 @@ func get_data_key(keys: Array, create_new_keys:=false):
 
 func set_data_key(keys: Array, value):
 	
-	emit_signal("value_set", keys, value)
-	
 	var current_value = data
 	var i = 0
 	for key in keys:
@@ -97,3 +103,5 @@ func set_data_key(keys: Array, value):
 				current_value[key] = {}
 				current_value = current_value[key]
 		i += 1
+	
+	emit_signal("value_set", keys, value)

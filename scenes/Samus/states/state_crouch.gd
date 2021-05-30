@@ -35,7 +35,7 @@ func process(_delta):
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if not Animator.transitioning():
-		if Input.is_action_just_pressed("morph_shortcut"):
+		if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 			change_state("morphball", {"options": ["animate"]})
 			return
 		if Input.is_action_just_pressed("fire_weapon"):
@@ -84,7 +84,7 @@ func process(_delta):
 			Samus.aiming = Samus.aim.UP
 		elif Input.is_action_just_pressed("pad_down"):
 			
-			if Samus.aiming == Samus.aim.DOWN and not Animator.transitioning():
+			if Samus.aiming == Samus.aim.DOWN and not Animator.transitioning() and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 				change_state("morphball", {"options": ["animate"]})
 				return
 			
@@ -94,7 +94,7 @@ func process(_delta):
 		if not CeilingRaycast.is_colliding():
 			change_state("neutral")
 			return
-	elif Input.is_action_just_pressed("pad_down") and not Animator.transitioning():
+	elif Input.is_action_just_pressed("pad_down") and not Animator.transitioning() and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	else:

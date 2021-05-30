@@ -1,3 +1,4 @@
+tool
 extends Node2D
 
 export var animation_duration: float = 0.75
@@ -5,8 +6,23 @@ export(ExTween.TransitionType) var transition_type: int
 export(ExTween.EaseType) var ease_type: int
 export var all_caps: bool = false
 export var start_empty: bool = true
+export var background_colour: = Color("c3000000") setget set_background_colour
+export var font_colour: = Color("ffffff") setget set_font_colour
+
+func set_background_colour(value: Color):
+	background_colour = value
+	$Background.color = value
+
+func set_font_colour(value: Color):
+	font_colour = value
+	$Label.set("custom_colors/font_color", value)
 
 func _ready():
+	if Engine.editor_hint:
+		return
+	
+	$Background.color = background_colour
+	$Label.set("custom_colors/font_color", font_colour)
 	if start_empty:
 		$Label.text = ""
 		$Label.rect_size.x = 0
@@ -52,7 +68,7 @@ func set_text(text: String, duration: float = animation_duration):
 				if self_i != current_i:
 					return
 	else:
-		pass
+		$Label.text = text
 	
 	if $Label.text == "":
 		visible = false

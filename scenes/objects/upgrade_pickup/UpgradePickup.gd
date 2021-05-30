@@ -29,9 +29,16 @@ func _ready():
 	
 	if Engine.editor_hint:
 		return
+	
+	$ScanNode.data_key = "pickup_" + Enums.Upgrade.keys()[upgrade_type].to_lower()
+	
 	save_path_acquired = ["rooms", Loader.current_room.id, "UpgradePickups", str(unique_id)]
 	$AnimatedSprite.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
-	gain_amount = Enums.upgrade_data[upgrade_type]["gain_amount"]
+	
+	if upgrade_type in Enums.upgrade_gain_amounts:
+		gain_amount = Enums.upgrade_gain_amounts[upgrade_type]
+	else:
+		gain_amount = 1
 	
 	set_acquired(Loader.Save.get_data_key(save_path_acquired))
 
@@ -45,7 +52,11 @@ func _on_UpgradePickup_body_entered(body):
 	if upgrade_type in Samus.Weapons.all_weapons:
 		Samus.Weapons.all_weapons[upgrade_type].ammo += gain_amount
 		if Samus.is_upgrade_active(upgrade_type):
-			Samus.Weapons.add_weapon(upgrade_type)
+			
+			if upgrade_type in Enums.UpgradeTypes["visor"]:
+				Samus.Weapons.add_visor(upgrade_type)
+			else:
+				Samus.Weapons.add_weapon(upgrade_type)
 	
 	set_acquired(true)
 	

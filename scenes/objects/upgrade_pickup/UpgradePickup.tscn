@@ -22,6 +22,7 @@ position = Vector2( 8, 8 )
 shape = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+pause_mode = 1
 position = Vector2( 8, 8 )
 frames = ExtResource( 1 )
 animation = "missile"
@@ -29,6 +30,10 @@ frame = 3
 playing = true
 
 [node name="ScanNode" parent="." instance=ExtResource( 3 )]
-visible = false
+position = Vector2( 8, 8 )
+length = 2
+dynamic_data_key = true
 
 [connection signal="body_entered" from="." to="." method="_on_UpgradePickup_body_entered"]
+
+[editable path="ScanNode"]

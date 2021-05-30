@@ -96,7 +96,7 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false, force: bool =
 			return
 	cache = new_cache
 	
-	Samus.Collision.set_collider(self)
+	Samus.set_collider(self)
 	
 	for dir in sprites:
 		

@@ -112,7 +112,7 @@ func process(_delta):
 		sounds["land"].play()
 		change_state("neutral")
 		return
-	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true):
+	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true) and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump") and Settings.get("controls/spin_from_jump"):
@@ -144,7 +144,7 @@ func process(_delta):
 		if Input.is_action_pressed("pad_up"):
 			Samus.aiming = Samus.aim.SKY
 			spinning = false
-		elif Input.is_action_pressed("pad_down"):
+		elif Input.is_action_pressed("pad_down") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 			if Samus.aiming == Samus.aim.FLOOR and Input.is_action_just_pressed("pad_down"):
 				change_state("morphball", {"options": ["animate"]})
 				return
@@ -294,7 +294,7 @@ func physics_process(delta: float):
 		var pad_x = Shortcut.get_pad_vector("pressed").x
 		
 		if pad_x != 0:
-			Physics.vel.x = Shortcut.add_to_limit(Physics.vel.x, horiz_acceleration, max(horiz_speed, abs(Physics.vel.x)) * pad_x)
+			Physics.vel.x = move_toward(Physics.vel.x, max(horiz_speed, abs(Physics.vel.x)) * pad_x, horiz_acceleration)
 		else:
 			Physics.decelerate_x(horiz_acceleration)
 	first_frame = false

@@ -79,7 +79,7 @@ func process(_delta):
 		change_state("jump", {"options": ["spin"] if Samus.boosting else ["fall"]})
 		return
 	
-	if Input.is_action_just_pressed("morph_shortcut"):
+	if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump"):
@@ -231,9 +231,9 @@ func physics_process(delta: float):
 		if beam.fire_pos:
 			capped = beam.set_length(beam.fire_pos.global_position.distance_to(anchor.global_position)*2) and sign(pad_x) == sign(angle)
 		if pad_x != 0 and not capped:
-			Physics.vel.x = Shortcut.add_to_limit(Physics.vel.x*delta, walk_acceleration, max_walk_speed*pad_x)
+			Physics.vel.x = move_toward(Physics.vel.x*delta, max_walk_speed*pad_x, walk_acceleration)
 		else:
-			Physics.vel.x = Shortcut.add_to_limit(Physics.vel.x*delta, walk_deceleration, 0)
+			Physics.vel.x = move_toward(Physics.vel.x*delta, 0, walk_deceleration)
 		return
 	else:
 		jump_current_time = 0
@@ -267,20 +267,19 @@ func physics_process(delta: float):
 			return
 		collided = true
 		var collision_angle = collision.normal.dot(Vector2.UP)
-		print(collision_angle)
 		if collision.normal.y < 0 and abs(collision_angle) <= 135:
 			set_state(STATES.STAND)
 			return
 		elif collision.normal.y > 0 and abs(collision_angle) <= 135:
 			angular_velocity = 0
 			if sign(collision.normal.y) == pad_vector.y:
-				beam.length += pad_vector.y*2
+				beam.set_length(beam.length + pad_vector.y*2, true)
 		else:
 			change_state("jump", {"options": ["fall"]})
 			return
 	else:
 		collided = false
-		beam.length += pad_vector.y*2
+		beam.set_length(beam.length + pad_vector.y*2, true)
 
 var collided = false
 

@@ -131,7 +131,7 @@ func transition(origin_door: Door):
 		previous_room.queue_free()
 		current_room.World.visible = true
 	
-	Samus.paused = false
+	Samus.paused = null
 	transitioning = false
 	
 	yield(Global.wait(1.0), "completed")

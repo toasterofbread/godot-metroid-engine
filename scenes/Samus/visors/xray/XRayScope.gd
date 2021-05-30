@@ -12,8 +12,8 @@ const angle_move_speed: float = 1.0
 
 func _ready():
 	yield(Samus, "ready")
-	visor_state = Samus.states["visor"]
 
+	visor_state = Samus.states["visor"]
 # Called every frame while this visor is enabled
 func process():
 	
@@ -68,6 +68,12 @@ func get_emit_pos():
 	
 	return pos
 
+func set_overlay(value: bool):
+	
+	if value:
+		$CanvasLayer/AnimationPlayer.play("fade_in")
+	else:
+		$CanvasLayer/AnimationPlayer.play("fade_out")
 
 func enable():
 	enabled = true
@@ -76,3 +82,4 @@ func enable():
 func disable():
 	enabled = false
 	$AnimationPlayer.play("disable_scanner")
+	yield($AnimationPlayer, "animation_finished")

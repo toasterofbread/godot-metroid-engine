@@ -23,7 +23,8 @@ var fall_time: float = 0
 var current_camerachunk
 var camerachunk_set_while_paused: = false
 
-var paused: bool = false
+const collision_data_json_path = "res://scenes/Samus/animations/collision_data.json"
+onready var collision_data = Global.load_json(collision_data_json_path)
 
 onready var states = {
 	"jump": preload("res://scenes/Samus/states/state_jump.gd").new(self),
@@ -34,7 +35,7 @@ onready var states = {
 	"spiderball": preload("res://scenes/Samus/states/state_spiderball.gd").new(self),
 	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self),
 	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self),
-	"visor": preload("res://scenes/Samus/states/state_visor.gd").new(self),
+	"visor": $Weapons/SamusVisors,
 	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self)
 	}
 var previous_state_id: String
@@ -44,6 +45,8 @@ var state_change_record = [["", 0]]
 var energy: int
 var etanks: int
 var upgrades: Dictionary
+
+var paused = null
 
 func set_boosting(value: bool):
 	boosting = value
@@ -61,6 +64,13 @@ func shift_position(position: Vector2):
 func _ready():
 	z_index = Enums.Layers.SAMUS
 	
+	var i = 0
+	for key in collision_data:
+		for value in collision_data[key]:
+			collision_data[key][i] = Vector2(value[0], value[1])
+			i += 1
+		i = 0
+	
 	var data = Loader.Save.data["samus"]
 	self.upgrades = data["upgrades"]
 	
@@ -73,12 +83,11 @@ func _ready():
 	HUD.set_energy(energy)
 	
 	for upgrade in upgrades:
-		if upgrade in Weapons.all_weapons and upgrades[upgrade]["amount"] > 0:
-			var weapon = yield(Weapons.add_weapon(upgrade), "completed")
+		if upgrade in Weapons.all_weapons:
+			var weapon: SamusWeapon = Weapons.all_weapons[upgrade]
 			if "ammo" in upgrades[upgrade]:
 				weapon.ammo = upgrades[upgrade]["ammo"]
 			weapon.amount = upgrades[upgrade]["amount"]
-	Weapons.update_weapon_icons()
 	
 	change_state("neutral")
 	
@@ -97,7 +106,7 @@ func _process(delta):
 		print("Decreased energy to: " + str(energy))
 		HUD.set_energy(energy)
 	
-	if paused:
+	if get_tree().paused and paused == null or paused:
 		return
 	
 	current_state.process(delta)
@@ -111,7 +120,7 @@ func _physics_process(delta):
 	
 	vOverlay.SET("State", current_state.id)
 	
-	if paused:
+	if get_tree().paused and paused == null or paused:
 		return
 	
 	current_state.physics_process(delta)
@@ -123,7 +132,7 @@ func _physics_process(delta):
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	
-	if paused:
+	if get_tree().paused and paused == null or paused:
 		return
 	
 	if new_state_key in ["crouch", "morphball"] and is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
@@ -185,7 +194,7 @@ func get_current_limits() -> Dictionary:
 
 func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0.5):
 	current_camerachunk = chunk
-	if paused and not room_transition:
+	if get_tree().paused and paused == null or paused and not room_transition:
 		camerachunk_set_while_paused = true
 		return
 	
@@ -220,3 +229,34 @@ func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0
 func camerachunk_exited(chunk: CameraChunk):
 	if current_camerachunk == chunk:
 		current_camerachunk = null
+	
+func set_collider(animation: SamusAnimation):
+	
+	var key: String
+	if animation.position_node_path in collision_data:
+		key = animation.position_node_path
+	elif animation.position_node_path.split("/")[0] in collision_data:
+		key = animation.position_node_path.split("/")[0]
+	else:
+		return
+	
+	var i = 0
+	$Collision.position = animation.positions[facing]
+	for value in collision_data[key]:
+		match i:
+			0: $Collision.shape.extents = value
+			1: $Collision.position = value
+			2: if facing == Enums.dir.RIGHT: $Collision.position = value
+		i += 1
+	
+#	$CollisionHead.shape.radius = $Collision.shape.extents.x
+#	$CollisionHead.position = $Collision.position - Vector2(0, $Collision.shape.extents.y)
+#	$CollisionHead.scale.y = 10/$CollisionHead.shape.radius/2
+#
+#	$CollisionHead.position.y  += $CollisionHead.shape.radius*$CollisionHead.scale.y
+#	$Collision.shape.extents.y -= $CollisionHead.shape.radius*$CollisionHead.scale.y/2
+#	$Collision.position.y += $CollisionHead.shape.radius/2*$CollisionHead.scale.y
+	
+#	$CollisionHead.shape.height = 0
+#	$Collision.shape.extents.y -= $Collision.shape.extents.x/2
+#	$CollisionHead.position.y -= $Collision.shape.extents.x

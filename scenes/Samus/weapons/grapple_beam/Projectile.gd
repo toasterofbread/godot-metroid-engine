@@ -13,8 +13,8 @@ var anchor: Node2D
 
 onready var parent = get_parent()
 
-func set_length(value: float):
-	length = min(max(value, 8), max_length)
+func set_length(value: float, half=false):
+	length = min(max(value, 8), max_length/2 if half else max_length)
 	$Texture.rect_size.y = length
 	return length == max_length
 

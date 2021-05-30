@@ -18,6 +18,8 @@ var weapon_fired: = false
 var fire_pos
 var fire_pos_nodes: = {}
 
+var morphball: bool
+var aiming_style: int
 var added_weapons = {
 	true: [], # Morphball weapons
 	false: [] # Standard weapons
@@ -26,12 +28,15 @@ var added_weapons_base = {
 	true: null,
 	false: null,
 }
-var current_weapon = [
-	0, # Current weapon selection index
-	false # Whether the current selection is a morphball weapon
-]
+#var current_weapon = [
+#	0, # Current weapon selection index
+#	false # Whether the current selection is a morphball weapon
+#]
+
+var current_weapon = null
+
 var all_weapons = {
-	Enums.Upgrade.BEAM: preload("res://scenes/Samus/weapons/Beam.tscn").instance(),
+	Enums.Upgrade.POWERBEAM: preload("res://scenes/Samus/weapons/Beam.tscn").instance(),
 	Enums.Upgrade.MISSILE: preload("res://scenes/Samus/weapons/Missile.tscn").instance(),
 	Enums.Upgrade.SUPERMISSILE: preload("res://scenes/Samus/weapons/SuperMissile.tscn").instance(),
 	Enums.Upgrade.BOMB: preload("res://scenes/Samus/weapons/Bomb.tscn").instance(),
@@ -39,10 +44,14 @@ var all_weapons = {
 	Enums.Upgrade.GRAPPLEBEAM: preload("res://scenes/Samus/weapons/grapple_beam/GrappleBeam.tscn").instance()
 }
 
+signal visor_mode_changed
 var current_visor = null
-onready var visors = {
-	Enums.Upgrade.XRAY: $Visors/XRayScope
+var all_visors = {
+	Enums.Upgrade.SCANVISOR: preload("res://scenes/Samus/visors/scan/ScanVisor.tscn").instance(),
+	Enums.Upgrade.XRAYVISOR: preload("res://scenes/Samus/visors/xray/XRayScope.tscn").instance()
 }
+var equipped_visors = []
+
 
 func _ready():
 	reversed_charge_times = charge_times.keys().duplicate()
@@ -55,6 +64,16 @@ func _ready():
 	for state in CannonPositions.get_children():
 		for animation in state.get_children():
 			fire_pos_nodes[state.name + "/" + animation.name] = animation
+	
+	# Add all weapons to the scene
+	for weapon in all_weapons.values():
+		$SamusWeapons.add_child(weapon)
+	
+	# Add all visors to the scene, passing the visor state object
+	yield(Samus, "ready")
+	for visor in all_visors.values():
+		visor.visor_state = Samus.states["visor"]
+		$SamusVisors.add_child(visor)
 
 func _process(delta: float):
 	
@@ -64,25 +83,34 @@ func _process(delta: float):
 		process_chargebeam(delta)
 	weapon_fired = false
 	
-	var morphball = Samus.current_state.id in ["morphball", "spiderball"]
-	var morphball_changed = morphball != current_weapon[1]
-	if morphball_changed:
-		current_weapon[1] = morphball
-		current_weapon[0] = 0
+	aiming_style = Settings.get("controls/aiming_style")
+	morphball = Samus.current_state.id in ["morphball", "spiderball"]
+	var morphball_changed = false
+	if current_weapon:
+		morphball_changed = current_weapon.is_morph_weapon != morphball
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
-		current_weapon[0] = 0 if Settings.get("controls/aiming_style") == 0 else -1
+		reset_weapon_selection(morphball, aiming_style)
 	elif Input.is_action_just_pressed("select_weapon"):
-		current_weapon[0] += 1
-		if Settings.get("controls/aiming_style") == 0:
-			if current_weapon[0] >= len(added_weapons[current_weapon[1]]):
-				current_weapon[0] = 0
+		if not current_weapon:
+			current_weapon = added_weapons[morphball][0]
+		elif current_weapon.index + 1 == len(added_weapons[morphball]):
+			reset_weapon_selection(morphball, aiming_style)
 		else:
-			if current_weapon[0] >= len(all_equipped_weapons()):
-				current_weapon[0] = -1
-	elif not morphball_changed:
+			current_weapon = added_weapons[morphball][current_weapon.index + 1]
+	elif morphball_changed:
+		current_weapon = added_weapons[morphball][0]
+	else:
 		return
 	update_weapon_icons()
+
+func reset_weapon_selection(morphball: bool, aiming_style: int):
+	if aiming_style == 0:
+		current_weapon = added_weapons[morphball][0]
+	elif aiming_style == 1:
+		current_weapon = added_weapons_base[morphball]
+	else:
+		pass
 
 func process_chargebeam(delta: float):
 	if charge_time_current >= charge_times.keys()[len(charge_times) - 1]:
@@ -101,7 +129,7 @@ func process_chargebeam(delta: float):
 			
 			for time in charge_times:
 				if charge_time_current >= time:
-					var animation = Enums.Upgrade.keys()[all_weapons[Enums.Upgrade.BEAM].get_base_type(true)]
+					var animation = Enums.Upgrade.keys()[all_weapons[Enums.Upgrade.POWERBEAM].get_base_type(true)]
 					var i = charge_times.keys().find(time)
 					animation += " " + str(i)
 					if i == 2:
@@ -115,10 +143,9 @@ func process_chargebeam(delta: float):
 						if Samus.current_state.has_method("chargebeam_fired"):
 							Samus.current_state.chargebeam_fired()
 						
-						var morphball = Samus.current_state.id in ["morphball", "spiderball"]
-						if morphball != current_weapon[1]:
-							current_weapon[1] = morphball
-							current_weapon[0] = 0
+						var new_morphball = Samus.current_state.id in ["morphball", "spiderball"]
+						if morphball != new_morphball:
+							morphball = new_morphball
 							update_weapon_icons()
 						fire(charge_times[time])
 					break
@@ -126,28 +153,17 @@ func process_chargebeam(delta: float):
 			charge_time_current = 0.0
 
 func cycle_visor():
+	if len(equipped_visors) == 0:
+		return false
 	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/visor_combo") or Input.is_action_pressed("shortcut")):
-		var checking = false
 		if current_visor == null:
-			checking = true
-		else:
-			visors[current_visor].set_overlay(false)
-		var set = false
-		for visor in Enums.UpgradeTypes["visor"]:
-			if visor == current_visor:
-				checking = true
-			elif checking and Samus.is_upgrade_active(visor):
-				current_visor = visor
-				set = true
-				break
-		if not set:
+			current_visor = equipped_visors[0]
+		elif current_visor == equipped_visors[len(equipped_visors) - 1]:
 			current_visor = null
 		else:
-			visors[current_visor].set_overlay(true)
-	if current_visor != null:
-		return "visor"
-	else:
-		return false
+			current_visor = equipped_visors[equipped_visors.find(current_visor) + 1]
+		emit_signal("visor_mode_changed", current_visor)
+	return current_visor != null
 
 func all_equipped_weapons(include_base_weapons:=false) -> Array:
 	var ret = added_weapons[false] + added_weapons[true]
@@ -159,27 +175,18 @@ func all_equipped_weapons(include_base_weapons:=false) -> Array:
 func update_weapon_icons():
 	for weapon in all_equipped_weapons():
 		if weapon.Icon:
-			var selected_weapon = added_weapons[current_weapon[1]][current_weapon[0]] if current_weapon[0] >= 0 else null
-			weapon.Icon.update_icon(selected_weapon, Samus.armed)
+			weapon.Icon.update_icon(current_weapon, Samus.armed)
 
 # TODO | Yeah this defintely needs an overhaul
 func fire(chargebeam_damage_multiplier=null):
 	var weapon: SamusWeapon
-	if Settings.get("controls/aiming_style") == 0:
+	if aiming_style == 0:
 		if Samus.armed:
-			if len(added_weapons[current_weapon[1]]) > current_weapon[0]:
-				weapon = added_weapons[current_weapon[1]][current_weapon[0]]
-			elif added_weapons_base[current_weapon[1]] != null:
-				weapon = added_weapons_base[current_weapon[1]]
+			weapon = current_weapon if current_weapon != null else added_weapons_base[morphball]
 		else:
-			if added_weapons_base[current_weapon[1]] != null:
-				weapon = added_weapons_base[current_weapon[1]]
-	else:
-		if current_weapon[0] == -1:
-			if added_weapons_base[current_weapon[1]] != null:
-				weapon = added_weapons_base[current_weapon[1]]
-		else:
-			weapon = (added_weapons[true] + added_weapons[false])[current_weapon[0]]
+			weapon = added_weapons_base[morphball]
+	elif aiming_style == 1:
+		weapon = current_weapon
 	
 	if weapon:
 		weapon_fired = weapon.fire(chargebeam_damage_multiplier)
@@ -187,52 +194,66 @@ func fire(chargebeam_damage_multiplier=null):
 	else:
 		return false
 	
-func add_weapon(weapon_key: int):
+func add_weapon(weapon):
 	
-	if all_weapons[weapon_key] in all_equipped_weapons(true):
+	if weapon is int:
+		weapon = all_weapons[weapon]
+	
+	if weapon in all_equipped_weapons(true):
 		return
-	
-	var weapon = all_weapons[weapon_key]
-	Samus.get_node("Weapons").call_deferred("add_child", weapon)
-	yield(weapon, "ready")
 	
 	if weapon.is_base_weapon:
 		added_weapons_base[weapon.is_morph_weapon] = weapon
+		weapon.index = -1
 	else:
 		added_weapons[weapon.is_morph_weapon].append(weapon)
 		sort_weapons(weapon.is_morph_weapon)
-	return weapon
-
-func sort_weapons(is_morph_weapon: bool):
 	
-	var selected_weapon = added_weapons[current_weapon[1]][current_weapon[0]]
-	var temp = added_weapons[is_morph_weapon]
-	added_weapons[is_morph_weapon] = []
+	if not current_weapon and not weapon.is_base_weapon:
+		current_weapon = weapon
+	if weapon.Icon:
+		update_weapon_icons()
+		weapon.Icon.update_digits(weapon.ammo)
+	
+
+func sort_weapons(morphball: bool):
+	
+#	var selected_weapon = added_weapons[current_weapon[1]][current_weapon[0]]
+	var temp = added_weapons[morphball]
+	added_weapons[morphball] = []
 	
 	for w in all_weapons.values():
-		Samus.HUD.remove_weapon(w.Icon)
+		if w.Icon:
+			Samus.HUD.remove_weapon(w.Icon)
 	
 	var i = 0
 	for w in all_weapons.values():
-		if w in temp:
-			if selected_weapon != null:
-				if w == selected_weapon:
-					current_weapon[0] = i
-					selected_weapon = null
-				elif w.is_morph_weapon == current_weapon[1]:
-					i += 1
-			added_weapons[is_morph_weapon].append(w)
+		if w in temp and w.is_morph_weapon == morphball:
+			w.index = i
+			i += 1
+			added_weapons[morphball].append(w)
 	
 	for w in all_equipped_weapons():
-		Samus.HUD.add_weapon(w.Icon)
+		if w.Icon:
+			Samus.HUD.add_weapon(w.Icon)
 
-func remove_weapon(weapon_key: int, is_morph_weapon: bool):
+func remove_weapon(weapon: SamusWeapon):
 	
-	if not all_weapons[weapon_key] in all_equipped_weapons(true):
+	if not weapon in all_equipped_weapons(true):
 		return
 	
-	added_weapons[is_morph_weapon].remove(all_weapons[weapon_key])
-	Samus.HUD.remove_weapon(all_weapons[weapon_key])
+	if weapon.is_base_weapon:
+		added_weapons_base[weapon.is_morph_weapon] = null
+	else:
+		added_weapons[weapon.is_morph_weapon].erase(weapon)
+	
+	if aiming_style == 0:
+		current_weapon = added_weapons[morphball][0]
+	elif aiming_style == 1:
+		current_weapon = added_weapons_base[morphball]
+	
+	Samus.HUD.remove_weapon(weapon.Icon)
+	update_weapon_icons()
 
 func is_weapon_equipped(weapon_key: int):
 	return weapon_key in all_equipped_weapons() + added_weapons_base[false] + added_weapons_base[true]
@@ -248,7 +269,7 @@ func get_fire_pos(facing_override:=Samus.facing):
 		return
 	
 	var position_node_path = Samus.Animator.current[false].position_node_path
-	if not position_node_path:
+	if not position_node_path in fire_pos_nodes:
 		return null
 	var pos: Position2D = fire_pos_nodes[position_node_path]
 	
@@ -267,3 +288,31 @@ func reset_fire_pos():
 	if fire_pos:
 		fire_pos.queue_free()
 	fire_pos = get_fire_pos()
+
+func add_visor(visor: SamusVisor):
+	if visor in equipped_visors:
+		return
+	
+	equipped_visors.append(visor)
+	sort_visors()
+
+func remove_visor(visor: SamusVisor):
+	if not visor in equipped_visors:
+		return
+	
+	equipped_visors.erase(visor)
+	Samus.HUD.remove_visor(visor.Icon)
+
+func sort_visors():
+	
+	var temp = equipped_visors
+	equipped_visors = []
+	
+	for visor in all_visors.values():
+		Samus.HUD.remove_visor(visor.Icon)
+	
+	var i = 0
+	for visor in all_visors.values():
+		if visor in temp:
+			equipped_visors.append(visor)
+			Samus.HUD.add_visor(visor.Icon)

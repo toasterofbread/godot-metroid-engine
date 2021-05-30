@@ -1,37 +1,37 @@
 extends RigidBody2D
 class_name SamusRigidProjectile
 
-export var base_velocity: float
-var velocity: Vector2
-var moving: bool = true
-var affected_by_world: bool = true
+#export var base_velocity: float
+#var velocity: Vector2
+#var moving: bool = true
+#var affected_by_world: bool = true
 var Weapon: Node2D
-var travel_distance: = 0.0
+#var travel_distance: = 0.0
 var data: Dictionary
 var chargebeam_damage_multiplier
 var fire_pos: Position2D
 var burst_sprite: AnimatedSprite
 var apply_damage: = true
-var act_as_kinematic: bool setget set_act_as_kinematic
+#var act_as_kinematic: bool setget set_act_as_kinematic
 
-func set_act_as_kinematic(value: bool):
-	act_as_kinematic = value
-	if act_as_kinematic:
-#		mode = RigidBody2D.MODE_KINEMATIC
-		mass = 0
-	else:
-		mass = 1
-#		mode = RigidBody2D.MODE_RIGID
+#func set_act_as_kinematic(value: bool):
+#	act_as_kinematic = value
+#	if act_as_kinematic:
+##		mode = RigidBody2D.MODE_KINEMATIC
+#		mass = 0
+#	else:
+#		mass = 1
+##		mode = RigidBody2D.MODE_RIGID
 
 const screen_exit_delay = 5.0
 var screen_exit_delay_timer: Timer
 
-func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _act_as_kinematic: bool, _data:={}):
+func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _data:={}):
 	Weapon = _Weapon
 	data = _data
 	chargebeam_damage_multiplier = _chargebeam_damage_multiplier
 	fire_pos = _fire_pos
-	set_act_as_kinematic(_act_as_kinematic)
+#	set_act_as_kinematic(_act_as_kinematic)
 	
 	burst_sprite = get_node_or_null("Burst")
 	if burst_sprite:
@@ -55,42 +55,42 @@ func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _act_as
 		
 	global_position = fire_pos.position + Vector2(0, -10).rotated(fire_pos.rotation)
 	rotation = fire_pos.rotation
-	velocity = Vector2(0, -base_velocity).rotated(rotation)
-	
-	# Apply Samus's velocity to the projectile
-	if Weapon.Samus.Physics.apply_velocity:
-		var velocity_modifier = Weapon.Samus.Physics.vel
-		
-		# Comparing velocity against 0.01 instead of 0 to account for earlier rotated() function innacuracy
-		if self.velocity.x > 0.01 and velocity_modifier.x > 0:
-			self.velocity.x += velocity_modifier.x
-		elif self.velocity.x < -0.01 and velocity_modifier.x < 0:
-			self.velocity.x += velocity_modifier.x
-
-		if self.velocity.y > 0.01 and velocity_modifier.y > 0:
-			self.velocity.y += velocity_modifier.y
-		elif self.velocity.y < -0.01 and velocity_modifier.y < 0:
-			self.velocity.y += velocity_modifier.y
+#	velocity = Vector2(0, -base_velocity).rotated(rotation)
+#
+#	# Apply Samus's velocity to the projectile
+#	if Weapon.Samus.Physics.apply_velocity:
+#		var velocity_modifier = Weapon.Samus.Physics.vel
+#
+#		# Comparing velocity against 0.01 instead of 0 to account for earlier rotated() function innacuracy
+#		if self.velocity.x > 0.01 and velocity_modifier.x > 0:
+#			self.velocity.x += velocity_modifier.x
+#		elif self.velocity.x < -0.01 and velocity_modifier.x < 0:
+#			self.velocity.x += velocity_modifier.x
+#
+#		if self.velocity.y > 0.01 and velocity_modifier.y > 0:
+#			self.velocity.y += velocity_modifier.y
+#		elif self.velocity.y < -0.01 and velocity_modifier.y < 0:
+#			self.velocity.y += velocity_modifier.y
 	
 
 func _physics_process(delta):
 	
-	if not moving or not act_as_kinematic:
-		Weapon.projectile_physics_process(self, null, delta)
-		return
-	
-	travel_distance += (velocity*delta).length()
-	
-	var collision: KinematicCollision2D
-	if affected_by_world:
-#		add_central_force()
-		applied_force = self.velocity# * delta
-		print("nani")
-#		position += velocity*delta
-	else:
-#		add_central_force(self.velocity * delta)
-		applied_force = self.velocity# * delta
-#		position += velocity*delta
+#	if not moving or not act_as_kinematic:
+#		Weapon.projectile_physics_process(self, null, delta)
+#		return
+#
+#	travel_distance += (velocity*delta).length()
+#
+#	var collision: KinematicCollision2D
+#	if affected_by_world:
+##		add_central_force()
+#		applied_force = self.velocity# * delta
+#		print("nani")
+##		position += velocity*delta
+#	else:
+##		add_central_force(self.velocity * delta)
+#		applied_force = self.velocity# * delta
+##		position += velocity*delta
 	
 #	if collision:
 #		if collision.collider.has_method("damage") and apply_damage:

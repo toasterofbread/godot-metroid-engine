@@ -56,8 +56,9 @@ func _ready():
 		samus_hitbox_damage_applies = true
 	
 	$WeaponCollisionArea.connect("body_entered", self, "body_entered_area")
-	
 	$AnimatedSprite.play(sprite_name)
+	
+	$ScanNode.data_key = "block_" + sprite_name
 
 #func set_reverse(value, property: String):
 #	set(property, value)
@@ -80,11 +81,12 @@ func _process(_delta: float):
 	var disable = get_disable()
 	
 	if disable:
+#		$VisibilityEnabler2D.process_parent = false
 		self.set_collision_layer_bit(19, false)
 		state = STATES.COLLISIONDISABLED
 	elif state == STATES.COLLISIONDISABLED and not disable:
+#		$VisibilityEnabler2D.process_parent = true
 		self.set_collision_layer_bit(19 , true)
-#		$CollisionShape2D.disabled = false
 		state = STATES.NORMAL
 			
 

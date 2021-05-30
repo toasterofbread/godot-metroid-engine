@@ -9,10 +9,10 @@ func _ready():
 	set_types()
 
 func set_types():
-	
+	print("SET TYPES")
 	var types = []
 	for type in Enums.UpgradeTypes["beam"]:
-		if type != Enums.Upgrade.BEAM and Samus.is_upgrade_active(type):
+		if type != Enums.Upgrade.POWERBEAM and Samus.is_upgrade_active(type):
 			types.append(type)
 	types.sort()
 	current_types = types
@@ -52,7 +52,7 @@ func get_base_type(chargebeam: bool) -> int:
 		if chargebeam and Samus.is_upgrade_active(Enums.Upgrade.CHARGEBEAM):
 			ret = Enums.Upgrade.CHARGEBEAM
 		else:
-			ret = Enums.Upgrade.BEAM
+			ret = Enums.Upgrade.POWERBEAM
 	return ret
 
 func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
