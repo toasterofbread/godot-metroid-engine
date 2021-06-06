@@ -39,6 +39,7 @@ const _default_args = {
 	"position_node_path": null
 }
 const cooldown_time: float = 0.04
+var frames: SpriteFrames
 
 func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	
@@ -72,21 +73,22 @@ func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	else:
 		self.animation_length = sprites[Enums.dir.LEFT].frames.get_frame_count(animation_keys[Enums.dir.LEFT]) / sprites[Enums.dir.LEFT].frames.get_animation_speed(animation_keys[Enums.dir.LEFT])
 	
+	frames = sprites.values()[0].frames
 	
-func play(retain_frame: bool = false, ignore_pasued: bool = false, force: bool = false, play_backwards: bool = false):
+func play(retain_frame:=false, speed:=1.0):
 	
-	if Animator.paused[overlay]:
-		if ignore_pasued:
-			return
-		else:
-			Animator.paused[overlay] = false
+#	if Animator.paused[overlay]:
+#		if ignore_pasued:
+#			return
+#		else:
+#			Animator.paused[overlay] = false
 	
 	var new_cache = {
 		"facing": Animator.Samus.facing,
-		"play_backwards": play_backwards
+		"speed": speed
 	}
 
-	if Animator.current[overlay] == self and not force:
+	if Animator.current[overlay] == self and false:
 		var skip_animation = true
 		for key in new_cache:
 			if new_cache[key] != cache[key]:
@@ -115,9 +117,12 @@ func play(retain_frame: bool = false, ignore_pasued: bool = false, force: bool =
 	
 		# Play animation
 		var frame = sprites[dir].frame
-		sprites[dir].play(self.animation_keys[dir], play_backwards)
+		sprites[dir].play(self.animation_keys[dir], speed<0)
+		sprites[dir].speed_scale = abs(speed)
 		if retain_frame:
 			sprites[dir].frame = frame
+		if sprites[dir].frame == 0 and speed<0:
+			sprites[dir].frame = frames.get_frame_count(animation_keys[dir]) - 1
 	
 	if not Animator.transitioning():
 		Animator.current[overlay] = self

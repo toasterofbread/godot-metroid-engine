@@ -119,3 +119,6 @@ func projectile_physics_process(projectile: SamusKinematicProjectile, collision:
 			
 			yield(projectile.burst_end(true, Enums.Upgrade.keys()[projectile.data["base_type"]] + " end"), "completed")
 			projectile.queue_free()
+
+func fluid_splash(_projectile: SamusKinematicProjectile, _type: int):
+	return "large"# if abs(projectile.velocity.y) > 5 else "small"

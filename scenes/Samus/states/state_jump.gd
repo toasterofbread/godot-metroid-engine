@@ -86,7 +86,8 @@ func init_state(data: Dictionary):
 			animations["legs_start"].play()
 			sounds["jump"].play()
 		jump_current_time = jump_time
-		Physics.accelerate_y(jump_speed, jump_acceleration, Enums.dir.UP)
+		Physics.move_y(-jump_speed, jump_acceleration*(1/60))
+#		Physics.accelerate_y(jump_speed, jump_acceleration, Enums.dir.UP)
 	if "fall" in options and not spinning:
 		animations["legs_start"].play()
 	return self
@@ -199,7 +200,7 @@ func process(_delta):
 			if not Animator.transitioning(false, true):
 				animations[animation].play(true)
 			if not Animator.transitioning(true, true) and Samus.aiming != Samus.aim.FLOOR:
-				animations["legs"].play(false, false, true)
+				animations["legs"].play(true)
 		elif not Animator.transitioning(false, true):
 			
 			var spin_animation = "spin"
@@ -218,7 +219,7 @@ func process(_delta):
 	if not spinning or play_transition:
 		Samus.boosting = false
 	
-	if fire_weapon:
+	if fire_weapon and Samus.Weapons.current_visor == null:
 		if spinning != original_spinning:
 			Samus.Weapons.reset_fire_pos()
 		Samus.Weapons.fire()
@@ -254,7 +255,8 @@ func physics_process(delta: float):
 	
 	# Vertical
 	if (not Samus.is_on_floor() or first_frame) and jump_current_time != 0 and Input.is_action_pressed("jump"):
-		Physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
+		Physics.move_y(-jump_speed, jump_acceleration*delta)
+#		Physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
 		jump_current_time -= delta
 		if jump_current_time < 0:
 			jump_current_time = 0
@@ -278,25 +280,27 @@ func physics_process(delta: float):
 		if WalljumpTimer.time_left != 0:
 			return
 		
+		var pad_x = Shortcut.get_pad_vector("pressed").x
+		
 		if Input.is_action_pressed("pad_left"):
-			Physics.vel.x = min(-spin_horiz_speed, Physics.vel.x)
+			Physics.move_x(min(-spin_horiz_speed, Physics.vel.x))
 		elif Input.is_action_pressed("pad_right"):
-			Physics.vel.x = max(spin_horiz_speed, Physics.vel.x)
+			Physics.move_x(max(spin_horiz_speed, Physics.vel.x))
 		elif abs(Physics.vel.x) != spin_horiz_speed:
-			if Physics.vel.x != 0:
-				Physics.decelerate_x(spin_horiz_deceleration)
+			var polarity = 1 if Samus.facing == Enums.dir.RIGHT else -1
+			if abs(Physics.vel.x) > spin_horiz_speed:
+				Physics.move_x(max(spin_horiz_speed, abs(Physics.vel.x))*polarity, spin_horiz_deceleration)
 			else:
-				match Samus.facing:
-					Enums.dir.LEFT: Physics.vel.x = -max(spin_horiz_speed, abs(Physics.vel.x))
-					Enums.dir.RIGHT: Physics.vel.x = max(spin_horiz_speed, abs(Physics.vel.x))
+				Physics.move_x(max(spin_horiz_speed, abs(Physics.vel.x))*polarity)
 	else:
 		
 		var pad_x = Shortcut.get_pad_vector("pressed").x
 		
 		if pad_x != 0:
-			Physics.vel.x = move_toward(Physics.vel.x, max(horiz_speed, abs(Physics.vel.x)) * pad_x, horiz_acceleration)
+			Physics.move_x(max(horiz_speed, abs(Physics.vel.x)) * pad_x, horiz_acceleration)
 		else:
-			Physics.decelerate_x(horiz_acceleration)
+			Physics.move_x(0, horiz_acceleration)
+#			Physics.decelerate_x(horiz_acceleration)
 	first_frame = false
 
 func set_walljump_raycasts_state(enabled: bool):

@@ -6,11 +6,12 @@ var Animator: Node
 var Physics: Node
 
 # PHYSICS
-const spider_max_speed = 75
-const roll_air_acceleration = 25
-const roll_air_deceleration = 50
-const roll_air_speed = 150
+const spider_speed = 75
+const spider_acceleration = 25*60
 
+const roll_air_acceleration = 25*60
+const roll_air_deceleration = 50*60
+const roll_air_speed = 150
 
 var animations = {}
 var sounds = {
@@ -24,7 +25,6 @@ var FloorRaycastContainer: Node2D
 var rotation: float = 0
 
 var attached = false
-var settled = false
 var FLOOR: Vector2 = Vector2.ZERO setget set_floor
 
 
@@ -63,25 +63,29 @@ func process(_delta):
 	if Input.is_action_just_pressed("fire_weapon"):
 		Samus.Weapons.fire()
 	
+	var pad_x = Shortcut.get_pad_vector("pressed").x
 	if not attached:
-		if Input.is_action_pressed("pad_left"):
+		if pad_x < 0:
 			Samus.facing = Enums.dir.LEFT
 			if original_facing == Enums.dir.RIGHT:
 				animations["turn"].play()
 				
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_x > 0:
 			Samus.facing = Enums.dir.RIGHT
 			if original_facing == Enums.dir.LEFT:
 				animations["turn"].play()
 	
-	var reverse_direction = -1 if Samus.facing == Enums.dir.LEFT else 1
-	
 	if not Animator.transitioning(false, true):
-		animations["roll_spider" + ("_reverse" if direction == reverse_direction else "")].play(true, true, true)
-		FloorRaycastContainer.position.x = Animator.current[false].sprites[Samus.facing].position.x
+		var anim_speed: = 1.0
+		if attached:
+			if direction == null:
+				direction = get_direction()
+			anim_speed = direction * (-1.0 if Samus.facing == Enums.dir.RIGHT else 1.0)
 		
-		if "roll" in Animator.current[false].id and direction == 0 and not Animator.paused[false]:
-			Animator.pause()
+		var target_physics_speed = spider_speed if attached else roll_air_speed
+		anim_speed *= abs(Physics.vel.length()) / target_physics_speed
+		animations["roll_spider"].play(true, anim_speed)
+		FloorRaycastContainer.position.x = Animator.current[false].sprites[Samus.facing].position.x
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -90,7 +94,6 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	Samus.change_state(new_state_key, data)
 
 func set_floor(value: Vector2):
-	settled = false
 	attached = value != Vector2.ZERO
 	if attached:
 		Physics.vel = Vector2.ZERO
@@ -149,10 +152,10 @@ var direction
 func attached_physics_process(delta: float):
 	
 	direction = get_direction()
+	Physics.move(FLOOR.rotated(deg2rad(90))*direction*spider_speed, spider_acceleration*delta)
 	if direction == 0:
 		return
-	
-	var collided = Samus.move_and_collide(FLOOR*delta*spider_max_speed) != null
+	var collided = Samus.move_and_collide(FLOOR*delta*spider_speed) != null
 	
 	var set = false
 	if not collided:
@@ -166,8 +169,9 @@ func attached_physics_process(delta: float):
 			set_floor(Vector2.ZERO)
 			return
 	
-	var collision = Samus.move_and_collide(FLOOR.rotated(deg2rad(90))*direction*spider_max_speed*delta)
+	var collision = Samus.move_and_collide(Physics.vel*delta)
 	if collision != null:
+#		print(normal)
 		set_floor(-collision.normal)
 		collided = true
 
@@ -186,7 +190,9 @@ func physics_process(delta: float):
 		yield(Global, "physics_frame")
 		set_floor(-collision.normal)
 	else:
-		if Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
-			Physics.accelerate_x(roll_air_acceleration, max(roll_air_speed, abs(Physics.vel.x)), Samus.facing)
-		else:
-			Physics.decelerate_x(roll_air_deceleration)
+		var pad_x = Shortcut.get_pad_vector("pressed").x
+#		if pad_x != 0:
+#			Physics.accelerate_x(roll_air_acceleration, max(roll_air_speed, abs(Physics.vel.x)), Samus.facing)
+		Physics.move_x(roll_air_speed*pad_x, (roll_air_acceleration if pad_x != 0 else roll_air_acceleration)*delta)
+#		else:
+#			Physics.decelerate_x(roll_air_deceleration)

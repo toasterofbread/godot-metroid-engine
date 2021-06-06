@@ -82,16 +82,12 @@ script = ExtResource( 27 )
 shape = SubResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectiles/Rigid"]
-z_index = 4096
-z_as_relative = false
 frames = SubResource( 3 )
-frame = 5
+frame = 3
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectiles/Rigid"]
 position = Vector2( -59, -1 )
-z_index = 999
-z_as_relative = false
 frames = SubResource( 4 )
 animation = "start"
 
@@ -112,16 +108,12 @@ script = ExtResource( 26 )
 shape = SubResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectiles/Kinematic"]
-z_index = 4096
-z_as_relative = false
 frames = SubResource( 3 )
-frame = 4
+frame = 2
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectiles/Kinematic"]
 position = Vector2( -59, -1 )
-z_index = 999
-z_as_relative = false
 frames = SubResource( 4 )
 animation = "start"
 

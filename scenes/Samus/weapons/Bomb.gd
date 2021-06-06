@@ -1,7 +1,7 @@
 extends SamusWeapon
 
 const bomb_detonation_time: float = 0.6
-const bomb_bounce_amount: float = 325.0
+const bomb_bounce_amount: float = 350.0
 const bomb_horiz_bounce_amount: float = 200.0
 const samus_aerial_damage: int = 10
 
@@ -110,17 +110,19 @@ func explode(projectile: PhysicsBody2D):
 				continue
 			processed_bodies.append(body)
 			
-			if body == Loader.Samus:
-				if Loader.Samus.current_state.id in ["morphball", "spiderball"]:
-					
-					Loader.Samus.current_state.bounce(bomb_bounce_amount)
+			if body == Samus:
+				if Samus.current_state.id in ["morphball", "spiderball"]:
 					
 					var offset: float = projectile.global_position.x - Samus.global_position.x - (2 if Samus.facing == Enums.dir.LEFT else 6)
 					if abs(offset) > 2.5: 
 						morphball_horiz_bounce(offset)
 					
-					if not Loader.Samus.is_on_floor():
-						Loader.Samus.damage(Enums.DamageType.BOMB, samus_aerial_damage)
+					if not Samus.is_on_floor():
+						if Samus.current_fluid == Fluid.TYPES.NONE:
+							Samus.current_state.bounce(bomb_bounce_amount)
+							Samus.damage(Enums.DamageType.BOMB, samus_aerial_damage)
+					else:
+						Samus.current_state.bounce(bomb_bounce_amount)
 			else:
 				if body.has_method("damage"):
 					body.damage(damage_type, damage_amount)
@@ -133,5 +135,5 @@ func morphball_horiz_bounce(offset: float):
 	var limit = bomb_horiz_bounce_amount if offset < 0 else -bomb_horiz_bounce_amount
 	while timer.is_valid():
 		var delta = yield(Global, "physics_frame")
-		Samus.Physics.vel.x = move_toward(Samus.Physics.vel.x, limit, bomb_horiz_bounce_amount*30*delta)
+		Samus.Physics.move_x(limit, bomb_horiz_bounce_amount*30*delta)
 		

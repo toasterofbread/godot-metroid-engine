@@ -65,6 +65,5 @@ shape = SubResource( 3 )
 position = Vector2( 8, 8 )
 
 [node name="ScanNode" parent="." instance=ExtResource( 7 )]
-visible = false
 position = Vector2( 8, 8 )
 data_key = "block_grapple"

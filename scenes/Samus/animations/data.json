@@ -915,6 +915,7 @@
 			"state_id": "multiple"
 		},
 		"aim_sky": {
+			"full": false,
 			"leftPos": [
 				4,
 				-17
@@ -923,13 +924,35 @@
 				4,
 				-17
 			],
-			"full": false,
 			"state_id": "multiple"
 		}
 	},
 	"": {
 		"": {
 
+		}
+	},
+	"facefront": {
+		"turn": {
+			"leftPos": [
+				2.99533,
+				-1.00532
+			],
+			"rightPos": [
+				4.00386,
+				-1.00662
+			],
+			"transition": true
+		},
+		"idle": {
+			"leftPos": [
+				3.99998,
+				-2
+			],
+			"rightPos": [
+				3.99998,
+				-2
+			]
 		}
 	}
 }

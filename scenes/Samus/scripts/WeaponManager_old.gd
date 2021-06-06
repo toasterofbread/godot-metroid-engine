@@ -165,7 +165,7 @@ func update_weapon_icons():
 		if weapon.Icon:
 			weapon.Icon.update_icon(selected_weapon, Samus.armed)
 
-# TODO | Yeah this defintely needs an overhaul
+# (OLD) TODO | Yeah this defintely needs an overhaul
 func fire(chargebeam_damage_multiplier=null):
 	var weapon: SamusWeapon
 	if Settings.get("controls/aiming_style") == 0:

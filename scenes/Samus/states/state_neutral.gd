@@ -41,6 +41,7 @@ func process(_delta):
 	
 	if Samus.Weapons.cycle_visor():
 		change_state("visor")
+		return
 	
 	if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
@@ -173,4 +174,4 @@ func play_idle_animation():
 #		Animator.play("aim_front", {})
 
 func physics_process(_delta: float):
-	Physics.decelerate_x(Samus.states["run"].run_deceleration)
+	Physics.move_x(0, Samus.states["run"].run_deceleration)

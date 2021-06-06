@@ -57,7 +57,7 @@ func close(skip_animation: bool = false):
 	sounds["close"].play()
 	opened = false
 	$Sprite.visible = true
-	$CollisionShape2D.disabled = false
+	$CollisionShape2D.set_deferred("disabled", false)
 	$Sprite.play(DOOR_COLOURS.keys()[_colour] + "_close")
 	
 	if not skip_animation:
@@ -86,3 +86,11 @@ func fade_in(duration: float):
 	$Tween.interpolate_property(self, "modulate:a", 0, 1, duration)
 	$Tween.start()
 	yield($Tween, "tween_completed")
+
+func room_entered():
+	locked = false
+	while true:
+		var body = yield($FullDoorArea, "body_exited")
+		if body == Loader.Samus:
+			close()
+			break

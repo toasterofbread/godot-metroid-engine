@@ -15,14 +15,14 @@ animations = [ {
 "name": "save",
 "speed": 0.0
 }, {
-"frames": [ ExtResource( 1 ) ],
-"loop": false,
-"name": "unobtained_item",
-"speed": 0.0
-}, {
 "frames": [ ExtResource( 5 ) ],
 "loop": false,
 "name": "obtained_item",
+"speed": 0.0
+}, {
+"frames": [ ExtResource( 1 ) ],
+"loop": false,
+"name": "unobtained_item",
 "speed": 0.0
 } ]
 

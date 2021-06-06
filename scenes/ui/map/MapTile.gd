@@ -5,6 +5,8 @@ enum wall_types {none, door, wall}
 enum icons {none, save, obtained_item, unobtained_item}
 enum colours {blue, green, red}
 
+var icon: int = icons.none setget set_icon
+
 var colour_data = {
 	colours.blue: Color.darkcyan,
 	colours.green: Color.darkgreen,
@@ -22,6 +24,17 @@ func set_current_tile(value: bool):
 		$AnimationPlayer.stop()
 		$CurrentTileOverlay.visible = false
 
+func set_icon(value: int):
+	icon = value
+	
+	$Icon.visible = true
+	match icon:
+		icons.none: $Icon.visible = false
+		icons.save: $Icon.play("save")
+		icons.obtained_item: $Icon.play("obtained_item")
+		icons.unobtained_item: $Icon.play("unobtained_item")
+		_: push_error("Unknown MapTile icon")
+
 func load_data(data: Dictionary):
 	
 	var wall_rotation: int = 0
@@ -38,12 +51,10 @@ func load_data(data: Dictionary):
 		
 		wall_rotation += 90
 	
-	match int(data["i"]):
-		icons.none: $Icon.queue_free()
-		icons.save: $Icon.play("save")
-		icons.obtained_item: $Icon.play("obtained_item")
-		icons.unobtained_item: $Icon.play("unobtained_item")
-		_: push_error("Unknown MapTile icon name")
+	if data["s"]:
+		set_icon(icons.save)
+	else:
+		set_icon(icons.none)
 	
 	if int(data["c"]) in colour_data:
 		$ColorRect.color = colour_data[int(data["c"])]

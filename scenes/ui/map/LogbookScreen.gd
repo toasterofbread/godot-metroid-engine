@@ -1,6 +1,5 @@
 extends Control
 
-const images_path = "res://sprites/ui/map/logbook_images/"
 onready var template_key = $List/template
 var data = {}
 
@@ -14,10 +13,10 @@ func update_info():
 	$Info/Profile.text = data.values()[current_group][current_key]["profile"]
 	
 	var dir = Directory.new()
-	dir.open(images_path)
+	dir.open(Data.logbook_images_path)
 	if dir.file_exists(current_key + ".png"):
 		$Info/Image.visible = true
-		$Info/Image.texture = load(images_path + current_key + ".png")
+		$Info/Image.texture = load(Data.logbook_images_path + current_key + ".png")
 #	elif dir.dir_exists(current_key):
 #		var anim = SpriteFrames.new()
 #		dir.open(images_path + current_key)
@@ -87,9 +86,9 @@ func set_data(data_value=null):
 	else:
 		recorded_entries = Loader.Save.get_data_key(["logbook", "recorded_entries"])
 	
-	for key in Data.logbook:
-#		if not key in recorded_entries:
-#			continue
+#	for key in Data.logbook:
+	# TODO | Add starting entries to the default savegame
+	for key in recorded_entries:
 		if not Data.logbook[key]["group"] in data:
 			data[Data.logbook[key]["group"]] = {}
 		data[Data.logbook[key]["group"]][key] = Data.logbook[key]
@@ -105,12 +104,6 @@ func _ready():
 	template_key.set_focus_mode(Control.FOCUS_ALL)
 	$List.remove_child(template_key)
 	set_data()
-
-#func _on_key_focus_entered(key: String):
-#	print(key)
-#	if current_key != key and not grabbing_focus_manually:
-#		current_key = key
-#		update_info()
 
 func open():
 	$AnimationPlayer.play("open")

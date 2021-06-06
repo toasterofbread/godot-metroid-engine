@@ -6,7 +6,7 @@ var filename: String
 var data: Dictionary
 
 const default_data: Dictionary = {
-	"current_room_id": "STARTING ROOM ID",
+	"current_room_id": "demoLevel/origin",
 	"rooms": {
 	},
 	"samus": {
@@ -65,11 +65,18 @@ func load_file():
 	var file = Global.load_json(filename)
 	
 	# DEBUG | This is set to always use the default data
-	if file == null or true:
+	if file == null:
 		data = default_data
 		save_file()
 	else:
 		data = file
+	
+	var upgrades = data["samus"]["upgrades"]
+	for upgrade in upgrades:
+		upgrades[int(upgrade)] = upgrades[upgrade]
+	for upgrade in upgrades:
+		if upgrade is String:
+			upgrades.erase(upgrade)
 
 func get_data_key(keys: Array, create_new_keys:=false):
 	

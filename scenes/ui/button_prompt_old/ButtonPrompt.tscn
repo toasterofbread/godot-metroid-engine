@@ -1,0 +1,79 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://fonts/Pixel-Life.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scenes/ui/button_prompt/ButtonPrompt.gd" type="Script" id=2]
+[ext_resource path="res://sprites/ui/button_prompt/playstation/face_buttons/circle.png" type="Texture" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[node name="ButtonPrompt" type="Node2D"]
+script = ExtResource( 2 )
+action_keys = [  ]
+
+[node name="Labels" type="Node2D" parent="."]
+
+[node name="Template" type="Label" parent="Labels"]
+margin_left = 14.0
+margin_top = -11.0
+margin_right = 14.0
+margin_bottom = 7.0
+rect_scale = Vector2( 1.25, 1.25 )
+size_flags_horizontal = 4
+custom_fonts/font = SubResource( 1 )
+text = "Hello There"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="Labels/Template"]
+visible = false
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -25.0
+margin_top = -2.0
+margin_right = 5.0
+margin_bottom = 1.0
+size_flags_horizontal = 6
+color = Color( 1, 1, 1, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icons" type="Control" parent="."]
+margin_left = 7.60001
+margin_top = -16.0
+margin_right = 7.60001
+margin_bottom = 64.0
+size_flags_horizontal = 0
+size_flags_vertical = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Template" type="HBoxContainer" parent="Icons"]
+anchor_right = 1.0
+margin_left = -151.6
+margin_right = 227.4
+margin_bottom = 80.0
+rect_scale = Vector2( 0.4, 0.4 )
+size_flags_vertical = 4
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureButton" type="TextureRect" parent="Icons/Template"]
+margin_left = 331.0
+margin_top = 16.0
+margin_right = 379.0
+margin_bottom = 64.0
+size_flags_horizontal = 0
+size_flags_vertical = 6
+texture = ExtResource( 3 )
+
+[node name="EnabledTween" type="Tween" parent="."]
+
+[node name="IndexTween" type="Tween" parent="."]

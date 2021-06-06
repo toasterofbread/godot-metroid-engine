@@ -71,3 +71,9 @@ func process(_delta):
 
 func physics_process(_delta):
 	pass
+
+func enabled():
+	pass
+
+func disabled():
+	pass

@@ -59,6 +59,9 @@ func _ready():
 	$AnimatedSprite.play(sprite_name)
 	
 	$ScanNode.data_key = "block_" + sprite_name
+	
+	z_index = Enums.Layers.BLOCK
+	z_as_relative = false
 
 #func set_reverse(value, property: String):
 #	set(property, value)

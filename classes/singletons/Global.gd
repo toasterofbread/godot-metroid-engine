@@ -42,6 +42,7 @@ func _process(delta):
 		else:
 			hold_actions[action] = 0
 	
+#	yield(Loader, "ready")
 	DimLayer.global_position = Loader.Samus.camera.global_position
 	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
@@ -295,3 +296,12 @@ func random_item(array: Array, rng:=rng):
 func angle_difference(angle1, angle2):
 	var diff = angle2 - angle1
 	return diff if abs(diff) < 180 else diff + (360 * -sign(diff))
+
+func iterate_directory(dir: Directory) -> Array:
+	var ret = []
+	dir.list_dir_begin(true, true)
+	var file_name = dir.get_next()
+	while file_name != "":
+		ret.append(file_name)
+		file_name = dir.get_next()
+	return ret

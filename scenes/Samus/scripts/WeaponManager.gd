@@ -113,6 +113,10 @@ func reset_weapon_selection(morphball: bool, aiming_style: int):
 		pass
 
 func process_chargebeam(delta: float):
+	
+	if current_visor != null:
+		charge_time_current = 0
+	
 	if charge_time_current >= charge_times.keys()[len(charge_times) - 1]:
 		ChargebeamAnimationPlayer.play("charge")
 	else:
@@ -177,7 +181,7 @@ func update_weapon_icons():
 		if weapon.Icon:
 			weapon.Icon.update_icon(current_weapon, Samus.armed)
 
-# TODO | Yeah this defintely needs an overhaul
+# (DONE) TODO | Yeah this defintely needs an overhaul
 func fire(chargebeam_damage_multiplier=null):
 	var weapon: SamusWeapon
 	if aiming_style == 0:

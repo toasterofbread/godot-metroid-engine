@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=514 format=2]
+[gd_resource type="SpriteFrames" load_steps=524 format=2]
 
 [ext_resource path="res://sprites/samus/power/multiple/turn/legs/sTurn_0.png" type="Texture" id=1]
 [ext_resource path="res://sprites/samus/power/neutral/aim_sky/sStandAimUp_0.png" type="Texture" id=2]
@@ -513,6 +513,16 @@
 [ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited5.png" type="Texture" id=511]
 [ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited3.png" type="Texture" id=512]
 [ext_resource path="res://sprites/samus/power/jump/spin/screw/screwattack_edited2.png" type="Texture" id=513]
+[ext_resource path="res://sprites/samus/power/front/sFront_1.png" type="Texture" id=514]
+[ext_resource path="res://sprites/samus/power/front/sFront_2.png" type="Texture" id=515]
+[ext_resource path="res://sprites/samus/power/front/sFront_3.png" type="Texture" id=516]
+[ext_resource path="res://sprites/samus/power/front/sFront_0.png" type="Texture" id=517]
+[ext_resource path="res://sprites/samus/power/front/sFrontR_0.png" type="Texture" id=518]
+[ext_resource path="res://sprites/samus/power/front/sFrontL_0.png" type="Texture" id=519]
+[ext_resource path="res://sprites/samus/power/front/flipped_sFront_2.png" type="Texture" id=520]
+[ext_resource path="res://sprites/samus/power/front/flipped_sFront_0.png" type="Texture" id=521]
+[ext_resource path="res://sprites/samus/power/front/flipped_sFront_1.png" type="Texture" id=522]
+[ext_resource path="res://sprites/samus/power/front/flipped_sFront_3.png" type="Texture" id=523]
 
 [resource]
 animations = [ {
@@ -1040,4 +1050,24 @@ animations = [ {
 "loop": true,
 "name": "jump_screw_spark",
 "speed": 60.0
+}, {
+"frames": [ ExtResource( 519 ), ExtResource( 519 ) ],
+"loop": false,
+"name": "facefront_turn_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 517 ), ExtResource( 514 ), ExtResource( 515 ), ExtResource( 516 ) ],
+"loop": true,
+"name": "facefront_idle_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 518 ), ExtResource( 518 ) ],
+"loop": false,
+"name": "facefront_turn_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 521 ), ExtResource( 522 ), ExtResource( 520 ), ExtResource( 523 ) ],
+"loop": true,
+"name": "facefront_idle_left",
+"speed": 6.0
 } ]

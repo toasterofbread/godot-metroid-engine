@@ -30,4 +30,4 @@ func _ready():
 	z_index = Enums.Layers.NOTIFICATION
 
 func trigger(variant_key: String, data: Dictionary):
-	variants[variant_key].trigger(data)
+	return variants[variant_key].trigger(data)

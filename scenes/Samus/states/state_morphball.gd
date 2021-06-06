@@ -21,9 +21,9 @@ const roll_air_acceleration = 25*60
 const roll_air_deceleration = 50*60
 const roll_air_speed = 150
 
-const springball_speed = 300
+const springball_speed = 200
 const springball_acceleration = 400*60
-const springball_time = 0.125
+const springball_time = 0.2
 var springball_current_time = 0
 
 var animations = {}
@@ -95,10 +95,13 @@ func process(_delta):
 			animations["turn"].play()
 
 	if not Animator.transitioning(false, true):
-		animations["roll"].play(true, false, true)
+		var anim_speed = 0 if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id else 1
+		
+		var target_physics_speed = roll_ground_speed if Samus.is_on_floor() else roll_air_speed
+		animations["roll"].play(true, anim_speed * (abs(Physics.vel.x)/target_physics_speed))
 
-		if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id:
-			Animator.pause()
+#		if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id:
+#			Animator.pause()
 	
 	if fire_weapon:
 		Samus.Weapons.fire()
@@ -116,8 +119,12 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	Samus.change_state(new_state_key, data)
 
 func bounce(amount: float):
-	Physics.disable_floor_snap = true
-	Physics.vel.y = -amount
+	if Samus.current_fluid == Fluid.TYPES.NONE:
+		Physics.move_y(-amount)
+	else:
+		Physics.move_y(-amount*0.5)
+#	Physics.disable_floor_snap = true
+#	Physics.vel.y = -amount
 
 func physics_process(delta: float):
 	
@@ -129,11 +136,13 @@ func physics_process(delta: float):
 	if Samus.is_upgrade_active(Enums.Upgrade.SPRINGBALL):
 		if Input.is_action_just_pressed("jump") and Samus.is_on_floor():
 			springball_current_time = springball_time
-			Physics.vel.y = move_toward(Physics.vel.y, -springball_speed, springball_acceleration*delta)
+			Physics.move_y(-springball_speed, springball_acceleration*delta)
+#			Physics.vel.y = move_toward(Physics.vel.y, -springball_speed, springball_acceleration*delta)
 			Physics.disable_floor_snap = true
 		elif not Samus.is_on_floor() and springball_current_time != 0 and Input.is_action_pressed("jump"):
+#			Physics.vel.y = move_toward(Physics.vel.y, -springball_speed, springball_acceleration*delta)
+			Physics.move_y(-springball_speed, springball_acceleration*delta)
 			Physics.disable_floor_snap = true
-			Physics.vel.y = move_toward(Physics.vel.y, -springball_speed, springball_acceleration*delta)
 			springball_current_time -= delta
 			if springball_current_time <= 0:
 				springball_current_time = 0
@@ -143,9 +152,9 @@ func physics_process(delta: float):
 	# Horizontal
 	var pad_x = Shortcut.get_pad_vector("pressed").x
 	if not Samus.is_on_floor():
-		Physics.vel.x = move_toward(Physics.vel.x, roll_air_speed*pad_x, (roll_air_acceleration if pad_x != 0 else roll_air_deceleration)*delta)
+		Physics.move_x(roll_air_speed*pad_x, (roll_air_acceleration if pad_x != 0 else roll_air_deceleration)*delta)
 	else:
-		Physics.vel.x = move_toward(Physics.vel.x, roll_ground_speed*pad_x, (roll_ground_acceleration if pad_x != 0 else roll_ground_deceleration)*delta)
+		Physics.move_x(roll_ground_speed*pad_x, (roll_ground_acceleration if pad_x != 0 else roll_ground_deceleration)*delta)
 	
 	CeilingRaycast.global_position.x = Animator.current[false].sprites[Samus.facing].global_position.x
 	particles.emitting = Physics.vel != Vector2.ZERO

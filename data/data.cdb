@@ -35,51 +35,51 @@
 					"name": "Missiles",
 					"pickup_name": "Missile Tank",
 					"group": "Suit upgrades",
-					"profile": "Basic explosive projectile. Capable of dealing high damage in a small radius upon contact."
+					"profile": "Basic explosive projectile capable of dealing fairly high amounts of damage in a small radius upon impact. While these missiles don't boast the larger range or power of other weapons, they are still highly sought after due to their portability."
 				},
 				{
 					"key": "SUPERMISSILE",
 					"name": "Super Missiles",
 					"pickup_name": "Super Missile Tank",
 					"group": "Suit upgrades",
-					"profile": "EMP"
+					"profile": "An advanced variant of standard missiles that inflicts far higher damage in a larger radius. While they are powerful, they are rarely considered cost-efficient due to their size and weight. However, the Chozo were known to store large amounts of Super Missiles easily using compacting technology similar to the mechanism used in the Morph Ball."
 				},
 				{
 					"key": "POWERBOMB",
 					"name": "Power Bombs",
 					"pickup_name": "Power Bomb Tank",
 					"group": "Suit upgrades",
-					"profile": "The most powerful weapon known to be created by the Chozo. Anything caught in the large blast radius is likely to sustain extreme damage."
+					"profile": "The most powerful weapon that can reasonably be fit into a Chozo Power Suit. In the early years of the Federation, Power Bombs were outlawed in many parts of the galaxy. However, as tecnology progressed and armour durable enough to withstand the blast of a Power Bomb became widespread, the Federation began outfitting its soldiers with them."
 				},
 				{
 					"key": "BOMB",
 					"name": "Bombs",
 					"group": "Suit upgrades",
-					"profile": "Basic weapon useable in Morph Ball form with utility for exploration and traversal."
+					"profile": "Simple weapon useable while in Morph Ball form. They are intended largely for use in exploration and traversal due to their ability to launch objects into the air, but can inflict substantial damage against enemies if they enter the small blast radius. "
 				},
 				{
 					"key": "MORPHBALL",
 					"name": "Morph Ball",
 					"group": "Suit upgrades",
-					"profile": "Highly advanced Chozo invention which allows the user to become small and round. Enables use of certain weapons including bombs."
+					"profile": "Highly advanced Chozo invention which allows the user to become small and round. The Morph Ball is uniquely suited to exploration due to both its small size, high speed, and ability to launch itself into the air using a standard bomb. "
 				},
 				{
 					"key": "ETANK",
 					"name": "Energy Tank",
 					"group": "Suit upgrades",
-					"profile": "A vital component of the Power Suit. Increases energy capacity by 100."
+					"profile": "A vital component of the Power Suit that increases energy capacity by 100. Both the Chozo and the Federation were known to place these extensively throughout their bases as backup supplies in the event of an emergency, rarely placing many in one place to prevent losing large amounts."
 				},
 				{
 					"key": "SPIDERBALL",
 					"name": "Spider Ball",
 					"group": "Suit upgrades",
-					"profile": ""
+					"profile": "\tAn advanced mechanism designed adhere to a flat surface and crawl along it, even when upside-down. Despite its ability to attach to almost any material, the Spider Ball is unlikely to remain in place if subjected to a large outward force. The Power Suit's adaptability has allowed the use of the Spider Ball, but it is unknown if the Chozo created it. "
 				},
 				{
 					"key": "SPRINGBALL",
 					"name": "Spring Ball",
 					"group": "Suit upgrades",
-					"profile": ""
+					"profile": "The Spring Ball is a utility for the Morph Ball which allows it to jump upward without need for a bomb, further cementing its usefulness for exploration. "
 				},
 				{
 					"key": "POWERGRIP",
@@ -224,6 +224,12 @@
 					"name": "Bendezium",
 					"group": "Environment",
 					"profile": "A structural component made of bendezium, an extremely strong material often used as in construction of industrial and miiltary installations. Due to both its durability and high adaptability in having both opaque and transparent variants, it is highly sought after on the galactic market. "
+				},
+				{
+					"key": "save_station",
+					"name": "Save station",
+					"profile": "It's just RNG manupulation for Phantoon, I swear!",
+					"group": "Federation technology"
 				}
 			],
 			"separators": [
