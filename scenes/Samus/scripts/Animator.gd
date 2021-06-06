@@ -47,6 +47,7 @@ func pause(overlay: bool = false):
 	
 	if paused[overlay]:
 		return
+	paused[overlay] = true
 	
 	for sprite in sprites[overlay].values():
 		sprite.stop()
@@ -55,6 +56,7 @@ func resume(overlay: bool = false):
 	
 	if not paused[overlay]:
 		return
+	paused[overlay] = false
 	
 	for sprite in sprites[overlay].values():
 		sprite.play()

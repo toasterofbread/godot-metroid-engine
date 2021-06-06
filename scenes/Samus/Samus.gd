@@ -6,7 +6,7 @@ onready var Physics = $Physics
 onready var Weapons = $Weapons
 onready var HUD = $HUD
 onready var PauseMenu = $PauseMenu
-onready var camera = $SamusCamera
+onready var camera: ExCamera2D = $ExCamera2D
 
 var facing = Enums.dir.LEFT
 var armed: bool = false
@@ -26,6 +26,8 @@ var camerachunk_set_while_paused: = false
 const collision_data_json_path = "res://scenes/Samus/animations/collision_data.json"
 onready var collision_data = Global.load_json(collision_data_json_path)
 
+var current_fluid: int
+
 onready var states = {
 	"jump": preload("res://scenes/Samus/states/state_jump.gd").new(self),
 	"neutral": preload("res://scenes/Samus/states/state_neutral.gd").new(self),
@@ -36,7 +38,8 @@ onready var states = {
 	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self),
 	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self),
 	"visor": $Weapons/SamusVisors,
-	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self)
+	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self),
+	"facefront": preload("res://scenes/Samus/states/state_facefront.gd").new(self)
 	}
 var previous_state_id: String
 onready var current_state: Node = states["neutral"]
@@ -72,7 +75,7 @@ func _ready():
 		i = 0
 	
 	var data = Loader.Save.data["samus"]
-	self.upgrades = data["upgrades"]
+	upgrades = data["upgrades"]
 	
 	etanks = upgrades[Enums.Upgrade.ETANK]["amount"]
 	HUD.set_etanks(etanks)
@@ -107,6 +110,8 @@ func _process(delta):
 		HUD.set_energy(energy)
 	
 	if get_tree().paused and paused == null or paused:
+		if current_state.has_method("paused_process") and not get_tree().paused:
+			current_state.paused_process(delta)
 		return
 	
 	current_state.process(delta)
@@ -201,30 +206,10 @@ func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0
 	if not camera.is_inside_tree():
 		yield(camera, "tree_entered")
 	
-	var original_smoothing: = {}
 	if room_transition:
-		original_smoothing = {
-			"smoothing_enabled": camera.smoothing_enabled,
-			"smoothing_speed": camera.smoothing_speed
-		}
-		camera.smoothing_enabled = true
-		camera.smoothing_speed = 1
-	
-	var current_limits = get_current_limits()
-	var chunk_limits = chunk.get_limits()
-	
-	for direction in chunk_limits:
-		if current_limits[direction] == chunk_limits[direction]:
-			continue
-		if room_transition:
-			$SamusCamera/OffsetTween.interpolate_property(camera, direction, current_limits[direction], chunk_limits[direction], duration, Tween.TRANS_CUBIC, Tween.EASE_OUT)
-		else:
-			$SamusCamera/OffsetTween.interpolate_property(camera, direction, current_limits[direction], chunk_limits[direction], duration)
-	$SamusCamera/OffsetTween.start()
-	yield($SamusCamera/OffsetTween, "tween_completed")
-	
-	for property in original_smoothing:
-		camera.set(property, original_smoothing[property])
+		yield(camera.interpolate_limits(chunk.get_limits(), duration, Tween.TRANS_EXPO, Tween.EASE_OUT), "completed")
+	else:
+		yield(camera.interpolate_limits(chunk.get_limits(), duration), "completed")
 	
 func camerachunk_exited(chunk: CameraChunk):
 	if current_camerachunk == chunk:
@@ -260,3 +245,14 @@ func set_collider(animation: SamusAnimation):
 #	$CollisionHead.shape.height = 0
 #	$Collision.shape.extents.y -= $Collision.shape.extents.x/2
 #	$CollisionHead.position.y -= $Collision.shape.extents.x
+
+func fluid_entered(fluid: Fluid):
+	current_fluid = fluid.type
+
+func fluid_exited(fluid: Fluid):
+	if current_fluid == fluid.type:
+		current_fluid = Fluid.TYPES.NONE
+
+func fluid_splash(type: int) -> bool:
+	print(Physics.vel.y)
+	return abs(Physics.vel.y) > 50

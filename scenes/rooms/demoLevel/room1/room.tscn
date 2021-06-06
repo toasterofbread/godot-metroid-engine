@@ -1,0 +1,73 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://classes/CameraChunk.gd" type="Script" id=1]
+[ext_resource path="res://scenes/framework/base_room/BaseRoom.gd" type="Script" id=2]
+[ext_resource path="res://scenes/framework/map_chunk/MapChunk.gd" type="Script" id=3]
+[ext_resource path="res://basic_tileset.tres" type="TileSet" id=4]
+[ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 256, 256 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 240, 128 )
+
+[node name="BaseRoom" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="MapChunks" type="Node2D" parent="."]
+z_index = -4095
+
+[node name="MapChunk" type="CollisionShape2D" parent="MapChunks"]
+modulate = Color( 1, 0, 0.560784, 1 )
+position = Vector2( 224, -208 )
+shape = SubResource( 1 )
+script = ExtResource( 3 )
+
+[node name="CameraChunks" type="Node2D" parent="."]
+z_index = -4095
+
+[node name="CameraChunk" type="CollisionShape2D" parent="CameraChunks"]
+modulate = Color( 0, 1, 0.529412, 1 )
+position = Vector2( 208, -80 )
+shape = SubResource( 2 )
+script = ExtResource( 1 )
+apply_left = true
+apply_bottom = true
+
+[node name="World" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="World"]
+tile_set = ExtResource( 4 )
+cell_size = Vector2( 16, 16 )
+collision_layer = 524288
+format = 1
+tile_data = PoolIntArray( -917506, 0, 0, -917505, 0, 0, -983040, 0, 0, -983039, 0, 0, -983038, 0, 0, -983037, 0, 0, -983036, 0, 0, -983035, 0, 0, -983034, 0, 0, -983033, 0, 0, -983032, 0, 0, -983031, 0, 0, -983030, 0, 0, -983029, 0, 0, -983028, 0, 0, -983027, 0, 0, -983026, 0, 0, -983025, 0, 0, -983024, 0, 0, -983023, 0, 0, -983022, 0, 0, -983021, 0, 0, -983020, 0, 0, -983019, 0, 0, -983018, 0, 0, -983017, 0, 0, -983016, 0, 0, -983015, 0, 0, -983014, 0, 0, -983013, 0, 0, -983012, 0, 0, -983011, 0, 0, -851970, 0, 0, -917475, 0, 0, -786434, 0, 0, -851939, 0, 0, -720898, 0, 0, -786403, 0, 0, -655362, 0, 0, -720867, 0, 0, -589826, 0, 0, -655331, 0, 0, -524290, 0, 0, -589795, 0, 0, -458754, 0, 0, -524259, 0, 0, -393218, 0, 0, -458723, 0, 0, -327682, 0, 0, -393187, 0, 0, -262146, 0, 0, -327651, 0, 0, -196610, 0, 0, -262115, 0, 0, -131074, 0, 0, -196579, 0, 0, -131043, 0, 0, -65507, 0, 0, 29, 0, 0, 65565, 0, 0, 196601, 0, 0, 196602, 0, 0, 196603, 0, 0, 196604, 0, 0, 196605, 0, 0, 196606, 0, 0, 196607, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0, 131089, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131093, 0, 0, 131094, 0, 0, 131095, 0, 0, 131096, 0, 0, 131097, 0, 0, 131098, 0, 0, 131099, 0, 0, 131100, 0, 0, 131101, 0, 0 )
+
+[node name="Doors" type="Node2D" parent="World"]
+
+[node name="Door" parent="World/Doors" instance=ExtResource( 5 )]
+target_room_id = "demoLevel/origin"
+id = "left"
+target_id = "right"
+
+[node name="Background" type="Node2D" parent="World"]
+z_index = -4096
+z_as_relative = false
+
+[node name="ColorRect" type="ColorRect" parent="World/Background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1328.0
+margin_top = -1008.0
+margin_right = 1088.0
+margin_bottom = 656.0
+color = Color( 0.301961, 0.0627451, 0.0627451, 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Fluids" type="Node2D" parent="World"]
+
+[node name="Blocks" type="Node2D" parent="World"]

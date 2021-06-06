@@ -33,15 +33,13 @@ func _ready():
 	Weapons = Samus.Weapons
 	animations = Animator.load_from_json(self.id)
 	Samus.Weapons.connect("visor_mode_changed", self, "visor_mode_changed")
+	
+	z_index = Enums.Layers.VISOR
+	z_as_relative = false
 
 func init_state(_data:={}):
 	movement_speed_multiplier = 1
 	if Weapons.current_visor != null:
-		
-#		var mask: int = 0
-#		match Weapons.current_visor.id:
-#			Enums.Upgrade.XRAYVISOR: mask = 2
-#			Enums.Upgrade.SCANVISOR: mask = 8
 		
 		for light in $Scanner/Lights.get_children():
 			light.visible = light.name == str(Weapons.current_visor.id)
@@ -157,13 +155,13 @@ func process(delta: float):
 	
 	if play_transition or force_transition:
 		force_transition = false
-		Samus.states["run"].animations["turn_" + animation].play(false, false, true)
-		Samus.states["run"].animations["turn_legs"].play(false, false, true)
+		Samus.states["run"].animations["turn_" + animation].play()
+		Samus.states["run"].animations["turn_legs"].play()
 	elif not Animator.transitioning(false, true):
 		if abs(Physics.vel.x) < 0.1 or Samus.is_on_wall():
 			Samus.states["neutral"].animations[animation].play(true)
 		else:
-			animations[animation].play(true, false, false, reverse)
+			animations[animation].play(true, -1 if reverse else 1)
 
 func physics_process(delta: float):
 	
@@ -253,14 +251,18 @@ func enable():
 	if enabled:
 		return
 	enabled = true
+	if Weapons.current_visor:
+		Weapons.current_visor.enabled()
 	$AnimationPlayer.play("enable_scanner")
 
 func disable():
 	if not enabled:
 		return
+	enabled = false
+	if Weapons.current_visor:
+		Weapons.current_visor.disabled()
 	$AnimationPlayer.play("disable_scanner")
 	yield($AnimationPlayer, "animation_finished")
-	enabled = false
 	movement_speed_multiplier = 1
 
 func get_emit_pos():

@@ -1,7 +1,8 @@
-extends Position2D
+extends AnimatedSprite
 
-func _physics_process(delta):
-	
-	vOverlay.SET("Position2D", global_position)
-	vOverlay.SET("Sprite", get_child(0).global_position)
-	
+func _ready():
+	material.set_shader_param("nb_frames",Vector2(1, 1))
+
+func _process(delta):
+	material.set_shader_param("frame_coords", Vector2(0, 0))
+	material.set_shader_param("velocity", Loader.Samus.Physics.vel)

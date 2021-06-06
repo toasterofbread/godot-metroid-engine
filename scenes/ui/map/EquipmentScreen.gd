@@ -67,9 +67,6 @@ func _ready():
 		node.unobtained = save_data[upgrade]["amount"] < 1
 		
 		i += 1
-		
-#	for group in $Right.get_children() + $Left.get_children():
-#		group.rect_min_size.y = (group.get_node("VBoxContainer").get_child_count() - 1) * ((group.get_node("VBoxContainer").get_child(0).rect_size.y * group.get_node("VBoxContainer").get_child(0).rect_scale.y) + group.get_node("VBoxContainer").get("custom_constants/separation"))
 
 func open():
 	$AnimationPlayer.play("open")

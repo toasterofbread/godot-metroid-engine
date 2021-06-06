@@ -51,6 +51,7 @@ texture_mode = 1
 position = Vector2( 8, -14 )
 frames = ExtResource( 1 )
 animation = "multiple_aim_up_right"
+frame = 3
 playing = true
 script = ExtResource( 2 )
 state_key = "jump"

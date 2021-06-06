@@ -16,19 +16,23 @@ func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
 	# Register all rooms to the room variable
-	var dir: = Directory.new()
+	var dir = Directory.new()
 	assert(dir.open(room_directory) == OK, "Room directory couldn't be opened")
-	dir.list_dir_begin(true, true)
-	var file_name = dir.get_next()
-	while file_name != "":
-		if dir.current_is_dir():
-			if dir.file_exists(file_name + "/room.tscn"):
-				rooms[file_name] = load(room_directory + file_name + "/room.tscn")
-			else:
-				push_warning("Room directory contains an invalid folder: " + file_name)
+	for file in Global.iterate_directory(dir):
+		if dir.dir_exists(file):
+			var subdir = Directory.new()
+			subdir.open(room_directory + file)
+			for subfile in Global.iterate_directory(subdir):
+				if subdir.dir_exists(subfile):
+					if subdir.file_exists(subfile + "/room.tscn"):
+						rooms[file + "/" + subfile] = load(room_directory + file + "/" + subfile + "/room.tscn")
+					else:
+						push_warning("Room subdirectory '" + file + "' contains an invalid folder")
+				else:
+					push_warning("Room subdirectory '" + file + "' contains a file: " + subfile)
+					
 		else:
-			push_warning("Room directory contains a file: " + file_name)
-		file_name = dir.get_next()
+			push_warning("Room directory contains a file: " + file)
 	
 	if true:
 		Global.save_json(Map.tile_data_path, {})
@@ -44,7 +48,8 @@ func add_samus():
 
 func load_room(room_id: String):
 	
-	var room = rooms[room_id].instance()
+	assert("/" in room_id and len(room_id.split("/")) == 2)
+	var room: Room = rooms[room_id].instance()
 	
 	current_room = room
 	room_container.add_child(room)
@@ -52,7 +57,7 @@ func load_room(room_id: String):
 	
 	var samus_spawn_position: Vector2
 	for node in room.World.get_children():
-		if node.is_in_group("SamusSpawnPositions"):
+		if node.name == "SpawnPos":
 			samus_spawn_position = node.global_position
 			break
 	
@@ -60,7 +65,7 @@ func load_room(room_id: String):
 		Samus.global_position = samus_spawn_position
 	else:
 		assert(false, "No SamusSpawnPosition node registered to room")
-		
+	
 	emit_signal("room_loaded")
 
 func transition(origin_door: Door):
@@ -133,9 +138,6 @@ func transition(origin_door: Door):
 	
 	Samus.paused = null
 	transitioning = false
-	
-	yield(Global.wait(1.0), "completed")
-	if not Samus in destination_door.get_node("FullDoorArea").get_overlapping_bodies():
-		destination_door.close()
-	destination_door.locked = false
+	emit_signal("room_loaded")
+	destination_door.room_entered()
 	

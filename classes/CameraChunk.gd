@@ -7,17 +7,14 @@ export var apply_right: = false
 export var apply_top: = false
 export var apply_bottom: = false
 
-export var alt: = false
-
 var area: Area2D
 var room: Room
 
 func _ready():
 	
 	if Engine.editor_hint and self.shape == null:
-		self.shape = RectangleShape2D.new()
-		self.shape.extents = Vector2(1920, 1080)/5
-		self.modulate = Color("00ff87")
+		shape = RectangleShape2D.new()
+		modulate = Color("00ff87")
 		return
 	
 	yield(get_parent(), "ready")
@@ -38,9 +35,9 @@ func get_limits():
 		"limit_top": -10000000,
 		"limit_bottom": 10000000
 	}
-	
+
 	var pos = global_position
-	
+
 	if apply_left:
 		limits["limit_left"] = pos.x - shape.extents.x
 	if apply_right:
@@ -49,8 +46,29 @@ func get_limits():
 		limits["limit_top"] = pos.y - shape.extents.y
 	if apply_bottom:
 		limits["limit_bottom"] = pos.y + shape.extents.y
-	
+
 	return limits
+
+#func get_limits():
+#	var limits = {
+#		Enums.dir.LEFT: INF,
+#		Enums.dir.RIGHT: INF,
+#		Enums.dir.UP: INF,
+#		Enums.dir.DOWN: INF
+#	}
+#
+#	var pos = global_position
+#
+#	if apply_left:
+#		limits[Enums.dir.LEFT] = pos.x - shape.extents.x
+#	if apply_right:
+#		limits[Enums.dir.RIGHT] = pos.x + shape.extents.x
+#	if apply_top:
+#		limits[Enums.dir.UP] = pos.y - shape.extents.y
+#	if apply_bottom:
+#		limits[Enums.dir.DOWN] = pos.y + shape.extents.y
+#
+#	return limits
 
 func body_entered(body):
 	if body == Loader.Samus:

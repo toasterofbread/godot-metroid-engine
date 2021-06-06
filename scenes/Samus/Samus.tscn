@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://scenes/Samus/scripts/Animator.gd" type="Script" id=4]
 [ext_resource path="res://scenes/Samus/scripts/PhysicsManager.gd" type="Script" id=5]
 [ext_resource path="res://scenes/Samus/scripts/WeaponManager.gd" type="Script" id=6]
+[ext_resource path="res://scenes/Samus/classes/DebugPauser.gd" type="Script" id=7]
 [ext_resource path="res://scenes/Samus/particles/morphball_trail/sBallTrail_0.png" type="Texture" id=8]
 [ext_resource path="res://scenes/Samus/particles/morphball_trail/morphball_trail.tres" type="Material" id=9]
 [ext_resource path="res://classes/ExCamera2D.gd" type="Script" id=10]
@@ -651,13 +652,12 @@ glow_bicubic_upscale = true
 pause_mode = 2
 position = Vector2( 2, -2 )
 z_as_relative = false
-collision_mask = 524288
+collision_mask = 950284
 script = ExtResource( 2 )
 
 [node name="PauseMenu" parent="." instance=ExtResource( 12 )]
 
 [node name="HUD" parent="." instance=ExtResource( 11 )]
-pause_mode = 1
 margin_right = 1920.0
 margin_bottom = 1080.0
 
@@ -666,10 +666,11 @@ pause_mode = 2
 script = ExtResource( 5 )
 
 [node name="Audio" type="Node" parent="."]
-pause_mode = 1
+pause_mode = 2
 script = ExtResource( 3 )
 
 [node name="Animator" type="Node2D" parent="."]
+pause_mode = 2
 script = ExtResource( 4 )
 
 [node name="Raycasts" type="Node2D" parent="Animator"]
@@ -735,47 +736,45 @@ cast_to = Vector2( 10, 0 )
 collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
+position = Vector2( -189, -60 )
 
-[node name="aim_front" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 1, -1 )
+[node name="turn" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 4.00386, -1.00662 )
 frames = ExtResource( 1 )
-animation = "run_aim_front_left"
+animation = "facefront_idle_right"
 frame = 2
+playing = true
+script = ExtResource( 14 )
+state_key = "facefront"
+animation_key = "turn"
+facing = 1
+data = {
+"leftPos": [ 2.99533, -1.00532 ],
+"rightPos": [ 4.00386, -1.00662 ],
+"transition": true
+}
+
+[node name="idle" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 3.99998, -2 )
+frames = ExtResource( 1 )
+animation = "facefront_idle_left"
+frame = 3
 playing = true
 flip_h = true
 script = ExtResource( 14 )
-state_key = "run"
-animation_key = "aim_front"
+state_key = "facefront"
+animation_key = "idle"
 data = {
-"leftPos": [ 1.0, -1.0 ],
-"rightPos": [ 7.0, -1.0 ]
-}
-
-[node name="turn_aim_sky" type="AnimatedSprite" parent="Animator/TestSprites"]
-visible = false
-position = Vector2( 7, -17 )
-frames = ExtResource( 1 )
-animation = "multiple_turn_aim_sky_right"
-frame = 2
-playing = true
-script = ExtResource( 14 )
-state_key = "grapple"
-animation_key = "turn_aim_sky"
-facing = 1
-data = {
-"full": false,
-"leftPos": [ 2.0, -17.0 ],
-"rightPos": [ 7.0, -17.0 ],
-"state_id": "multiple",
-"transition": true
+"leftPos": [ 3.99998, -2.0 ],
+"rightPos": [ 3.99998, -2.0 ]
 }
 
 [node name="aim_sky" type="AnimatedSprite" parent="Animator/TestSprites"]
 visible = false
 position = Vector2( 4, -17 )
 frames = ExtResource( 1 )
-animation = "multiple_aim_sky_right"
-frame = 1
+animation = "facefront_idle_right"
+frame = 2
 playing = true
 script = ExtResource( 14 )
 state_key = "grapple"
@@ -797,6 +796,7 @@ visible = false
 use_parent_material = true
 position = Vector2( 4, 6 )
 frames = ExtResource( 1 )
+animation = "facefront_idle_right"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
@@ -804,12 +804,15 @@ visible = false
 use_parent_material = true
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
+animation = "facefront_idle_right"
 
 [node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 use_parent_material = true
-position = Vector2( -14, -31 )
+position = Vector2( -71, -93 )
 frames = ExtResource( 1 )
+animation = "facefront_idle_right"
+frame = 2
 playing = true
 flip_h = true
 
@@ -817,6 +820,7 @@ flip_h = true
 visible = false
 use_parent_material = true
 frames = ExtResource( 1 )
+animation = "facefront_idle_right"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
@@ -847,17 +851,19 @@ anims/powergrip_climb_left = SubResource( 13 )
 anims/powergrip_climb_right = SubResource( 14 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
+pause_mode = 2
 position = Vector2( -19, 0 )
 shape = SubResource( 15 )
 
 [node name="CollisionHead" type="CollisionShape2D" parent="."]
+pause_mode = 2
 visible = false
 position = Vector2( -19, -30 )
 shape = SubResource( 16 )
 disabled = true
 
 [node name="Weapons" type="Node2D" parent="."]
-pause_mode = 1
+pause_mode = 2
 script = ExtResource( 6 )
 
 [node name="CannonPositions" type="Node2D" parent="Weapons"]
@@ -1109,7 +1115,7 @@ collision_mask = 524292
 [node name="SamusWeapons" type="Node2D" parent="Weapons"]
 
 [node name="Particles" type="Node2D" parent="."]
-pause_mode = 1
+pause_mode = 2
 z_index = -1
 
 [node name="morphball" type="Particles2D" parent="Particles"]
@@ -1123,17 +1129,16 @@ draw_order = 1
 process_material = ExtResource( 9 )
 texture = ExtResource( 8 )
 
-[node name="SamusCamera" type="Camera2D" parent="."]
-pause_mode = 2
+[node name="ExCamera2D" type="Camera2D" parent="."]
+position = Vector2( -2, 2 )
 current = true
-zoom = Vector2( 0.25, 0.25 )
-limit_smoothed = true
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
+zoom = Vector2( 0.2, 0.2 )
 script = ExtResource( 10 )
 
-[node name="OffsetTween" type="Tween" parent="SamusCamera"]
-pause_mode = 2
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+pause_mode = 2
 environment = SubResource( 17 )
+
+[node name="Pauser" type="Node" parent="."]
+pause_mode = 2
+script = ExtResource( 7 )

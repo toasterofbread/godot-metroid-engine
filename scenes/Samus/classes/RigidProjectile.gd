@@ -37,8 +37,8 @@ func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _data:=
 	if burst_sprite:
 		burst_sprite.position = Vector2.ZERO
 	
-	z_index = Enums.Layers.PROJECTILE
 	z_as_relative = false
+	z_index = Enums.Layers.PROJECTILE
 	
 	visible = true
 	if has_node("Light2D"):
@@ -127,3 +127,9 @@ func screen_exited():
 
 func screen_entered():
 	screen_exit_delay_timer.stop()
+
+func fluid_splash(type: int):
+	if Weapon.has_method("fluid_splash"):
+		return Weapon.fluid_splash(self, type)
+	else:
+		return true

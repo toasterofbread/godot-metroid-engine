@@ -34,11 +34,15 @@ func process(_delta):
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
+	if Samus.Weapons.cycle_visor() and not CeilingRaycast.is_colliding():
+		change_state("visor")
+		return
+	
 	if not Animator.transitioning():
 		if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 			change_state("morphball", {"options": ["animate"]})
 			return
-		if Input.is_action_just_pressed("fire_weapon"):
+		if Input.is_action_just_pressed("fire_weapon") and Samus.Weapons.current_visor == null:
 			Samus.Weapons.fire()
 		if Input.is_action_just_pressed("jump"):
 			change_state("jump", {"options": ["jump"]})
@@ -121,4 +125,4 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	Samus.change_state(new_state_key, data)
 	
 func physics_process(_delta: float):
-	Physics.decelerate_x(Samus.states["run"].run_deceleration)
+	Physics.move_x(0, Samus.states["run"].run_deceleration)

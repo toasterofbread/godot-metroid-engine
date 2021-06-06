@@ -55,5 +55,5 @@ const upgrade_gain_amounts = {
 	Upgrade.POWERBOMB: 5,
 }
 
-enum Layers {ENEMY, SAMUS, WORLD, DOOR, PROJECTILE, NOTIFICATION}
-enum CanvasLayers {HUD, PAUSEMENU, NOTIFICATION}
+enum Layers {ENEMY, SAMUS, WORLD, BLOCK, DOOR, PROJECTILE, FLUID, VISOR, MENU, NOTIFICATION}
+enum CanvasLayers {HUD, MENU, NOTIFICATION}

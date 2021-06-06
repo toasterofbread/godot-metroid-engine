@@ -39,16 +39,16 @@ func init_state(data: Dictionary):
 	attach_point = data["point"]
 	Samus.global_position.y = attach_point.y + 19
 	Samus.Physics.apply_velocity = false
-	Samus.Physics.vel = Vector2.ZERO
 	if Samus.aiming == Samus.aim.FRONT:
 		Samus.aiming = Samus.aim.NONE
 
 func change_state(new_state_key: String, data: Dictionary = {}):
-	Physics.vel = Vector2.ZERO
 	Physics.apply_velocity = true
 	Samus.change_state(new_state_key, data)
 
 func process(_delta):
+	
+	Samus.Physics.vel = Vector2.ZERO
 	
 	if climbing:
 		return
@@ -65,9 +65,9 @@ func process(_delta):
 		if Input.is_action_pressed(direction[true]): 
 			climbing = true
 			if Samus.facing == Enums.dir.LEFT:
-				Animator.Player.play("powergrip_climb_left")
+				Animator.Player.play("powergrip_climb_left", -1, Physics.get_fluid_velocity_modifier().x)
 			else:
-				Animator.Player.play("powergrip_climb_right")
+				Animator.Player.play("powergrip_climb_right", -1, Physics.get_fluid_velocity_modifier().x)
 			
 			var MorphballRaycast: RayCast2D = Animator.raycasts.get_node("morphball/Ceiling")
 			MorphballRaycast.enabled = true

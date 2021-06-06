@@ -3,14 +3,15 @@ extends Node
 signal tiles_loaded
 const tile_data_path = "res://scenes/ui/map/tile_data.json"
 
+signal samus_entered_chunk
+
 onready var TileScene: PackedScene = preload("res://scenes/ui/map/MapTile.tscn")
 var Grid: Control
 var Marker: Node2D = preload("res://scenes/ui/map/MapMarker.tscn").instance()
 var tiles = null
-var current_tile: MapTile
+var current_chunk: MapChunk
 
 func _ready():
-#	Global.save_json(tile_data_path, {})
 	yield(Loader.Samus, "ready")
 	Marker.load_data()
 	load_tiles()
@@ -24,14 +25,18 @@ func samus_entered_chunk(body, chunk: MapChunk):
 	if body != Loader.Samus:
 		return
 	
+	emit_signal("samus_entered_chunk", chunk)
 	if not tiles:
 		yield(self, "ready")
 	
-	if current_tile:
-		current_tile.current_tile = false
+	if is_instance_valid(current_chunk) and current_chunk != null:
+		current_chunk.tile.current_tile = false
 		
-	current_tile = chunk.tile
-	chunk.tile.current_tile = true
+	current_chunk = chunk
+	current_chunk.tile.current_tile = true
+
+func samus_exited_chunk(body, chunk: MapChunk):
+	pass
 
 func load_tiles():
 	

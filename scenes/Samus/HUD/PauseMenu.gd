@@ -21,8 +21,8 @@ func _ready():
 		for track in animation.get_track_count():
 			animation.track_set_path(track, str(animation.track_get_path(track)).replace("CanvasLayer/MapGridPosition", "CanvasLayer/MapGrid"))
 	
-	$CanvasLayer.layer = Enums.CanvasLayers.PAUSEMENU
-	$CanvasLayer2.layer = Enums.CanvasLayers.PAUSEMENU
+	$CanvasLayer.layer = Enums.CanvasLayers.MENU
+	$CanvasLayer2.layer = Enums.CanvasLayers.MENU
 	
 func pause():
 	get_tree().paused = true
@@ -67,8 +67,8 @@ func reset_minimap():
 	Map.Grid.modulate.a = 0
 	Global.reparent_child(Map.Grid, map_grid_parent)
 	Map.Grid.reset_minimap_properties()
-	if Map.current_tile != null:
-		Map.Grid.set_focus_position(Map.current_tile.position, true)
+	if Map.current_chunk != null:
+		Map.Grid.set_focus_position(Map.current_chunk.tile.position, true)
 	Map.Grid.fade(true, 0.25)
 
 func _process(delta: float):
@@ -149,7 +149,7 @@ func process_marker(first_frame: bool, last_frame: bool):
 	
 	if first_frame:
 		if not Map.Marker.grid_position:
-			Map.Marker.grid_position = Map.current_tile.position/8
+			Map.Marker.grid_position = Map.current_chunk.tile.position/8
 		Map.Marker.moving = true
 		return
 	

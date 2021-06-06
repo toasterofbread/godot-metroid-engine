@@ -1,0 +1,93 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://scenes/objects/fluid/Fluid.gd" type="Script" id=1]
+[ext_resource path="res://sprites/objects/fluid/water/bgWater2.png" type="Texture" id=2]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplashSM_2.png" type="Texture" id=3]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_7.png" type="Texture" id=4]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_0.png" type="Texture" id=5]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_1.png" type="Texture" id=6]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_8.png" type="Texture" id=7]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplashSM_4.png" type="Texture" id=8]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_3.png" type="Texture" id=9]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_4.png" type="Texture" id=10]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplashSM_1.png" type="Texture" id=11]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_6.png" type="Texture" id=12]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_5.png" type="Texture" id=13]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplashSM_3.png" type="Texture" id=14]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplash_2.png" type="Texture" id=15]
+[ext_resource path="res://sprites/objects/fluid/water/sWaterSplashSM_0.png" type="Texture" id=16]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 144, 112 )
+
+[sub_resource type="SegmentShape2D" id=2]
+b = Vector2( 288, 0 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 15 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 4 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "large",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 3 ), ExtResource( 14 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "small",
+"speed": 30.0
+} ]
+
+[node name="Fluid" type="Control"]
+margin_right = 508.0
+margin_bottom = 314.0
+rect_clip_content = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 1, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Area2D" type="Area2D" parent="."]
+space_override = 3
+gravity = 70.0
+linear_damp = 3.0
+collision_layer = 524288
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 354.5, 173.5 )
+shape = SubResource( 1 )
+
+[node name="SurfaceArea2D" type="Area2D" parent="."]
+collision_layer = 524288
+collision_mask = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SurfaceArea2D"]
+shape = SubResource( 2 )
+
+[node name="Splash" type="AnimatedSprite" parent="."]
+position = Vector2( 34.1985, -25.8728 )
+frames = SubResource( 3 )
+animation = "small"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
+[connection signal="body_entered" from="SurfaceArea2D" to="." method="_on_SurfaceArea2D_body_entered"]
+[connection signal="body_exited" from="SurfaceArea2D" to="." method="_on_SurfaceArea2D_body_exited"]

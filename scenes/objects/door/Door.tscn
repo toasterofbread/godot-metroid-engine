@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://sprites/objects/door/blue/sBlueDoor_0.png" type="Texture" id=1]
 [ext_resource path="res://scenes/objects/door/Door.gd" type="Script" id=2]
@@ -28,6 +28,9 @@ atlas = ExtResource( 3 )
 region = Rect2( 8, 0, 48, 64 )
 
 [sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 28, 32 )
+
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3, 31 )
 
 [node name="Door" type="StaticBody2D"]
@@ -56,14 +59,14 @@ collision_layer = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FullDoorArea"]
 position = Vector2( -12, 0 )
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 
 [node name="TransitionTriggerArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TransitionTriggerArea"]
 modulate = Color( 0.921569, 0, 1, 1 )
 position = Vector2( -33, 0 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="TargetSpawnPosition" type="Position2D" parent="."]
 position = Vector2( -32, 0 )

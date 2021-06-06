@@ -10,4 +10,4 @@ func ready():
 	pass
 
 func trigger(_data: Dictionary):
-	pass
+	return null

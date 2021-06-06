@@ -10,20 +10,20 @@ var SpeedboostTimer: Timer
 var animations: Dictionary = {}
 
 # PHYSICS
-const run_acceleration = 15
-const run_deceleration = 50
-const max_run_speed = 170
+const run_acceleration = 15*60
+const run_deceleration = 50*60
+const run_speed = 170
 
-const boost_acceleration = 15
+const boost_acceleration = 15*60
 #const boost_deceleration = 50
 const max_boost_speed = 500
 
 
 func _init(_samus: Node2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
-	self.SpeedboostTimer = Global.timer([Samus, "set", ["boosting", true]])
+	Samus = _samus
+	Animator = Samus.Animator
+	Physics = Samus.Physics
+	SpeedboostTimer = Global.timer([Samus, "set", ["boosting", true]])
 	animations = Animator.load_from_json(self.id)
 
 # Called every frame while this state is active
@@ -106,11 +106,10 @@ func process(_delta):
 			return
 	
 	if play_transition:
-		SpeedboostTimer.start(speedboost_charge_time)
 		animations["turn_legs"].play()
 		animations["turn_" + animation].play()
 	elif not Animator.transitioning(false, true):
-		animations[animation].play(true)
+		animations[animation].play(true, abs(Physics.vel.x) / run_speed)
 	
 	if fire_weapon:
 		Samus.Weapons.fire()
@@ -132,15 +131,21 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	elif new_state_key != "morphball":
 		Samus.boosting = false
 
-func physics_process(_delta: float):
+func physics_process(delta: float):
 	
 	var pad_x = Shortcut.get_pad_vector("pressed").x
 	if Samus.boosting and pad_x != Global.dir2vector(Samus.facing).x:
 		Samus.boosting = false
 	
 	if Physics.vel.x != 0 and sign(Physics.vel.x) != pad_x:
-		Physics.vel.x = move_toward(Physics.vel.x, 0, run_deceleration)
+		Physics.move_x(0, run_deceleration*delta)
 	elif Samus.boosting:
-		Physics.vel.x = move_toward(Physics.vel.x, max_boost_speed*pad_x, boost_acceleration)
+		Physics.move_x(max_boost_speed*pad_x, boost_acceleration*delta)
 	else:
-		Physics.vel.x = move_toward(Physics.vel.x, max_run_speed*pad_x, run_acceleration)
+		Physics.move_x(run_speed*pad_x, run_acceleration*delta)
+	
+	if Physics.vel.x >= run_speed:
+		if SpeedboostTimer.is_stopped():
+			SpeedboostTimer.start(speedboost_charge_time)
+	else:
+		SpeedboostTimer.stop()

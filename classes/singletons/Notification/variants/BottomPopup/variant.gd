@@ -12,6 +12,7 @@ func ready():
 # animation_duration
 # text_duration
 # show_duration
+# end_signal
 func trigger(data: Dictionary):
 	$FancyLabel.set_text(data["text"], 0 if not "text_duration" in data else data["text_duration"])
 	visible = true
@@ -19,7 +20,11 @@ func trigger(data: Dictionary):
 	$Tween.interpolate_property(self, "rect_position:y", start_pos, end_pos, data["animation_duration"], Tween.TRANS_SINE, Tween.EASE_OUT)
 	$Tween.start()
 	yield($Tween, "tween_completed")
-	yield(Global.wait(data["show_duration"], true), "completed")
+	
+	if "end_signal" in data:
+		yield(data["end_signal"][0], data["end_signal"][1])
+	else:
+		yield(Global.wait(data["show_duration"], true), "completed")
 	
 	$Tween.interpolate_property(self, "rect_position:y", end_pos, start_pos, data["animation_duration"], Tween.TRANS_SINE, Tween.EASE_OUT)
 	$Tween.start()

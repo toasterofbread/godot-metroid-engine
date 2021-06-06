@@ -15,6 +15,16 @@ export var major_scan: bool = false setget set_major
 export var data_key: String
 export var dynamic_data_key: = false
 
+var enabled = true setget set_enabled
+
+func set_enabled(value: bool):
+	if value == enabled or Engine.editor_hint:
+		return
+	if data_key in Loader.Save.get_data_key(["logbook", "recorded_entries"]):
+		value = false
+	enabled = value
+	visible = value
+
 func get_global_position():
 	return $CollisionShape2D.global_position
 
@@ -32,11 +42,12 @@ func _ready():
 	if not Loader.Samus.is_inside_tree():
 		yield(Loader.Samus, "ready")
 		yield(Loader.Samus.Weapons.all_visors[Enums.Upgrade.SCANVISOR], "ready")
-	assert(dynamic_data_key or data_key in Data.logbook)
+	assert(data_key in Data.logbook)
 	scan_duration = length_durations[length]
+	set_enabled(not data_key in Loader.Save.get_data_key(["logbook", "recorded_entries"]))
 	
 	var extents = $CollisionShape2D.shape.extents
-	$CollisionShape2D/ScanCursor.rect_size.x = extents.x*2
+	$CollisionShape2D/ScanCursor.rect_size.y = extents.x*2
 	$CollisionShape2D/ScanCursor.rect_position = -extents
 	
 	$CollisionShape2D/ScanCursor.modulate.a = 0
@@ -48,10 +59,7 @@ func save():
 	Loader.Save.set_data_key(["logbook", "recorded_entries"], data)
 
 func start_scan():
-	
-	if data_key in Loader.Save.get_data_key(["logbook", "recorded_entries"]):
-		return false
-	
+	$CollisionShape2D/Tween.stop_all()
 	$CollisionShape2D/ScanCursor.rect_position = -$CollisionShape2D.shape.extents
 	$CollisionShape2D/ScanCursor.visible = true
 	$CollisionShape2D/Tween.interpolate_property($CollisionShape2D/ScanCursor, "modulate:a", 0, 1, 0.1)

@@ -115,7 +115,7 @@ func process(_delta):
 			if pad_vector.x == 0 or Physics.vel.x == 0:
 				animations["stand_" + animation].play(true)
 			else:
-				animations["walk_" + animation].play(true, false, false, Global.dir2vector(Samus.facing).x != pad_vector.x)
+				animations["walk_" + animation].play(true, -1 if Global.dir2vector(Samus.facing).x != pad_vector.x else 1)
 	elif state == STATES.JUMP:
 		if jump_current_time == 0 and Physics.vel.y > 50:
 			set_state(STATES.SWING)
@@ -129,7 +129,7 @@ func process(_delta):
 			swing_animations["legs_turn"].play()
 		elif not Animator.transitioning(false, true):
 			swing_animations[animation].play(true)
-			swing_animations["legs"].play(true, false, true)
+			swing_animations["legs"].play(true)
 		
 	else:
 		set_aiming(angle)
@@ -213,7 +213,8 @@ func physics_process(delta: float):
 		
 		if state == STATES.JUMP:
 			if jump_current_time != 0 and Input.is_action_pressed("jump"):
-				Physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
+				Physics.move_y(-jump_speed, jump_acceleration*delta)
+#				Physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
 				jump_current_time -= delta/60
 				if jump_current_time < 0:
 					jump_current_time = 0

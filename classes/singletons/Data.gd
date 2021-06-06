@@ -1,6 +1,8 @@
 extends Node
 
 onready var cdb_data = Global.load_json("res://data/data.cdb")
+
+const logbook_images_path = "res://sprites/ui/map/logbook_images/"
 onready var logbook = get_cdb_sheet("logbook")
 
 func get_cdb_sheet(sheet_key: String):
