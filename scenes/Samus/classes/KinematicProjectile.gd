@@ -5,9 +5,9 @@ export var base_velocity: float
 var velocity: Vector2
 var moving: bool = true
 var affected_by_world: bool = true
-var Weapon: Node2D
-var travel_distance: = 0.0
+var Weapon: SamusWeapon
 var data: Dictionary
+var travel_distance: = 0.0
 var chargebeam_damage_multiplier
 var fire_pos: Position2D
 var burst_sprite: AnimatedSprite
@@ -25,6 +25,8 @@ func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _data:=
 	burst_sprite = get_node_or_null("Burst")
 	if burst_sprite:
 		burst_sprite.position = Vector2.ZERO
+		burst_sprite.z_as_relative = false
+		burst_sprite.z_index = Enums.Layers.PROJECTILE
 	
 	z_as_relative = false
 	z_index = Enums.Layers.PROJECTILE
@@ -79,7 +81,7 @@ func _physics_process(delta):
 	
 	if collision:
 		if collision.collider.has_method("damage") and apply_damage:
-			collision.collider.damage(Weapon.damage_type, Weapon.damage_amount*(chargebeam_damage_multiplier if chargebeam_damage_multiplier != null else 1.0))
+			collision.collider.damage(Weapon.damage_type, Weapon.damage_amount*(chargebeam_damage_multiplier if chargebeam_damage_multiplier != null else 1.0), get_node("ImpactPosition").global_position)
 	
 	Weapon.projectile_physics_process(self, collision, delta)
 

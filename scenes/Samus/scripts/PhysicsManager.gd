@@ -2,12 +2,11 @@ extends Node
 
 onready var Samus: KinematicBody2D = get_parent()
 
-const GRAVITY = 20*60
-const FALL_SPEED_CAP = 325
 const UP_DIRECTION = Vector2.UP
 const SNAP_DIRECTION = Vector2.DOWN
 const SNAP_DISTANCE = 15.0
 const SNAP_VECTOR = SNAP_DIRECTION * SNAP_DISTANCE
+const FLOOR_MAX_ANGLE = deg2rad(70)
 
 var vel: Vector2 = Vector2.ZERO
 var apply_gravity: bool = true
@@ -15,70 +14,86 @@ var apply_velocity: bool = true
 var disable_floor_snap: bool = false
 var on_slope: bool = false
 
-const fluid_acceleration_modifier = Vector2(0.1, 0.1)
-const fluid_velocity_modifier = Vector2(0.4, 0.4)
+onready var profiles: Dictionary
+const physics_profiles_path = "res://data/samus_physics_profiles/"
+var data: = {}
+onready var mode: int = Settings.get("miscellaneous/physics_mode")
+var profile: = "STANDARD"
 
 # Keeping this around for the memories
 #var time = -1
 
+func _ready():
+	
+	var dir = Directory.new()
+	assert(dir.open(physics_profiles_path) == OK, "Profiles directory couldn't be opened")
+	for file in Global.iterate_directory(dir):
+		if not dir.dir_exists(file) and file.ends_with(".json"):
+			profiles[file.replace(".json", "")] = Global.load_json(physics_profiles_path + file)
+	
+	set_data()
+
 func _physics_process(delta: float):
 	
-	if Samus.is_on_ceiling() or Samus.is_on_wall():
-		Samus.boosting = false
-	
-#	if Samus.paused:
-#		return
-	
-#	if get_tree().paused and Samus.paused == null or Samus.paused:
-#		Samus.move_and_slide_with_snap(Vector2.ZERO, Vector2.ZERO)
-	if get_tree().paused:
+	if get_tree().paused or Samus.paused:
 		return
 	
+	if Samus.current_fluid != Fluid.TYPES.NONE:
+		fluid_process(delta)
+	
+	if Samus.boosting and (Samus.is_on_ceiling() or Samus.is_on_wall()):
+		Samus.boosting = false
+	
 	if apply_gravity:
-		vel.y = min(vel.y + GRAVITY*delta*get_fluid_acceleration_modifier().y, FALL_SPEED_CAP*get_fluid_velocity_modifier().y)
+		vel.y = min(vel.y + data["general"]["gravity"]*delta, data["general"]["fall_speed_cap"])
 	
 	var slope_angle = Samus.get_floor_normal().dot(Vector2.UP)
 	on_slope = slope_angle != 0 and slope_angle != 1
-	
 	if apply_velocity:
-		
-		var result_velocity = Samus.move_and_slide_with_snap(vel, SNAP_VECTOR if not disable_floor_snap else Vector2.ZERO, UP_DIRECTION, true)
+		var result_velocity = Samus.move_and_slide_with_snap(vel, SNAP_VECTOR if not disable_floor_snap else Vector2.ZERO, UP_DIRECTION, true, 4, FLOOR_MAX_ANGLE)
 		
 		if slope_angle:
 			vel.y = result_velocity.y
 		else:
 			vel = result_velocity
-		
+	
 	vOverlay.SET("Physics.vel", vel)
 	
 	disable_floor_snap = false
 
 func can_walk(direction: int):
-	var collision = Samus.move_and_collide(Vector2(1*direction, 0), true, true, true)
-	if not collision:
-		return true
-	else:
-		var slope_angle = abs(collision.normal.dot(Vector2.UP))
-		return slope_angle < 0.785398 and slope_angle != 0
+	Samus.move_and_slide_with_snap(Vector2(direction*100, 0), SNAP_VECTOR if not disable_floor_snap else Vector2.ZERO, UP_DIRECTION, true, 4, FLOOR_MAX_ANGLE)
+	print(Samus.is_on_wall())
+	return !Samus.is_on_wall()
 
 func move_y(to: float, by: float = INF):
-	vel.y = move_toward(vel.y, to*get_fluid_velocity_modifier().y, by*get_fluid_acceleration_modifier().y)
+	vel.y = move_toward(vel.y, to, by)
 	disable_floor_snap = true
 
 func move_x(to: float, by: float = INF):
-	vel.x = move_toward(vel.x, to*get_fluid_velocity_modifier().x, by*get_fluid_acceleration_modifier().x)
+	vel.x = move_toward(vel.x, to, by)
 
 func move(to: Vector2, by: float = INF):
-	vel = vel.move_toward(to*get_fluid_velocity_modifier(), by*get_fluid_acceleration_modifier().length())
+	vel = vel.move_toward(to, by)
 
-func get_fluid_velocity_modifier() -> Vector2:
-	if Samus.current_fluid != Fluid.TYPES.NONE:
-		return fluid_velocity_modifier*Fluid.viscosities[Samus.current_fluid]
-	else:
-		return Vector2(1.0, 1.0)
+func fluid_process(delta):
+	pass
 
-func get_fluid_acceleration_modifier() -> Vector2:
-	if Samus.current_fluid != Fluid.TYPES.NONE:
-		return fluid_acceleration_modifier*Fluid.viscosities[Samus.current_fluid]
-	else:
-		return Vector2(1.0, 1.0)
+func settings_changed(path: String, value):
+	if path == "miscellaneous/physics_mode":
+		mode = value
+		set_data()
+
+func set_data():
+	var profile_data: Dictionary = profiles[profile]
+	for group in profile_data:
+		if not group in data:
+			data[group] = {}
+		for key in profile_data[group]:
+			data[group][key] = profile_data[group][key][mode]
+
+func set_profile(key):
+	profile = key if key != null else "STANDARD"
+	set_data()
+	
+	

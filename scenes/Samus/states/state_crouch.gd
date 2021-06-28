@@ -125,4 +125,4 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	Samus.change_state(new_state_key, data)
 	
 func physics_process(_delta: float):
-	Physics.move_x(0, Samus.states["run"].run_deceleration)
+	Physics.move_x(0, Physics.data["run"]["deceleration"])

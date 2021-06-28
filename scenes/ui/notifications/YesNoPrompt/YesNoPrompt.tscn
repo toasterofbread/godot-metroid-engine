@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/ui/notifications/YesNoPrompt/YesNoPrompt.gd" type="Script" id=2]
+[ext_resource path="res://fonts/Pixeled.tres" type="DynamicFont" id=3]
+
+[node name="YesNoPrompt" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Visual" type="ColorRect" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -288.0
+margin_top = -98.0
+margin_right = 288.0
+margin_bottom = 98.0
+color = Color( 0, 0, 0, 0.764706 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Accept" parent="CanvasLayer/Visual" instance=ExtResource( 1 )]
+position = Vector2( 400, 149 )
+scale = Vector2( 1, 1 )
+action_keys = [ "ui_accept" ]
+
+[node name="Cancel" parent="CanvasLayer/Visual" instance=ExtResource( 1 )]
+position = Vector2( 64, 149 )
+scale = Vector2( 1, 1 )
+action_keys = [ "ui_cancel" ]
+
+[node name="Label" type="Label" parent="CanvasLayer/Visual"]
+margin_left = 16.0
+margin_top = 2.0
+margin_right = 288.0
+margin_bottom = 48.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = ExtResource( 3 )
+text = "Save game?"
+align = 1
+valign = 1
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]

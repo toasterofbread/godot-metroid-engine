@@ -125,7 +125,7 @@ func explode(projectile: PhysicsBody2D):
 						Samus.current_state.bounce(bomb_bounce_amount)
 			else:
 				if body.has_method("damage"):
-					body.damage(damage_type, damage_amount)
+					body.damage(damage_type, damage_amount, projectile.global_position)
 		yield(Global, "process_frame")
 	projectile.queue_free()
 	burst.queue_free()

@@ -1,6 +1,6 @@
 extends Control
 
-const etank_row_size = 10
+#const etank_row_size = 10
 var ETank: Control = preload("res://scenes/Samus/HUD/ETank.tscn").instance()
 onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
 
@@ -36,10 +36,10 @@ func set_etanks(etanks: int):
 		add_etank()
 
 func add_etank():
-	for row in rows:
-		if len(row.get_children()) < etank_row_size:
-			row.add_child(ETank.duplicate())
-			return
+	if rows[0].get_child_count() > rows[1].get_child_count():
+		rows[1].add_child(ETank.duplicate())
+	else:
+		rows[0].add_child(ETank.duplicate())
 
 func set_energy(energy):
 	
@@ -57,8 +57,7 @@ func set_energy(energy):
 	energy = str(energy)
 	if len(energy) == 1:
 		energy = "0" + energy
-	elif len(energy) == 3:
-		energy = energy[1] + energy[2]
-	
+	elif len(energy) > 2:
+		energy = energy[len(energy) - 2] + energy[len(energy) - 1]
 	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(energy[0])
 	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(energy[1])

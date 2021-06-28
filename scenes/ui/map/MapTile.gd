@@ -3,11 +3,12 @@ class_name MapTile
 
 enum wall_types {none, door, wall}
 enum icons {none, save, obtained_item, unobtained_item}
-enum colours {blue, green, red}
+enum colours {default, blue, green, red}
 
 var icon: int = icons.none setget set_icon
 
 var colour_data = {
+	colours.default: Color.black,
 	colours.blue: Color.darkcyan,
 	colours.green: Color.darkgreen,
 	colours.red: Color.darkred
@@ -51,8 +52,8 @@ func load_data(data: Dictionary):
 		
 		wall_rotation += 90
 	
-	if data["s"]:
-		set_icon(icons.save)
+	if data["i"]:
+		set_icon(int(data["i"]))
 	else:
 		set_icon(icons.none)
 	

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndHPickup.wav-6285537226f7e9338ea465149e6ed87a.sample"
+
+[deps]
+
+source_file="res://audio/objects/ammo_pickup/sndHPickup.wav"
+dest_files=[ "res://.import/sndHPickup.wav-6285537226f7e9338ea465149e6ed87a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

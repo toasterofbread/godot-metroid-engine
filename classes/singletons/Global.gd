@@ -9,7 +9,7 @@ onready var Timers = Node2D.new()
 onready var Anchor = Node2D.new()
 
 onready var DimLayer: = Sprite.new()
-onready var rng = RandomNumberGenerator.new()
+var rng = RandomNumberGenerator.new()
 
 func _ready():
 	self.pause_mode = Node.PAUSE_MODE_PROCESS
@@ -63,9 +63,6 @@ func _process(delta):
 
 func _physics_process(delta):
 	emit_signal("physics_frame", delta)
-
-func random_array_item(rng: RandomNumberGenerator, array: Array):
-	return array[rng.randi_range(0, len(array) - 1)]
 
 func start_timer(timer_id: String, seconds: float, data: Dictionary = {}, connect=[self, "clear_timer"]):
 	
@@ -290,8 +287,10 @@ func undim_screen(duration: float):
 	DimLayer.visible = false
 	tween.queue_free()
 
-func random_item(array: Array, rng:=rng):
-	return array[rng.randi_range(0, len(array) - 1)]
+func random_array_item(array: Array, RNG=null):
+	if RNG == null:
+		RNG = rng
+	return array[RNG.randi_range(0, len(array) - 1)]
 
 func angle_difference(angle1, angle2):
 	var diff = angle2 - angle1

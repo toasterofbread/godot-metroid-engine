@@ -1,8 +1,9 @@
-extends AnimatedSprite
-
-func _ready():
-	material.set_shader_param("nb_frames",Vector2(1, 1))
+tool
+extends Sprite
 
 func _process(delta):
-	material.set_shader_param("frame_coords", Vector2(0, 0))
-	material.set_shader_param("velocity", Loader.Samus.Physics.vel)
+	get_material().set_shader_param("zoom", get_viewport_transform().y.y)
+
+
+func _on_Sprite_item_rect_changed():
+	get_material().set_shader_param("scale", scale)

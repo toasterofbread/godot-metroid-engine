@@ -6,7 +6,7 @@ var filename: String
 var data: Dictionary
 
 const default_data: Dictionary = {
-	"current_room_id": "demoLevel/origin",
+	"current_room_id": "Caves/ship",
 	"rooms": {
 	},
 	"samus": {
@@ -34,13 +34,15 @@ const default_data: Dictionary = {
 			Enums.Upgrade.SPRINGBALL: {"amount": 1, "active": true},
 			Enums.Upgrade.SPEEDBOOSTER: {"amount": 1, "active": true},
 			Enums.Upgrade.POWERGRIP: {"amount": 1, "active": true},
-			Enums.Upgrade.HIGHJUMP: {"amount": 1, "active": true},
+			Enums.Upgrade.HIGHJUMP: {"amount": 1, "active": false},
 			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
 			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": true},
 			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
 			
 			Enums.Upgrade.SCANVISOR: {"amount": 1, "active": true},
 			Enums.Upgrade.XRAYVISOR: {"amount": 1, "active": true},
+			
+			Enums.Upgrade.FLAMETHROWER: {"amount": 1, "active": true}
 		},
 		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},
@@ -65,7 +67,7 @@ func load_file():
 	var file = Global.load_json(filename)
 	
 	# DEBUG | This is set to always use the default data
-	if file == null:
+	if file == null or true:
 		data = default_data
 		save_file()
 	else:

@@ -80,9 +80,9 @@ func save():
 	
 	if new_value:
 		Settings.save_file()
-		Notification.trigger("BottomPopup", {"text": "CHANGES SAVED", "animation_duration": 0.25, "show_duration": 1.0})
+		$BottomPopup.trigger("CHANGES SAVED", 0.25, 1.0)
 	else:
-		Notification.trigger("BottomPopup", {"text": "NO CHANGES MADE", "animation_duration": 0.25, "show_duration": 1.0})
+		$BottomPopup.trigger("NO CHANGES MADE", 0.25, 1.0)
 
 func reset():
 	for node in $Categories.get_children():

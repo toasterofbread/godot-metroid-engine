@@ -61,7 +61,7 @@ extents = Vector2( 2, 5 )
 
 [sub_resource type="SpriteFrames" id=5]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 15 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 28 ) ],
+"frames": [ ExtResource( 8 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 15 ), ExtResource( 20 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ) ],
 "loop": false,
 "name": "end",
 "speed": 60.0
@@ -167,7 +167,7 @@ frame = 8
 [node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
 collision_layer = 2
-collision_mask = 524292
+collision_mask = 540676
 script = ExtResource( 31 )
 base_velocity = 400.0
 
@@ -179,10 +179,12 @@ texture = ExtResource( 11 )
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 8 )
 frames = SubResource( 2 )
+frame = 1
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 frames = SubResource( 3 )
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
@@ -190,9 +192,10 @@ position = Vector2( 0, -1 )
 shape = SubResource( 4 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
+visible = false
 position = Vector2( -60, -2 )
 frames = SubResource( 5 )
-animation = "start"
+animation = "end"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Projectile"]
 anims/end = SubResource( 6 )
@@ -201,3 +204,6 @@ anims/start = SubResource( 7 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Projectile"]
 position = Vector2( 5.96046e-08, 0.5 )
 scale = Vector2( 0.4, 0.75 )
+
+[node name="ImpactPosition" type="Position2D" parent="Projectile"]
+position = Vector2( 0, -6 )

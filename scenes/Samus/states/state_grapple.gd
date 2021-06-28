@@ -19,25 +19,15 @@ enum STATES {STAND, SWING, JUMP}
 var state: int = STATES.STAND setget set_state
 
 # PHYSICS
-const max_angular_velocity = 0.12
-const max_speedboost_angular_velocity = 0.25
 var angular_velocity: = 0.0
 var angular_acceleration: = 0.0
 var linear_velocity = Vector2.ZERO
-const gravity = 0.2
-const damping = 0.998
-const speedboost_damping = 1.0
 var angle
 var beampos: Vector2
-
-const walk_acceleration = 15
-const walk_deceleration = 50
-const max_walk_speed = 75
-
-const jump_speed = 250
-const jump_acceleration = 99999
-const jump_time = 0.3
 var jump_current_time = 125
+
+var physics_data: Dictionary
+onready var jump_state = Samus.states["jump"]
 
 var aim_thresholds: = {}
 
@@ -56,8 +46,9 @@ func _init(_samus: KinematicBody2D):
 	}
 	speedboost_charge_time = Samus.states["run"].speedboost_charge_time*1.25
 	
-	self.animations = Animator.load_from_json("grapple")
-	self.swing_animations = Animator.load_from_json("jump")
+	animations = Animator.load_from_json("grapple")
+	swing_animations = Animator.load_from_json("jump")
+	physics_data = Physics.data["grapple"]
 
 # Called every frame while this state is active
 func process(_delta):
@@ -88,12 +79,8 @@ func process(_delta):
 			change_state("jump", {"options": ["spin"]})
 			return
 		else:
-			jump_current_time = jump_time
+			jump_current_time = jump_state.jump_time
 			set_state(STATES.JUMP)
-	
-	vOverlay.SET("Angular velocity", angular_velocity)
-	vOverlay.SET("Beam length", beam.length)
-	vOverlay.SET("Grapple state", STATES.keys()[state])
 	
 	var animation: String
 	match Samus.aiming:
@@ -145,7 +132,7 @@ func process(_delta):
 			swing_animations["legs_turn"].play()
 		elif not Animator.transitioning(false, true):
 			swing_animations[animation].play(true)
-			swing_animations["legs"].play(true, false, true)
+			swing_animations["legs"].play(true)
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -213,7 +200,7 @@ func physics_process(delta: float):
 		
 		if state == STATES.JUMP:
 			if jump_current_time != 0 and Input.is_action_pressed("jump"):
-				Physics.move_y(-jump_speed, jump_acceleration*delta)
+				Physics.move_y(-jump_state.jump_speed, jump_state.jump_acceleration*delta)
 #				Physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
 				jump_current_time -= delta/60
 				if jump_current_time < 0:
@@ -232,21 +219,20 @@ func physics_process(delta: float):
 		if beam.fire_pos:
 			capped = beam.set_length(beam.fire_pos.global_position.distance_to(anchor.global_position)*2) and sign(pad_x) == sign(angle)
 		if pad_x != 0 and not capped:
-			Physics.vel.x = move_toward(Physics.vel.x*delta, max_walk_speed*pad_x, walk_acceleration)
+			Physics.vel.x = move_toward(Physics.vel.x*delta, physics_data["walk_speed"]*pad_x, physics_data["walk_acceleration"])
 		else:
-			Physics.vel.x = move_toward(Physics.vel.x*delta, 0, walk_deceleration)
+			Physics.vel.x = move_toward(Physics.vel.x*delta, 0, physics_data["walk_deceleration"])
 		return
 	else:
 		jump_current_time = 0
 	
-	angular_acceleration = ((-gravity) / beam.length) * sin(angle)
+	angular_acceleration = ((-physics_data["gravity"]) / beam.length) * sin(angle)
 	angular_velocity += angular_acceleration*delta
-	angular_velocity *= (speedboost_damping*delta) if Samus.boosting else (damping*delta)
+	angular_velocity *= (physics_data["damping_speedboost"]*delta) if Samus.boosting else ((physics_data["damping_still"] if pad_vector.x == 0 else physics_data["damping_moving"])*delta)
 	angle += angular_velocity*delta
 	
 	if beam.fire_pos:
 		beampos = beam.fire_pos.global_position
-	vOverlay.SET("beampos", beampos)
 	
 	if Samus.aiming == Samus.aim.SKY:
 		angular_velocity += pad_vector.x*0.0005
@@ -254,7 +240,7 @@ func physics_process(delta: float):
 	else:
 		Samus.rotation = 0
 	
-	var max_velocity = max_speedboost_angular_velocity if Samus.boosting else max_angular_velocity
+	var max_velocity = physics_data["speedboost_speed"] if Samus.boosting else physics_data["speed"]
 	angular_velocity = min(max(angular_velocity, -max_velocity), max_velocity)
 	
 	if Samus.is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER) and (abs(angular_velocity) < 0.04 or pad_vector.x != sign(angular_velocity)):

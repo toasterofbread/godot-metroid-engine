@@ -22,5 +22,8 @@ https://opengameart.org/content/keyboard-keys
 
 
 
-## Included software
+## Used asset URL dump for later
 
+https://www.spriters-resource.com/game_boy_advance/metfusion/sheet/1678/
+
+https://opengameart.org/content/4-dry-snow-steps

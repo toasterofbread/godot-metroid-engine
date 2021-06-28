@@ -35,7 +35,6 @@ func _process(delta):
 			sprite.playing = !animation.paused
 
 #func _process(_delta):
-##	print(cooldown_timer.time_left)
 ##	return
 #	if transitioning():
 #		return

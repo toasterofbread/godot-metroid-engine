@@ -92,6 +92,10 @@
 			"rightPos": [
 				5,
 				1
+			],
+			"step_frames": [
+				0,
+				3
 			]
 		},
 		"aim_up": {

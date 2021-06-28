@@ -31,6 +31,11 @@ onready var suits = {
 }
 var current_suit = "power"
 
+func _process(_delta):
+	for animation in current.values():
+		if animation != null:
+			animation.process()
+
 func _ready():
 #	if Settings.get_system("animations/turn_speed") is int or Settings.get_system("animations/turn_speed") is float:
 #		for suit in suits.values():

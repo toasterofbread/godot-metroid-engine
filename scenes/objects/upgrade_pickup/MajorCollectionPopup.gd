@@ -3,11 +3,11 @@ extends Control
 const show_duration: float = 0.25
 
 var sounds = {
-	"major_fanfare": Sound.new("res://audio/objects/upgade_pickup/Metroid Prime Music - Item Acquisition Fanfare.wav", false, Audio, true)
+	"major_fanfare": Sound.new("res://audio/objects/upgade_pickup/Metroid Prime Music - Item Acquisition Fanfare.wav", Sound.TYPE.MUSIC)
 }
 
+
 func _ready():
-	
 	for node in $CanvasLayer.get_children():
 		node.visible = false
 
@@ -16,7 +16,7 @@ func trigger(upgrade_type: int, added: int, total: int):
 	var upgrade_type_string = Enums.Upgrade.keys()[upgrade_type]
 	
 	get_tree().paused = true
-	sounds["major_fanfare"].play()
+	sounds["major_fanfare"].play(false, true)
 	
 	var upgrade_name: String
 	if "pickup_name" in Data.logbook[upgrade_type_string]:

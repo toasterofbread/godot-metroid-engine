@@ -5,8 +5,8 @@ class_name MapChunk
 signal tile_set
 
 export var grid_position: Vector2
-export var save_room: = false
-export(MapTile.colours) var colour = MapTile.colours.blue
+export(MapTile.icons) var icon: = MapTile.icons.none
+export(MapTile.colours) var colour = MapTile.colours.default
 export(MapTile.wall_types) var left_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var right_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var top_wall = MapTile.wall_types.none
@@ -14,7 +14,6 @@ export(MapTile.wall_types) var bottom_wall = MapTile.wall_types.none
 #export var reset_size = false setget reset_size
 
 onready var area: Area2D = Area2D.new()
-var icon: int = MapTile.icons.none
 var tile: MapTile
 
 #func reset_size(_value=false):
@@ -31,6 +30,11 @@ func _ready():
 #			reset_size()
 		return
 	
+	var room: Room = get_parent().get_parent()
+	grid_position += room.grid_position
+	if colour == MapTile.colours.default:
+		colour = room.default_mapchunk_colour
+	
 	area.set_collision_layer_bit(0, false)
 	area.set_collision_layer_bit(15, false)
 	area.set_collision_mask_bit(18, true)
@@ -41,9 +45,6 @@ func _ready():
 	area.connect("body_entered", Map, "samus_entered_chunk", [self])
 	area.connect("body_exited", Map, "samus_exited_chunk", [self])
 	yield(Map, "samus_entered_chunk")
-	
-	if save_room:
-		icon = MapTile.icons.save
 	
 	if Map.tiles == null:
 		yield(Map, "tiles_loaded")
@@ -60,7 +61,7 @@ func generate_tile_data():
 	if not x in data:
 		data[x] = {}
 		
-	data[x][y] = {"w": [top_wall, right_wall, bottom_wall, left_wall], "s": save_room, "c": colour}
+	data[x][y] = {"w": [top_wall, right_wall, bottom_wall, left_wall], "i": icon, "c": colour}
 	
 	Global.save_json(Map.tile_data_path, data, false)
 

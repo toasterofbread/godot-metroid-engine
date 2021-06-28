@@ -13,7 +13,7 @@
 [ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam_1.png" type="Texture" id=11]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/ice_particles/FX.png" type="Texture" id=12]
 [ext_resource path="res://sprites/samus/weapons/beam/b/sBeam2_3.png" type="Texture" id=13]
-[ext_resource path="res://scenes/Samus/classes/KinematicProjectile.gd" type="Script" id=14]
+[ext_resource path="res://scenes/Samus/weapons/BeamProjectile.gd" type="Script" id=14]
 [ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam_2.png" type="Texture" id=15]
 [ext_resource path="res://sprites/samus/weapons/beam/p/sPBeam_1.png" type="Texture" id=16]
 [ext_resource path="res://sprites/samus/weapons/beam/ps/sSPBeam_1.png" type="Texture" id=17]
@@ -307,34 +307,9 @@ animations = [ {
 "name": "ICEBEAM start",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 74 ), ExtResource( 7 ), ExtResource( 72 ), ExtResource( 6 ), ExtResource( 67 ), ExtResource( 75 ), ExtResource( 66 ), ExtResource( 66 ) ],
-"loop": false,
-"name": "WAVEBEAM end",
-"speed": 60.0
-}, {
 "frames": [ ExtResource( 91 ), ExtResource( 92 ), ExtResource( 92 ) ],
 "loop": false,
 "name": "WAVEBEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 81 ), ExtResource( 70 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 80 ), ExtResource( 77 ), ExtResource( 78 ), ExtResource( 78 ) ],
-"loop": false,
-"name": "ICEBEAM end",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 94 ), ExtResource( 90 ), ExtResource( 90 ) ],
-"loop": false,
-"name": "PLASMABEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
-"loop": false,
-"name": "CHARGEBEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 82 ), ExtResource( 85 ), ExtResource( 84 ), ExtResource( 88 ), ExtResource( 87 ), ExtResource( 86 ), ExtResource( 83 ), ExtResource( 83 ) ],
-"loop": false,
-"name": "CHARGEBEAM end",
 "speed": 60.0
 }, {
 "frames": [ ExtResource( 68 ), ExtResource( 9 ), ExtResource( 73 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 79 ), ExtResource( 65 ), ExtResource( 65 ) ],
@@ -342,14 +317,39 @@ animations = [ {
 "name": "PLASMABEAM end",
 "speed": 60.0
 }, {
+"frames": [ ExtResource( 94 ), ExtResource( 90 ), ExtResource( 90 ) ],
+"loop": false,
+"name": "PLASMABEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 81 ), ExtResource( 70 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 80 ), ExtResource( 77 ), ExtResource( 78 ), ExtResource( 78 ) ],
+"loop": false,
+"name": "ICEBEAM end",
+"speed": 60.0
+}, {
 "frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
 "loop": false,
-"name": "POWERBEAM start",
+"name": "CHARGEBEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 74 ), ExtResource( 7 ), ExtResource( 72 ), ExtResource( 6 ), ExtResource( 67 ), ExtResource( 75 ), ExtResource( 66 ), ExtResource( 66 ) ],
+"loop": false,
+"name": "WAVEBEAM end",
 "speed": 60.0
 }, {
 "frames": [ ExtResource( 71 ), ExtResource( 69 ), ExtResource( 76 ), ExtResource( 2 ), ExtResource( 2 ) ],
 "loop": false,
 "name": "POWERBEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
+"loop": false,
+"name": "POWERBEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 82 ), ExtResource( 85 ), ExtResource( 84 ), ExtResource( 88 ), ExtResource( 87 ), ExtResource( 86 ), ExtResource( 83 ), ExtResource( 83 ) ],
+"loop": false,
+"name": "CHARGEBEAM end",
 "speed": 60.0
 } ]
 
@@ -363,7 +363,7 @@ is_base_weapon = true
 [node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
 collision_layer = 2
-collision_mask = 524292
+collision_mask = 540676
 script = ExtResource( 14 )
 base_velocity = 450.0
 
@@ -418,5 +418,8 @@ animation = "POWERBEAM start"
 visible = false
 position = Vector2( 0.53093, -0.679844 )
 scale = Vector2( 0.4, 0.75 )
+
+[node name="ImpactPosition" type="Position2D" parent="Projectile"]
+position = Vector2( 0.56123, -12.4222 )
 
 [node name="Tween" type="Tween" parent="."]

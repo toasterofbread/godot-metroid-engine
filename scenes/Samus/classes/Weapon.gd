@@ -10,6 +10,7 @@ export var damage_amount: float
 export var cooldown: float
 export var is_morph_weapon: bool
 export var is_base_weapon: bool
+export var can_charge: bool = true
 
 var ammo: int setget set_ammo
 var amount: int
@@ -42,7 +43,6 @@ func set_enabled():
 
 func _ready():
 	
-	
 	if has_node("Projectile"):
 		ProjectileNode = $Projectile
 		remove_child(ProjectileNode)
@@ -71,6 +71,11 @@ func _ready():
 	Weapons = Samus.Weapons
 	set_enabled()
 	LocalAnchor = Weapons.CannonPositionAnchor
+	
+	ready()
+
+func ready():
+	pass
 
 func projectile_physics_process(_projectile, _collision: KinematicCollision2D, _delta: float):
 	pass

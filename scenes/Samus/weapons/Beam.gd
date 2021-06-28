@@ -9,7 +9,6 @@ func _ready():
 	set_types()
 
 func set_types():
-	print("SET TYPES")
 	var types = []
 	for type in Enums.UpgradeTypes["beam"]:
 		if type != Enums.Upgrade.POWERBEAM and Samus.is_upgrade_active(type):

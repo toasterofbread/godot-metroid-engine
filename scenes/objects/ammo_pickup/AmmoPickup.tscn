@@ -32,6 +32,16 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
+"frames": [ ExtResource( 14 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "missile",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 4 ), ExtResource( 19 ), ExtResource( 5 ), ExtResource( 26 ) ],
+"loop": true,
+"name": "supermissile",
+"speed": 15.0
+}, {
 "frames": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 23 ), ExtResource( 22 ) ],
 "loop": true,
 "name": "powerbomb",
@@ -46,16 +56,6 @@ animations = [ {
 "loop": true,
 "name": "energy_small",
 "speed": 15.0
-}, {
-"frames": [ ExtResource( 14 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 1 ) ],
-"loop": true,
-"name": "missile",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 4 ), ExtResource( 19 ), ExtResource( 5 ), ExtResource( 26 ) ],
-"loop": true,
-"name": "supermissile",
-"speed": 15.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -67,8 +67,11 @@ script = ExtResource( 29 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "supermissile"
+animation = "energy_large"
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
+
+[connection signal="body_entered" from="." to="." method="_on_AmmoPickup_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scenes/Samus/classes/HUDIcon.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ui/mainhud/visor/icons/scan_2.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://fonts/Pixeled.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://sprites/ui/map/logbook_images/block_grapple.png" type="Texture" id=9]
 [ext_resource path="res://scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/ui/notifications/BottomPopup/BottomPopup.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -19,7 +20,40 @@ animations = [ {
 "speed": 0.0
 } ]
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="Animation" id=2]
+resource_name = "pulse"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Icon:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1.46409, 1.46409, 1.46409 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.309804 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "reset"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Icon:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.027451, 0.156863, 0.270588, 0.74902 )
 border_width_left = 2
 border_width_top = 2
@@ -27,7 +61,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.027451, 0.156863, 0.270588, 0.74902 )
 border_width_left = 2
 border_width_top = 2
@@ -35,25 +69,24 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.963636, 1 )
 colors = PoolColorArray( 0.00784314, 0.537255, 1, 1, 0.027451, 0.156863, 0.270588, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 4 )
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
 
-[sub_resource type="StyleBoxTexture" id=6]
-texture = SubResource( 5 )
+[sub_resource type="StyleBoxTexture" id=8]
+texture = SubResource( 7 )
 region_rect = Rect2( 0, 0, 2048, 1 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=9]
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=10]
 font_data = ExtResource( 6 )
 
-[sub_resource type="Animation" id=9]
-resource_name = "hide"
+[sub_resource type="Animation" id=11]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Info/Image:rect_position")
@@ -176,7 +209,7 @@ tracks/9/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=12]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Info/Image:rect_position")
@@ -309,8 +342,10 @@ background_tint = Color( 0, 0, 0, 0 )
 [node name="ProgressTween" type="Tween" parent="."]
 
 [node name="MenuIcon" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+margin_left = -35.0
+margin_top = -5.0
+margin_right = -25.0
+margin_bottom = 5.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -339,6 +374,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MenuIcon"]
+anims/pulse = SubResource( 2 )
+anims/reset = SubResource( 3 )
+
 [node name="ScanInfo" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="ScanInfo"]
@@ -361,7 +400,7 @@ margin_left = 462.0
 margin_top = 278.0
 margin_right = 462.0
 margin_bottom = 778.0
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -388,7 +427,7 @@ margin_right = 1249.0
 margin_bottom = 778.0
 rect_pivot_offset = Vector2( 2160.41, 175.415 )
 rect_clip_content = true
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -399,7 +438,7 @@ margin_top = 2.0
 margin_right = 1076.0
 margin_bottom = 976.0
 rect_rotation = 90.0
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -410,7 +449,7 @@ margin_top = -19.3814
 margin_right = 398.687
 margin_bottom = 34.6186
 rect_scale = Vector2( 2.5, 2.5 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 2
 custom_constants/shadow_offset_y = 2
@@ -442,7 +481,7 @@ margin_top = 146.664
 margin_right = 356.889
 margin_bottom = 309.664
 rect_scale = Vector2( 3, 3 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "An attachment point with a mechanism that allows grapple beam users to securely tether themselves. The Federation frequently makes use of these to allow passage over wide gaps in situations where constructing a bridge would be unneccesary or impossible."
 autowrap = true
@@ -469,8 +508,8 @@ action_keys = [ "ui_cancel" ]
 text = [ "Cancel" ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ScanInfo"]
-anims/hide = SubResource( 9 )
-anims/show = SubResource( 10 )
+anims/hide = SubResource( 11 )
+anims/show = SubResource( 12 )
 
 [node name="Light" type="Node2D" parent="."]
 
@@ -481,6 +520,9 @@ offset = Vector2( 348, 0 )
 texture_scale = 0.2
 color = Color( 0, 1, 0.227451, 0.839216 )
 energy = 0.75
+range_layer_min = -512
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="BottomPopup" parent="." instance=ExtResource( 11 )]

@@ -20,6 +20,7 @@ z_as_relative = false
 script = ExtResource( 4 )
 id = 22
 damage_type = 1
+can_charge = false
 
 [node name="MenuIcon" type="Control" parent="."]
 margin_right = 18.0

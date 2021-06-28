@@ -1,241 +1,88 @@
 {
 	"sheets": [
 		{
-			"name": "logbook",
+			"name": "samus_physics",
 			"columns": [
 				{
-					"typeStr": "1",
-					"name": "key"
-				},
-				{
-					"typeStr": "1",
-					"name": "name",
-					"kind": "localizable"
-				},
-				{
-					"typeStr": "1",
-					"name": "profile",
-					"kind": "localizable"
-				},
-				{
-					"typeStr": "1",
-					"name": "pickup_name",
-					"opt": true,
-					"kind": "localizable"
-				},
-				{
-					"typeStr": "1",
-					"name": "group",
-					"kind": "localizable"
+					"typeStr": "17",
+					"name": "standard"
 				}
 			],
 			"lines": [
 				{
-					"key": "MISSILE",
-					"name": "Missiles",
-					"pickup_name": "Missile Tank",
-					"group": "Suit upgrades",
-					"profile": "Basic explosive projectile capable of dealing fairly high amounts of damage in a small radius upon impact. While these missiles don't boast the larger range or power of other weapons, they are still highly sought after due to their portability."
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "SUPERMISSILE",
-					"name": "Super Missiles",
-					"pickup_name": "Super Missile Tank",
-					"group": "Suit upgrades",
-					"profile": "An advanced variant of standard missiles that inflicts far higher damage in a larger radius. While they are powerful, they are rarely considered cost-efficient due to their size and weight. However, the Chozo were known to store large amounts of Super Missiles easily using compacting technology similar to the mechanism used in the Morph Ball."
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "POWERBOMB",
-					"name": "Power Bombs",
-					"pickup_name": "Power Bomb Tank",
-					"group": "Suit upgrades",
-					"profile": "The most powerful weapon that can reasonably be fit into a Chozo Power Suit. In the early years of the Federation, Power Bombs were outlawed in many parts of the galaxy. However, as tecnology progressed and armour durable enough to withstand the blast of a Power Bomb became widespread, the Federation began outfitting its soldiers with them."
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "BOMB",
-					"name": "Bombs",
-					"group": "Suit upgrades",
-					"profile": "Simple weapon useable while in Morph Ball form. They are intended largely for use in exploration and traversal due to their ability to launch objects into the air, but can inflict substantial damage against enemies if they enter the small blast radius. "
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "MORPHBALL",
-					"name": "Morph Ball",
-					"group": "Suit upgrades",
-					"profile": "Highly advanced Chozo invention which allows the user to become small and round. The Morph Ball is uniquely suited to exploration due to both its small size, high speed, and ability to launch itself into the air using a standard bomb. "
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "ETANK",
-					"name": "Energy Tank",
-					"group": "Suit upgrades",
-					"profile": "A vital component of the Power Suit that increases energy capacity by 100. Both the Chozo and the Federation were known to place these extensively throughout their bases as backup supplies in the event of an emergency, rarely placing many in one place to prevent losing large amounts."
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "SPIDERBALL",
-					"name": "Spider Ball",
-					"group": "Suit upgrades",
-					"profile": "\tAn advanced mechanism designed adhere to a flat surface and crawl along it, even when upside-down. Despite its ability to attach to almost any material, the Spider Ball is unlikely to remain in place if subjected to a large outward force. The Power Suit's adaptability has allowed the use of the Spider Ball, but it is unknown if the Chozo created it. "
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "SPRINGBALL",
-					"name": "Spring Ball",
-					"group": "Suit upgrades",
-					"profile": "The Spring Ball is a utility for the Morph Ball which allows it to jump upward without need for a bomb, further cementing its usefulness for exploration. "
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "POWERGRIP",
-					"name": "Power Grip",
-					"group": "Suit upgrades",
-					"profile": "Utility feature of the Power Suit which allows the wearer to grab onto ledges, and then climb up onto the surface at any time."
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "HIGHJUMP",
-					"name": "High Jump",
-					"group": "Suit upgrades",
-					"profile": "Significantly improves the Power Suit's maximum jump height under standard conditions , expanding traversal capability."
+					"standard": {
+						"key": ""
+					}
 				},
 				{
-					"key": "SPACEJUMP",
-					"name": "Space Jump",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "SCREWATTACK",
-					"name": "Screw Attack",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "SPEEDBOOSTER",
-					"name": "Speed Booster",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "POWERSUIT",
-					"name": "Power Suit",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "VARIASUIT",
-					"name": "Varia Suit",
-					"group": "Suit upgrades",
-					"profile": "Increases the heat-resisting ability of the Power Suit, allowing its wearer to traverse heated environments."
-				},
-				{
-					"key": "GRAVITYSUIT",
-					"name": "Gravity Suit",
-					"group": "Suit upgrades",
-					"profile": "Allows the wearer to move freely within fluids. Inherits and improves the heat-resisting ability of the Varia suit."
-				},
-				{
-					"key": "POWERBEAM",
-					"name": "Power Beam",
-					"group": "Suit upgrades",
-					"profile": "Standard Chozo-built beam weapon. Low power, but extremely energy-efficient."
-				},
-				{
-					"key": "ICEBEAM",
-					"name": "Ice Beam",
-					"group": "Suit upgrades",
-					"profile": "Instantly freezes small objects such as creatures and projectiles on contact, increasing their vulnerability and allowing them to be used as platforms."
-				},
-				{
-					"key": "PLASMABEAM",
-					"name": "Plasma Beam",
-					"group": "Suit upgrades",
-					"profile": "Beam with an extremely high damage output. Able to pass through multiple entities while maintaining energy, only dissipating upon contact with a solid surface."
-				},
-				{
-					"key": "SPAZERBEAM",
-					"name": "Spazer Beam",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "WAVEBEAM",
-					"name": "Wave Beam",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "CHARGEBEAM",
-					"name": "Charge Beam",
-					"group": "Suit upgrades",
-					"profile": "Upgrade for the Arm Cannon that allows the equipped beam type to be charged for higher damage output."
-				},
-				{
-					"key": "GRAPPLEBEAM",
-					"name": "Grapple Beam",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "SCANVISOR",
-					"name": "Scan Visor",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "XRAYVISOR",
-					"name": "X-Ray Visor",
-					"group": "Suit upgrades",
-					"profile": ""
-				},
-				{
-					"key": "block_grapple",
-					"name": "Grapple point",
-					"group": "Federation technology",
-					"profile": "An attachment point with a mechanism that allows grapple beam users to securely tether themselves. The Federation frequently makes use of these to allow passage over wide gaps in situations where constructing a bridge would be unneccesary or impossible."
-				},
-				{
-					"key": "block_beam",
-					"name": "Brinstone",
-					"group": "Environment",
-					"profile": ""
-				},
-				{
-					"key": "block_crumble",
-					"name": "Crumble block",
-					"group": "Environment",
-					"profile": ""
-				},
-				{
-					"key": "block_bomb",
-					"name": "Talloric alloy",
-					"profile": "",
-					"group": "Environment"
-				},
-				{
-					"key": "block_missile",
-					"name": "Radion",
-					"group": "Environment",
-					"profile": ""
-				},
-				{
-					"key": "block_supermissile",
-					"name": "Cordite",
-					"group": "Environment",
-					"profile": ""
-				},
-				{
-					"key": "block_powerbomb",
-					"name": "Bendezium",
-					"group": "Environment",
-					"profile": "A structural component made of bendezium, an extremely strong material often used as in construction of industrial and miiltary installations. Due to both its durability and high adaptability in having both opaque and transparent variants, it is highly sought after on the galactic market. "
-				},
-				{
-					"key": "save_station",
-					"name": "Save station",
-					"profile": "It's just RNG manupulation for Phantoon, I swear!",
-					"group": "Federation technology"
+					"standard": {
+						"key": ""
+					}
 				}
 			],
-			"separators": [
-				25
-			],
+			"separators": [],
 			"props": {}
+		},
+		{
+			"name": "samus_physics@standard",
+			"props": {
+				"hide": true,
+				"isProps": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "key",
+					"display": null
+				}
+			]
 		}
 	],
 	"customTypes": [],

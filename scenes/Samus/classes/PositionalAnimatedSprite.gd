@@ -13,7 +13,12 @@ export var data: Dictionary = {}
 
 export var save_data: bool setget save_data
 export var load_data: bool setget load_data
+export(Array, int) var step_frames = [] setget set_step_frames
 export var set_position_data: bool setget set_position_data
+
+func set_step_frames(value: Array):
+	step_frames = value
+	data["step_frames"] = value
 
 func set_position_data(value: bool):
 	match facing:

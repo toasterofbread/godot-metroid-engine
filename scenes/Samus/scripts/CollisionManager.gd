@@ -19,7 +19,6 @@ func _ready():
 	
 	
 func set_collider(animation: SamusAnimation):
-	
 #	if Samus.boosting:
 #		set_speedbooster_collider(animation)
 	

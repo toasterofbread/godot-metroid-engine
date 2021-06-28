@@ -12,6 +12,7 @@ var idle_timer: Timer = Global.timer([self, "play_idle_animation", []])
 var idle_animations: Array
 const idle_animation_interval = [5, 10] 
 
+var from_powergrip = false
 
 # Called during Samus's readying period
 func _init(_samus: KinematicBody2D):
@@ -56,7 +57,7 @@ func process(_delta):
 			else:
 				change_state("jump", {"options": ["jump"]})
 		return
-	elif not Samus.is_on_floor():
+	elif not Samus.is_on_floor() and not from_powergrip:
 		change_state("jump", {"options": ["fall"]})
 		return
 	elif Input.is_action_just_pressed("fire_weapon"):
@@ -65,7 +66,10 @@ func process(_delta):
 		Samus.aim_none_timer.start()
 	elif Input.is_action_just_pressed("pause") and Samus.PauseMenu.mode == Samus.PauseMenu.MODES.CLOSED:
 		reset_idle_timer = true
-		Animator.Player.play("neutral_open_map_left")
+		Samus.PauseMenu.pause()
+#		Animator.Player.play("neutral_open_map_left")
+	elif from_powergrip and Samus.is_on_floor():
+		from_powergrip = false
 	
 	var shortcut_facing = Shortcut.get_facing()
 	if shortcut_facing != null and shortcut_facing != Samus.facing:
@@ -151,9 +155,9 @@ func process(_delta):
 		Samus.Weapons.fire()
 	
 # Called when Samus's state changes to this one
-func init_state(_data: Dictionary):
+func init_state(data: Dictionary):
 	idle_timer.start(Global.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
-	return self
+	from_powergrip = "from_powergrip" in data and data["from_powergrip"]
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -164,7 +168,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 func play_idle_animation():
 
 	# Play a random idle animation and wait for it to finish
-	var anim = Global.random_array_item(Global.rng, idle_animations)
+	var anim = Global.random_array_item(idle_animations)
 	anim.play()
 	yield(anim, "finished")
 	
@@ -174,4 +178,4 @@ func play_idle_animation():
 #		Animator.play("aim_front", {})
 
 func physics_process(_delta: float):
-	Physics.move_x(0, Samus.states["run"].run_deceleration)
+	Physics.move_x(0, Physics.data["run"]["deceleration"])

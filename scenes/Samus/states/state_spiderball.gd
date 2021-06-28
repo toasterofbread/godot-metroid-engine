@@ -6,20 +6,15 @@ var Animator: Node
 var Physics: Node
 
 # PHYSICS
-const spider_speed = 75
-const spider_acceleration = 25*60
-
-const roll_air_acceleration = 25*60
-const roll_air_deceleration = 50*60
-const roll_air_speed = 150
-
 var animations = {}
 var sounds = {
 	
 }
+var physics_data: Dictionary
 
 var FloorRaycastL: RayCast2D
 var FloorRaycastR: RayCast2D
+var FloorRaycastD: RayCast2D
 var FloorRaycastContainer: Node2D
 
 var rotation: float = 0
@@ -27,19 +22,19 @@ var rotation: float = 0
 var attached = false
 var FLOOR: Vector2 = Vector2.ZERO setget set_floor
 
-
 # Called during Samus's readying period
 func _init(_samus: Node2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
+	Samus = _samus
+	Animator = Samus.Animator
+	Physics = Samus.Physics
 	
 	FloorRaycastContainer = Animator.raycasts.get_node("spiderball")
 	FloorRaycastL = FloorRaycastContainer.get_node("FloorL")
 	FloorRaycastR = FloorRaycastContainer.get_node("FloorR")
+	FloorRaycastD = FloorRaycastContainer.get_node("FloorD")
 	
 	animations = Animator.load_from_json("morphball")
-	
+	physics_data = Physics.data["spiderball"]
 
 # Called when Samus's state is changed to this one
 func init_state(_data: Dictionary):
@@ -82,8 +77,9 @@ func process(_delta):
 				direction = get_direction()
 			anim_speed = direction * (-1.0 if Samus.facing == Enums.dir.RIGHT else 1.0)
 		
-		var target_physics_speed = spider_speed if attached else roll_air_speed
-		anim_speed *= abs(Physics.vel.length()) / target_physics_speed
+		var target_physics_speed = physics_data["speed"] if attached else Physics.data["morphball"]["air_speed"]
+#		var vector_speed: Vector2 = Physics.vel / FLOOR.rotated(deg2rad(90))*direction*spider_speed
+#		anim_speed *= vector_speed.aspect()*0.5
 		animations["roll_spider"].play(true, anim_speed)
 		FloorRaycastContainer.position.x = Animator.current[false].sprites[Samus.facing].position.x
 	
@@ -100,6 +96,7 @@ func set_floor(value: Vector2):
 	FLOOR = value
 	FloorRaycastL.enabled = attached
 	FloorRaycastR.enabled = attached
+	FloorRaycastD.enabled = attached
 	Physics.apply_velocity = !attached
 	Physics.apply_gravity = !attached
 	
@@ -152,13 +149,20 @@ var direction
 func attached_physics_process(delta: float):
 	
 	direction = get_direction()
-	Physics.move(FLOOR.rotated(deg2rad(90))*direction*spider_speed, spider_acceleration*delta)
+#	Physics.move(FLOOR.rotated(deg2rad(90))*direction*spider_speed, spider_acceleration*delta)
+#	Physics.vel = FLOOR.rotated(deg2rad(90))*direction*spider_speed
+	
+	var floor_collision = Samus.move_and_collide(FLOOR*physics_data["speed"]*delta, true, true, true)
+	if floor_collision == null:
+		floor_collision = Samus.move_and_collide(FLOOR*physics_data["speed"]*delta)
+	vOverlay.SET("FLOOR", FLOOR)
+	vOverlay.SET("FloorRaycastD", FloorRaycastD.is_colliding())
+	vOverlay.SET("floor_collision", floor_collision)
 	if direction == 0:
 		return
-	var collided = Samus.move_and_collide(FLOOR*delta*spider_speed) != null
 	
 	var set = false
-	if not collided:
+	if floor_collision == null:
 		if FloorRaycastL.is_colliding():
 			set_floor(-FloorRaycastL.get_collision_normal())
 			set = true
@@ -168,31 +172,47 @@ func attached_physics_process(delta: float):
 		else:
 			set_floor(Vector2.ZERO)
 			return
+	else:
+		set_floor(-floor_collision.normal)
 	
-	var collision = Samus.move_and_collide(Physics.vel*delta)
+	var collision = Samus.move_and_collide(FLOOR.rotated(deg2rad(90))*direction*physics_data["speed"]*delta)
 	if collision != null:
-#		print(normal)
 		set_floor(-collision.normal)
-		collided = true
 
 func bounce(amount: float):
 	set_floor(Vector2.ZERO)
-	Physics.disable_floor_snap = true
-	Physics.vel.y = -amount
+	if Samus.current_fluid == Fluid.TYPES.NONE:
+		Physics.move_y(-amount)
+	else:
+		Physics.move_y(-amount*0.5)
+
+#func bounce(amount: float):
+#	set_floor(Vector2.ZERO)
+#	Physics.disable_floor_snap = true
+#	Physics.vel.y = -amount
 
 func physics_process(delta: float):
 	if attached:
 		attached_physics_process(delta)
 		return
 	
-	var collision = Samus.move_and_collide(Physics.vel*delta, true, true, true)
+	var pad_x = Shortcut.get_pad_vector("pressed").x
+	
+	var velocity = Physics.vel*delta
+	if velocity.x == 0:
+		velocity.x = pad_x
+	if velocity.y == 0:
+		velocity.y = 1
+	
+	var collision = Samus.move_and_collide(velocity, true, true, true)
 	if collision != null:
 		yield(Global, "physics_frame")
 		set_floor(-collision.normal)
 	else:
-		var pad_x = Shortcut.get_pad_vector("pressed").x
 #		if pad_x != 0:
 #			Physics.accelerate_x(roll_air_acceleration, max(roll_air_speed, abs(Physics.vel.x)), Samus.facing)
-		Physics.move_x(roll_air_speed*pad_x, (roll_air_acceleration if pad_x != 0 else roll_air_acceleration)*delta)
+#		Physics.move_x(roll_air_speed*pad_x, (roll_air_acceleration if pad_x != 0 else roll_air_acceleration)*delta)
 #		else:
 #			Physics.decelerate_x(roll_air_deceleration)
+	
+		Samus.states["morphball"].physics_process(delta, true)

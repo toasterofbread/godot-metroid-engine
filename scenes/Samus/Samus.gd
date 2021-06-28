@@ -67,13 +67,6 @@ func shift_position(position: Vector2):
 func _ready():
 	z_index = Enums.Layers.SAMUS
 	
-	var i = 0
-	for key in collision_data:
-		for value in collision_data[key]:
-			collision_data[key][i] = Vector2(value[0], value[1])
-			i += 1
-		i = 0
-	
 	var data = Loader.Save.data["samus"]
 	upgrades = data["upgrades"]
 	
@@ -93,6 +86,8 @@ func _ready():
 			weapon.amount = upgrades[upgrade]["amount"]
 	
 	change_state("neutral")
+	
+	Loader.Save.connect("value_set", self, "save_value_set")
 	
 	# DEBUG
 	$Animator/TestSprites.queue_free()
@@ -149,16 +144,24 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	current_state = states[new_state_key]
 	states[new_state_key].init_state(data)
 
+var upgrade_cache: = {}
 func is_upgrade_active(upgrade_key: int):
-	var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
-	return upgrade["amount"] > 0 and upgrade["active"]
-		
+	
+	if not upgrade_key in upgrade_cache:
+		var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
+		upgrade_cache[upgrade_key] = upgrade["amount"] > 0 and upgrade["active"]
+	
+	return upgrade_cache[upgrade_key]
 
 func set_aiming(value: int):
 	if value in [aim.UP, aim.DOWN, aim.SKY, aim.FLOOR]: 
 		aim_none_timer.start()
 	aiming = value
 
+func save_value_set(path: Array, _value):
+	if len(path) < 4 or path[0] != "samus" or path[1] != "upgrades":
+		return
+	upgrade_cache = {}
 
 # Returns true if the current state has been active for more than the specified time
 # Or if the previous state doesn't match the state key
@@ -214,25 +217,91 @@ func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0
 func camerachunk_exited(chunk: CameraChunk):
 	if current_camerachunk == chunk:
 		current_camerachunk = null
-	
+
+var collider_cache = []
 func set_collider(animation: SamusAnimation):
 	
-	var key: String
+	var main_key: String
 	if animation.position_node_path in collision_data:
-		key = animation.position_node_path
+		main_key = animation.position_node_path
 	elif animation.position_node_path.split("/")[0] in collision_data:
-		key = animation.position_node_path.split("/")[0]
+		main_key = animation.position_node_path.split("/")[0]
 	else:
 		return
 	
-	var i = 0
+	var data = [main_key, facing]
+	if collider_cache == data:
+		return
+	collider_cache = data
+	
 	$Collision.position = animation.positions[facing]
-	for value in collision_data[key]:
-		match i:
-			0: $Collision.shape.extents = value
-			1: $Collision.position = value
-			2: if facing == Enums.dir.RIGHT: $Collision.position = value
-		i += 1
+	$Collision.rotation_degrees = 0
+	$AltCollision.disabled = true
+	for key in collision_data[main_key]:
+		var value = collision_data[main_key][key]
+		if key == "pos": 
+			$Collision.position = Vector2(value[0], value[1])
+		elif (key == "leftPos" and facing == Enums.dir.LEFT) or (key == "rightPos" and facing == Enums.dir.RIGHT):
+			$Collision.position = Vector2(value[0], value[1])
+		elif key == "size":
+			var shape = "rect"
+			if "shape" in collision_data[main_key]:
+				shape = collision_data[main_key]["shape"]
+			
+			if shape == "rect":
+				if not $Collision.shape is RectangleShape2D:
+					$Collision.shape = RectangleShape2D.new()
+				$Collision.shape.extents = Vector2(value[0], value[1])
+			elif shape == "circle":
+				if not $Collision.shape is CircleShape2D:
+					$Collision.shape = CircleShape2D.new()
+				$Collision.shape.radius = value[0]
+			elif shape == "capsule":
+				if not $Collision.shape is CapsuleShape2D:
+					$Collision.shape = CapsuleShape2D.new()
+				
+				if value[1] < value[0]:
+					$Collision.rotation_degrees = 90
+					$Collision.shape.radius = value[1]
+					$Collision.shape.height = value[0]
+				else:
+					$Collision.shape.radius = value[0]
+					$Collision.shape.height = value[1]
+			
+#			elif shape.begins_with("semicapsule"):
+#				if not $Collision.shape is CapsuleShape2D:
+#					$Collision.shape = CapsuleShape2D.new()
+#				if not $AltCollision.shape is RectangleShape2D:
+#					$AltCollision.shape = RectangleShape2D.new()
+#				$AltCollision.disabled = false
+#
+#				var radius: float
+#				var height: float
+#				if value[1] < value[0]:
+#					$Collision.rotation_degrees = 90
+#					radius = value[1]
+#					height = value[0]
+#				else:
+#					radius = value[0]
+#					height = value[1]
+#
+#				$Collision.shape.radius = radius
+#				$Collision.shape.height = height
+#				$AltCollision.shape.extents = Vector2(radius, height/radius*2)
+#
+#				if "pos" in collision_data[main_key]:
+#					var pos = collision_data[main_key]["pos"]
+#					$AltCollision.position = Vector2(pos[0], pos[1])
+#
+#					if shape.ends_with("top"):
+#						pass
+#					else:
+#						$AltCollision.position.y += value[1] + ($AltCollision.shape.extents.y/2)
+				
+				
+				
+			else:
+				push_error("Unknown collision_data shape")
 	
 #	$CollisionHead.shape.radius = $Collision.shape.extents.x
 #	$CollisionHead.position = $Collision.position - Vector2(0, $Collision.shape.extents.y)
@@ -248,11 +317,27 @@ func set_collider(animation: SamusAnimation):
 
 func fluid_entered(fluid: Fluid):
 	current_fluid = fluid.type
+	Physics.set_profile(Fluid.TYPES.keys()[fluid.type])
 
 func fluid_exited(fluid: Fluid):
 	if current_fluid == fluid.type:
 		current_fluid = Fluid.TYPES.NONE
+		Physics.set_profile(null)
 
 func fluid_splash(type: int) -> bool:
-	print(Physics.vel.y)
 	return abs(Physics.vel.y) > 50
+
+func acquire_ammo_pickup(pickup: AmmoPickup):
+	print(pickup)
+
+var step_sounds = {
+	"snow": [
+		Sound.new("res://audio/samus/step_sounds/snow/snow_step_dry-01.wav", Sound.TYPE.SAMUS), 
+		Sound.new("res://audio/samus/step_sounds/snow/snow_step_dry-02.wav", Sound.TYPE.SAMUS),
+		Sound.new("res://audio/samus/step_sounds/snow/snow_step_dry-03.wav", Sound.TYPE.SAMUS),
+		Sound.new("res://audio/samus/step_sounds/snow/snow_step_dry-04.wav", Sound.TYPE.SAMUS),
+	]
+}
+
+func step(index: int):
+	step_sounds["snow"][index].play()

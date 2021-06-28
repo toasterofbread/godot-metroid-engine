@@ -29,7 +29,7 @@ func fired(projectile: SamusKinematicProjectile):
 			
 			if body != Loader.Samus:
 				if body.has_method("damage"):
-					body.damage(damage_type, damage_amount)
+					body.damage(damage_type, damage_amount, null)
 		
 		yield(Global, "process_frame")
 	
