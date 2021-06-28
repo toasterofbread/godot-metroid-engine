@@ -65,5 +65,5 @@ func _process(delta):
 		emit_signal("hide_save_prompt")
 		if not Samus.paused and $AnimatedSprite.animation == "down" and Samus in $SaveArea.get_overlapping_bodies():
 			if Samus.Physics.vel.x == 0 and Samus.is_on_floor() and Samus.current_state.id in ["neutral", "crouch"]:
-				save_prompt = Notification.trigger("ButtonPopup", {"text": "Save progress", "input_key": "ui_accept", "animation_duration": 0.25, "end_signal": [self, "hide_save_prompt"]})
+				save_prompt = $ButtonPopup.trigger("ui_accept", "Save progress", 0.25, [self, "hide_save_prompt"])
 

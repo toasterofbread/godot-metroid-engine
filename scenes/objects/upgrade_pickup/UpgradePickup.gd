@@ -17,6 +17,8 @@ func set_upgrade_type(value: int):
 	upgrade_type = value
 
 func set_acquired(value):
+	if Engine.editor_hint:
+		return
 	if value == null:
 		value = false
 	self.visible = !value
@@ -34,7 +36,10 @@ func _ready():
 		return
 	
 	if not hidden_by_node.is_empty():
-		hidden_by_node = get_parent().get_node(hidden_by_node)
+#		if hidden_by_node.is_absolute():
+		hidden_by_node = get_node(hidden_by_node)
+#		else:
+#			hidden_by_node = get_parent().get_node(hidden_by_node)
 	else:
 		hidden_by_node = null
 	
@@ -51,6 +56,8 @@ func _ready():
 	set_acquired(Loader.Save.get_data_key(save_path_acquired))
 
 func _process(delta):
+	if Engine.editor_hint:
+		return
 	$ScanNode.enabled = (hidden_by_node != null and is_instance_valid(hidden_by_node) and hidden_by_node.visible)
 
 func _on_UpgradePickup_body_entered(body):

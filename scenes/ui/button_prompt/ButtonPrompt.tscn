@@ -13,6 +13,7 @@ scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 2 )
 
 [node name="Container" type="HBoxContainer" parent="."]
+visible = false
 margin_left = -28.9275
 margin_top = -24.2853
 margin_right = 264.073
@@ -36,7 +37,7 @@ __meta__ = {
 show_behind_parent = true
 margin_left = 65.0
 margin_top = 1.0
-margin_right = 293.0
+margin_right = 65.0
 margin_bottom = 46.0
 size_flags_horizontal = 4
 custom_fonts/font = SubResource( 1 )
@@ -46,16 +47,15 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="Container/Text"]
-visible = false
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -28.0
-margin_top = -5.0
-margin_right = 10.0
-margin_bottom = 4.0
+margin_left = -77.0
+margin_top = -10.0
+margin_right = 11.0
+margin_bottom = 11.0
 size_flags_horizontal = 6
-color = Color( 1, 1, 1, 0 )
+color = Color( 0, 0, 0, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -41,7 +41,6 @@ func get_adjusted_limits(_limits=null) -> Dictionary:
 		var cam = self.duplicate()
 #		var viewport = Viewport.new()
 #		viewport.size = get_viewport().size
-#		print(get_viewport().duplicate(0).get_children())
 #		viewport.world_2d = get_viewport().world_2d
 #		get_parent().add_child(viewport)
 #		viewport.add_child(cam)
@@ -76,11 +75,6 @@ func current_limits() -> Dictionary:
 	for limit in ["limit_top", "limit_bottom", "limit_left", "limit_right"]:
 		ret[limit] = get(limit)
 	return ret
-
-func _physics_process(delta):
-	vOverlay.SET("CAMERA CENTER", get_camera_screen_center())
-	vOverlay.SET("CAMERA POSITION", global_position)
-	vOverlay.SET("CAMERA LIMITS", current_limits())
 
 func interpolate_limits(target_limits: Dictionary, duration: float, trans_type:=Tween.TRANS_LINEAR, ease_type:=Tween.EASE_IN_OUT):
 	
@@ -146,7 +140,6 @@ func interpolate_limits(target_limits: Dictionary, duration: float, trans_type:=
 		set(property, original_smoothing[property])
 
 func _interpolate_process(value: float):
-	print(limit_offset)
 	var adjusted_current_limits = get_adjusted_limits()
 	var adjusted_target_limits = null
 	
@@ -173,10 +166,8 @@ func update_limit_offset(starting_position: Vector2):
 		return
 
 #	offset = global_position - starting_position
-#	print(offset)
 	var offset = global_position - previous_position
 #	previous_position = global_position
-#	print(offset)
 
 	limit_offset["limit_left"] = 0
 	limit_offset["limit_right"] = 0
@@ -225,14 +216,8 @@ func set_limit_right(value: float):
 #var prev_bottom = 0.0
 #func set_limit_bottom(value: float):
 #	limit_bottom = value
-##	print(limit_offset["limit_bottom"])
-##	print(value - prev_bottom)
-##	print("_______________")
 #	if (value - prev_bottom) < 0:
 #		limit_bottom += limit_offset["limit_bottom"]
-#		print("y")
-#	else:
-#		print("n")
 #	prev_bottom = value
 #
 #var prev_left = 0.0
@@ -251,7 +236,4 @@ func set_limit_right(value: float):
 #		limit_right += limit_offset["limit_right"]
 ##		if tween.get_runtime() == tween.tell():
 ##			tween.stop_all()
-##		print("y")
-##	else:
-##		print("n")
 #	prev_right = value

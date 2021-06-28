@@ -124,9 +124,6 @@ func _process(delta):
 		current[Enums.dir.keys()[key]] = current[key]
 		current.erase(key)
 	
-	vOverlay.SET("CAMERA LIMITS", limit)
-	vOverlay.SET("CAMERA BOUNDS", current)
-	
 	offset = Vector2.ZERO
 	
 	var center = center()

@@ -23,15 +23,13 @@ func _ready():
 	
 	$CanvasLayer.layer = Enums.CanvasLayers.MENU
 	$CanvasLayer2.layer = Enums.CanvasLayers.MENU
-	
-func pause():
-	get_tree().paused = true
 
-func open_menu():
+func pause():
 	
 	if transitioning:
 		return
 	
+	get_tree().paused = true
 	transitioning = true
 	yield(Map.Grid.fade(false, 0.15), "completed")
 	
@@ -130,7 +128,11 @@ func _process(delta: float):
 func process_logbook(last_frame: bool):
 	
 	if Buttons.get_node("Settings").just_pressed():
-		pass
+		$AnimationPlayer.play("close_logbook")
+		mode = MODES.MAP
+	elif Buttons.get_node("Equipment").just_pressed():
+		$AnimationPlayer.play("logbook_to_equipment")
+		mode = MODES.EQUIPMENT
 	else:
 		$CanvasLayer2/LogbookScreen.process()
 
@@ -140,7 +142,7 @@ func process_equipment(last_frame: bool):
 		$AnimationPlayer.play("close_equipment")
 		mode = MODES.MAP
 	elif Buttons.get_node("Equipment").just_pressed():
-		$AnimationPlayer.play("open_logbook")
+		$AnimationPlayer.play("equipment_to_logbook")
 		mode = MODES.LOGBOOK
 	else:
 		$CanvasLayer2/EquipmentScreen.process()
@@ -168,7 +170,7 @@ func process_marker(first_frame: bool, last_frame: bool):
 	elif Buttons.get_node("Marker/ButtonPrompts/Rename").just_pressed():
 		if Buttons.get_node("Marker/ButtonPrompts/Rename").switch_to_index(!Map.Marker.editable_name, 0.25):
 			Map.Marker.editable_name = !Map.Marker.editable_name
-			Map.Marker.moving = !Map.Marker.editable_name\
+			Map.Marker.moving = !Map.Marker.editable_name
 	
 	if mode != MODES.MAPMARKER or last_frame:
 		

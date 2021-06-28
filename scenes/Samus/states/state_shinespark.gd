@@ -19,7 +19,7 @@ var SpeedboostAnimationPlayer: AnimationPlayer
 var SpeedboosterArea: Area2D
 
 # PHYSICS
-const speed: float = 600.0
+var physics_data: Dictionary
 var velocity: Vector2
 var direction: int
 
@@ -30,13 +30,14 @@ var ballspark: bool = false
 
 # Called during Samus's readying period
 func _init(_samus: Node2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
+	Samus = _samus
+	Animator = Samus.Animator
+	Physics = Samus.Physics
 	
-	self.SpeedboostAnimationPlayer = Animator.get_node("SpeedboostAnimationPlayer")
+	SpeedboostAnimationPlayer = Animator.get_node("SpeedboostAnimationPlayer")
 	
-	self.animations = Animator.load_from_json(self.id)
+	animations = Animator.load_from_json(self.id)
+	physics_data = Physics.data["shinespark"]
 
 # Called when Samus's state is changed to this one
 func init_state(data: Dictionary):
@@ -54,10 +55,11 @@ func init_state(data: Dictionary):
 	
 	if not ballspark:
 		yield(animations["start"].play(), "completed")
+		Physics.vel.y = 0
 	else:
-		yield(Global.wait(0.25), "completed")
-	
-	Physics.vel.y = 0
+		yield(Global.wait(0.1), "completed")
+		Physics.vel.y = 0
+		yield(Global.wait(0.15), "completed")
 	
 	if Input.is_action_pressed("pad_left"):
 		if Input.is_action_pressed("pad_up"):
@@ -80,7 +82,7 @@ func init_state(data: Dictionary):
 	else:
 		direction = Enums.dir.UP
 	
-	velocity = Global.dir2vector(direction)*speed
+	velocity = Global.dir2vector(direction)*physics_data["speed"]
 	
 	if not ballspark:
 		animation_key = "horiz"

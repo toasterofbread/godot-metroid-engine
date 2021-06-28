@@ -34,8 +34,10 @@ func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _data:=
 #	set_act_as_kinematic(_act_as_kinematic)
 	
 	burst_sprite = get_node_or_null("Burst")
-	if burst_sprite:
+	if burst_sprite != null:
 		burst_sprite.position = Vector2.ZERO
+		burst_sprite.z_as_relative = false
+		burst_sprite.z_index = Enums.Layers.PROJECTILE
 	
 	z_as_relative = false
 	z_index = Enums.Layers.PROJECTILE
@@ -85,7 +87,6 @@ func _physics_process(delta):
 #	if affected_by_world:
 ##		add_central_force()
 #		applied_force = self.velocity# * delta
-#		print("nani")
 ##		position += velocity*delta
 #	else:
 ##		add_central_force(self.velocity * delta)

@@ -25,6 +25,7 @@
 		"description": "Various tweaks",
 		"options": {
 			"joypad_button_icon_style": {"type": ["PlayStation", "Xbox", "Nintendo"], "default": 0, "title": "Controller buton icon style", "description": "Changes the style of controller icons used in button prompts (does not apply to keyboard icons)"},
+			"physics_mode": {"type": ["Default", "Super Metroid style"], "default": 0, "title": "Samus physics mode", "description": "Changes Samus's physics values. Non-default values may lead to gameplay issues."}
 		}
 	}
 }

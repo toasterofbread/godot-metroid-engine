@@ -1,0 +1,127 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://sprites/objects/samus_ship/5.png" type="Texture" id=1]
+[ext_resource path="res://sprites/objects/samus_ship/4.png" type="Texture" id=2]
+[ext_resource path="res://sprites/objects/samus_ship/2.png" type="Texture" id=3]
+[ext_resource path="res://sprites/objects/samus_ship/0.png" type="Texture" id=4]
+[ext_resource path="res://sprites/objects/samus_ship/1.png" type="Texture" id=5]
+[ext_resource path="res://sprites/objects/samus_ship/3.png" type="Texture" id=6]
+[ext_resource path="res://sprites/objects/samus_ship/6.png" type="Texture" id=7]
+[ext_resource path="res://sprites/objects/samus_ship/tractor_beam/2.png" type="Texture" id=8]
+[ext_resource path="res://sprites/objects/samus_ship/tractor_beam/0.png" type="Texture" id=9]
+[ext_resource path="res://sprites/objects/samus_ship/tractor_beam/1.png" type="Texture" id=10]
+[ext_resource path="res://scenes/objects/samus_ship/Gunship.gd" type="Script" id=11]
+[ext_resource path="res://scenes/ui/notifications/BottomPopup/BottomPopup.tscn" type="PackedScene" id=12]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 2 ), ExtResource( 1 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 16, 22 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "deploy_beam"
+tracks/0/type = "value"
+tracks/0/path = NodePath("TractorBeam:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TractorBeam:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.196146, 0.196146 ),
+"update": 0,
+"values": [ Vector2( 0, -16 ), Vector2( 0, 20 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "retract_beam"
+tracks/0/type = "value"
+tracks/0/path = NodePath("TractorBeam:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TractorBeam:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.196146, 0.196146 ),
+"update": 0,
+"values": [ Vector2( 0, 20 ), Vector2( 0, -16 ) ]
+}
+
+[node name="Gunship" type="StaticBody2D"]
+collision_layer = 524288
+collision_mask = 15
+script = ExtResource( 11 )
+
+[node name="TractorBeam" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -16 )
+frames = SubResource( 1 )
+frame = 2
+playing = true
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+offset = Vector2( 0, -3 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2( 0, -30 )
+polygon = PoolVector2Array( -55, -10, -44, -20, 44, -20, 55, -10, 55, 12, 70, 12, 70, 24, -70, 24, -70, 13, -55, 13 )
+
+[node name="SaveArea" type="Area2D" parent="."]
+visible = false
+position = Vector2( 0, 20 )
+input_pickable = false
+collision_layer = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SaveArea"]
+position = Vector2( 0, 5 )
+shape = SubResource( 3 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/deploy_beam = SubResource( 4 )
+anims/retract_beam = SubResource( 5 )
+
+[node name="BottomPopup" parent="." instance=ExtResource( 12 )]
+
+[connection signal="body_entered" from="SaveArea" to="." method="_on_SaveArea_body_entered"]
+[connection signal="body_exited" from="SaveArea" to="." method="_on_SaveArea_body_exited"]

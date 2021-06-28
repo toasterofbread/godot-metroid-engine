@@ -15,7 +15,9 @@ width = 32
 [sub_resource type="Animation" id=4]
 resource_name = "breathe"
 
-[node name="ScanNode" type="Area2D"]
+[node name="ScanNode" type="Area2D" groups=[
+"ScanNode",
+]]
 scale = Vector2( 0.5, 0.5 )
 collision_layer = 65536
 collision_mask = 16

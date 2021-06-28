@@ -39,7 +39,10 @@ func _ready():
 			remove_child(child)
 			visor_state.scanner.get_node("Lights").add_child(child)
 			child.name = str(id)
-	
+			for node in child.get_children():
+				if node is Light2D:
+					node.range_layer_max = Enums.CanvasLayers.HUD - 1
+			
 	Weapons = Samus.Weapons
 	set_enabled()
 	Weapons.connect("visor_mode_changed", self, "visor_mode_changed")

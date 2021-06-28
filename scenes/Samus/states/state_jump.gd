@@ -10,16 +10,24 @@ const damage_type = Enums.DamageType.SCREWATTACK
 const damage_amount = 0 
 
 # PHYSICS
-const jump_speed = 250
-const jump_acceleration = 99999
-const jump_time = 0.2
-var jump_current_time = 125
+#const standard_jump_speed = 250
+#const standard_jump_acceleration = 99999
+#const standard_jump_time = 0.2
+#const high_jump_speed = 400
+#const high_jump_acceleration = 7500
+#const high_jump_time = 0.25
+const ledge_max_angle = 20
 
-const horiz_speed = 125
-const horiz_acceleration = 10
+var jump_speed: float
+var jump_acceleration: float
+var jump_time: float
+var jump_current_time: float
 
-const spin_horiz_speed = 125
-const spin_horiz_deceleration = 10
+#const horiz_speed = 125
+#const horiz_acceleration = 10
+#
+#const spin_horiz_speed = 125
+#const spin_horiz_deceleration = 10
 
 var first_frame = false
 var spinning: bool = false
@@ -27,6 +35,8 @@ var screwattacking: bool = false
 
 var ledge_above_raycast: RayCast2D
 var ledge_below_raycast: RayCast2D
+#var ledgeRaycastVert: RayCast2D
+#var ledgeRaycastHoriz: RayCast2D
 
 var walljump_raycasts: Dictionary
 var WalljumpTimer: Timer
@@ -36,36 +46,41 @@ var PowergripCooldownTimer: Timer = Global.timer()
 var powergrip_cooldown: float = 0.25
 
 var animations = {}
-
 var sounds = {
-	"jump": Sound.new("res://audio/samus/jump/sndJump.wav"),
-	"walljump": Sound.new("res://audio/samus/jump/sndWallJump.wav"),
-	"land": Sound.new("res://audio/samus/jump/sndLand.wav")
+	"jump": Sound.new("res://audio/samus/jump/sndJump.wav", Sound.TYPE.SAMUS),
+	"walljump": Sound.new("res://audio/samus/jump/sndWallJump.wav", Sound.TYPE.SAMUS),
+	"land": Sound.new("res://audio/samus/jump/sndLand.wav", Sound.TYPE.SAMUS)
 }
-
 var sounds_spin = {
 	"spin": Sound.new("res://audio/samus/jump/sndSpinJump.wav", true),
 	"spin_space": Sound.new("res://audio/samus/jump/sndSpaceJump.wav", true),
 	"spin_screw": Sound.new("res://audio/samus/jump/sndScrewAttack.wav", true),
 	"spin_space_screw": Sound.new("res://audio/samus/jump/sndSpaceScrewAttack.wav", true),
 }
+var physics_data: Dictionary
 
 # Called during Samus's readying period
 func _init(_samus: Node2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
+	Samus = _samus
+	Animator = Samus.Animator
+	Physics = Samus.Physics
 	
-	self.ledge_above_raycast = Animator.raycasts.get_node("jump/LedgeAbove")
-	self.ledge_below_raycast = Animator.raycasts.get_node("jump/LedgeBelow")
-	self.walljump_raycasts = {
+#	ledgeRaycastVert = Animator.raycasts.get_node("jump/LedgeVert")
+#	ledgeRaycastHoriz = Animator.raycasts.get_node("jump/LedgeHoriz")
+	ledge_above_raycast = Animator.raycasts.get_node("jump/LedgeAbove")
+	ledge_below_raycast = Animator.raycasts.get_node("jump/LedgeBelow")
+	walljump_raycasts = {
 		Enums.dir.LEFT: Animator.raycasts.get_node("jump/WalljumpLeft"),
 		Enums.dir.RIGHT: Animator.raycasts.get_node("jump/WalljumpRight")
 	}
-	self.WalljumpTimer = Global.start_timer("WalljumpPeriod", WalljumpPeriod, {}, null)
+	WalljumpTimer = Global.start_timer("WalljumpPeriod", WalljumpPeriod, {}, null)
 	WalljumpTimer.stop()
 	
-	self.animations = Animator.load_from_json(self.id)
+	animations = Animator.load_from_json(self.id)
+	physics_data = Physics.data["jump"]
+	
+	set_jump_values()
+	Loader.Save.connect("value_set", self, "save_value_set")
 
 # Called when Samus's state is changed to this one
 func init_state(data: Dictionary):
@@ -75,6 +90,7 @@ func init_state(data: Dictionary):
 	if Samus.previous_state_id == "powergrip":
 		PowergripCooldownTimer.start(powergrip_cooldown)
 	
+#	ledgeRaycastVert.enabled = true
 	ledge_above_raycast.enabled = true
 	ledge_below_raycast.enabled = true
 	set_walljump_raycasts_state(true)
@@ -87,13 +103,14 @@ func init_state(data: Dictionary):
 			sounds["jump"].play()
 		jump_current_time = jump_time
 		Physics.move_y(-jump_speed, jump_acceleration*(1/60))
-#		Physics.accelerate_y(jump_speed, jump_acceleration, Enums.dir.UP)
 	if "fall" in options and not spinning:
 		animations["legs_start"].play()
 	return self
 
 # Called every frame while this state is active
 func process(_delta):
+	
+	Physics.disable_floor_snap = true
 	
 	var play_transition = false
 	var fire_weapon = false
@@ -145,8 +162,8 @@ func process(_delta):
 		if Input.is_action_pressed("pad_up"):
 			Samus.aiming = Samus.aim.SKY
 			spinning = false
-		elif Input.is_action_pressed("pad_down") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
-			if Samus.aiming == Samus.aim.FLOOR and Input.is_action_just_pressed("pad_down"):
+		elif Input.is_action_pressed("pad_down"):
+			if Samus.aiming == Samus.aim.FLOOR and Input.is_action_just_pressed("pad_down") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 				change_state("morphball", {"options": ["animate"]})
 				return
 			else:
@@ -230,6 +247,8 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 		sound.stop()
 	if new_state_key != "morphball":
 		Samus.boosting = false
+#	ledgeRaycastVert.enabled = false
+#	ledgeRaycastHoriz.enabled = false
 	ledge_above_raycast.enabled = false
 	ledge_below_raycast.enabled = false
 	set_walljump_raycasts_state(false)
@@ -238,24 +257,57 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 func physics_process(delta: float):
 	
-	if Samus.facing == Enums.dir.LEFT:
-		ledge_above_raycast.cast_to = Vector2(-16, 0)
-		ledge_above_raycast.position = Vector2(-2, -20)
-		ledge_below_raycast.position = Vector2(-9, -19)
-	else:
-		ledge_above_raycast.cast_to = Vector2(16, 0)
-		ledge_above_raycast.position = Vector2(12, -20)
-		ledge_below_raycast.position = Vector2(19, -19)
+	var pad_x = Shortcut.get_pad_vector("pressed").x
 	
-	if ledge_above_raycast.enabled and Samus.is_upgrade_active(Enums.Upgrade.POWERGRIP):
-		if Samus.is_on_wall() and PowergripCooldownTimer.time_left == 0:
-			if !ledge_above_raycast.is_colliding() and ledge_below_raycast.is_colliding():
+	if Samus.is_upgrade_active(Enums.Upgrade.POWERGRIP) and pad_x == (1 if Samus.facing == Enums.dir.RIGHT else -1):
+		
+		if Samus.facing == Enums.dir.LEFT:
+			ledge_above_raycast.rotation_degrees = 180
+			ledge_below_raycast.rotation_degrees = 180
+			ledge_above_raycast.position.x = 12
+			ledge_below_raycast.position.x = 12
+
+#			ledgeRaycastVert.rotation_degrees = 180
+#			ledgeRaycastHoriz.rotation_degrees = 180
+#			ledgeRaycastVert.get_child(0).rotation_degrees = 180
+#			ledgeRaycastVert.position.x = -7
+#			ledgeRaycastHoriz.position.x = 12
+		else:
+#			ledgeRaycastVert.rotation_degrees = 0
+#			ledgeRaycastHoriz.rotation_degrees = 0
+#			ledgeRaycastVert.get_child(0).rotation_degrees = 0
+#			ledgeRaycastVert.position.x = 17
+#			ledgeRaycastHoriz.position.x = -2
+
+			ledge_above_raycast.rotation_degrees = 0
+			ledge_below_raycast.rotation_degrees = 0
+			ledge_above_raycast.position.x = -2
+			ledge_below_raycast.position.x = -2
+		vOverlay.SET("ang", null)
+#		ledgeRaycastVert.force_raycast_update()
+		if PowergripCooldownTimer.time_left == 0 and ledge_below_raycast.is_colliding():
+			var angle = 0
+			if ledge_above_raycast.is_colliding():
+				angle = abs(rad2deg(ledge_above_raycast.get_collision_normal().angle()) + 90)
+			vOverlay.SET("ang", angle)
+			
+			if angle <= ledge_max_angle:
+				
+#				ledgeRaycastHoriz.enabled = true
+#				ledgeRaycastHoriz.position.x = ledgeRaycastVert.get_collision_point().y + 0.1
+#				if ledgeRaycastHoriz.is_colliding():
 				change_state("powergrip", {"point": ledge_below_raycast.get_collision_point()})
-				return
-	
+#					ledgeRaycastHoriz.enabled = false
+#					return
+#				ledgeRaycastHoriz.enabled = false
+			
+#			if collision_angle > abs(rad2deg(Physics.FLOOR_MAX_ANGLE)):
+#				pass
+#			return
+
 	# Vertical
 	if (not Samus.is_on_floor() or first_frame) and jump_current_time != 0 and Input.is_action_pressed("jump"):
-		Physics.move_y(-jump_speed, jump_acceleration*delta)
+		Physics.move_y(-jump_speed, (jump_acceleration if not spinning else INF)*delta)
 #		Physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
 		jump_current_time -= delta
 		if jump_current_time < 0:
@@ -280,26 +332,21 @@ func physics_process(delta: float):
 		if WalljumpTimer.time_left != 0:
 			return
 		
-		var pad_x = Shortcut.get_pad_vector("pressed").x
-		
 		if Input.is_action_pressed("pad_left"):
-			Physics.move_x(min(-spin_horiz_speed, Physics.vel.x))
+			Physics.move_x(min(-physics_data["horiz_spin_speed"], Physics.vel.x))
 		elif Input.is_action_pressed("pad_right"):
-			Physics.move_x(max(spin_horiz_speed, Physics.vel.x))
-		elif abs(Physics.vel.x) != spin_horiz_speed:
+			Physics.move_x(max(physics_data["horiz_spin_speed"], Physics.vel.x))
+		elif abs(Physics.vel.x) != physics_data["horiz_spin_speed"]:
 			var polarity = 1 if Samus.facing == Enums.dir.RIGHT else -1
-			if abs(Physics.vel.x) > spin_horiz_speed:
-				Physics.move_x(max(spin_horiz_speed, abs(Physics.vel.x))*polarity, spin_horiz_deceleration)
+			if abs(Physics.vel.x) > physics_data["horiz_spin_speed"]:
+				Physics.move_x(max(physics_data["horiz_spin_speed"], abs(Physics.vel.x))*polarity, physics_data["horiz_spin_deceleration"])
 			else:
-				Physics.move_x(max(spin_horiz_speed, abs(Physics.vel.x))*polarity)
+				Physics.move_x(max(physics_data["horiz_spin_speed"], abs(Physics.vel.x))*polarity)
 	else:
-		
-		var pad_x = Shortcut.get_pad_vector("pressed").x
-		
 		if pad_x != 0:
-			Physics.move_x(max(horiz_speed, abs(Physics.vel.x)) * pad_x, horiz_acceleration)
+			Physics.move_x(max(physics_data["horiz_speed"], abs(Physics.vel.x)) * pad_x, physics_data["horiz_acceleration"])
 		else:
-			Physics.move_x(0, horiz_acceleration)
+			Physics.move_x(0, physics_data["horiz_acceleration"])
 #			Physics.decelerate_x(horiz_acceleration)
 	first_frame = false
 
@@ -312,3 +359,18 @@ func chargebeam_fired():
 		spinning = false
 		process(0)
 		Samus.Weapons.reset_fire_pos()
+
+func set_jump_values():
+	if Samus.is_upgrade_active(Enums.Upgrade.HIGHJUMP):
+		jump_speed = physics_data["speed_high"]
+		jump_acceleration = physics_data["acceleration_high"]
+		jump_time = physics_data["time_high"]
+	else:
+		jump_speed = physics_data["speed"]
+		jump_acceleration = physics_data["acceleration"]
+		jump_time = physics_data["time"]
+
+func save_value_set(path: Array, _value):
+	if len(path) != 4 or path[0] != "samus" or path[1] != "upgrades" or path[2] != Enums.Upgrade.HIGHJUMP:
+		return
+	set_jump_values()

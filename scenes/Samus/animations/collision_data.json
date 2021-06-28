@@ -1,60 +1,74 @@
 {
-	"neutral": [
-		[7.5, 15.5],
-		[4, 2.25]
-	],
-	"run": [
-		[7.5, 15.5],
-		[4, 2.25]
-	],
-	"jump": [
-		[7.5, 18],
-		[4, 0]
-	],
-	"crouch": [
-		[7.5, 13],
-		[4, 5]
-	],
-	"morphball": [
-		[7.5, 7.5],
-	],
-	"morphball/unmorph": [
-		[7.5, 10]
-	],
-	"morphball/morph": [
-		[7.5, 10]
-	],
-	"jump/spin": [
-		[7.5, 13.5],
-		[1, 5.5],
-		[7, 5.5]
-	],
-	"jump/spin_space": [
-		[7.5, 13.5],
-		[1, 5.5],
-		[7, 5.5]
-	],
-	"jump/spin_space_screw": [
-		[7.5, 13.5],
-		[1, 5.5],
-		[7, 5.5]
-	],
-	"shinespark/horiz": [
-		[17, 13],
-		[0, -3],
-		[8, -3]
-	],
-	"shinespark/vert": [
-		[7, 21],
-		[4.5, 0],
-		[4.5, 0]
-	],
-	"shinespark/roll": [
-		[7.5, 7.5],
-	],
-	"powergrip": [
-		[7.5, 15],
-		[3, 0],
-		[7, 5.5]
-	],
+	"neutral": {
+		"size": [7.5, 15.5],
+		"pos": [4, 2.25],
+		"shape": "capsule"
+	},
+	"run": {
+		"size": [7.5, 15.5],
+		"pos": [4, 2.25],
+		"shape": "capsule"
+	},
+	"jump": {
+		"size": [7.5, 18],
+		"pos": [4, 0],
+		"shape": "capsule"
+	},
+	"crouch": {
+		"size": [7.5, 13],
+		"pos": [4, 5],
+		"shape": "capsule"
+	},
+	"morphball": {
+		"size": [7.5, 7.5],
+		"shape": "circle"
+	},
+	"morphball/unmorph": {
+		"size": [7.5, 10],
+		"shape": "capsule"
+	},
+	"morphball/morph": {
+		"size": [7.5, 10],
+		"shape": "capsule"
+	},
+	"jump/spin": {
+		"size": [7.5, 13.5],
+		"leftPos": [1, 5.5],
+		"rightPos": [7, 5.5],
+		"shape": "circle"
+	},
+	"jump/spin_space": {
+		"size": [7.5, 13.5],
+		"leftPos": [1, 5.5],
+		"rightPos": [7, 5.5],
+		"shape": "circle"
+	},
+	"jump/spin_space_screw": {
+		"size": [10],
+		"pos": [4, 5],
+		"x": [1, 5.5],
+		"y": [7, 5.5],
+		"shape": "circle"
+	},
+	"shinespark/horiz": {
+		"size": [17, 13],
+		"leftPos": [0, -3],
+		"rightPos": [8, -3],
+		"shape": "capsule"
+	},
+	"shinespark/vert": {
+		"size": [7, 21],
+		"leftPos": [4.5, 0],
+		"rightPos": [4.5, 0],
+		"shape": "capsule"
+	},
+	"shinespark/roll": {
+		"size": [7.5, 7.5],
+		"shape": "rect"
+	},
+	"powergrip": {
+		"size": [7.5, 15],
+		"leftPos": [3, 0],
+		"rightPos": [7, 5.5]
+	},
 }

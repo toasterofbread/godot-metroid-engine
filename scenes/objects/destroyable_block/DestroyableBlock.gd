@@ -6,8 +6,6 @@ onready var Samus: KinematicBody2D = Loader.Samus
 
 export(Enums.DamageType) var type = Enums.DamageType.BEAM setget set_type
 export var reappear_time: float = 2.5
-export var overlay: Texture setget set_overlay
-export var show_overlay_in_editor: bool = false setget set_show_overlay_in_editor
 onready var default_collision_layer = self.collision_layer
 onready var destructive_damage_types: Array = Enums.DamageType.values()
 onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
@@ -17,19 +15,14 @@ var samus_hitbox_damage_applies = false
 enum STATES {NORMAL, DESTROYED, COLLISIONDISABLED}
 var state: int = STATES.NORMAL
 
-func set_show_overlay_in_editor(value: bool):
-	$Overlay.visible = value
-	show_overlay_in_editor = value
-
 func set_type(value: int):
 	if Engine.editor_hint:
 		$AnimatedSprite.play(Enums.DamageType.keys()[value].to_lower())
 	type = value
 
-func set_overlay(value: Texture):
-	if value != null:
-		$Overlay.texture = value
-	overlay = value
+func remove_overlay():
+	if has_node("Overlay"):
+		$Overlay.queue_free()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,10 +30,8 @@ func _ready():
 	if Engine.editor_hint:
 		return
 	
-	set_overlay(overlay)
 	$Overlay.visible = true
-	$Overlay.modulate.a = 1
-
+	
 	if type == Enums.DamageType.CRUMBLE:
 		reappear_time = 0.5
 	else:
@@ -66,9 +57,10 @@ func _ready():
 #func set_reverse(value, property: String):
 #	set(property, value)
 
-func damage(type: int, _value: float):
+func damage(type: int, _amount: float, _impact_position):
 	if type in destructive_damage_types:
 		destroy()
+	remove_overlay()
 
 func get_disable() -> bool:
 	for type in Samus.self_damage:
@@ -100,7 +92,7 @@ func body_entered_area(body):
 
 func destroy(time: float = reappear_time):
 	state = STATES.DESTROYED
-	$Overlay.visible = false
+	remove_overlay()
 	
 	if type == Enums.DamageType.CRUMBLE:
 		$CrumbleArea/CollisionShape2D.set_deferred("disabled", true)

@@ -8,6 +8,7 @@ onready var VisorPositions = $VisorPositions
 onready var ChargebeamAnimationPlayer: AnimationPlayer = get_parent().get_node("Animator/ChargebeamAnimationPlayer")
 onready var ChargebeamStartBurstPlayer: AnimationPlayer = get_parent().get_node("Animator/ChargebeamStartBurstPlayer")
 onready var ChargebeamStartBurst: AnimatedSprite = get_parent().get_node("Animator/ChargebeamStartBurst")
+onready var ChargeBeamGravityArea: Area2D = get_parent().get_node("Animator/ChargebeamStartBurst/Area2D")
 onready var CannonPositionAnchor: Node2D = $CannonPositionAnchor
 
 const charge_times = {1.5: 2.0, 1.0: 1.0, 0.5: 1.0}
@@ -41,7 +42,8 @@ var all_weapons = {
 	Enums.Upgrade.SUPERMISSILE: preload("res://scenes/Samus/weapons/SuperMissile.tscn").instance(),
 	Enums.Upgrade.BOMB: preload("res://scenes/Samus/weapons/Bomb.tscn").instance(),
 	Enums.Upgrade.POWERBOMB: preload("res://scenes/Samus/weapons/PowerBomb.tscn").instance(),
-	Enums.Upgrade.GRAPPLEBEAM: preload("res://scenes/Samus/weapons/grapple_beam/GrappleBeam.tscn").instance()
+	Enums.Upgrade.GRAPPLEBEAM: preload("res://scenes/Samus/weapons/grapple_beam/GrappleBeam.tscn").instance(),
+	Enums.Upgrade.FLAMETHROWER: preload("res://scenes/Samus/weapons/Flamethrower.tscn").instance()
 }
 
 signal visor_mode_changed
@@ -79,7 +81,7 @@ func _process(delta: float):
 	
 	reset_fire_pos()
 	
-	if Samus.is_upgrade_active(Enums.Upgrade.CHARGEBEAM) and delta:
+	if not get_tree().paused and Samus.is_upgrade_active(Enums.Upgrade.CHARGEBEAM) and delta:
 		process_chargebeam(delta)
 	weapon_fired = false
 	
@@ -123,13 +125,19 @@ func process_chargebeam(delta: float):
 		ChargebeamAnimationPlayer.play("reset")
 	
 	var fire = true
-	if Samus.current_state.id in ["neutral", "run", "jump", "crouch", "powergrip"] and Input.is_action_pressed("fire_weapon"):
+	if Samus.current_state.id in ["neutral", "run", "jump", "crouch", "powergrip"] and Input.is_action_pressed("fire_weapon") and get_fire_weapon().can_charge:
 		charge_time_current += delta
 		fire = false
 	
 	ChargebeamStartBurst.visible = false
 	if charge_time_current != 0.0:
 		if charge_time_current > charge_times.keys()[len(charge_times) - 1]:
+			
+			ChargeBeamGravityArea.monitorable = true
+			ChargeBeamGravityArea.monitoring = true
+			for ammoPickup in ChargeBeamGravityArea.get_overlapping_areas():
+				if ammoPickup is AmmoPickup:
+					ammoPickup.gravitate_to(Samus.global_position, delta)
 			
 			for time in charge_times:
 				if charge_time_current >= time:
@@ -153,8 +161,14 @@ func process_chargebeam(delta: float):
 							update_weapon_icons()
 						fire(charge_times[time])
 					break
+		else:
+			ChargeBeamGravityArea.monitorable = false
+			ChargeBeamGravityArea.monitoring = false
 		if fire:
 			charge_time_current = 0.0
+	else:
+		ChargeBeamGravityArea.monitorable = false
+		ChargeBeamGravityArea.monitoring = false
 
 func cycle_visor():
 	if len(equipped_visors) == 0:
@@ -181,17 +195,21 @@ func update_weapon_icons():
 		if weapon.Icon:
 			weapon.Icon.update_icon(current_weapon, Samus.armed)
 
-# (DONE) TODO | Yeah this defintely needs an overhaul
-func fire(chargebeam_damage_multiplier=null):
-	var weapon: SamusWeapon
+func get_fire_weapon() -> SamusWeapon:
+	var ret
 	if aiming_style == 0:
 		if Samus.armed:
-			weapon = current_weapon if current_weapon != null else added_weapons_base[morphball]
+			ret = current_weapon if current_weapon != null else added_weapons_base[morphball]
 		else:
-			weapon = added_weapons_base[morphball]
+			ret = added_weapons_base[morphball]
 	elif aiming_style == 1:
-		weapon = current_weapon
+		ret = current_weapon
 	
+	return ret
+
+# (DONE) TODO | Yeah this defintely needs an overhaul
+func fire(chargebeam_damage_multiplier=null):
+	var weapon = get_fire_weapon()
 	if weapon:
 		weapon_fired = weapon.fire(chargebeam_damage_multiplier)
 		return weapon_fired

@@ -11,7 +11,7 @@ const length_durations = {
 
 var scan_duration: float
 export(LENGTH) var length = LENGTH.normal
-export var major_scan: bool = false setget set_major
+#export var major_scan: bool = false setget set_major
 export var data_key: String
 export var dynamic_data_key: = false
 
@@ -28,9 +28,9 @@ func set_enabled(value: bool):
 func get_global_position():
 	return $CollisionShape2D.global_position
 
-func set_major(value: bool):
-	$AnimatedSprite.modulate = Color("ff4200") if value else Color.white
-	major_scan = value
+#func set_major(value: bool):
+#	$AnimatedSprite.modulate = Color("ff4200") if value else Color.white
+#	major_scan = value
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -55,8 +55,10 @@ func _ready():
 
 func save():
 	var data = Loader.Save.get_data_key(["logbook", "recorded_entries"])
+	print(data)
 	data.append(data_key)
 	Loader.Save.set_data_key(["logbook", "recorded_entries"], data)
+	print(Loader.Save.get_data_key(["logbook", "recorded_entries"]))
 
 func start_scan():
 	$CollisionShape2D/Tween.stop_all()
@@ -65,8 +67,8 @@ func start_scan():
 	$CollisionShape2D/Tween.interpolate_property($CollisionShape2D/ScanCursor, "modulate:a", 0, 1, 0.1)
 	$CollisionShape2D/Tween.interpolate_property($CollisionShape2D/ScanCursor, "rect_position:y", $CollisionShape2D/ScanCursor.rect_position.y, $CollisionShape2D.shape.extents.y-1, scan_duration)
 	$CollisionShape2D/Tween.start()
-	yield($CollisionShape2D/Tween, "tween_completed")
-	yield($CollisionShape2D/Tween, "tween_completed")
+#	yield($CollisionShape2D/Tween, "tween_completed")
+#	yield($CollisionShape2D/Tween, "tween_completed")
 	
 #	$CollisionShape2D/Tween.interpolate_property($CollisionShape2D/ScanCursor, "modulate:a", 1, 0, 0.1)
 #	$CollisionShape2D/Tween.start()

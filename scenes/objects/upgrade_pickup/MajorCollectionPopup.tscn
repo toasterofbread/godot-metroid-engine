@@ -208,6 +208,7 @@ __meta__ = {
 layer = 6
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 444.0
@@ -220,6 +221,7 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
@@ -240,14 +242,17 @@ __meta__ = {
 }
 
 [node name="Icon" type="AnimatedSprite" parent="CanvasLayer"]
+visible = false
 position = Vector2( 1367.14, 490.286 )
 rotation = 0.00140782
 scale = Vector2( 7.5, 7.5 )
 frames = ExtResource( 2 )
 animation = "missile"
+frame = 2
 playing = true
 
 [node name="Added" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 1024.0
 margin_top = 426.0
 margin_right = 1292.0
@@ -261,6 +266,7 @@ __meta__ = {
 }
 
 [node name="Total" type="Label" parent="CanvasLayer"]
+visible = false
 margin_left = 1024.0
 margin_top = 497.0
 margin_right = 1292.0

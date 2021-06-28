@@ -55,16 +55,11 @@ func load_room(room_id: String):
 	room_container.add_child(room)
 	room.add_child(Samus)
 	
-	var samus_spawn_position: Vector2
-	for node in room.World.get_children():
-		if node.name == "SpawnPos":
-			samus_spawn_position = node.global_position
-			break
-	
-	if samus_spawn_position:
-		Samus.global_position = samus_spawn_position
+	var spawn_positions = get_tree().get_nodes_in_group("SpawnPosition")
+	if len(spawn_positions) >= 1:
+		Samus.global_position = spawn_positions[0].global_position
 	else:
-		assert(false, "No SamusSpawnPosition node registered to room")
+		assert(false, "No SpawnPositions found in room")
 	
 	emit_signal("room_loaded")
 
@@ -87,8 +82,8 @@ func transition(origin_door: Door):
 	yield(current_room, "ready")
 	
 	var destination_door: Door
-	for door in current_room.Doors:
-		if door.id == origin_door.target_id:
+	for door in current_room.doors:
+		if door.name == origin_door.target_door_id:
 			destination_door = door
 			break
 	# DEBUG
@@ -102,7 +97,8 @@ func transition(origin_door: Door):
 	var spawn_point = origin_door.target_spawn_position.global_position
 	var offset = current_room.global_position - destination_door.global_position
 	current_room.global_position = spawn_point + offset
-	current_room.World.visible = false
+	current_room.set_visible(false)
+#	current_room.World.visible = false
 	
 	# Move Samus to new loaded room and reposition her
 	var samus_position = Samus.global_position
@@ -121,7 +117,7 @@ func transition(origin_door: Door):
 		yield(Global.dim_screen(0.25, 1, Enums.Layers.WORLD+1), "completed")
 		
 		previous_room.queue_free()
-		current_room.World.visible = true
+		current_room.set_visible(true)
 		
 		yield(Samus.camerachunk_entered(Samus.current_camerachunk, true, 0.45), "completed")
 		
@@ -134,7 +130,7 @@ func transition(origin_door: Door):
 		get_tree().paused = false
 	else:
 		previous_room.queue_free()
-		current_room.World.visible = true
+		current_room.set_visible(true)
 	
 	Samus.paused = null
 	transitioning = false

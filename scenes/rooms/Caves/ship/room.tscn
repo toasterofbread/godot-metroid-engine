@@ -1,0 +1,1248 @@
+[gd_scene load_steps=42 format=2]
+
+[ext_resource path="res://sprites/flat.png" type="Texture" id=1]
+[ext_resource path="res://scenes/framework/map_chunk/MapChunk.gd" type="Script" id=2]
+[ext_resource path="res://scenes/framework/base_room/BaseRoom.gd" type="Script" id=3]
+[ext_resource path="res://sprites/backgrounds/surface/parallax_forest/4.png" type="Texture" id=4]
+[ext_resource path="res://sprites/backgrounds/surface/cave/bgA0Cave4BG.png" type="Texture" id=5]
+[ext_resource path="res://basic_tileset.tres" type="TileSet" id=6]
+[ext_resource path="res://sprites/objects/weather/snowflakes/sheets/4.png" type="Texture" id=7]
+[ext_resource path="res://sprites/backgrounds/surface/parallax_forest/3.png" type="Texture" id=8]
+[ext_resource path="res://sprites/backgrounds/surface/parallax_forest/5.png" type="Texture" id=9]
+[ext_resource path="res://test.gd" type="Script" id=10]
+[ext_resource path="res://sprites/backgrounds/surface/parallax_forest/2.png" type="Texture" id=11]
+[ext_resource path="res://sprites/backgrounds/surface/parallax_forest/1.png" type="Texture" id=12]
+[ext_resource path="res://sprites/tilesheets/ice.png" type="Texture" id=13]
+[ext_resource path="res://sprites/backgrounds/surface/parallax_forest/6.png" type="Texture" id=14]
+[ext_resource path="res://scenes/objects/destroyable_block/DestroyableBlock.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/objects/upgrade_pickup/UpgradePickup.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scenes/objects/samus_ship/Gunship.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/objects/ice/Ice.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/objects/fluid/Fluid.tscn" type="PackedScene" id=20]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 256, 256 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 256, 256 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 256, 128 )
+
+[sub_resource type="CanvasItemMaterial" id=4]
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=5]
+min_value = -40.0
+max_value = 40.0
+_data = [ Vector2( 0, 40 ), 0.0, 0.0, 0, 0, Vector2( 1, -40 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 2
+emission_box_extents = Vector3( 1300, 1, 1 )
+flag_disable_z = true
+direction = Vector3( -1, 0, 0 )
+spread = 0.0
+gravity = Vector3( 0, 20, 0 )
+angular_velocity = 70.58
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+tangential_accel_random = 1.0
+tangential_accel_curve = SubResource( 6 )
+damping = 15.68
+angle = 469.0
+angle_random = 0.37
+scale = 0.5
+scale_random = 1.0
+anim_offset = 0.5
+anim_offset_random = 1.0
+
+[sub_resource type="Shader" id=8]
+code = "/*
+Shader from Godot Shaders - the free shader library.
+godotshaders.com/shader/2d-waterfall
+
+Feel free to improve and change this shader according to your needs
+and consider sharing the modified result on godotshaders.com.
+*/
+
+shader_type canvas_item;
+
+uniform vec2 scale; // Used for sprite script. Don't edit this value in the inspector.
+uniform float zoom; // Used for sprite script. Don't edit this value in the inspector.
+
+uniform sampler2D refraction_map;
+uniform sampler2D water_mask;
+
+uniform vec2 gap_stretch = vec2(0.8, 0.05);
+uniform vec2 refraction_stretch = vec2(2.0, 0.8);
+uniform float refraction_strength : hint_range(0.0, 0.1) = 0.02;
+
+uniform vec4 water_tint : hint_color = vec4(0.2, 0.6, 1.0, 0.1);
+uniform vec4 water_highlight : hint_color = vec4(1.0, 1.0, 1.0, 0.3);
+uniform float speed = 1.0;
+uniform float flow_gaps : hint_range(0.0, 1.0) = 0.33;
+uniform float highlight_width : hint_range(0.0, 0.3) = 0.02;
+
+void fragment()
+{
+	// Get the two noise textures and make them move on the y axis. The gaps move twice as fast as the refraction, but you can tweak this by changing (speed * 0.5)
+	vec2 refraction_offset = texture(refraction_map, vec2(UV.x, UV.y + -TIME * speed * 0.5) * scale * refraction_stretch).xy;
+	vec2 gap_mask = texture(water_mask, vec2(UV.x, UV.y + -TIME * speed) * scale * gap_stretch).xy;
+	
+	// Set values between -0.5 and 0.5 (instead of 0 and 1). Otherwise the reflection will move whith increased refraction_strength
+	refraction_offset -= 0.5; 
+	
+	// Get the screen texture and distort it
+	vec4 refraction = texture(SCREEN_TEXTURE, SCREEN_UV - refraction_offset * refraction_strength * zoom);
+	
+	
+	// Create holes and apply colors and textures //
+	
+	vec4 color = vec4(1.0);
+	
+	// Define what values will be the water highlight color (the gap border)
+	float inner_edge = flow_gaps + highlight_width;
+	
+	// See if the pixel is within the edges range and use the water colors alpha to blend between showing color or refraction texture.
+	if (gap_mask.x < inner_edge)
+	{
+		color.rgb = mix(refraction.rgb, water_highlight.rgb, water_highlight.a);
+	}
+	else
+	{
+		color.rgb = mix(refraction.rgb, water_tint.rgb, water_tint.a);
+	}
+	
+	// If the value is below the gap threshhold make it transparent (a gap)
+	if (gap_mask.x < flow_gaps)
+	{
+		color.a = 0.0;
+	}
+	
+	
+	// Crate Edge Shape //
+	
+	// Set the shape for the top and bottom edges. Use water_mask as shape but with other values to flatten it out horizontally. 
+	vec2 water_edge = texture(water_mask, vec2(UV.x, UV.y + -TIME * 0.1) * scale * vec2(0.15, 0.6)).xy;
+	water_edge -= 0.5;
+	
+	// Use the same mask as for the gaps for left and right edge.
+	vec2 vertical_edge_mask = gap_mask - 0.5;
+	
+	// Apply the new masks to the edges. This will make the wobble effect.
+	color.a = mix(0.0, color.a, step(UV.x + vertical_edge_mask.x * 0.2, 0.92)); // Right edge
+	color.a = mix(color.a, 0.0, step(UV.x - vertical_edge_mask.x * 0.2, 0.08)); // Left edge
+	
+	color.a = mix(0.0, color.a, step(UV.y + water_edge.y * 0.1, 0.95));  //Bottom edge
+	color.a = mix(color.a, 0.0, step(UV.y - water_edge.y * 0.05, 0.05)); //Top edge
+	
+	COLOR = color;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=9]
+
+[sub_resource type="NoiseTexture" id=10]
+seamless = true
+noise = SubResource( 9 )
+
+[sub_resource type="OpenSimplexNoise" id=11]
+
+[sub_resource type="NoiseTexture" id=12]
+seamless = true
+noise = SubResource( 11 )
+
+[sub_resource type="ShaderMaterial" id=13]
+shader = SubResource( 8 )
+shader_param/scale = Vector2( 0.563824, 4.89517 )
+shader_param/zoom = 1.88775
+shader_param/gap_stretch = Vector2( 0.8, 0.05 )
+shader_param/refraction_stretch = Vector2( 2, 0.8 )
+shader_param/refraction_strength = 0.02
+shader_param/water_tint = Color( 0.2, 0.6, 1, 0.1 )
+shader_param/water_highlight = Color( 0.631373, 0.843137, 1, 0.301961 )
+shader_param/speed = 0.6
+shader_param/flow_gaps = 0.33
+shader_param/highlight_width = 0.01
+shader_param/refraction_map = SubResource( 10 )
+shader_param/water_mask = SubResource( 12 )
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 8 )
+shader_param/scale = Vector2( 0.167963, 5.53125 )
+shader_param/zoom = 1.88775
+shader_param/gap_stretch = Vector2( 0.8, 0.05 )
+shader_param/refraction_stretch = Vector2( 2, 0.8 )
+shader_param/refraction_strength = 0.02
+shader_param/water_tint = Color( 0.2, 0.6, 1, 0.1 )
+shader_param/water_highlight = Color( 0.631373, 0.843137, 1, 0.301961 )
+shader_param/speed = 0.6
+shader_param/flow_gaps = 0.33
+shader_param/highlight_width = 0.01
+shader_param/refraction_map = SubResource( 10 )
+shader_param/water_mask = SubResource( 12 )
+
+[sub_resource type="Shader" id=15]
+code = "/*
+Shader from Godot Shaders - the free shader library.
+godotshaders.com/shader/2d-waterfall
+
+Feel free to improve and change this shader according to your needs
+and consider sharing the modified result on godotshaders.com.
+*/
+
+shader_type canvas_item;
+
+uniform vec2 scale; // Used for sprite script. Don't edit this value in the inspector.
+uniform float zoom; // Used for sprite script. Don't edit this value in the inspector.
+
+uniform sampler2D refraction_map;
+uniform sampler2D water_mask;
+
+uniform vec2 gap_stretch = vec2(0.8, 0.05);
+uniform vec2 refraction_stretch = vec2(2.0, 0.8);
+uniform float refraction_strength : hint_range(0.0, 0.1) = 0.02;
+
+uniform vec4 water_tint : hint_color = vec4(0.2, 0.6, 1.0, 0.1);
+uniform vec4 water_highlight : hint_color = vec4(1.0, 1.0, 1.0, 0.3);
+uniform float speed = 1.0;
+uniform float flow_gaps : hint_range(0.0, 1.0) = 0.33;
+uniform float highlight_width : hint_range(0.0, 0.3) = 0.02;
+
+void fragment()
+{
+	// Get the two noise textures and make them move on the y axis. The gaps move twice as fast as the refraction, but you can tweak this by changing (speed * 0.5)
+	vec2 refraction_offset = texture(refraction_map, vec2(UV.x, UV.y + -TIME * speed * 0.5) * scale * refraction_stretch).xy;
+	vec2 gap_mask = texture(water_mask, vec2(UV.x, UV.y + -TIME * speed) * scale * gap_stretch).xy;
+	
+	// Set values between -0.5 and 0.5 (instead of 0 and 1). Otherwise the reflection will move whith increased refraction_strength
+	refraction_offset -= 0.5; 
+	
+	// Get the screen texture and distort it
+	vec4 refraction = texture(SCREEN_TEXTURE, SCREEN_UV - refraction_offset * refraction_strength * zoom);
+	
+	
+	// Create holes and apply colors and textures //
+	
+	vec4 color = vec4(1.0);
+	
+	// Define what values will be the water highlight color (the gap border)
+	float inner_edge = flow_gaps + highlight_width;
+	
+	// See if the pixel is within the edges range and use the water colors alpha to blend between showing color or refraction texture.
+	if (gap_mask.x < inner_edge)
+	{
+		color.rgb = mix(refraction.rgb, water_highlight.rgb, water_highlight.a);
+	}
+	else
+	{
+		color.rgb = mix(refraction.rgb, water_tint.rgb, water_tint.a);
+	}
+	
+	// If the value is below the gap threshhold make it transparent (a gap)
+	if (gap_mask.x < flow_gaps)
+	{
+		color.a = 0.0;
+	}
+	
+	
+	// Crate Edge Shape //
+	
+	// Set the shape for the top and bottom edges. Use water_mask as shape but with other values to flatten it out horizontally. 
+	vec2 water_edge = texture(water_mask, vec2(UV.x, UV.y + -TIME * 0.1) * scale * vec2(0.15, 0.6)).xy;
+	water_edge -= 0.5;
+	
+	// Use the same mask as for the gaps for left and right edge.
+	vec2 vertical_edge_mask = gap_mask - 0.5;
+	
+	// Apply the new masks to the edges. This will make the wobble effect.
+	color.a = mix(0.0, color.a, step(UV.x + vertical_edge_mask.x * 0.2, 0.92)); // Right edge
+	color.a = mix(color.a, 0.0, step(UV.x - vertical_edge_mask.x * 0.2, 0.08)); // Left edge
+	
+	color.a = mix(0.0, color.a, step(UV.y + water_edge.y * 0.1, 0.95));  //Bottom edge
+	color.a = mix(color.a, 0.0, step(UV.y - water_edge.y * 0.05, 0.05)); //Top edge
+	
+	COLOR = color;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=16]
+
+[sub_resource type="NoiseTexture" id=17]
+seamless = true
+noise = SubResource( 16 )
+
+[sub_resource type="OpenSimplexNoise" id=18]
+
+[sub_resource type="NoiseTexture" id=19]
+seamless = true
+noise = SubResource( 18 )
+
+[sub_resource type="ShaderMaterial" id=20]
+shader = SubResource( 15 )
+shader_param/scale = Vector2( 0.312499, 5.42188 )
+shader_param/zoom = 1.88775
+shader_param/gap_stretch = Vector2( 0.8, 0.05 )
+shader_param/refraction_stretch = Vector2( 2, 0.8 )
+shader_param/refraction_strength = 0.02
+shader_param/water_tint = Color( 0.2, 0.6, 1, 0.1 )
+shader_param/water_highlight = Color( 0.631373, 0.843137, 1, 0.301961 )
+shader_param/speed = 0.6
+shader_param/flow_gaps = 0.33
+shader_param/highlight_width = 0.01
+shader_param/refraction_map = SubResource( 17 )
+shader_param/water_mask = SubResource( 19 )
+
+[sub_resource type="TileSet" id=21]
+0/name = "ice.png 0"
+0/texture = ExtResource( 13 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 224, 64, 32, 32 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "ice.png 1"
+1/texture = ExtResource( 13 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 256, 64, 32, 32 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+2/name = "ice.png 2"
+2/texture = ExtResource( 13 )
+2/tex_offset = Vector2( 0, 0 )
+2/modulate = Color( 1, 1, 1, 1 )
+2/region = Rect2( 288, 64, 32, 32 )
+2/tile_mode = 0
+2/occluder_offset = Vector2( 0, 0 )
+2/navigation_offset = Vector2( 0, 0 )
+2/shape_offset = Vector2( 0, 0 )
+2/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+2/shape_one_way = false
+2/shape_one_way_margin = 0.0
+2/shapes = [  ]
+2/z_index = 0
+3/name = "ice.png 3"
+3/texture = ExtResource( 13 )
+3/tex_offset = Vector2( 0, 0 )
+3/modulate = Color( 1, 1, 1, 1 )
+3/region = Rect2( 320, 64, 17, 32 )
+3/tile_mode = 0
+3/occluder_offset = Vector2( 0, 0 )
+3/navigation_offset = Vector2( 0, 0 )
+3/shape_offset = Vector2( 0, 0 )
+3/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+3/shape_one_way = false
+3/shape_one_way_margin = 0.0
+3/shapes = [  ]
+3/z_index = 0
+4/name = "ice.png 4"
+4/texture = ExtResource( 13 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 337, 64, 32, 32 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape_one_way = false
+4/shape_one_way_margin = 0.0
+4/shapes = [  ]
+4/z_index = 0
+5/name = "ice.png 5"
+5/texture = ExtResource( 13 )
+5/tex_offset = Vector2( 0, 0 )
+5/modulate = Color( 1, 1, 1, 1 )
+5/region = Rect2( 240, 181, 80, 59 )
+5/tile_mode = 0
+5/occluder_offset = Vector2( 0, 0 )
+5/navigation_offset = Vector2( 0, 0 )
+5/shape_offset = Vector2( 0, 0 )
+5/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+5/shape_one_way = false
+5/shape_one_way_margin = 0.0
+5/shapes = [  ]
+5/z_index = 0
+7/name = "ice.png 7"
+7/texture = ExtResource( 13 )
+7/tex_offset = Vector2( 0, 0 )
+7/modulate = Color( 1, 1, 1, 1 )
+7/region = Rect2( 112, 224, 64, 64 )
+7/tile_mode = 0
+7/occluder_offset = Vector2( 0, 0 )
+7/navigation_offset = Vector2( 0, 0 )
+7/shape_offset = Vector2( 0, 0 )
+7/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+7/shape_one_way = false
+7/shape_one_way_margin = 0.0
+7/shapes = [  ]
+7/z_index = 0
+8/name = "ice.png 8"
+8/texture = ExtResource( 13 )
+8/tex_offset = Vector2( 0, 0 )
+8/modulate = Color( 1, 1, 1, 1 )
+8/region = Rect2( 208, 2, 47, 30 )
+8/tile_mode = 0
+8/occluder_offset = Vector2( 0, 0 )
+8/navigation_offset = Vector2( 0, 0 )
+8/shape_offset = Vector2( 0, 0 )
+8/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+8/shape_one_way = false
+8/shape_one_way_margin = 0.0
+8/shapes = [  ]
+8/z_index = 0
+9/name = "ice.png 9"
+9/texture = ExtResource( 13 )
+9/tex_offset = Vector2( 0, 0 )
+9/modulate = Color( 1, 1, 1, 1 )
+9/region = Rect2( 270, 13, 18, 38 )
+9/tile_mode = 0
+9/occluder_offset = Vector2( 0, 0 )
+9/navigation_offset = Vector2( 0, 0 )
+9/shape_offset = Vector2( 0, 0 )
+9/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+9/shape_one_way = false
+9/shape_one_way_margin = 0.0
+9/shapes = [  ]
+9/z_index = 0
+10/name = "ice.png 10"
+10/texture = ExtResource( 13 )
+10/tex_offset = Vector2( 0, 0 )
+10/modulate = Color( 1, 1, 1, 1 )
+10/region = Rect2( 329, 8, 23, 24 )
+10/tile_mode = 0
+10/occluder_offset = Vector2( 0, 0 )
+10/navigation_offset = Vector2( 0, 0 )
+10/shape_offset = Vector2( 0, 0 )
+10/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+10/shape_one_way = false
+10/shape_one_way_margin = 0.0
+10/shapes = [  ]
+10/z_index = 0
+11/name = "ice.png 11"
+11/texture = ExtResource( 13 )
+11/tex_offset = Vector2( 0, 0 )
+11/modulate = Color( 1, 1, 1, 1 )
+11/region = Rect2( 320, 32, 45, 16 )
+11/tile_mode = 0
+11/occluder_offset = Vector2( 0, 0 )
+11/navigation_offset = Vector2( 0, 0 )
+11/shape_offset = Vector2( 0, 0 )
+11/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+11/shape_one_way = false
+11/shape_one_way_margin = 0.0
+11/shapes = [  ]
+11/z_index = 0
+12/name = "ice.png 12"
+12/texture = ExtResource( 13 )
+12/tex_offset = Vector2( 0, 0 )
+12/modulate = Color( 1, 1, 1, 1 )
+12/region = Rect2( 320, 50, 16, 13 )
+12/tile_mode = 0
+12/occluder_offset = Vector2( 0, 0 )
+12/navigation_offset = Vector2( 0, 0 )
+12/shape_offset = Vector2( 0, 0 )
+12/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+12/shape_one_way = false
+12/shape_one_way_margin = 0.0
+12/shapes = [  ]
+12/z_index = 0
+13/name = "ice.png 13"
+13/texture = ExtResource( 13 )
+13/tex_offset = Vector2( 0, 0 )
+13/modulate = Color( 1, 1, 1, 1 )
+13/region = Rect2( 336, 51, 14, 10 )
+13/tile_mode = 0
+13/occluder_offset = Vector2( 0, 0 )
+13/navigation_offset = Vector2( 0, 0 )
+13/shape_offset = Vector2( 0, 0 )
+13/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+13/shape_one_way = false
+13/shape_one_way_margin = 0.0
+13/shapes = [  ]
+13/z_index = 0
+14/name = "ice.png 14"
+14/texture = ExtResource( 13 )
+14/tex_offset = Vector2( 0, 0 )
+14/modulate = Color( 1, 1, 1, 1 )
+14/region = Rect2( 368, 32, 16, 64 )
+14/tile_mode = 0
+14/occluder_offset = Vector2( 0, 0 )
+14/navigation_offset = Vector2( 0, 0 )
+14/shape_offset = Vector2( 0, 0 )
+14/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+14/shape_one_way = false
+14/shape_one_way_margin = 0.0
+14/shapes = [  ]
+14/z_index = 0
+15/name = "ice.png 15"
+15/texture = ExtResource( 13 )
+15/tex_offset = Vector2( 0, 0 )
+15/modulate = Color( 1, 1, 1, 1 )
+15/region = Rect2( 63, 209, 37, 44 )
+15/tile_mode = 0
+15/occluder_offset = Vector2( 0, 0 )
+15/navigation_offset = Vector2( 0, 0 )
+15/shape_offset = Vector2( 0, 0 )
+15/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+15/shape_one_way = false
+15/shape_one_way_margin = 0.0
+15/shapes = [  ]
+15/z_index = 0
+16/name = "ice.png 16"
+16/texture = ExtResource( 13 )
+16/tex_offset = Vector2( 0, 0 )
+16/modulate = Color( 1, 1, 1, 1 )
+16/region = Rect2( 15, 213, 31, 23 )
+16/tile_mode = 0
+16/occluder_offset = Vector2( 0, 0 )
+16/navigation_offset = Vector2( 0, 0 )
+16/shape_offset = Vector2( 0, 0 )
+16/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+16/shape_one_way = false
+16/shape_one_way_margin = 0.0
+16/shapes = [  ]
+16/z_index = 0
+17/name = "ice.png 17"
+17/texture = ExtResource( 13 )
+17/tex_offset = Vector2( 0, 0 )
+17/modulate = Color( 1, 1, 1, 1 )
+17/region = Rect2( 257, 264, 14, 8 )
+17/tile_mode = 0
+17/occluder_offset = Vector2( 0, 0 )
+17/navigation_offset = Vector2( 0, 0 )
+17/shape_offset = Vector2( 0, 0 )
+17/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+17/shape_one_way = false
+17/shape_one_way_margin = 0.0
+17/shapes = [  ]
+17/z_index = 0
+18/name = "ice.png 18"
+18/texture = ExtResource( 13 )
+18/tex_offset = Vector2( 0, 0 )
+18/modulate = Color( 1, 1, 1, 1 )
+18/region = Rect2( 273, 256, 13, 16 )
+18/tile_mode = 0
+18/occluder_offset = Vector2( 0, 0 )
+18/navigation_offset = Vector2( 0, 0 )
+18/shape_offset = Vector2( 0, 0 )
+18/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+18/shape_one_way = false
+18/shape_one_way_margin = 0.0
+18/shapes = [  ]
+18/z_index = 0
+19/name = "ice.png 19"
+19/texture = ExtResource( 13 )
+19/tex_offset = Vector2( 0, 0 )
+19/modulate = Color( 1, 1, 1, 1 )
+19/region = Rect2( 288, 243, 16, 29 )
+19/tile_mode = 0
+19/occluder_offset = Vector2( 0, 0 )
+19/navigation_offset = Vector2( 0, 0 )
+19/shape_offset = Vector2( 0, 0 )
+19/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+19/shape_one_way = false
+19/shape_one_way_margin = 0.0
+19/shapes = [  ]
+19/z_index = 0
+20/name = "ice.png 20"
+20/texture = ExtResource( 13 )
+20/tex_offset = Vector2( 0, 0 )
+20/modulate = Color( 1, 1, 1, 1 )
+20/region = Rect2( 306, 264, 28, 8 )
+20/tile_mode = 0
+20/occluder_offset = Vector2( 0, 0 )
+20/navigation_offset = Vector2( 0, 0 )
+20/shape_offset = Vector2( 0, 0 )
+20/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+20/shape_one_way = false
+20/shape_one_way_margin = 0.0
+20/shapes = [  ]
+20/z_index = 0
+21/name = "ice.png 21"
+21/texture = ExtResource( 13 )
+21/tex_offset = Vector2( 0, 0 )
+21/modulate = Color( 1, 1, 1, 1 )
+21/region = Rect2( 339, 270, 4, 2 )
+21/tile_mode = 0
+21/occluder_offset = Vector2( 0, 0 )
+21/navigation_offset = Vector2( 0, 0 )
+21/shape_offset = Vector2( 0, 0 )
+21/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+21/shape_one_way = false
+21/shape_one_way_margin = 0.0
+21/shapes = [  ]
+21/z_index = 0
+22/name = "ice.png 22"
+22/texture = ExtResource( 13 )
+22/tex_offset = Vector2( 0, 0 )
+22/modulate = Color( 1, 1, 1, 1 )
+22/region = Rect2( 346, 268, 5, 4 )
+22/tile_mode = 0
+22/occluder_offset = Vector2( 0, 0 )
+22/navigation_offset = Vector2( 0, 0 )
+22/shape_offset = Vector2( 0, 0 )
+22/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+22/shape_one_way = false
+22/shape_one_way_margin = 0.0
+22/shapes = [  ]
+22/z_index = 0
+23/name = "ice.png 23"
+23/texture = ExtResource( 13 )
+23/tex_offset = Vector2( 0, 0 )
+23/modulate = Color( 1, 1, 1, 1 )
+23/region = Rect2( 32, 96, 14, 16 )
+23/tile_mode = 0
+23/occluder_offset = Vector2( 0, 0 )
+23/navigation_offset = Vector2( 0, 0 )
+23/shape_offset = Vector2( 0, 0 )
+23/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+23/shape_one_way = false
+23/shape_one_way_margin = 0.0
+23/shapes = [  ]
+23/z_index = 0
+24/name = "ice.png 24"
+24/texture = ExtResource( 13 )
+24/tex_offset = Vector2( 0, 0 )
+24/modulate = Color( 1, 1, 1, 1 )
+24/region = Rect2( 27, 112, 13, 16 )
+24/tile_mode = 0
+24/occluder_offset = Vector2( 0, 0 )
+24/navigation_offset = Vector2( 0, 0 )
+24/shape_offset = Vector2( 0, 0 )
+24/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+24/shape_one_way = false
+24/shape_one_way_margin = 0.0
+24/shapes = [  ]
+24/z_index = 0
+25/name = "ice.png 25"
+25/texture = ExtResource( 13 )
+25/tex_offset = Vector2( 0, 0 )
+25/modulate = Color( 1, 1, 1, 1 )
+25/region = Rect2( 27, 128, 13, 10 )
+25/tile_mode = 0
+25/occluder_offset = Vector2( 0, 0 )
+25/navigation_offset = Vector2( 0, 0 )
+25/shape_offset = Vector2( 0, 0 )
+25/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+25/shape_one_way = false
+25/shape_one_way_margin = 0.0
+25/shapes = [  ]
+25/z_index = 0
+26/name = "ice.png 26"
+26/texture = ExtResource( 13 )
+26/tex_offset = Vector2( 0, 0 )
+26/modulate = Color( 1, 1, 1, 1 )
+26/region = Rect2( 28, 138, 17, 23 )
+26/tile_mode = 0
+26/occluder_offset = Vector2( 0, 0 )
+26/navigation_offset = Vector2( 0, 0 )
+26/shape_offset = Vector2( 0, 0 )
+26/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+26/shape_one_way = false
+26/shape_one_way_margin = 0.0
+26/shapes = [  ]
+26/z_index = 0
+27/name = "ice.png 27"
+27/texture = ExtResource( 13 )
+27/tex_offset = Vector2( 0, 0 )
+27/modulate = Color( 1, 1, 1, 1 )
+27/region = Rect2( 29, 192, 13, 16 )
+27/tile_mode = 0
+27/occluder_offset = Vector2( 0, 0 )
+27/navigation_offset = Vector2( 0, 0 )
+27/shape_offset = Vector2( 0, 0 )
+27/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+27/shape_one_way = false
+27/shape_one_way_margin = 0.0
+27/shapes = [  ]
+27/z_index = 0
+28/name = "ice.png 28"
+28/texture = ExtResource( 13 )
+28/tex_offset = Vector2( 0, 0 )
+28/modulate = Color( 1, 1, 1, 1 )
+28/region = Rect2( 29, 182, 12, 10 )
+28/tile_mode = 0
+28/occluder_offset = Vector2( 0, 0 )
+28/navigation_offset = Vector2( 0, 0 )
+28/shape_offset = Vector2( 0, 0 )
+28/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+28/shape_one_way = false
+28/shape_one_way_margin = 0.0
+28/shapes = [  ]
+28/z_index = 0
+29/name = "ice.png 29"
+29/texture = ExtResource( 13 )
+29/tex_offset = Vector2( 0, 0 )
+29/modulate = Color( 1, 1, 1, 1 )
+29/region = Rect2( 27, 161, 19, 21 )
+29/tile_mode = 0
+29/occluder_offset = Vector2( 0, 0 )
+29/navigation_offset = Vector2( 0, 0 )
+29/shape_offset = Vector2( 0, 0 )
+29/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+29/shape_one_way = false
+29/shape_one_way_margin = 0.0
+29/shapes = [  ]
+29/z_index = 0
+30/name = "ice.png 30"
+30/texture = ExtResource( 13 )
+30/tex_offset = Vector2( 0, 0 )
+30/modulate = Color( 1, 1, 1, 1 )
+30/region = Rect2( 0, 32, 6, 6 )
+30/tile_mode = 0
+30/occluder_offset = Vector2( 0, 0 )
+30/navigation_offset = Vector2( 0, 0 )
+30/shape_offset = Vector2( 0, 0 )
+30/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+30/shape_one_way = false
+30/shape_one_way_margin = 0.0
+30/shapes = [  ]
+30/z_index = 0
+31/name = "ice.png 31"
+31/texture = ExtResource( 13 )
+31/tex_offset = Vector2( 0, 0 )
+31/modulate = Color( 1, 1, 1, 1 )
+31/region = Rect2( 0, 32, 32, 32 )
+31/tile_mode = 0
+31/occluder_offset = Vector2( 0, 0 )
+31/navigation_offset = Vector2( 0, 0 )
+31/shape_offset = Vector2( 0, 0 )
+31/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+31/shape_one_way = false
+31/shape_one_way_margin = 0.0
+31/shapes = [  ]
+31/z_index = 0
+33/name = "ice.png 33"
+33/texture = ExtResource( 13 )
+33/tex_offset = Vector2( 0, 0 )
+33/modulate = Color( 1, 1, 1, 1 )
+33/region = Rect2( 112, 80, 32, 32 )
+33/tile_mode = 0
+33/occluder_offset = Vector2( 0, 0 )
+33/navigation_offset = Vector2( 0, 0 )
+33/shape_offset = Vector2( 0, 0 )
+33/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+33/shape_one_way = false
+33/shape_one_way_margin = 0.0
+33/shapes = [  ]
+33/z_index = 0
+34/name = "ice.png 34"
+34/texture = ExtResource( 13 )
+34/tex_offset = Vector2( 0, 0 )
+34/modulate = Color( 1, 1, 1, 1 )
+34/region = Rect2( 112, 16, 32, 32 )
+34/tile_mode = 0
+34/occluder_offset = Vector2( 0, 0 )
+34/navigation_offset = Vector2( 0, 0 )
+34/shape_offset = Vector2( 0, 0 )
+34/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+34/shape_one_way = false
+34/shape_one_way_margin = 0.0
+34/shapes = [  ]
+34/z_index = 0
+35/name = "ice.png 35"
+35/texture = ExtResource( 13 )
+35/tex_offset = Vector2( 0, 0 )
+35/modulate = Color( 1, 1, 1, 1 )
+35/region = Rect2( 96, 32, 16, 31 )
+35/tile_mode = 0
+35/occluder_offset = Vector2( 0, 0 )
+35/navigation_offset = Vector2( 0, 0 )
+35/shape_offset = Vector2( 0, 0 )
+35/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+35/shape_one_way = false
+35/shape_one_way_margin = 0.0
+35/shapes = [  ]
+35/z_index = 0
+36/name = "ice.png 36"
+36/texture = ExtResource( 13 )
+36/tex_offset = Vector2( 0, 0 )
+36/modulate = Color( 1, 1, 1, 1 )
+36/region = Rect2( 80, 48, 16, 26 )
+36/tile_mode = 0
+36/occluder_offset = Vector2( 0, 0 )
+36/navigation_offset = Vector2( 0, 0 )
+36/shape_offset = Vector2( 0, 0 )
+36/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+36/shape_one_way = false
+36/shape_one_way_margin = 0.0
+36/shapes = [  ]
+36/z_index = 0
+37/name = "ice.png 37"
+37/texture = ExtResource( 13 )
+37/tex_offset = Vector2( 0, 0 )
+37/modulate = Color( 1, 1, 1, 1 )
+37/region = Rect2( 64, 63, 16, 33 )
+37/tile_mode = 0
+37/occluder_offset = Vector2( 0, 0 )
+37/navigation_offset = Vector2( 0, 0 )
+37/shape_offset = Vector2( 0, 0 )
+37/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+37/shape_one_way = false
+37/shape_one_way_margin = 0.0
+37/shapes = [  ]
+37/z_index = 0
+38/name = "ice.png 38"
+38/texture = ExtResource( 13 )
+38/tex_offset = Vector2( 0, 0 )
+38/modulate = Color( 1, 1, 1, 1 )
+38/region = Rect2( 80, 87, 16, 25 )
+38/tile_mode = 0
+38/occluder_offset = Vector2( 0, 0 )
+38/navigation_offset = Vector2( 0, 0 )
+38/shape_offset = Vector2( 0, 0 )
+38/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+38/shape_one_way = false
+38/shape_one_way_margin = 0.0
+38/shapes = [  ]
+38/z_index = 0
+39/name = "ice.png 39"
+39/texture = ExtResource( 13 )
+39/tex_offset = Vector2( 0, 0 )
+39/modulate = Color( 1, 1, 1, 1 )
+39/region = Rect2( 96, 97, 16, 31 )
+39/tile_mode = 0
+39/occluder_offset = Vector2( 0, 0 )
+39/navigation_offset = Vector2( 0, 0 )
+39/shape_offset = Vector2( 0, 0 )
+39/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+39/shape_one_way = false
+39/shape_one_way_margin = 0.0
+39/shapes = [  ]
+39/z_index = 0
+40/name = "ice.png 40"
+40/texture = ExtResource( 13 )
+40/tex_offset = Vector2( 0, 0 )
+40/modulate = Color( 1, 1, 1, 1 )
+40/region = Rect2( 112, 117, 32, 27 )
+40/tile_mode = 0
+40/occluder_offset = Vector2( 0, 0 )
+40/navigation_offset = Vector2( 0, 0 )
+40/shape_offset = Vector2( 0, 0 )
+40/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+40/shape_one_way = false
+40/shape_one_way_margin = 0.0
+40/shapes = [  ]
+40/z_index = 0
+41/name = "ice.png 41"
+41/texture = ExtResource( 13 )
+41/tex_offset = Vector2( 0, 0 )
+41/modulate = Color( 1, 1, 1, 1 )
+41/region = Rect2( 96, 144, 24, 32 )
+41/tile_mode = 0
+41/occluder_offset = Vector2( 0, 0 )
+41/navigation_offset = Vector2( 0, 0 )
+41/shape_offset = Vector2( 0, 0 )
+41/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+41/shape_one_way = false
+41/shape_one_way_margin = 0.0
+41/shapes = [  ]
+41/z_index = 0
+43/name = "ice.png 43"
+43/texture = ExtResource( 13 )
+43/tex_offset = Vector2( 0, 0 )
+43/modulate = Color( 1, 1, 1, 1 )
+43/region = Rect2( 224, 96, 32, 29 )
+43/tile_mode = 0
+43/occluder_offset = Vector2( 0, 0 )
+43/navigation_offset = Vector2( 0, 0 )
+43/shape_offset = Vector2( 0, 0 )
+43/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+43/shape_one_way = false
+43/shape_one_way_margin = 0.0
+43/shapes = [  ]
+43/z_index = 0
+44/name = "ice.png 44"
+44/texture = ExtResource( 13 )
+44/tex_offset = Vector2( 0, 0 )
+44/modulate = Color( 1, 1, 1, 1 )
+44/region = Rect2( 256, 96, 43, 32 )
+44/tile_mode = 0
+44/occluder_offset = Vector2( 0, 0 )
+44/navigation_offset = Vector2( 0, 0 )
+44/shape_offset = Vector2( 0, 0 )
+44/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+44/shape_one_way = false
+44/shape_one_way_margin = 0.0
+44/shapes = [  ]
+44/z_index = 0
+45/name = "ice.png 45"
+45/texture = ExtResource( 13 )
+45/tex_offset = Vector2( 0, 0 )
+45/modulate = Color( 1, 1, 1, 1 )
+45/region = Rect2( 299, 96, 21, 19 )
+45/tile_mode = 0
+45/occluder_offset = Vector2( 0, 0 )
+45/navigation_offset = Vector2( 0, 0 )
+45/shape_offset = Vector2( 0, 0 )
+45/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+45/shape_one_way = false
+45/shape_one_way_margin = 0.0
+45/shapes = [  ]
+45/z_index = 0
+46/name = "ice.png 46"
+46/texture = ExtResource( 13 )
+46/tex_offset = Vector2( 0, 0 )
+46/modulate = Color( 1, 1, 1, 1 )
+46/region = Rect2( 320, 96, 32, 21 )
+46/tile_mode = 0
+46/occluder_offset = Vector2( 0, 0 )
+46/navigation_offset = Vector2( 0, 0 )
+46/shape_offset = Vector2( 0, 0 )
+46/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+46/shape_one_way = false
+46/shape_one_way_margin = 0.0
+46/shapes = [  ]
+46/z_index = 0
+47/name = "ice.png 47"
+47/texture = ExtResource( 13 )
+47/tex_offset = Vector2( 0, 0 )
+47/modulate = Color( 1, 1, 1, 1 )
+47/region = Rect2( 352, 96, 16, 19 )
+47/tile_mode = 0
+47/occluder_offset = Vector2( 0, 0 )
+47/navigation_offset = Vector2( 0, 0 )
+47/shape_offset = Vector2( 0, 0 )
+47/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+47/shape_one_way = false
+47/shape_one_way_margin = 0.0
+47/shapes = [  ]
+47/z_index = 0
+48/name = "ice.png 48"
+48/texture = ExtResource( 13 )
+48/tex_offset = Vector2( 0, 0 )
+48/modulate = Color( 1, 1, 1, 1 )
+48/region = Rect2( 128, 193, 8, 15 )
+48/tile_mode = 0
+48/occluder_offset = Vector2( 0, 0 )
+48/navigation_offset = Vector2( 0, 0 )
+48/shape_offset = Vector2( 0, 0 )
+48/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+48/shape_one_way = false
+48/shape_one_way_margin = 0.0
+48/shapes = [  ]
+48/z_index = 0
+49/name = "ice.png 49"
+49/texture = ExtResource( 13 )
+49/tex_offset = Vector2( 0, 0 )
+49/modulate = Color( 1, 1, 1, 1 )
+49/region = Rect2( 0, 32, 1, 1 )
+49/tile_mode = 0
+49/occluder_offset = Vector2( 0, 0 )
+49/navigation_offset = Vector2( 0, 0 )
+49/shape_offset = Vector2( 0, 0 )
+49/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+49/shape_one_way = false
+49/shape_one_way_margin = 0.0
+49/shapes = [  ]
+49/z_index = 0
+
+[node name="ShipRoom" type="Node2D"]
+position = Vector2( 0, -304 )
+script = ExtResource( 3 )
+
+[node name="Background" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2( 0.25, 1 )
+motion_mirroring = Vector2( 620, 0 )
+
+[node name="Sprite" type="Sprite" parent="Background/ParallaxLayer"]
+texture = ExtResource( 12 )
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2( 0.5, 1 )
+motion_mirroring = Vector2( 620, 0 )
+
+[node name="Sprite" type="Sprite" parent="Background/ParallaxLayer2"]
+texture = ExtResource( 11 )
+centered = false
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="Background"]
+motion_scale = Vector2( 0.75, 1 )
+motion_mirroring = Vector2( 620, 0 )
+
+[node name="Sprite" type="Sprite" parent="Background/ParallaxLayer3"]
+texture = ExtResource( 8 )
+centered = false
+
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="Background"]
+motion_mirroring = Vector2( 620, 0 )
+
+[node name="Sprite" type="Sprite" parent="Background/ParallaxLayer4"]
+texture = ExtResource( 4 )
+centered = false
+
+[node name="ParallaxLayer5" type="ParallaxLayer" parent="Background"]
+motion_mirroring = Vector2( 620, 0 )
+
+[node name="Sprite" type="Sprite" parent="Background/ParallaxLayer5"]
+texture = ExtResource( 9 )
+centered = false
+
+[node name="ParallaxLayer6" type="ParallaxLayer" parent="Background"]
+motion_mirroring = Vector2( 620, 0 )
+
+[node name="Sprite" type="Sprite" parent="Background/ParallaxLayer6"]
+texture = ExtResource( 14 )
+centered = false
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( 16, 48 )
+z_index = -1
+z_as_relative = false
+color = Color( 0.0313726, 0.0627451, 0.0941176, 1 )
+invert_enable = true
+invert_border = 1615.4
+polygon = PoolVector2Array( -1365.83, -1425.88, -1380.1, 542.792, 1026.36, 546.714, 1024.78, 629.787, 1368.44, 597.734, 1358.6, 432.35, 3172.19, 439.319, 3172.19, -1440.15 )
+
+[node name="CaveBG" type="Polygon2D" parent="."]
+position = Vector2( 16, 48 )
+z_index = -1
+z_as_relative = false
+color = Color( 0.2, 0.266667, 1, 1 )
+texture = ExtResource( 5 )
+texture_offset = Vector2( 0, 200 )
+polygon = PoolVector2Array( 1102.68, 615.265, 1093.25, 613.538, 1086.93, 614.648, 1080.32, 613.586, 1075.25, 610.413, 1069.42, 607.639, 1065.88, 605.515, 1059.62, 604.217, 1053.84, 603.155, 1047.09, 601.495, 1028.26, 606.839, 1029.5, 628.125, 1043.75, 627.375, 1044.75, 708.5, 1068.4, 710.372, 1107, 906, 1130.5, 920.75, 1133, 961.25, 1194, 987.75, 1176.25, 1036.22, 1106.6, 1034.1, 1103.77, 1111.18, 1225.14, 1114.09, 1243.35, 1091.64, 1280.82, 1088.28, 1367.27, 1036.31, 1435, 1042.5, 1438.2, 967.023, 1358.02, 960.786, 1356.27, 904.659, 1224.38, 883.724, 1284.07, 845.415, 1329.06, 846.529, 1387.64, 759.221, 1383.85, 624.25, 1364.42, 569.428, 1376.46, 522.075, 1361.24, 504.883, 1344, 512, 1312, 528, 1269.55, 539.056, 1261.42, 545.306, 1253.42, 551.306, 1246.3, 553.431, 1238.42, 557.806, 1232.8, 561.181, 1229.8, 567.556, 1221.05, 573.181, 1216.42, 579.881, 1210.17, 581.931, 1202.92, 583.056, 1197.55, 585.806, 1190.8, 588.931, 1182.13, 592.256, 1177.92, 596.056, 1172.17, 598.181, 1164.3, 605.056, 1147.12, 611.701, 1131.01, 615.175, 1123.47, 614.58, 1113.55, 615.572 )
+
+[node name="MapChunks" type="Node2D" parent="."]
+z_index = -4095
+
+[node name="MapChunk" type="CollisionShape2D" parent="MapChunks"]
+modulate = Color( 1, 0, 0.560784, 1 )
+position = Vector2( 186, 330 )
+shape = SubResource( 1 )
+script = ExtResource( 2 )
+bottom_wall = 2
+
+[node name="MapChunk2" type="CollisionShape2D" parent="MapChunks"]
+modulate = Color( 1, 0, 0.560784, 1 )
+position = Vector2( 698, 330 )
+shape = SubResource( 2 )
+script = ExtResource( 2 )
+grid_position = Vector2( 1, 0 )
+bottom_wall = 2
+
+[node name="MapChunk3" type="CollisionShape2D" parent="MapChunks"]
+modulate = Color( 1, 0, 0.560784, 1 )
+position = Vector2( 1210, 330 )
+shape = SubResource( 2 )
+script = ExtResource( 2 )
+grid_position = Vector2( 2, 0 )
+
+[node name="MapChunk5" type="CollisionShape2D" parent="MapChunks"]
+modulate = Color( 1, 0, 0.560784, 1 )
+position = Vector2( 1216.75, 1097.25 )
+shape = SubResource( 2 )
+script = ExtResource( 2 )
+grid_position = Vector2( 2, 2 )
+left_wall = 2
+right_wall = 1
+
+[node name="MapChunk4" type="CollisionShape2D" parent="MapChunks"]
+modulate = Color( 1, 0, 0.560784, 1 )
+position = Vector2( 1210, 714 )
+shape = SubResource( 3 )
+script = ExtResource( 2 )
+grid_position = Vector2( 2, 1 )
+left_wall = 2
+right_wall = 2
+
+[node name="CameraChunks" type="Node2D" parent="."]
+visible = false
+z_index = -4095
+
+[node name="Particles2D" type="Particles2D" parent="."]
+visible = false
+material = SubResource( 4 )
+position = Vector2( -416, -80 )
+emitting = false
+amount = 1000
+lifetime = 15.0
+preprocess = 50.0
+speed_scale = 0.75
+visibility_rect = Rect2( -49999, -100, 99999, 99999 )
+process_material = SubResource( 7 )
+texture = ExtResource( 7 )
+
+[node name="Gunship" parent="." instance=ExtResource( 18 )]
+position = Vector2( 54.153, 542 )
+
+[node name="SpawnPos" type="Position2D" parent="Gunship" groups=[
+"SpawnPosition",
+]]
+position = Vector2( 988.535, -16.2843 )
+
+[node name="Fluid" parent="." instance=ExtResource( 20 )]
+margin_left = 1181.0
+margin_top = 609.0
+margin_right = 1231.0
+margin_bottom = 631.0
+flow_speed = 0.1
+
+[node name="Waterfall" type="Sprite" parent="."]
+visible = false
+material = SubResource( 13 )
+position = Vector2( 1208, 499 )
+scale = Vector2( 0.563824, 4.89517 )
+texture = ExtResource( 1 )
+script = ExtResource( 10 )
+
+[node name="Waterfall2" type="Sprite" parent="."]
+visible = false
+material = SubResource( 14 )
+position = Vector2( 1190.37, 797 )
+scale = Vector2( 0.167963, 5.53125 )
+texture = ExtResource( 1 )
+script = ExtResource( 10 )
+
+[node name="Waterfall3" type="Sprite" parent="."]
+visible = false
+material = SubResource( 20 )
+position = Vector2( 1220.37, 796.5 )
+scale = Vector2( 0.312499, 5.42188 )
+texture = ExtResource( 1 )
+script = ExtResource( 10 )
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Saveroom" parent="Doors" instance=ExtResource( 17 )]
+position = Vector2( 1450, 1050 )
+rotation = 3.14159
+target_room_id = "Caves/ship_saveroom"
+target_door_id = "Entrance"
+
+[node name="Saveroom2" parent="Doors" instance=ExtResource( 17 )]
+position = Vector2( 1135, 1125 )
+target_room_id = "Caves/ship_saveroom"
+target_door_id = "Entrance"
+
+[node name="VisualTileMapPrecise2" type="TileMap" parent="."]
+position = Vector2( 264, 280 )
+tile_set = SubResource( 21 )
+cell_size = Vector2( 1, 1 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 18547474, 20, 0, 21431183, 536870948, 0, 21889929, 536870939, 0, 22741924, 1073741870, 0, 22807441, 1073741869, 0, 24380179, 18, 0, 28771427, -1610612693, 0, 30540901, -1610612698, 0, 32572516, -1610612691, 0, 35259252, 1073741851, 0, 35259264, -2147483625, 0, 35324840, 1610612765, 0, 35914640, -2147483618, 0, 35914646, -2147483618, 0, 35914649, -2147483618, 0, 36111162, -2147483605, 0, 36111220, -536870873, 0, 36242309, 1073741854, 0, 36242311, 1073741854, 0, 36832328, -1610612690, 0, 38274109, -536870868, 0, 38339660, 1610612767, 0, 38994997, 1610612777, 0, 39322698, 1610612767, 0, 39650338, 1073741869, 0, 42468295, -536870874, 0, 42599394, 44, 0, 42795986, -536870885, 0, 43451237, 1610612774, 0, 43713581, 536870955, 0, 44500029, -536870868, 0, 47514772, -536870882, 0, 47776910, -536870874, 0, 47776926, 44, 0, 51381143, 536870952, 0, 52167544, 536870958, 0, 52364406, 1073741870, 0, 52429942, 1073741871, 0, 52495442, -536870871, 0, 52495509, 1073741869, 0, 52954174, 1610612781, 0, 52954207, -536870882, 0, 53216350, -536870882, 0, 53347420, -536870882, 0, 53412955, -536870882, 0, 53478514, 1610612766, 0 )
+
+[node name="VisualTileMap" type="TileMap" parent="."]
+position = Vector2( 264, 120 )
+tile_set = SubResource( 21 )
+cell_size = Vector2( 32, 32 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 720930, 15, 0, 983025, 4, 0, 983026, 0, 0, 983027, 1, 0, 983028, 0, 0, 983029, 4, 0, 983030, 4, 0, 983031, 1, 0, 983032, 2, 0, 983033, 0, 0, 983034, 2, 0, 983035, 4, 0, 983036, 4, 0, 983037, 4, 0, 983038, 2, 0, 983039, 4, 0, 917504, 1, 0, 917505, 0, 0, 917506, 1, 0, 917507, 1, 0, 917508, 536870912, 0, 917511, 1, 0, 917512, 4, 0, 917513, 1, 0, 917516, 1, 0, 917517, 1, 0, 917518, 2, 0, 917519, 2, 0, 917520, 4, 0, 917521, 4, 0, 917522, 0, 0, 917523, 1, 0, 917524, 2, 0, 917525, 4, 0, 917526, 4, 0 )
+
+[node name="VisualTileMapPrecise" type="TileMap" parent="."]
+position = Vector2( 262, 281 )
+tile_set = SubResource( 21 )
+cell_size = Vector2( 1, 1 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 11535448, 1, 0, 15205451, 1073741853, 0, 16516176, 1073741851, 0, 17040472, 39, 0, 17499219, -536870874, 0, 18219200, 7, 0, 18350816, 536870917, 0, 18481472, 8, 0, 18874496, 536870919, 0, 19595444, 24, 0, 19661174, -1610612711, 0, 19857772, -2147483620, 0, 20055125, -1610612696, 0, 20447552, -1610612706, 0, 20447558, -1610612706, 0, 20447564, -1610612706, 0, 20447570, -1610612706, 0, 20447576, -1610612706, 0, 20447582, -1610612706, 0, 20447588, -1610612706, 0, 20447592, -1610612706, 0, 20513142, -1610612706, 0, 20513148, -1610612706, 0, 20644026, 30, 0, 20644206, -1610612706, 0, 20644212, -1610612706, 0, 20840768, -1610612706, 0, 20840774, -1610612706, 0, 20840780, -1610612706, 0, 20840786, -1610612706, 0, 20840792, -1610612706, 0, 20840798, -1610612706, 0, 20840804, -1610612706, 0, 20840810, -1610612706, 0, 20906171, 30, 0, 20906362, -1610612706, 0, 21300099, 37, 0, 21300174, -1610612701, 0, 21693186, -1610612726, 0, 22086402, 30, 0, 22152277, -536870867, 0, 22283009, 30, 0, 22348765, 536870951, 0, 22414211, 38, 0, 23135122, 44, 0, 23200514, -1610612735, 0, 23200701, 536870955, 0, 23397463, -536870872, 0, 24249098, 536870915, 0, 24773726, -536870869, 0, 25232155, 536870921, 0, 26870888, -536870867, 0, 26936091, 536870939, 0, 27657321, 1073741853, 0, 27984664, -1073741781, 0, 30081815, -1073741783, 0, 30868278, 1610612774, 0, 31392868, 1073741853, 0, 31982389, -1073741778, 0, 33883238, -1610612689, 0, 34079545, 1610612763, 0, 34931616, -1610612707, 0, 34931805, 1610612777, 0, 34997137, -1610612709, 0, 35128116, 1073741865, 0, 35193726, -2147483620, 0, 35586945, 30, 0, 35652476, 30, 0, 35652512, 1073741854, 0, 35718039, 1073741854, 0, 35718045, 1073741854, 0, 35718223, -1610612697, 0, 35849085, 1073741854, 0, 35849092, 1073741854, 0, 35914623, 1073741854, 0, 35914638, 1073741854, 0, 35980197, 1073741854, 0, 36111233, 1073741854, 0, 36111264, -1073741786, 0, 36176806, 1073741854, 0, 36176809, 1073741854, 0, 37225277, -2147483602, 0, 37225278, -2147483602, 0, 38732607, -1073741781, 0, 39453702, 1073741870, 0, 39846886, 1073741864, 0, 40436549, -2147483608, 0, 40698863, -536870882, 0, 40895450, -536870871, 0, 41419720, -1610612697, 0, 42533712, 1073741865, 0, 42927119, 40, 0, 43123776, 31, 0, 43451470, 31, 0, 44041062, -1073741781, 0, 45220930, 49, 0, 46138219, -2147483608, 0, 47252558, 27, 0, 47252568, 46, 0, 47383671, 536870955, 0, 47448974, 1610612779, 0, 48104319, -2147483621, 0, 48104362, 1610612775, 0, 48956328, -2147483604, 0, 52036416, 46, 0, 52101975, 536870959, 0, 52101990, 536870957, 0, 52167780, -1610612707, 0, 53019685, 1073741864, 0, 53937178, -536870871, 0, 53937197, -536870863, 0, 53937198, -536870863, 0, 53937199, -536870863, 0, 54002733, -536870863, 0, 54002734, -536870863, 0, 54461449, -1610612698, 0, 54920188, -1610612697, 0, 55509984, 1610612782, 0, 55510027, 1610612766, 0, 55706628, 1610612766, 0, 55772097, 1073741864, 0, 55837696, 1610612783, 0, 55968778, 1610612766, 0, 56099849, 1610612785, 0, 56165381, 1610612767, 0, 56361899, 1073741868, 0, 56951642, -2147483610, 0, 57213804, -1610612709, 0, 57344919, 1073741869, 0, 57476036, 1610612767, 0, 57672550, 1073741854, 0 )
+
+[node name="VisualTileMapPrecise3" type="TileMap" parent="."]
+position = Vector2( 264, 280 )
+tile_set = SubResource( 21 )
+cell_size = Vector2( 1, 1 )
+format = 1
+tile_data = PoolIntArray( 21300165, 24, 0, 21955523, 29, 0, 22348758, 30, 0, 22348759, 30, 0, 22479831, 30, 0, 22741974, 30, 0, 22807511, 30, 0, 23004118, 30, 0, 35652499, 1073741854, 0, 35652510, 1073741854, 0, 35914639, 1073741854, 0, 36111248, 536870959, 0, 36307860, 1073741854, 0, 36307866, 1073741854, 0, 50922286, 31, 0, 56623991, 1073741867, 0, 56820556, 1073741869, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 1184, 608 )
+collision_layer = 524288
+collision_mask = 524303
+
+[node name="WaterCavity" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -4, -1, -13, -1, -23, 13, -23, 28, -17, 35, -14, 40, -8, 40, -5, 44, 0, 44, 2, 47, 12, 47, 19, 58, 24, 58, 30, 47, 35, 43, 40, 43, 42, 45, 47, 45, 49, 47, 60, 47, 74, 41, 76, 41, 78, 34, 83, 30, 83, 11, 70, -2, 47, -2, 47, 23, 10, 23 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 222, -135, 187, -136, 168, -126, 177, -100, 180, -100, 180, -93, 185, -53, 205, -37, 269, -37, 269, -21, 203, -21, 203, -21, 196, -13, 190, 2, 190, 37, 205, 63, 208, 80, 208, 108, 214, 117, 214, 141, 205, 148, 205, 206, 177, 243, 178, 259, 158, 278, 116, 278, 83, 290, 69, 304, 54, 310, 47, 320, 47, 327, 61, 338, 67, 338, 69, 336, 74, 336, 77, 340, 82, 340, 84, 343, 94, 343, 101, 354, 105, 354, 114, 341, 119, 341, 144, 355, 161, 355, 165, 368, 176, 374, 176, 379, 181, 392, 181, 410, 193, 410, 197, 412, 528, 412, 524, 474, 204, 474, 186, 482, 165, 482, 153, 491, 146, 491, 133, 504, 124, 504, 100, 524, 65, 524, 53, 533, 45, 533, 37, 544, 30, 544, 18, 549, -89, 549, -89, 599, 535, 606, 541, -134 )
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( -106, -34, -106, -20, -119, -16, -127, -9, -135, 0, -135, 59, -112, 59, -112, 108, -112, 134, -99, 144, -94, 144, -85, 156, -85, 219, -80, 219, -74, 234, -74, 291, -65, 298, -65, 306, -58, 316, -58, 328, -50, 335, -44, 335, -35, 348, -35, 378, -19, 409, 19, 409, 32, 423, 32, 440, 46, 447, 46, 452, 37, 455, 31, 463, 29, 469, -13, 488, -21, 486, -89, 486, -1428, 45, -1428, -24, -793, -24, -787, -26, -779, -34, -771, -38, -755, -38, -741, -27, -731, -27, -726, -34, -721, -34, -706, -48, -688, -48, -674, -37, -665, -24, -600, -24, -591, -33, -585, -33, -581, -36, -564, -36, -557, -24, -184, -24, -166, -35, -157, -46, -138, -46 )
+
+[node name="Platform" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 23, 210, 32, 211, 32, 228, 19, 240, 3, 240, 1, 242, -5, 242, -8, 239, -21, 239, -35, 224, -35, 210 )
+
+[node name="Ice" parent="." instance=ExtResource( 19 )]
+margin_left = 2336.0
+margin_top = 1360.0
+margin_right = 2496.0
+margin_bottom = 1664.0
+
+[node name="Blocks" type="Node2D" parent="."]
+position = Vector2( 64, 160 )
+
+[node name="UpgradePickup" parent="." instance=ExtResource( 16 )]
+position = Vector2( 1437, 571 )
+upgrade_type = 0
+hidden_by_node = NodePath("DestroyableBlock")
+
+[node name="DestroyableBlock" parent="UpgradePickup" instance=ExtResource( 15 )]
+position = Vector2( -48, 0 )
+type = 2
+reappear_time = -1.0
+
+[node name="AnimatedSprite" parent="UpgradePickup/DestroyableBlock" index="1"]
+animation = "bomb"
+
+[node name="VisualTileMapPrecise" type="TileMap" parent="UpgradePickup/DestroyableBlock/Overlay" index="0"]
+light_mask = 2
+position = Vector2( -942, -314 )
+tile_set = SubResource( 21 )
+cell_size = Vector2( 1, 1 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+tile_data = PoolIntArray( 19399589, 38, 0, 19792828, 1073741855, 0, 19792860, 1073741855, 0, 20317106, 1073741854, 0, 20317112, 1073741854, 0, 20710313, 1073741853, 0 )
+
+[node name="CollisionTilemapPrecise" type="TileMap" parent="UpgradePickup/DestroyableBlock/Overlay" index="1"]
+position = Vector2( -1301, -579 )
+z_index = -1
+z_as_relative = false
+tile_set = ExtResource( 6 )
+cell_size = Vector2( 1, 1 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+show_collision = true
+collision_layer = 524288
+collision_mask = 15
+format = 1
+tile_data = PoolIntArray( 37553427, -1073741824, 0, 38405395, -1073741824, 0 )
+
+[node name="WeaponCollisionArea" parent="UpgradePickup/DestroyableBlock" index="3"]
+visible = false
+
+[connection signal="item_rect_changed" from="Waterfall" to="Waterfall" method="_on_Sprite_item_rect_changed"]
+[connection signal="item_rect_changed" from="Waterfall2" to="Waterfall2" method="_on_Sprite_item_rect_changed"]
+[connection signal="item_rect_changed" from="Waterfall3" to="Waterfall3" method="_on_Sprite_item_rect_changed"]
+
+[editable path="UpgradePickup/DestroyableBlock"]
+[editable path="UpgradePickup/DestroyableBlock/ScanNode"]

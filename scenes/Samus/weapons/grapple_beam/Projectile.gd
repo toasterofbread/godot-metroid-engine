@@ -45,7 +45,7 @@ func collided(body):
 	if not moving:
 		return
 	if body.has_method("damage"):
-		body.damage(parent.damage_type, parent.damage_amount)
+		body.damage(parent.damage_type, parent.damage_amount, $Area2D.get_child(0).global_position)
 	if body.has_method("attach_grapple"):
 		fire_pos = parent.get_fire_pos()
 		moving = false

@@ -2,11 +2,10 @@ extends Node2D
 class_name Door
 
 export var target_room_id: String
-export var id: String
-export var target_id: String
+export var target_door_id: String
 enum DOOR_COLOURS {blue, red, green, yellow}
 export(DOOR_COLOURS) var _colour: int = DOOR_COLOURS.blue
-export(int, 3) var frame_colour: int = 0
+export var no_visual: bool = false
 
 var target_room_scene: PackedScene
 var opened: bool = false
@@ -16,17 +15,30 @@ onready var target_spawn_position: Position2D = $TargetSpawnPosition
 var destructive_damage_types: Array = Enums.DamageType.values()
 
 var sounds = {
-	"open": Sound.new("res://audio/objects/door/sndDoorOpen.wav"),
-	"close": Sound.new("res://audio/objects/door/sndDoorClose.wav"),
-	"lock": Sound.new("res://audio/objects/door/sndDoorLock.wav"),
-	"unlock": Sound.new("res://audio/objects/door/sndDoorUnlock.wav")
+	"open": Sound.new("res://audio/objects/door/sndDoorOpen.wav", Sound.TYPE.FX),
+	"close": Sound.new("res://audio/objects/door/sndDoorClose.wav", Sound.TYPE.FX),
+	"lock": Sound.new("res://audio/objects/door/sndDoorLock.wav", Sound.TYPE.FX),
+	"unlock": Sound.new("res://audio/objects/door/sndDoorUnlock.wav", Sound.TYPE.FX)
 }
+
+func set_no_visual(value: bool):
+	opened = true
+	$CollisionShape2D.disabled = value
+	$FullDoorArea/CollisionShape2D.disabled = value
+	$Sprite.visible = !value
+	$Frame.visible = !value
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_no_visual(no_visual)
+	
 	z_index = Enums.Layers.DOOR
+	z_as_relative = false
 	
 	target_room_scene = Loader.rooms[target_room_id]
+	
+	$Sprite.play(DOOR_COLOURS.keys()[_colour] + "_close")
+	$Sprite.frame = 3
 	
 	match _colour:
 		DOOR_COLOURS.blue: destructive_damage_types = [Enums.DamageType.BEAM, Enums.DamageType.BOMB, Enums.DamageType.MISSILE, Enums.DamageType.SUPERMISSILE, Enums.DamageType.POWERBOMB]
@@ -35,11 +47,11 @@ func _ready():
 		DOOR_COLOURS.yellow: destructive_damage_types = [Enums.DamageType.POWERBOMB]
 		
 
-func damage(damage_type: int, _damage_amount: int):
+func damage(type: int, _amount: float, _impact_position):
 	if locked:
 		return
 	
-	if damage_type in destructive_damage_types:
+	if type in destructive_damage_types:
 		open()
 
 func open(skip_animation: bool = false):

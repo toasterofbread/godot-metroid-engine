@@ -110,4 +110,4 @@ func open():
 	update_group()
 
 func close():
-	pass
+	$AnimationPlayer.play("close")

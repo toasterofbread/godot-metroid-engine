@@ -83,7 +83,7 @@ shape = SubResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectiles/Rigid"]
 frames = SubResource( 3 )
-frame = 3
+frame = 4
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectiles/Rigid"]
@@ -109,7 +109,7 @@ shape = SubResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectiles/Kinematic"]
 frames = SubResource( 3 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectiles/Kinematic"]

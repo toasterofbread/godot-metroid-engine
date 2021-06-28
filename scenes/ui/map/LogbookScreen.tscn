@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://fonts/Pixel-Life.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://fonts/Pixeled.ttf" type="DynamicFontData" id=2]
@@ -67,6 +67,7 @@ extra_spacing_top = -22
 font_data = ExtResource( 2 )
 
 [sub_resource type="Animation" id=15]
+resource_name = "close"
 tracks/0/type = "value"
 tracks/0/path = NodePath("List:rect_size")
 tracks/0/interp = 1
@@ -75,7 +76,57 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 0.287175, 0.287175 ),
+"transitions": PoolRealArray( 0.049037, 0.049037 ),
+"update": 0,
+"values": [ Vector2( 128, 228 ), Vector2( 128, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Info:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.108819, 0.108819 ),
+"update": 0,
+"values": [ Vector2( 121.6, 6.4 ), Vector2( 400, 6.4 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("List:rect_clip_content")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=16]
+tracks/0/type = "value"
+tracks/0/path = NodePath("List:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.049037, 0.049037 ),
 "update": 0,
 "values": [ Vector2( 128, 40 ), Vector2( 128, 228 ) ]
 }
@@ -130,9 +181,9 @@ __meta__ = {
 }
 
 [node name="Info" type="ColorRect" parent="."]
-margin_left = 121.6
+margin_left = 400.0
 margin_top = 6.4
-margin_right = 377.599
+margin_right = 655.998
 margin_bottom = 172.4
 color = Color( 0.0431373, 0.0588235, 0.196078, 0 )
 __meta__ = {
@@ -199,8 +250,8 @@ __meta__ = {
 [node name="List" type="Panel" parent="."]
 margin_left = 9.6
 margin_right = 137.6
-margin_bottom = 228.0
 rect_scale = Vector2( 0.8, 0.8 )
+rect_clip_content = true
 mouse_filter = 2
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
@@ -358,4 +409,5 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/open = SubResource( 15 )
+anims/close = SubResource( 15 )
+anims/open = SubResource( 16 )

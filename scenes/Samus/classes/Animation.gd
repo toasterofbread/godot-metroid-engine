@@ -15,7 +15,7 @@ var animation_keys: Dictionary
 var animation_length: float
 var full: bool
 var position_node_path: String
-
+var step_frames: Array
 
 # Nodes
 var Animator: Node2D
@@ -36,10 +36,16 @@ const _default_args = {
 	"directional": true,
 	"full": true,
 	"state_id": null,
-	"position_node_path": null
+	"position_node_path": null,
+	"step_frames": [],
 }
 const cooldown_time: float = 0.04
 var frames: SpriteFrames
+
+func process():
+	var frame = sprites[Samus.facing].frame
+	if frame in step_frames:
+		Samus.step(0 if frame == step_frames[0] else 1)
 
 func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	
@@ -128,7 +134,6 @@ func play(retain_frame:=false, speed:=1.0):
 		Animator.current[overlay] = self
 	self.transitioning = self.transition
 	self.playing = true
-	
 	
 	yield(Global.wait(animation_length), "completed")
 	

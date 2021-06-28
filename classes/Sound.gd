@@ -12,11 +12,17 @@ signal looping
 enum STATE {PLAYING, PAUSED, STOPPED, UNSTARTED, FINISHED}
 var status: int = STATE.UNSTARTED
 
-func _init(stream_path: String, _loop: bool = false, _parent: Node = Audio, ignore_pause: bool = false):
-	if ignore_pause:
-		self.pause_mode = Node.PAUSE_MODE_PROCESS
+enum TYPE {SAMUS, ENEMY, FX, MUSIC}
+var type: int
+
+func _init(stream_path: String, _type: int, _parent: Node = Audio):
 	
-	loop = _loop
+#	if _parent == null:
+#		yield(Audio, "ready")
+#		_parent = Audio
+	
+	pause_mode = Node.PAUSE_MODE_PROCESS
+	type = _type
 	parent = _parent
 	parent.add_child(self)
 	if parent == Audio:
@@ -37,7 +43,9 @@ func _finished():
 		status = STATE.FINISHED
 		emit_signal("finished")
 
-func play(from_position: float = 0.0):
+func play(_loop:=false, ignore_paused:=false, from_position: float = 0.0):
+	loop = _loop
+	StreamPlayer.pause_mode = Node.PAUSE_MODE_PROCESS if ignore_paused else Node.PAUSE_MODE_STOP
 	status = STATE.PLAYING
 	StreamPlayer.play(from_position)
 	return self

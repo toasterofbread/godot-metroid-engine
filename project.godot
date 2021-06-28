@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://scenes/objects/ammo_pickup/AmmoPickup.gd"
 }, {
 "base": "Node2D",
+"class": "BaseNotification",
+"language": "GDScript",
+"path": "res://scenes/ui/notifications/BaseNotification.gd"
+}, {
+"base": "Node2D",
 "class": "ButtonPrompt",
 "language": "GDScript",
 "path": "res://scenes/ui/button_prompt/ButtonPrompt.gd"
@@ -23,11 +28,6 @@ _global_script_classes=[ {
 "class": "CameraChunk",
 "language": "GDScript",
 "path": "res://classes/CameraChunk.gd"
-}, {
-"base": "GraphNode",
-"class": "CommonNode",
-"language": "GDScript",
-"path": "res://addons/project_map/pm_common_node.gd"
 }, {
 "base": "StaticBody2D",
 "class": "DestroyableBlock",
@@ -89,11 +89,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/ui/map/MapTile.gd"
 }, {
-"base": "Control",
-"class": "NotificationBaseVariant",
-"language": "GDScript",
-"path": "res://classes/singletons/Notification/variants/BaseVariant.gd"
-}, {
 "base": "AnimatedSprite",
 "class": "PositionalAnimatedSprite",
 "language": "GDScript",
@@ -144,6 +139,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/Samus/visors/scan/ScanNode.gd"
 }, {
+"base": "Path2D",
+"class": "SmoothPath",
+"language": "GDScript",
+"path": "res://classes/SmoothPath.gd"
+}, {
 "base": "Node",
 "class": "Sound",
 "language": "GDScript",
@@ -161,9 +161,9 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AmmoPickup": "",
+"BaseNotification": "",
 "ButtonPrompt": "",
 "CameraChunk": "",
-"CommonNode": "",
 "DestroyableBlock": "",
 "Door": "",
 "ExCamera2D": "",
@@ -176,7 +176,6 @@ _global_script_class_icons={
 "LocalizationPlaceholders": "",
 "MapChunk": "",
 "MapTile": "",
-"NotificationBaseVariant": "",
 "PositionalAnimatedSprite": "",
 "Room": "",
 "SamusAnimation": "",
@@ -187,6 +186,7 @@ _global_script_class_icons={
 "SamusWeapon": "",
 "SaveGame": "",
 "ScanNode": "",
+"SmoothPath": "",
 "Sound": "",
 "SoundManager": "",
 "UpgradePickup": ""
@@ -213,10 +213,10 @@ Notification="*res://classes/singletons/Notification/Notification.tscn"
 Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
 Data="*res://classes/singletons/Data.gd"
+Audio="*res://classes/singletons/Audio.gd"
 Loader="*res://classes/singletons/Loader.gd"
 Map="*res://classes/singletons/Map.gd"
 Shortcut="*res://classes/singletons/Shortcut.gd"
-Audio="*res://classes/singletons/Audio.gd"
 
 [debug]
 
@@ -251,7 +251,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "json" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/localization_editor/plugin.cfg", "res://addons/project_map/plugin.cfg", "res://addons/zylann.project_stats/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/Todo_Manager/plugin.cfg", "res://addons/localization_editor/plugin.cfg" )
 
 [gdnative]
 
@@ -524,6 +524,7 @@ pointing/emulate_touch_from_mouse=true
 2d_physics/layer_4="Enemy hitboxes"
 2d_render/layer_5="Shown by Scan visor"
 2d_physics/layer_5="Scan visor"
+2d_physics/layer_15="World (no Samus)"
 2d_physics/layer_16="Map chunks"
 2d_physics/layer_17="Scan nodes"
 2d_physics/layer_18="Dynamic pickups"
@@ -545,5 +546,6 @@ quality/driver/fallback_to_gles2=true
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
+vram_compression/import_etc=true
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false

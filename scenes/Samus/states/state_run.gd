@@ -7,16 +7,17 @@ const id = "run"
 
 var speedboost_charge_time: float = 2.0
 var SpeedboostTimer: Timer
-var animations: Dictionary = {}
+var animations: Dictionary
+var physics_data: Dictionary
 
 # PHYSICS
-const run_acceleration = 15*60
-const run_deceleration = 50*60
-const run_speed = 170
+#const run_acceleration = 15*60
+#const run_deceleration = 50*60
+#const run_speed = 170
 
-const boost_acceleration = 15*60
+#const boost_acceleration = 15*60
 #const boost_deceleration = 50
-const max_boost_speed = 500
+#const max_boost_speed = 500
 
 
 func _init(_samus: Node2D):
@@ -25,6 +26,7 @@ func _init(_samus: Node2D):
 	Physics = Samus.Physics
 	SpeedboostTimer = Global.timer([Samus, "set", ["boosting", true]])
 	animations = Animator.load_from_json(self.id)
+	physics_data = Physics.data["run"]
 
 # Called every frame while this state is active
 func process(_delta):
@@ -109,7 +111,7 @@ func process(_delta):
 		animations["turn_legs"].play()
 		animations["turn_" + animation].play()
 	elif not Animator.transitioning(false, true):
-		animations[animation].play(true, abs(Physics.vel.x) / run_speed)
+		animations[animation].play(true, min(1.5, abs(Physics.vel.x) / physics_data["speed"]))
 	
 	if fire_weapon:
 		Samus.Weapons.fire()
@@ -138,13 +140,13 @@ func physics_process(delta: float):
 		Samus.boosting = false
 	
 	if Physics.vel.x != 0 and sign(Physics.vel.x) != pad_x:
-		Physics.move_x(0, run_deceleration*delta)
+		Physics.move_x(0, physics_data["deceleration"]*delta)
 	elif Samus.boosting:
-		Physics.move_x(max_boost_speed*pad_x, boost_acceleration*delta)
+		Physics.move_x(physics_data["speedboost_speed"]*pad_x, physics_data["speedboost_acceleration"]*delta)
 	else:
-		Physics.move_x(run_speed*pad_x, run_acceleration*delta)
+		Physics.move_x(physics_data["speed"]*pad_x, physics_data["acceleration"]*delta)
 	
-	if Physics.vel.x >= run_speed:
+	if abs(Physics.vel.x) >= physics_data["speed"]:
 		if SpeedboostTimer.is_stopped():
 			SpeedboostTimer.start(speedboost_charge_time)
 	else:
