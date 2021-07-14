@@ -33,22 +33,21 @@
 	},
 	"jump/spin": {
 		"size": [7.5, 13.5],
-		"leftPos": [1, 5.5],
-		"rightPos": [7, 5.5],
+		"pos": [4, 5.5],
 		"shape": "circle"
 	},
 	"jump/spin_space": {
 		"size": [7.5, 13.5],
-		"leftPos": [1, 5.5],
-		"rightPos": [7, 5.5],
+		"pos": [4, 5.5],
 		"shape": "circle"
 	},
 	"jump/spin_space_screw": {
-		"size": [10],
-		"pos": [4, 5],
-		"x": [1, 5.5],
-		"y": [7, 5.5],
+		"size": [7.5, 13.5],
+		"pos": [4, 5.5],
 		"shape": "circle"
+	},
+	"jump/screw_spark": {
+		"ignore": true
 	},
 	"shinespark/horiz": {
 		"size": [17, 13],

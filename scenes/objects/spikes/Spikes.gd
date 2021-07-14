@@ -53,4 +53,4 @@ func _ready():
 
 func _on_Area2D_body_entered(body):
 	if body.has_method("damage"):
-		body.damage(damage_amount, damage_type)
+		body.damage(damage_amount, damage_type, Vector2(body.global_position.x, global_position.y))

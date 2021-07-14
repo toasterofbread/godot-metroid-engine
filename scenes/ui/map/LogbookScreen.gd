@@ -1,5 +1,6 @@
 extends Control
 
+onready var logbook_data: Dictionary = Data.data["logbook"]
 onready var template_key = $List/template
 var data = {}
 
@@ -89,9 +90,9 @@ func set_data(data_value=null):
 #	for key in Data.logbook:
 	# TODO | Add starting entries to the default savegame
 	for key in recorded_entries:
-		if not Data.logbook[key]["group"] in data:
-			data[Data.logbook[key]["group"]] = {}
-		data[Data.logbook[key]["group"]][key] = Data.logbook[key]
+		if not logbook_data[key]["group"] in data:
+			data[logbook_data[key]["group"]] = {}
+		data[logbook_data[key]["group"]][key] = logbook_data[key]
 	
 	visible = false
 	current_group = 0
@@ -109,5 +110,5 @@ func open():
 	$AnimationPlayer.play("open")
 	update_group()
 
-func close():
-	$AnimationPlayer.play("close")
+func close(instant: bool = false):
+	$AnimationPlayer.play("close", -1, INF if instant else 1.0)

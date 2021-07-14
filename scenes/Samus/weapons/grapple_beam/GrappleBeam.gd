@@ -37,7 +37,8 @@ func fire(_chargebeam_damage_multiplier):
 	projectile.global_position = pos.position
 	projectile.rotation = pos.rotation
 	
-	Cooldown.start(cooldown)
+	if cooldown > 0:
+		Cooldown.start(cooldown)
 	
 	return false
 

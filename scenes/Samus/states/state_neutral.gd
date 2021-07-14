@@ -166,16 +166,16 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 # Called by the idle timer, plays a random idle animation
 func play_idle_animation():
-
-	# Play a random idle animation and wait for it to finish
-	var anim = Global.random_array_item(idle_animations)
-	anim.play()
-	yield(anim, "finished")
+	
+	if not Samus.paused:
+		# Play a random idle animation and wait for it to finish
+		var anim = Global.random_array_item(idle_animations)
+		anim.play()
+		yield(anim, "finished")
 	
 	if Samus.current_state == self:
 		# Restart the timer with a random time
 		idle_timer.start(Global.rng.randi_range(4, 10))
-#		Animator.play("aim_front", {})
 
 func physics_process(_delta: float):
 	Physics.move_x(0, Physics.data["run"]["deceleration"])

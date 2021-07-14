@@ -109,7 +109,6 @@ animations = [ {
 script = ExtResource( 14 )
 id = 3
 damage_type = 3
-cooldown = 5.0
 is_morph_weapon = true
 
 [node name="Projectile" type="KinematicBody2D" parent="."]

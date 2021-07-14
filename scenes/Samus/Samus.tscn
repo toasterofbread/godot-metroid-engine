@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://scenes/Samus/animations/power.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://scenes/Samus/Samus.gd" type="Script" id=2]
@@ -54,32 +54,83 @@
 [ext_resource path="res://sprites/samus/weapons/beam/fx/plasma/sChargePBeamSpark1_13.png" type="Texture" id=52]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_0.png" type="Texture" id=53]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_0.png" type="Texture" id=54]
+[ext_resource path="res://scenes/framework/sprite_trail_emitter/SpriteTrailEmitter.tscn" type="PackedScene" id=55]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 
-uniform float whitening;
-uniform bool enabled;
+uniform float whitening_value;
+uniform bool whitening_enabled;
+
+uniform bool dissolve_enabled;
+uniform float dissolve_progress : hint_range(0.0, 1.0);
+uniform float dissolve_noise_desnity = 60;
+uniform float dissolve_beam_size : hint_range(0.01, 0.15);
+uniform vec4 dissolve_color : hint_color = vec4(0.0, 1.02, 1.2, 1.0);
+
+vec2 random(vec2 uv){
+    uv = vec2( dot(uv, vec2(127.1,311.7) ),
+               dot(uv, vec2(269.5,183.3) ) );
+    return -1.0 + 2.0 * fract(sin(uv) * 43758.5453123);
+}
+
+float noise(vec2 uv) {
+    vec2 uv_index = floor(uv);
+    vec2 uv_fract = fract(uv);
+
+    vec2 blur = smoothstep(0.0, 1.0, uv_fract);
+
+    return mix( mix( dot( random(uv_index + vec2(0.0,0.0) ), uv_fract - vec2(0.0,0.0) ),
+                     dot( random(uv_index + vec2(1.0,0.0) ), uv_fract - vec2(1.0,0.0) ), blur.x),
+                mix( dot( random(uv_index + vec2(0.0,1.0) ), uv_fract - vec2(0.0,1.0) ),
+                     dot( random(uv_index + vec2(1.0,1.0) ), uv_fract - vec2(1.0,1.0) ), blur.x), blur.y) * 0.5 + 0.5;
+}
 
 void fragment() {
-	if (enabled) {
+	if (dissolve_enabled){
+		vec4 tex = texture(TEXTURE, UV);
+		
+		float noise = noise(UV * dissolve_noise_desnity) * UV.y;
+		
+		float d1 = step(dissolve_progress, noise);
+		float d2 = step(dissolve_progress - dissolve_beam_size, noise);
+		
+		vec3 beam = vec3(d2 - d1) * dissolve_color.rgb;
+		
+		tex.rgb += beam;
+		tex.a *= d2;
+		
+		COLOR = tex;
+		
+		if (whitening_enabled) {
+//		    vec4 texture_color = texture(TEXTURE, UV);
+		    COLOR = vec4(mix(tex.rgb, vec3(1,1,1), whitening_value), tex.a);
+		}
+	}
+	else if (whitening_enabled) {
 	    vec4 texture_color = texture(TEXTURE, UV);
-	    COLOR = vec4(mix(texture_color.rgb, vec3(1,1,1), whitening), texture_color.a);
+	    COLOR = vec4(mix(texture_color.rgb, vec3(1,1,1), whitening_value), texture_color.a);
 	}
 	else {
 		COLOR = texture(TEXTURE, UV)
 	}
-}"
+}
+"
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/whitening = 0.0
-shader_param/enabled = false
+shader_param/whitening_value = 0.0
+shader_param/whitening_enabled = false
+shader_param/dissolve_enabled = false
+shader_param/dissolve_progress = 0.0
+shader_param/dissolve_noise_desnity = 60.0
+shader_param/dissolve_beam_size = 0.01
+shader_param/dissolve_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:material:shader_param/whitening")
+tracks/0/path = NodePath("Sprites:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -88,10 +139,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ 0.0 ]
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites:material:shader_param/enabled")
+tracks/1/path = NodePath("Sprites:material:shader_param/whitening_enabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -99,11 +150,11 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
+"update": 0,
 "values": [ false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites:modulate")
+tracks/2/path = NodePath("Sprites:material:shader_param/whitening_value")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -112,7 +163,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ 0.0 ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -120,52 +171,52 @@ length = 0.2
 loop = true
 step = 0.02
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites:material")
+tracks/0/path = NodePath("Sprites:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0.580392, 0.835294, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0.580392, 0.835294, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites:material:shader_param/enabled")
+tracks/1/path = NodePath("Sprites:material:shader_param/whitening_value")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites:material:shader_param/whitening")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 0.75, 0.0, 0.75 ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites:material:shader_param/whitening_enabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprites:modulate")
+tracks/3/path = NodePath("Sprites:material")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
 "update": 0,
-"values": [ Color( 0, 0.580392, 0.835294, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0.580392, 0.835294, 1 ) ]
+"values": [  ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -359,16 +410,85 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="SpriteFrames" id=11]
+[sub_resource type="Animation" id=11]
+resource_name = "invincibility"
+length = 0.25
+loop = true
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.13 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "reset"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="SpriteFrames" id=13]
 animations = [ {
+"frames": [ ExtResource( 29 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ) ],
+"loop": false,
+"name": "CHARGEBEAM 2 start",
+"speed": 30.0
+}, {
 "frames": [ ExtResource( 25 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "CHARGEBEAM 2",
 "speed": 30.0
 }, {
-"frames": [ ExtResource( 28 ), ExtResource( 35 ) ],
+"frames": [ ExtResource( 23 ), ExtResource( 31 ), ExtResource( 51 ), ExtResource( 32 ) ],
+"loop": false,
+"name": "PLASMABEAM 2 start",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": true,
-"name": "ICEBEAM 1",
+"name": "WAVEBEAM 2",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "PLASMABEAM 0",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 49 ), ExtResource( 43 ) ],
+"loop": true,
+"name": "WAVEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 40 ), ExtResource( 41 ) ],
+"loop": true,
+"name": "CHARGEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 50 ) ],
+"loop": true,
+"name": "ICEBEAM 0",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 54 ), ExtResource( 44 ), ExtResource( 15 ), ExtResource( 30 ) ],
+"loop": false,
+"name": "WAVEBEAM 2 start",
 "speed": 15.0
 }, {
 "frames": [ ExtResource( 53 ), ExtResource( 45 ), ExtResource( 24 ), ExtResource( 47 ) ],
@@ -386,34 +506,9 @@ animations = [ {
 "name": "PLASMABEAM 2",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 49 ), ExtResource( 43 ) ],
+"frames": [ ExtResource( 28 ), ExtResource( 35 ) ],
 "loop": true,
-"name": "WAVEBEAM 1",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 16 ), ExtResource( 50 ) ],
-"loop": true,
-"name": "ICEBEAM 0",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
-"loop": true,
-"name": "PLASMABEAM 0",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 23 ), ExtResource( 31 ), ExtResource( 51 ), ExtResource( 32 ) ],
-"loop": false,
-"name": "PLASMABEAM 2 start",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 40 ), ExtResource( 41 ) ],
-"loop": true,
-"name": "CHARGEBEAM 1",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 17 ), ExtResource( 22 ) ],
-"loop": true,
-"name": "ICEBEAM 2",
+"name": "ICEBEAM 1",
 "speed": 15.0
 }, {
 "frames": [ ExtResource( 34 ), ExtResource( 52 ) ],
@@ -426,26 +521,16 @@ animations = [ {
 "name": "WAVEBEAM 0",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
+"frames": [ ExtResource( 17 ), ExtResource( 22 ) ],
 "loop": true,
-"name": "WAVEBEAM 2",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 54 ), ExtResource( 44 ), ExtResource( 15 ), ExtResource( 30 ) ],
-"loop": false,
-"name": "WAVEBEAM 2 start",
+"name": "ICEBEAM 2",
 "speed": 15.0
-}, {
-"frames": [ ExtResource( 29 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ) ],
-"loop": false,
-"name": "CHARGEBEAM 2 start",
-"speed": 30.0
 } ]
 
-[sub_resource type="CircleShape2D" id=12]
+[sub_resource type="CircleShape2D" id=14]
 radius = 176.182
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=15]
 step = 0.0333333
 tracks/0/type = "method"
 tracks/0/path = NodePath("../PauseMenu")
@@ -498,7 +583,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=16]
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
@@ -579,7 +664,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=17]
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
@@ -660,17 +745,14 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="CapsuleShape2D" id=16]
-radius = 6.0
-height = 6.0
+[sub_resource type="CircleShape2D" id=18]
+radius = 7.5
 
-[sub_resource type="CircleShape2D" id=17]
-radius = 15.0
-
-[sub_resource type="Environment" id=18]
+[sub_resource type="Environment" id=19]
 background_mode = 4
+glow_enabled = true
 glow_intensity = 8.0
-glow_strength = 1.12
+glow_strength = 1.07
 glow_blend_mode = 0
 glow_bicubic_upscale = true
 
@@ -707,28 +789,30 @@ pause_mode = 1
 
 [node name="jump" type="Node2D" parent="Animator/Raycasts"]
 
-[node name="WalljumpLeft" type="RayCast2D" parent="Animator/Raycasts/jump"]
-visible = false
+[node name="PowerGrip" type="Node2D" parent="Animator/Raycasts/jump"]
+position = Vector2( 5, -14 )
+
+[node name="Above" type="RayCast2D" parent="Animator/Raycasts/jump/PowerGrip"]
+position = Vector2( 0, -3 )
+cast_to = Vector2( 20, 0 )
+collision_mask = 524288
+
+[node name="Below" type="RayCast2D" parent="Animator/Raycasts/jump/PowerGrip"]
+cast_to = Vector2( 20, 0 )
+collision_mask = 524288
+
+[node name="WallJump" type="Node2D" parent="Animator/Raycasts/jump"]
+
+[node name="Left" type="RayCast2D" parent="Animator/Raycasts/jump/WallJump"]
 position = Vector2( 3.5, 4 )
 rotation = -1.5708
 cast_to = Vector2( 0, 20 )
 collision_mask = 524288
 
-[node name="WalljumpRight" type="RayCast2D" parent="Animator/Raycasts/jump"]
-visible = false
+[node name="Right" type="RayCast2D" parent="Animator/Raycasts/jump/WallJump"]
 position = Vector2( 3.5, 4 )
 rotation = -1.5708
 cast_to = Vector2( 0, -20 )
-collision_mask = 524288
-
-[node name="LedgeAbove" type="RayCast2D" parent="Animator/Raycasts/jump"]
-position = Vector2( 5, -17 )
-cast_to = Vector2( 20, 0 )
-collision_mask = 524288
-
-[node name="LedgeBelow" type="RayCast2D" parent="Animator/Raycasts/jump"]
-position = Vector2( 5, -14 )
-cast_to = Vector2( 20, 0 )
 collision_mask = 524288
 
 [node name="morphball" type="Node2D" parent="Animator/Raycasts"]
@@ -767,47 +851,49 @@ cast_to = Vector2( 0, 2 )
 collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
+visible = false
+position = Vector2( -356, -54 )
 
-[node name="aim_front" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 9, -11 )
+[node name="suit" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 1, 0 )
 frames = ExtResource( 1 )
-animation = "multiple_aim_front_right"
+animation = "death_suit_right"
 frame = 2
 playing = true
 script = ExtResource( 14 )
-state_key = "jump"
-animation_key = "aim_front"
+state_key = "death"
+animation_key = "suit"
 facing = 1
 data = {
-"full": false,
-"leftPos": [ -1.0, -11.0 ],
-"rightPos": [ 9.0, -11.0 ],
-"state_id": "multiple",
-"step_frames": [ 0, 3 ]
+"leftPos": [ 7.0, 0.0 ],
+"rightPos": [ 1.0, 0.0 ],
+"step_frames": [  ]
 }
-step_frames = [ 0, 3 ]
 
-[node name="idle" type="AnimatedSprite" parent="Animator/TestSprites"]
-visible = false
-position = Vector2( 3.99998, -2 )
+[node name="samus" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 9, 0 )
 frames = ExtResource( 1 )
-animation = "facefront_idle_left"
+animation = "death_samus"
+frame = 12
 playing = true
 flip_h = true
 script = ExtResource( 14 )
-state_key = "facefront"
-animation_key = "idle"
+state_key = "death"
+animation_key = "samus"
 data = {
-"leftPos": [ 3.99998, -2.0 ],
-"rightPos": [ 3.99998, -2.0 ],
-"step_frames": [  ]
+"directional": false,
+"leftPos": [ 9.0, 0.0 ],
+"rightPos": [ -2.0, 0.0 ],
+"step_frames": [ 0, 3 ]
 }
+step_frames = [ 0, 3 ]
 
 [node name="aim_sky" type="AnimatedSprite" parent="Animator/TestSprites"]
 visible = false
 position = Vector2( 4, -17 )
 frames = ExtResource( 1 )
-animation = "multiple_aim_sky_right"
+animation = "death_samus"
+frame = 12
 playing = true
 script = ExtResource( 14 )
 state_key = "grapple"
@@ -821,16 +907,15 @@ data = {
 "step_frames": [  ]
 }
 
-[node name="Sprites" type="Node2D" parent="Animator"]
-pause_mode = 1
+[node name="Sprites" parent="Animator" instance=ExtResource( 55 )]
 material = SubResource( 2 )
+sprites = [ NodePath("sOverlayLeft"), NodePath("sOverlayRight"), NodePath("sMainLeft"), NodePath("sMainRight") ]
 
 [node name="sOverlayLeft" type="AnimatedSprite" parent="Animator/Sprites"]
-visible = false
 use_parent_material = true
-position = Vector2( 4, 6 )
+position = Vector2( -300, 7 )
 frames = ExtResource( 1 )
-animation = "facefront_idle_right"
+animation = "neutral_aim_front_left"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
@@ -838,14 +923,15 @@ visible = false
 use_parent_material = true
 position = Vector2( 7, 0 )
 frames = ExtResource( 1 )
-animation = "facefront_idle_right"
+animation = "death_samus"
 
 [node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
+visible = false
 use_parent_material = true
-position = Vector2( -186, 34 )
+position = Vector2( -394, -43 )
 frames = ExtResource( 1 )
-animation = "neutral_open_map_left"
-frame = 35
+animation = "death_samus"
+frame = 12
 playing = true
 flip_h = true
 
@@ -854,7 +940,7 @@ visible = false
 use_parent_material = true
 position = Vector2( -45, -84 )
 frames = ExtResource( 1 )
-animation = "powergrip_climb_right"
+animation = "death_samus"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
@@ -872,9 +958,14 @@ anims/reset = SubResource( 6 )
 "anims/PLASMABEAM 2" = SubResource( 9 )
 "anims/WAVEBEAM 2" = SubResource( 10 )
 
+[node name="InvincibilityPlayer" type="AnimationPlayer" parent="Animator"]
+playback_speed = 1.5
+anims/invincibility = SubResource( 11 )
+anims/reset = SubResource( 12 )
+
 [node name="ChargebeamStartBurst" type="AnimatedSprite" parent="Animator"]
 position = Vector2( 40, 8 )
-frames = SubResource( 11 )
+frames = SubResource( 13 )
 animation = "CHARGEBEAM 2 start"
 frame = 3
 playing = true
@@ -883,23 +974,29 @@ playing = true
 collision_mask = 131072
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animator/ChargebeamStartBurst/Area2D"]
-shape = SubResource( 12 )
+shape = SubResource( 14 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
-anims/neutral_open_map_left = SubResource( 13 )
-anims/powergrip_climb_left = SubResource( 14 )
-anims/powergrip_climb_right = SubResource( 15 )
+anims/neutral_open_map_left = SubResource( 15 )
+anims/powergrip_climb_left = SubResource( 16 )
+anims/powergrip_climb_right = SubResource( 17 )
+
+[node name="DimLayer" type="CanvasLayer" parent="Animator"]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Animator/DimLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 pause_mode = 2
-position = Vector2( -19, 0 )
-shape = SubResource( 16 )
-
-[node name="AltCollision" type="CollisionShape2D" parent="."]
-pause_mode = 2
-position = Vector2( -19, -30 )
-shape = SubResource( 17 )
+position = Vector2( 5, 10 )
+shape = SubResource( 18 )
 
 [node name="Weapons" type="Node2D" parent="."]
 pause_mode = 2
@@ -1146,9 +1243,9 @@ current = true
 zoom = Vector2( 0.25, 0.25 )
 script = ExtResource( 10 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="ExCamera2D"]
 pause_mode = 2
-environment = SubResource( 18 )
+environment = SubResource( 19 )
 
 [node name="Pauser" type="Node" parent="."]
 pause_mode = 2

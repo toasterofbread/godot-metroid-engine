@@ -674,17 +674,19 @@ extents = Vector2( 737.586, 638.236 )
 
 [node name="ship_saveroom" type="Node2D"]
 script = ExtResource( 3 )
+grid_position = Vector2( 3, 2 )
 
 [node name="MapChunks" type="Node2D" parent="."]
-z_index = -4095
 
 [node name="MapChunk" type="CollisionShape2D" parent="MapChunks"]
-visible = false
 modulate = Color( 1, 0, 0.560784, 1 )
 position = Vector2( 279.315, 3.20465 )
 shape = SubResource( 1 )
 script = ExtResource( 2 )
 icon = 1
+right_wall = 1
+top_wall = 2
+bottom_wall = 2
 
 [node name="CameraChunks" type="Node2D" parent="."]
 z_index = -4095
@@ -693,16 +695,15 @@ z_index = -4095
 
 [node name="Doors" type="Node2D" parent="."]
 
-[node name="Entrance" parent="Doors" instance=ExtResource( 7 )]
+[node name="ToShip" parent="Doors" instance=ExtResource( 7 )]
 position = Vector2( -82, 14 )
 target_room_id = "Caves/ship"
-target_door_id = "Saveroom"
+target_door_id = "ToShipSaveroom"
 
-[node name="Exit" parent="Doors" instance=ExtResource( 7 )]
+[node name="To\?\?\?" parent="Doors" instance=ExtResource( 7 )]
 position = Vector2( 406, -8 )
 rotation = 3.14159
 target_room_id = "Caves/ship"
-_colour = 1
 
 [node name="Fluid" parent="." instance=ExtResource( 8 )]
 margin_left = -8.0
@@ -736,14 +737,6 @@ collision_layer = 0
 collision_mask = 0
 format = 1
 tile_data = PoolIntArray( -6815702, 40, 0, -6553421, 45, 0, -6225847, 536870958, 0, -6029104, -536870883, 0, -5963578, -536870874, 0, -5963548, -536870885, 0, -5177240, 44, 0, -4980606, -1073741785, 0, -3669660, -1073741789, 0, -2949157, -1073741786, 0, 917382, 1610612763, 0, 1441667, 1610612765, 0, 1507203, 1610612765, 0, 1703808, -1073741783, 0, 4391054, 1610612779, 0, 4718836, 1073741864, 0, 4784246, -1610612707, 0, 5177459, -2147483610, 0, 5373977, -1610612709, 0, 5373992, 1610612782, 0, 5505221, 1073741870, 0, 5570632, 1610612781, 0, 5570788, -2147483621, 0, 5636228, 1610612766, 0, 5767302, 1610612766, 0, 6029439, 1610612767, 0, 6291451, 1610612767, 0, 6225928, 1610612767, 0, 6291584, 1610612767, 0 )
-
-[node name="VisualTileMap" type="TileMap" parent="."]
-tile_set = SubResource( 2 )
-cell_size = Vector2( 32, 32 )
-collision_layer = 0
-collision_mask = 0
-format = 1
-tile_data = PoolIntArray( 262141, 1610612767, 0, 262142, 1610612767, 0, 262143, 1610612767, 0, 196608, 1610612767, 0, 196609, 1610612767, 0, 196610, 1610612767, 0, 196611, 1610612767, 0 )
 
 [node name="VisualTileMapPrecise" type="TileMap" parent="."]
 tile_set = SubResource( 2 )

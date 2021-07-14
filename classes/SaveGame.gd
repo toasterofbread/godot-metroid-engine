@@ -5,13 +5,15 @@ signal value_set
 var filename: String
 var data: Dictionary
 
+# These functions are called before saving the game
+var save_functions: Array = []
+
 const default_data: Dictionary = {
 	"current_room_id": "Caves/ship",
 	"rooms": {
 	},
 	"samus": {
 		"upgrades": {
-			
 			Enums.Upgrade.POWERSUIT: {"amount": 1, "active": true},
 			Enums.Upgrade.VARIASUIT: {"amount": 0, "active": true},
 			Enums.Upgrade.GRAVITYSUIT: {"amount": 0, "active": true},
@@ -36,18 +38,31 @@ const default_data: Dictionary = {
 			Enums.Upgrade.POWERGRIP: {"amount": 1, "active": true},
 			Enums.Upgrade.HIGHJUMP: {"amount": 1, "active": false},
 			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
-			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": true},
+			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": false},
 			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
 			
 			Enums.Upgrade.SCANVISOR: {"amount": 1, "active": true},
 			Enums.Upgrade.XRAYVISOR: {"amount": 1, "active": true},
 			
-			Enums.Upgrade.FLAMETHROWER: {"amount": 1, "active": true}
+			Enums.Upgrade.FLAMETHROWER: {"amount": 1, "active": true},
+			Enums.Upgrade.SCRAPMETAL: {"amount": 60}
+		},
+		"mini_upgrades": {
+			"missile_travel_speed": {"blueprint": true, "created": 0},
+			"missile_firing_speed": {"blueprint": true, "created": 0},
+			"missile_tank_capacity": {"blueprint": true, "created": 0},
+			"missile_super_tank_capacity": {"blueprint": true, "created": 0},
+			"power_suit_damage_reduction": {"blueprint": true, "created": 0},
+			"bomb_placement_cap_increase": {"blueprint": true, "created": 0},
+			"grapple_range_increase": {"blueprint": true, "created": 0},
 		},
 		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},
 	"map": {
-		"marker": null
+		"marker": null,
+		"discovered_chunks": {},
+#		"discovered_chunks": {"1": ["0", "2"], "2": ["0", "2", "1"], "3": ["2"]},
+		"used_maprooms": []
 	},
 	"logbook": {
 		"recorded_entries": ["POWERSUIT", "POWERBEAM"]
@@ -61,6 +76,19 @@ func _init(_filename: String = ""):
 	load_file()
 
 func save_file():
+	
+	var await_functions: Array = []
+	for function in save_functions:
+		if not function.is_valid():
+			continue
+		var result = function.call_func()
+		if result is GDScriptFunctionState:
+			await_functions.append(result)
+	
+	for function in await_functions:
+		if function.is_valid():
+			yield(function, "completed")
+	
 	Global.save_json(filename, data)
 
 func load_file():
@@ -114,3 +142,6 @@ func set_data_key(keys: Array, value):
 		i += 1
 	
 	emit_signal("value_set", keys, value)
+
+func add_save_function(function: FuncRef):
+	save_functions.append(function)

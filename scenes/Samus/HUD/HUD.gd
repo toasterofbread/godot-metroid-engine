@@ -3,11 +3,14 @@ extends Control
 #const etank_row_size = 10
 var ETank: Control = preload("res://scenes/Samus/HUD/ETank.tscn").instance()
 onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
+onready var Modulate: CanvasModulate = $CanvasLayer/CanvasModulate
 
 var current_visor = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$DeathScreen/AnimationPlayer.play("reset")
+	Modulate.color = Color.white
 	$CanvasLayer.layer = Enums.CanvasLayers.HUD
 	Map.Grid = $CanvasLayer/MapGrid
 	rows.invert()
@@ -41,7 +44,7 @@ func add_etank():
 	else:
 		rows[0].add_child(ETank.duplicate())
 
-func set_energy(energy):
+func set_energy(energy: int):
 	
 	if energy <= 30:
 		$CanvasLayer/TopBar/AnimationPlayer.play("energy_low_warning")
@@ -54,10 +57,13 @@ func set_energy(energy):
 			etank.get_child(0).frame = 1 if etanks > 0 else 0
 			etanks -= 1
 	
-	energy = str(energy)
-	if len(energy) == 1:
-		energy = "0" + energy
-	elif len(energy) > 2:
-		energy = energy[len(energy) - 2] + energy[len(energy) - 1]
-	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(energy[0])
-	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(energy[1])
+	var str_energy: String = str(energy)
+	if len(str_energy) == 1:
+		str_energy = "0" + str_energy
+	elif len(str_energy) > 2:
+		str_energy = str_energy[len(str_energy) - 2] + str_energy[len(str_energy) - 1]
+	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(str_energy[0])
+	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(str_energy[1])
+
+func display_death_screen(real: bool):
+	$DeathScreen/AnimationPlayer.play("open")

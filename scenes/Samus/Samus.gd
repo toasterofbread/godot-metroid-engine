@@ -14,14 +14,12 @@ enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
 var aiming = aim.FRONT setget set_aiming
 var aim_none_timer = Global.timer()
 
-var self_damage = {}
+var hurtbox_damage = {}
 
 var boosting: bool = false setget set_boosting
 var shinespark_charged: bool = false
 
 var fall_time: float = 0
-var current_camerachunk
-var camerachunk_set_while_paused: = false
 
 const collision_data_json_path = "res://scenes/Samus/animations/collision_data.json"
 onready var collision_data = Global.load_json(collision_data_json_path)
@@ -39,17 +37,20 @@ onready var states = {
 	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self),
 	"visor": $Weapons/SamusVisors,
 	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self),
-	"facefront": preload("res://scenes/Samus/states/state_facefront.gd").new(self)
+	"facefront": preload("res://scenes/Samus/states/state_facefront.gd").new(self),
+	"hurt": preload("res://scenes/Samus/states/state_hurt.gd").new(self),
+	"death": preload("res://scenes/Samus/states/state_death.gd").new(self)
 	}
 var previous_state_id: String
 onready var current_state: Node = states["neutral"]
 var state_change_record = [["", 0]]
 
-var energy: int
+var energy: float
 var etanks: int
 var upgrades: Dictionary
 
 var paused = null
+var real: = false
 
 func set_boosting(value: bool):
 	boosting = value
@@ -57,9 +58,26 @@ func set_boosting(value: bool):
 
 func set_hurtbox_damage(type: int, amount):
 	if amount != null:
-		self_damage[type] = amount
-	elif type in self_damage:
-		self_damage.erase(type)
+		hurtbox_damage[type] = amount
+	elif type in hurtbox_damage:
+		hurtbox_damage.erase(type)
+ 
+func check_hurtbox_damage(damage_types):
+	
+	if hurtbox_damage.empty():
+		return null
+	
+	var highest = null
+	for type in hurtbox_damage:
+		if (damage_types == null or type in damage_types) and (highest == null or hurtbox_damage[type] > hurtbox_damage[highest]):
+			highest = type
+	if highest != null:
+		highest = [highest, hurtbox_damage[highest], Animator.current[false].sprites[facing].global_position]
+	
+	return highest
+
+func get_hurtbox_damage():
+	return [states["shinespark"].damage_type, states["shinespark"].damage_amount]
 
 func shift_position(position: Vector2):
 	self.position += position
@@ -91,6 +109,7 @@ func _ready():
 	
 	# DEBUG
 	$Animator/TestSprites.queue_free()
+	register_commands()
 
 func _process(delta):
 	
@@ -105,22 +124,25 @@ func _process(delta):
 		HUD.set_energy(energy)
 	
 	if get_tree().paused and paused == null or paused:
-		if current_state.has_method("paused_process") and not get_tree().paused:
+		if current_state.has_method("paused_process"):
 			current_state.paused_process(delta)
 		return
 	
 	current_state.process(delta)
 	if is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		states["shinespark"].process_speedboooster(delta)
+	
 #	if is_upgrade_active(Enums.Upgrade.CHARGEBEAM):
 #		process_chargebeam(delta)
 
 var prev = ""
 func _physics_process(delta):
-	
+	vOverlay.SET("hurboxdamage", hurtbox_damage)
 	vOverlay.SET("State", current_state.id)
 	
 	if get_tree().paused and paused == null or paused:
+		if current_state.has_method("paused_physics_process"):
+			current_state.paused_physics_process(delta)
 		return
 	
 	current_state.physics_process(delta)
@@ -146,12 +168,22 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 var upgrade_cache: = {}
 func is_upgrade_active(upgrade_key: int):
-	
 	if not upgrade_key in upgrade_cache:
 		var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
 		upgrade_cache[upgrade_key] = upgrade["amount"] > 0 and upgrade["active"]
-	
 	return upgrade_cache[upgrade_key]
+
+func is_upgrade_acquired(upgrade_key: int):
+	var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
+	return upgrade["amount"] > 0
+
+func get_mini_upgrade(upgrade_key: String, side=null):
+	if side == null:
+		return [Loader.Save.get_data_key(["samus", "mini_upgrades", upgrade_key]), Data.data["mini_upgrades"][upgrade_key]]
+	elif side == 0:
+		return Loader.Save.get_data_key(["samus", "mini_upgrades", upgrade_key])
+	else:
+		return Data.data["mini_upgrades"][upgrade_key]
 
 func set_aiming(value: int):
 	if value in [aim.UP, aim.DOWN, aim.SKY, aim.FLOOR]: 
@@ -159,9 +191,12 @@ func set_aiming(value: int):
 	aiming = value
 
 func save_value_set(path: Array, _value):
-	if len(path) < 4 or path[0] != "samus" or path[1] != "upgrades":
+	
+	if len(path) < 2 or path[0] != "samus":
 		return
-	upgrade_cache = {}
+	
+	if len(path) == 4 and path[1] == "upgrades":
+		upgrade_cache = {}
 
 # Returns true if the current state has been active for more than the specified time
 # Or if the previous state doesn't match the state key
@@ -169,14 +204,38 @@ func time_since_last_state(state_key: String, seconds: float):
 	return state_change_record[1][0] != state_key or Global.time() - state_change_record[0][1] >= seconds*1000
 
 func death():
-	print("F")
+	if current_state.id != "death":
+		current_state.change_state("death")
 
-func damage(type: int, amount: int):
-	self.energy = max(0, energy - amount)
-	self.HUD.set_energy(energy)
+onready var damage_reduction_mini_upgrade: Array = [get_mini_upgrade("power_suit_damage_reduction", 0), get_mini_upgrade("power_suit_damage_reduction", 1)["data"]["increase_percentage"]]
+func damage(type: int, amount: float, impact_position):
 	
+	if InvincibilityTimer.time_left > 0:
+		return
+	
+	var diff: float = (amount - (amount * damage_reduction_mini_upgrade[0]["created"] * damage_reduction_mini_upgrade[1]))
+	if diff <= 0:
+		return
+	
+	energy = max(0, energy - diff)
+	HUD.set_energy(energy)
+	
+	# DEBUG
 	if energy == 0:
 		death()
+		
+	else:
+		InvincibilityTimer.start(states["hurt"].physics_data["invincibility_duration"])
+		if impact_position == null:
+			return
+		
+		var position_offset: Vector2 = Animator.current[false].sprites[facing].global_position - (impact_position * states["hurt"].physics_data["knockback_strength"])
+		Physics.vel = position_offset.normalized()*10
+		
+		if current_state.id == "spiderball":
+			current_state.change_state("morphball", {"options": []})
+		elif not current_state.id in ["morphball"]:
+			change_state("hurt", {"impact_position": impact_position})
 
 func auto_offset_camera(amount: float = 100.0, time: float = 0.5):
 	var offset: Vector2
@@ -200,7 +259,15 @@ func get_current_limits() -> Dictionary:
 		"limit_bottom": camera_position.y + camera_extents.y,
 	}
 
+var current_camerachunk = null
+var previous_camerachunk = null
+var camerachunk_set_while_paused: = false
 func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0.5):
+	
+	if chunk == current_camerachunk:
+		return
+	
+	previous_camerachunk = current_camerachunk
 	current_camerachunk = chunk
 	if get_tree().paused and paused == null or paused and not room_transition:
 		camerachunk_set_while_paused = true
@@ -209,14 +276,15 @@ func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0
 	if not camera.is_inside_tree():
 		yield(camera, "tree_entered")
 	
+	var limits = chunk.get_limits() if chunk != null else null
 	if room_transition:
-		yield(camera.interpolate_limits(chunk.get_limits(), duration, Tween.TRANS_EXPO, Tween.EASE_OUT), "completed")
+		yield(camera.interpolate_limits(limits, duration, Tween.TRANS_EXPO, Tween.EASE_OUT), "completed")
 	else:
-		yield(camera.interpolate_limits(chunk.get_limits(), duration), "completed")
+		yield(camera.interpolate_limits(limits, duration), "completed")
 	
 func camerachunk_exited(chunk: CameraChunk):
 	if current_camerachunk == chunk:
-		current_camerachunk = null
+		camerachunk_entered(previous_camerachunk)
 
 var collider_cache = []
 func set_collider(animation: SamusAnimation):
@@ -229,6 +297,9 @@ func set_collider(animation: SamusAnimation):
 	else:
 		return
 	
+	if "ignore" in collision_data[main_key] and collision_data[main_key]["ignore"]:
+		return
+	
 	var data = [main_key, facing]
 	if collider_cache == data:
 		return
@@ -236,7 +307,6 @@ func set_collider(animation: SamusAnimation):
 	
 	$Collision.position = animation.positions[facing]
 	$Collision.rotation_degrees = 0
-	$AltCollision.disabled = true
 	for key in collision_data[main_key]:
 		var value = collision_data[main_key][key]
 		if key == "pos": 
@@ -267,53 +337,9 @@ func set_collider(animation: SamusAnimation):
 				else:
 					$Collision.shape.radius = value[0]
 					$Collision.shape.height = value[1]
-			
-#			elif shape.begins_with("semicapsule"):
-#				if not $Collision.shape is CapsuleShape2D:
-#					$Collision.shape = CapsuleShape2D.new()
-#				if not $AltCollision.shape is RectangleShape2D:
-#					$AltCollision.shape = RectangleShape2D.new()
-#				$AltCollision.disabled = false
-#
-#				var radius: float
-#				var height: float
-#				if value[1] < value[0]:
-#					$Collision.rotation_degrees = 90
-#					radius = value[1]
-#					height = value[0]
-#				else:
-#					radius = value[0]
-#					height = value[1]
-#
-#				$Collision.shape.radius = radius
-#				$Collision.shape.height = height
-#				$AltCollision.shape.extents = Vector2(radius, height/radius*2)
-#
-#				if "pos" in collision_data[main_key]:
-#					var pos = collision_data[main_key]["pos"]
-#					$AltCollision.position = Vector2(pos[0], pos[1])
-#
-#					if shape.ends_with("top"):
-#						pass
-#					else:
-#						$AltCollision.position.y += value[1] + ($AltCollision.shape.extents.y/2)
-				
-				
 				
 			else:
 				push_error("Unknown collision_data shape")
-	
-#	$CollisionHead.shape.radius = $Collision.shape.extents.x
-#	$CollisionHead.position = $Collision.position - Vector2(0, $Collision.shape.extents.y)
-#	$CollisionHead.scale.y = 10/$CollisionHead.shape.radius/2
-#
-#	$CollisionHead.position.y  += $CollisionHead.shape.radius*$CollisionHead.scale.y
-#	$Collision.shape.extents.y -= $CollisionHead.shape.radius*$CollisionHead.scale.y/2
-#	$Collision.position.y += $CollisionHead.shape.radius/2*$CollisionHead.scale.y
-	
-#	$CollisionHead.shape.height = 0
-#	$Collision.shape.extents.y -= $Collision.shape.extents.x/2
-#	$CollisionHead.position.y -= $Collision.shape.extents.x
 
 func fluid_entered(fluid: Fluid):
 	current_fluid = fluid.type
@@ -341,3 +367,36 @@ var step_sounds = {
 
 func step(index: int):
 	step_sounds["snow"][index].play()
+
+onready var InvincibilityPlayer: AnimationPlayer = Animator.get_node("InvincibilityPlayer")
+onready var InvincibilityTimer: ExTimer = Global.timer([self, "invincibility_changed", [false]], [self, "invincibility_changed", [true]])
+func invincibility_changed(status: bool):
+	if status == (InvincibilityPlayer.current_animation == "invincibility"):
+		return
+	InvincibilityPlayer.play("invincibility" if status else "reset")
+	if not status:
+		$Collision.disabled = true
+		yield(get_tree(), "idle_frame")
+		$Collision.disabled = false
+
+# DEBUG
+func register_commands():
+	# Registering command
+	# 1. argument is command name
+	# 2. arg. is target (target could be a funcref)
+	# 3. arg. is target name (name is not required if it is the same as first arg or target is a funcref)
+	Console.add_command("samussetenergy", self, "command_setenergy")\
+		.set_description("Sets Samus's energy value. Fills all ETanks if the value is below 0.")\
+		.add_argument('value', TYPE_INT)\
+		.register()
+	Console.add_command("samuskill", self, "death")\
+		.set_description("Triggers Samus's death animation, regardless of remaining energy.")\
+		.register()
+
+func command_setenergy(value: int):
+	if value < 0:
+		energy = etanks * 100 + 99
+	else:
+		energy = value
+	Console.write_line("Samus's energy was set to " + str(energy))
+	HUD.set_energy(energy)

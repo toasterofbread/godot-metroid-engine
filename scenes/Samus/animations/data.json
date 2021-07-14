@@ -937,7 +937,7 @@
 		}
 	},
 	"facefront": {
-		"turn": {
+		"front_turn": {
 			"leftPos": [
 				2.99533,
 				-1.00532
@@ -948,7 +948,7 @@
 			],
 			"transition": true
 		},
-		"idle": {
+		"front_idle": {
 			"leftPos": [
 				3.99998,
 				-2
@@ -956,6 +956,71 @@
 			"rightPos": [
 				3.99998,
 				-2
+			]
+		},
+		"back_turn": {
+			"leftPos": [
+				2.99533,
+				-1.00532
+			],
+			"rightPos": [
+				4.00386,
+				-1.00662
+			],
+			"transition": true
+		},
+		"back_idle": {
+			"leftPos": [
+				3.99998,
+				-2
+			],
+			"rightPos": [
+				3.99998,
+				-2
+			]
+		}
+	},
+	"hurt": {
+		"knockback": {
+			"leftPos": [
+				3.99998,
+				1
+			],
+			"rightPos": [
+				3,
+				1
+			],
+			"step_frames": [
+
+			]
+		}
+	},
+	"death": {
+		"samus": {
+			"leftPos": [
+				9,
+				0
+			],
+			"rightPos": [
+				-2,
+				0
+			],
+			"step_frames": [
+
+			],
+			"directional": false
+		},
+		"suit": {
+			"leftPos": [
+				7,
+				0
+			],
+			"rightPos": [
+				1,
+				0
+			],
+			"step_frames": [
+
 			]
 		}
 	}

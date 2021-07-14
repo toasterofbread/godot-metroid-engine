@@ -81,7 +81,7 @@ func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	
 	frames = sprites.values()[0].frames
 	
-func play(retain_frame:=false, speed:=1.0):
+func play(retain_frame:=false, speed:=1.0, ignore_paused:bool=false):
 	
 #	if Animator.paused[overlay]:
 #		if ignore_pasued:
@@ -124,6 +124,7 @@ func play(retain_frame:=false, speed:=1.0):
 		# Play animation
 		var frame = sprites[dir].frame
 		sprites[dir].play(self.animation_keys[dir], speed<0)
+		sprites[dir].pause_mode = Node.PAUSE_MODE_PROCESS if ignore_paused else Node.PAUSE_MODE_STOP
 		sprites[dir].speed_scale = abs(speed)
 		if retain_frame:
 			sprites[dir].frame = frame
@@ -135,7 +136,7 @@ func play(retain_frame:=false, speed:=1.0):
 	self.transitioning = self.transition
 	self.playing = true
 	
-	yield(Global.wait(animation_length), "completed")
+	yield(Global.wait(animation_length, ignore_paused), "completed")
 	
 	self.transitioning = false
 	emit_signal("finished")

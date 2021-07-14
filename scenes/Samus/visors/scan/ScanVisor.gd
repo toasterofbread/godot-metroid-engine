@@ -1,5 +1,6 @@
 extends SamusVisor
 
+onready var logbook_data: Dictionary = Data.data["logbook"]
 const scan_colour = Color("8000ff3a")
 var IconProgressIndicator: ColorRect
 
@@ -78,8 +79,8 @@ func display_info(data_key: String):
 	get_tree().paused = true
 	$BottomPopup.trigger("RECORDED TO LOGBOOK", 0.5, 2.0)
 	
-	$ScanInfo/Info/Panel/Title.text = Data.logbook[data_key]["name"]
-	$ScanInfo/Info/Panel/Profile.text = Data.logbook[data_key]["profile"]
+	$ScanInfo/Info/Panel/Title.text = logbook_data[data_key]["name"]
+	$ScanInfo/Info/Panel/Profile.text = logbook_data[data_key]["profile"]
 	
 	var dir = Directory.new()
 	dir.open(Data.logbook_images_path)

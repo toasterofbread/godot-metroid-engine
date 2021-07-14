@@ -56,7 +56,7 @@ func save_data():
 		Loader.Save.set_data_key(["map", "marker"], null)
 
 func load_data():
-	var data = Loader.Save.get_data_key(["map", "marker"])
+	var data = Map.savedata["marker"]
 	if data != null:
 		set_grid_position(Global.array2vector(data["position"]))
 		$CustomName.text = data["name"]

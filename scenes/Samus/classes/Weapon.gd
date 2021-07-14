@@ -6,8 +6,9 @@ var Weapons: Node2D
 
 export(Enums.Upgrade) var id: int
 export(Enums.DamageType) var damage_type
-export var damage_amount: float
-export var cooldown: float
+onready var damage_values: Dictionary = Data.data["damage_values"]["samus"]["weapons"][Enums.Upgrade.keys()[id].to_lower()]
+onready var damage_amount: float = damage_values["damage"]
+onready var cooldown: float = damage_values["cooldown"]
 export var is_morph_weapon: bool
 export var is_base_weapon: bool
 export var can_charge: bool = true
@@ -77,7 +78,7 @@ func _ready():
 func ready():
 	pass
 
-func projectile_physics_process(_projectile, _collision: KinematicCollision2D, _delta: float):
+func projectile_physics_process(_projectile, _colliding_bodies, _delta: float):
 	pass
 
 func get_fire_object(_pos: Position2D, _chargebeam_damage_multiplier):
@@ -102,6 +103,7 @@ func fire(chargebeam_damage_multiplier):
 			GlobalAnchor.add_child(p)
 			fired(p)
 	
-	Cooldown.start(cooldown)
+	if cooldown > 0:
+		Cooldown.start(cooldown)
 	
 	return true

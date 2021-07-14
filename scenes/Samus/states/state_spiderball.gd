@@ -145,7 +145,7 @@ func get_direction() -> int:
 	
 	return ret
 
-var direction
+var direction: int
 func attached_physics_process(delta: float):
 	
 	direction = get_direction()
@@ -195,7 +195,6 @@ func physics_process(delta: float):
 	if attached:
 		attached_physics_process(delta)
 		return
-	
 	var pad_x = Shortcut.get_pad_vector("pressed").x
 	
 	var velocity = Physics.vel*delta

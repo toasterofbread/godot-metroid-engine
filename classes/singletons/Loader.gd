@@ -12,7 +12,6 @@ var rooms = {}
 const room_directory = "res://scenes/rooms/"
 
 func _ready():
-	
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
 	# Register all rooms to the room variable
@@ -26,44 +25,50 @@ func _ready():
 				if subdir.dir_exists(subfile):
 					if subdir.file_exists(subfile + "/room.tscn"):
 						rooms[file + "/" + subfile] = load(room_directory + file + "/" + subfile + "/room.tscn")
-					else:
-						push_warning("Room subdirectory '" + file + "' contains an invalid folder")
-				else:
-					push_warning("Room subdirectory '" + file + "' contains a file: " + subfile)
-					
-		else:
-			push_warning("Room directory contains a file: " + file)
+#					else:
+#						push_warning("Room subdirectory '" + file + "' contains an invalid folder")
+#				else:
+#					push_warning("Room subdirectory '" + file + "' contains a file: " + subfile)
+#					
+#		else:
+#			push_warning("Room directory contains a file: " + file)
 	
+	# DEBUG
 	if true:
 		Global.save_json(Map.tile_data_path, {})
 		for room in rooms.values():
 			room.instance().generate_maptiles()
 	
-func add_samus():
-	while current_room == null:
-		yield(Global, "process_frame")
-	if not Samus in current_room.get_children():
-		current_room.add_child(Samus)
-		Samus.global_position = Vector2(-256, -240)
+	register_commands()
+	
 
-func load_room(room_id: String):
+func load_room(room_id: String, set_position: bool = true):
 	
 	assert("/" in room_id and len(room_id.split("/")) == 2)
 	var room: Room = rooms[room_id].instance()
 	
+	if current_room != null:
+		current_room.queue_free()
+		yield(current_room, "tree_exited")
+		
 	current_room = room
 	room_container.add_child(room)
-	room.add_child(Samus)
 	
-	var spawn_positions = get_tree().get_nodes_in_group("SpawnPosition")
-	if len(spawn_positions) >= 1:
-		Samus.global_position = spawn_positions[0].global_position
-	else:
-		assert(false, "No SpawnPositions found in room")
+	if set_position:
+		var spawn_positions = get_tree().get_nodes_in_group("SpawnPosition")
+		if len(spawn_positions) >= 1:
+			Samus.global_position = spawn_positions[0].global_position
+		else:
+			assert(false, "No SpawnPositions found in room")
+			return "No SpawnPositions found in room"
+	
+	if not Samus.is_inside_tree():
+		add_child(Samus)
 	
 	emit_signal("room_loaded")
+	return true
 
-func transition(origin_door: Door):
+func door_transition(origin_door: Door):
 	
 	if transitioning:
 		return
@@ -91,19 +96,20 @@ func transition(origin_door: Door):
 		assert(false, "No destination door found in room")
 		return
 	
-	destination_door.locked = true
-	destination_door.open(true)
+	destination_door.set_locked(true, false)
+	destination_door.set_open(true, false)
 	
-	var spawn_point = origin_door.target_spawn_position.global_position
+	var spawn_point = origin_door.targetSpawnPosition.global_position
 	var offset = current_room.global_position - destination_door.global_position
 	current_room.global_position = spawn_point + offset
 	current_room.set_visible(false)
 #	current_room.World.visible = false
 	
-	# Move Samus to new loaded room and reposition her
-	var samus_position = Samus.global_position
-	Global.reparent_child(Samus, current_room)
-	Samus.global_position = samus_position
+	# Why tf did I originally add Samus to the room rather than the Loader???
+#	# Move Samus to new loaded room and reposition her
+#	var samus_position = Samus.global_position
+#	Global.reparent_child(Samus, current_room)
+#	Samus.global_position = samus_position
 	
 	# If Samus entered a CameraChunk, animate the transition
 	get_tree().paused = false
@@ -135,5 +141,58 @@ func transition(origin_door: Door):
 	Samus.paused = null
 	transitioning = false
 	emit_signal("room_loaded")
-	destination_door.room_entered()
+	destination_door.door_entered()
+
+# DEBUG
+func register_commands():
+	# Registering command
+	# 1. argument is command name
+	# 2. arg. is target (target could be a funcref)
+	# 3. arg. is target name (name is not required if it is the same as first arg or target is a funcref)
+	Console.add_command("loadroom", self, "command_load_room")\
+		.set_description("Frees the current room and loads the specified one.")\
+		.add_argument("room_id", TYPE_STRING)\
+		.register()
+	Console.add_command("reloadroom", self, "command_reload_room")\
+		.set_description("Reloads the current room. Inputting 'yes' will reset Samus's position, while inputting 'no' will keep it unaltered.")\
+		.add_argument("reset_position", TYPE_STRING)\
+		.register()
+
+func command_load_room(room_id: String):
+	var result = load_room(room_id)
+	if result is GDScriptFunctionState:
+		result = yield(result, "completed")
+	if result == true:
+		Console.write_line("Loaded room: " + room_id)
+	else:
+		Console.write_line("An error occurred while loading room of ID [" + room_id + "]")
+		Console.write_line(result)
+
+func command_reload_room(reset_position: String):
 	
+	var set_position: bool
+	if reset_position.to_lower() in ["y", "yes"]:
+		set_position = true
+	elif reset_position.to_lower() in ["n", "no"]:
+		set_position = false
+	else:
+		Console.write_line("Invalid input. Must match one of the following: [y, yes, n, no]")
+		return
+	
+	var room_position = current_room.position
+	
+	var room_id: String = current_room.id
+	var result = load_room(room_id, set_position)
+	if result is GDScriptFunctionState:
+		result = yield(result, "completed")
+	if result == true:
+		Console.write_line("Reloaded room: " + room_id)
+	else:
+		Console.write_line("An error occurred while reloading room of ID [" + room_id + "]")
+		Console.write_line(result)
+	
+	if not set_position:
+		current_room.position = room_position
+
+func kill_game():
+	get_tree().quit()

@@ -1,15 +1,14 @@
 extends Node2D
 
-var data: Dictionary
-const data_path = "res://scenes/ui/settings/settings_information.json"
-
 var index = 0
 
 func _ready():
 	
 	for node in $Categories.get_children():
 		node.queue_free()
-	data = Global.load_json(data_path)
+#	data = Global.load_json(data_path)
+	
+	var data: Dictionary = Data.data["settings_information"]
 	
 	var max_label_width = 0
 	for category in data:

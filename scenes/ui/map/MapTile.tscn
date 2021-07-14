@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://sprites/ui/map/tiles/unobtained_item.png" type="Texture" id=1]
 [ext_resource path="res://sprites/ui/map/tiles/door.png" type="Texture" id=2]
@@ -16,6 +16,11 @@ animations = [ {
 "name": "save",
 "speed": 0.0
 }, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "ship",
+"speed": 5.0
+}, {
 "frames": [ ExtResource( 5 ) ],
 "loop": false,
 "name": "obtained_item",
@@ -25,18 +30,13 @@ animations = [ {
 "loop": false,
 "name": "unobtained_item",
 "speed": 0.0
-}, {
-"frames": [ ExtResource( 8 ) ],
-"loop": true,
-"name": "ship",
-"speed": 5.0
 } ]
 
 [sub_resource type="Animation" id=2]
 resource_name = "current_tile"
 length = 1.5
 loop = true
-step = 0.01
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("CurrentTileOverlay:visible")
 tracks/0/interp = 1
@@ -56,10 +56,38 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.75, 1.51 ),
+"times": PoolRealArray( 0, 0.75, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "reset"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("CurrentTileOverlay:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CurrentTileOverlay:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="MapTile" type="Node2D"]
@@ -90,7 +118,9 @@ animation = "ship"
 
 [node name="CurrentTileOverlay" type="Sprite" parent="."]
 visible = false
+modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/current_tile = SubResource( 2 )
+anims/reset = SubResource( 3 )

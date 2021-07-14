@@ -42,7 +42,7 @@ func _ready():
 	if not Loader.Samus.is_inside_tree():
 		yield(Loader.Samus, "ready")
 		yield(Loader.Samus.Weapons.all_visors[Enums.Upgrade.SCANVISOR], "ready")
-	assert(data_key in Data.logbook)
+	assert(data_key in Data.data["logbook"])
 	scan_duration = length_durations[length]
 	set_enabled(not data_key in Loader.Save.get_data_key(["logbook", "recorded_entries"]))
 	
@@ -55,10 +55,8 @@ func _ready():
 
 func save():
 	var data = Loader.Save.get_data_key(["logbook", "recorded_entries"])
-	print(data)
 	data.append(data_key)
 	Loader.Save.set_data_key(["logbook", "recorded_entries"], data)
-	print(Loader.Save.get_data_key(["logbook", "recorded_entries"]))
 
 func start_scan():
 	$CollisionShape2D/Tween.stop_all()

@@ -1,0 +1,68 @@
+{
+	"general": {
+		"gravity": [1200],
+		"fall_speed_cap": [325]
+	},
+	"run": {
+		"speed": [170],
+		"acceleration": [900],
+		"deceleration": [3000],
+
+		"speedboost_speed": [500],
+		"speedboost_acceleration": [900]
+	},
+	"jump": {
+		"speed": [250],
+		"acceleration": [99999],
+		"time": [0.2],
+
+		"speed_high": [400],
+		"acceleration_high": [7500],
+		"time_high": [0.25],
+
+		"horiz_speed": [125],
+		"horiz_acceleration": [10],
+
+		"horiz_spin_speed": [125],
+		"horiz_spin_deceleration": [10]
+	},
+	"morphball": {
+		"ground_speed": [225],
+		"ground_acceleration": [1500],
+		"ground_deceleration": [3000],
+
+		"air_speed": [150],
+		"air_acceleration": [1500],
+		"air_deceleration": [3000],
+
+		"springball_speed": [200],
+		"springball_acceleration": [24000],
+		"springball_time": [0.2],
+
+		"springball_speed_high": [300],
+		"springball_acceleration_high": [24000],
+		"springball_time_high": [0.2]
+	},
+	"spiderball": {
+		"speed": [75],
+		"acceleration": [1500]
+	},
+	"grapple": {
+		"speed": [0.12],
+		"speedboost_speed": [0.25],
+		"gravity": [0.2],
+		"damping_moving": [0.998],
+		"damping_still": [0.975],
+		"damping_speedboost": [1.0],
+
+		"walk_speed": [75],
+		"walk_acceleration": [15],
+		"walk_deceleration": [50]
+	},
+	"shinespark": {
+		"speed": [600]
+	},
+	"hurt": {
+		"knockback_strength": [1]
+	}
+}

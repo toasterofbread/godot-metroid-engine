@@ -1,7 +1,9 @@
 extends Node2D
 
+onready var weapon: SamusWeapon = get_parent()
+
 var velocity: float = 0.0
-const speed: float = 750.0
+onready var speed: float = weapon.damage_values["speed"]
 const acceleration: float = 5.0
 
 var max_length = 450
@@ -10,8 +12,6 @@ var moving = true
 
 var fire_pos = null
 var anchor: Node2D
-
-onready var parent = get_parent()
 
 func set_length(value: float, half=false):
 	length = min(max(value, 8), max_length/2 if half else max_length)
@@ -25,7 +25,7 @@ func _process(delta):
 			$Line2D.points[0] = to_local(anchor.global_position)
 			if fire_pos:
 				fire_pos.queue_free()
-			fire_pos = parent.get_fire_pos()
+			fire_pos = weapon.get_fire_pos()
 			if fire_pos:
 				$Line2D.points[1] = to_local(fire_pos.global_position)
 		return
@@ -45,13 +45,13 @@ func collided(body):
 	if not moving:
 		return
 	if body.has_method("damage"):
-		body.damage(parent.damage_type, parent.damage_amount, $Area2D.get_child(0).global_position)
+		body.damage(weapon.damage_type, weapon.damage_amount, $Area2D.get_child(0).global_position)
 	if body.has_method("attach_grapple"):
-		fire_pos = parent.get_fire_pos()
+		fire_pos = weapon.get_fire_pos()
 		moving = false
 		anchor = body.attach_grapple()
 		length = global_position.distance_to(anchor.global_position)
-		parent.attach(anchor, self)
+		weapon.attach(anchor, self)
 		$Texture.visible = false
 		$Line2D.add_point(to_local(anchor.global_position))
 		$Line2D.add_point(Vector2(0, 0))

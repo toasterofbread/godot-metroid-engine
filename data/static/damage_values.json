@@ -1,0 +1,99 @@
+{
+	"samus": {
+		"weapons": {
+			"missile": {
+				"damage": 5,
+				"speed": 550,
+				"cooldown": 0.15
+			},
+			"supermissile": {
+				"damage": 15,
+				"speed": 400,
+				"cooldown": 0.45
+			},
+			"powerbeam": {
+				"damage": 2,
+				"speed": 450,
+				"cooldown": 0.1,
+				"upgrades": {
+					"ICEBEAM": {
+						"damage_multiplier": 1,
+						"cooldown_multiplier": 1
+					},
+					"WAVEBEAM": {
+						"damage_multiplier": 1,
+						"cooldown_multiplier": 1
+					},
+					"SPAZERBEAM": {
+						"damage_multiplier": 1,
+						"cooldown_multiplier": 1.5
+					},
+					"PLASMABEAM": {
+						"damage_multiplier": 2,
+						"cooldown_multiplier": 1.5
+					}
+				}
+			},
+			"chargebeam": {
+				"charge_times": {
+					"1.5": 2.0,
+					"1.0": 1.5,
+					"0.5": 1.25
+				}
+			},
+			"grapplebeam": {
+				"damage": 1,
+				"speed": 750,
+				"cooldown": 0
+			},
+			"powerbomb": {
+				"damage": 5,
+				"cooldown": 4,
+				"time_to_detonation": 1.6,
+				"explosion_duration": 4,
+				"explosion_damage_refresh_time": 0.25
+			},
+			"bomb": {
+				"damage": 5,
+				"cooldown": 0,
+				"time_to_detonation": 0.6,
+				"max_bomb_amount": 3,
+			},
+			"flamethrower": {
+				"damage": 0,
+				"cooldown": 0
+			},
+			"screwattack": {
+				"damage": 20
+			},
+			"speedbooster": {
+				"damage": 20,
+			}
+		}
+	},
+	"beam_golem": {
+		"health": 500,
+		"attacks": {
+			"punch": 50,
+			"stomp": 75
+		}
+	},
+	"zoomer_template": {
+		"health": 5,
+		"collision_damage": {
+			"incoming": 2,
+			"outgoing": 10
+		},
+	},
+	"crystallite": {
+		"health": 15,
+		"collision_damage": {
+			"incoming": 2,
+			"outgoing": 500
+		},
+		"spike": {
+			"type": "SPIKE",
+			"amount": 30
+		}
+	}
+}

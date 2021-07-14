@@ -15,7 +15,7 @@ var status: int = STATE.UNSTARTED
 enum TYPE {SAMUS, ENEMY, FX, MUSIC}
 var type: int
 
-func _init(stream_path: String, _type: int, _parent: Node = Audio):
+func _init(stream_path: String, _type: int, volume: float = 0.0, _parent: Node = Audio):
 	
 #	if _parent == null:
 #		yield(Audio, "ready")
@@ -29,6 +29,7 @@ func _init(stream_path: String, _type: int, _parent: Node = Audio):
 		StreamPlayer = AudioStreamPlayer.new()
 	else:
 		StreamPlayer = AudioStreamPlayer2D.new()
+	StreamPlayer.volume_db = volume
 	StreamPlayer.stream = load(stream_path)
 	StreamPlayer.connect("finished", self, "_finished")
 	self.add_child(StreamPlayer)

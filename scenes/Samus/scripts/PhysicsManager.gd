@@ -15,9 +15,9 @@ var disable_floor_snap: bool = false
 var on_slope: bool = false
 
 onready var profiles: Dictionary
-const physics_profiles_path = "res://data/samus_physics_profiles/"
+const physics_profiles_path = Data.data_path + "static/samus_physics_profiles/"
 var data: = {}
-onready var mode: int = Settings.get("miscellaneous/physics_mode")
+onready var mode: int = Settings.get("other/physics_mode")
 var profile: = "STANDARD"
 
 # Keeping this around for the memories
@@ -63,7 +63,6 @@ func _physics_process(delta: float):
 
 func can_walk(direction: int):
 	Samus.move_and_slide_with_snap(Vector2(direction*100, 0), SNAP_VECTOR if not disable_floor_snap else Vector2.ZERO, UP_DIRECTION, true, 4, FLOOR_MAX_ANGLE)
-	print(Samus.is_on_wall())
 	return !Samus.is_on_wall()
 
 func move_y(to: float, by: float = INF):
@@ -80,7 +79,7 @@ func fluid_process(delta):
 	pass
 
 func settings_changed(path: String, value):
-	if path == "miscellaneous/physics_mode":
+	if path == "other/physics_mode":
 		mode = value
 		set_data()
 
@@ -95,5 +94,3 @@ func set_data():
 func set_profile(key):
 	profile = key if key != null else "STANDARD"
 	set_data()
-	
-	

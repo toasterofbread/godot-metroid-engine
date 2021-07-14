@@ -6,6 +6,8 @@ onready var Samus: KinematicBody2D = Loader.Samus
 
 export(Enums.DamageType) var type = Enums.DamageType.BEAM setget set_type
 export var reappear_time: float = 2.5
+export(Array, Array) var on_shot_connections: = []
+export var use_on_shot_connections_of: NodePath
 onready var default_collision_layer = self.collision_layer
 onready var destructive_damage_types: Array = Enums.DamageType.values()
 onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
@@ -21,16 +23,14 @@ func set_type(value: int):
 	type = value
 
 func remove_overlay():
-	if has_node("Overlay"):
-		$Overlay.queue_free()
+	for connection in on_shot_connections:
+		get_node(connection[0]).callv(connection[1], connection[2])
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
 	if Engine.editor_hint:
 		return
-	
-	$Overlay.visible = true
 	
 	if type == Enums.DamageType.CRUMBLE:
 		reappear_time = 0.5
@@ -51,8 +51,12 @@ func _ready():
 	
 	$ScanNode.data_key = "block_" + sprite_name
 	
-	z_index = Enums.Layers.BLOCK
-	z_as_relative = false
+	var otherPickup = get_node_or_null(use_on_shot_connections_of)
+	if otherPickup != null and otherPickup is UpgradePickup:
+		on_shot_connections += otherPickup.on_shot_connections
+	
+#	z_index = Enums.Layers.BLOCK
+#	z_as_relative = false
 
 #func set_reverse(value, property: String):
 #	set(property, value)
@@ -62,18 +66,12 @@ func damage(type: int, _amount: float, _impact_position):
 		destroy()
 	remove_overlay()
 
-func get_disable() -> bool:
-	for type in Samus.self_damage:
-		if type in destructive_damage_types:
-			return true
-	return false
-
 func _process(_delta: float):
 	
 	if Engine.editor_hint or not samus_hitbox_damage_applies:
 		return
 	
-	var disable = get_disable()
+	var disable = Samus.check_hurtbox_damage(destructive_damage_types)
 	
 	if disable:
 #		$VisibilityEnabler2D.process_parent = false
@@ -86,9 +84,8 @@ func _process(_delta: float):
 			
 
 func body_entered_area(body):
-	if body == Samus:
-		if get_disable():
-			destroy()
+	if body == Samus and Samus.check_hurtbox_damage(destructive_damage_types) != null:
+		destroy()
 
 func destroy(time: float = reappear_time):
 	state = STATES.DESTROYED

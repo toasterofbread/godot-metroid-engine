@@ -28,9 +28,6 @@ frames = ExtResource( 1 )
 animation = "beam"
 playing = true
 
-[node name="Overlay" type="Node2D" parent="."]
-light_mask = 3
-
 [node name="WeaponCollisionArea" type="Area2D" parent="."]
 position = Vector2( 8, 8 )
 input_pickable = false

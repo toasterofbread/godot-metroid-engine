@@ -1,5 +1,5 @@
-extends Node2D
 
+extends Node2D
 signal process_frame
 signal physics_frame
 
@@ -60,7 +60,6 @@ func _process(delta):
 		image.save_png("res://screenshots/" + str(date["year"]) + "-" + str(date["month"]) + "-" + str(date["day"]) + "_" + str(date["hour"]) + "." + str(date["minute"]) + "." + str(date["second"]) + ".png")
 
 
-
 func _physics_process(delta):
 	emit_signal("physics_frame", delta)
 
@@ -78,23 +77,31 @@ func start_timer(timer_id: String, seconds: float, data: Dictionary = {}, connec
 	
 	return timer
 
-func timer(connect = null):
-	
-	var timer = Timer.new()
-	self.add_child(timer)
+func timer(timeout_connect=null, started_connect=null):
+	var timer = ExTimer.new()
+	add_child(timer)
 	timer.one_shot = true
-	if connect != null:
-		timer.connect("timeout", connect[0], connect[1], connect[2])
+	if timeout_connect != null:
+		timer.connect("timeout", timeout_connect[0], timeout_connect[1], timeout_connect[2])
+	if started_connect != null:
+		timer.connect("started", started_connect[0], started_connect[1], started_connect[2])
 	timer.pause_mode = Node.PAUSE_MODE_STOP
 	return timer
 
-func wait(seconds: float, ignore_pause: bool = false):
-	var timer = Timer.new()
-	Timers.add_child(timer)
-	timer.pause_mode = Node.PAUSE_MODE_PROCESS if ignore_pause else Node.PAUSE_MODE_STOP
-	timer.start(seconds)
-	yield(timer, "timeout")
-	timer.queue_free()
+func wait(seconds: float, ignore_pause: bool = false, function_call=null):
+	if seconds > 0:
+		var timer: = Timer.new()
+		Timers.add_child(timer)
+		timer.pause_mode = Node.PAUSE_MODE_PROCESS if ignore_pause else Node.PAUSE_MODE_STOP
+		timer.start(seconds)
+		yield(timer, "timeout")
+		timer.queue_free()
+	
+	if function_call != null:
+		function_call[0].callv(function_call[1], function_call[2])
+
+func erase(container, value):
+	return container.erase(value)
 
 func clear_timer(timer_id: String):
 	if not timer_id in timers:
@@ -103,9 +110,9 @@ func clear_timer(timer_id: String):
 	timers[timer_id][0].queue_free()
 	timers.erase(timer_id)
 
-func tween() -> Tween:
+func tween(ignore_paused:bool=false) -> Tween:
 	var tween = Tween.new()
-	tween.pause_mode = Node.PAUSE_MODE_STOP
+	tween.pause_mode = Node.PAUSE_MODE_PROCESS if ignore_paused else Node.PAUSE_MODE_STOP
 	self.add_child(tween)
 	return tween
 
@@ -202,7 +209,9 @@ func reparent_child(child: Node, new_parent: Node):
 		child.get_parent().remove_child(child)
 #		yield(child, "tree_exited")
 	new_parent.add_child(child)
-	yield(child, "tree_entered")
+#	if move_to_position >= 0:
+#		new_parent.move_child(child, move_to_position)
+#	yield(child, "tree_entered")
 #	if maintain_global_position and position:
 #		if child is Node2D:
 #			child.global_position = position
@@ -304,3 +313,10 @@ func iterate_directory(dir: Directory) -> Array:
 		ret.append(file_name)
 		file_name = dir.get_next()
 	return ret
+
+func call_connection_array(nodepath_origin: Node, connections: Array):
+	for connection in connections:
+		var node = nodepath_origin.get_node_or_null(connection[0])
+		if node == null or not node.has_method(connection[1]):
+			continue
+		node.callv(connection[1], connection[2])

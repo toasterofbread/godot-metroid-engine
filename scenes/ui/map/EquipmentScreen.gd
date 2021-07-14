@@ -73,9 +73,9 @@ func open():
 	yield($AnimationPlayer, "animation_finished")
 	selected_item.opened()
 
-func close():
+func close(instant: bool = false):
 	selected_item.closed()
-	$AnimationPlayer.play("close")
+	$AnimationPlayer.play("close", -1, INF if instant else 1.0)
 #	yield($AnimationPlayer, "animation_finished")
 
 func process():

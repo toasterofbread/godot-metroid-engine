@@ -13,7 +13,7 @@ scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 2 )
 
 [node name="Container" type="HBoxContainer" parent="."]
-visible = false
+use_parent_material = true
 margin_left = -28.9275
 margin_top = -24.2853
 margin_right = 264.073
@@ -24,6 +24,7 @@ __meta__ = {
 }
 
 [node name="Icon" type="TextureRect" parent="Container"]
+use_parent_material = true
 margin_right = 48.0
 margin_bottom = 48.0
 size_flags_horizontal = 0
@@ -35,6 +36,7 @@ __meta__ = {
 
 [node name="Text" type="Label" parent="Container"]
 show_behind_parent = true
+use_parent_material = true
 margin_left = 65.0
 margin_top = 1.0
 margin_right = 65.0
@@ -48,6 +50,7 @@ __meta__ = {
 
 [node name="ColorRect" type="ColorRect" parent="Container/Text"]
 show_behind_parent = true
+use_parent_material = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -77.0
