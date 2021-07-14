@@ -34,13 +34,8 @@ func _process(delta):
 		return
 	
 	if save_prompt != null:
-		if not Samus.current_state.id in ["neutral", "crouch", "run"]:
-			emit_signal("hide_save_prompt")
+		if save_prompt.just_pressed():
 			save_prompt = null
-		elif save_prompt.just_pressed():
-			save_prompt = null
-			
-			Loader.Save.set_data_key(["current_room_id"], Loader.current_room.id)
 			Loader.Save.save_file()
 			
 			Samus.change_state("facefront")
@@ -61,6 +56,9 @@ func _process(delta):
 			ghost.queue_free()
 			Samus.paused = false
 			saved = true
+		elif not Samus.current_state.id in ["neutral", "crouch", "run"]:
+			emit_signal("hide_save_prompt")
+			save_prompt = null
 	else:
 		emit_signal("hide_save_prompt")
 		if not Samus.paused and $AnimatedSprite.animation == "down" and Samus in $SaveArea.get_overlapping_bodies():

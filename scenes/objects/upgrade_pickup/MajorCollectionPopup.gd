@@ -1,5 +1,6 @@
 extends Control
 
+onready var logbook_data: Dictionary = Data.data["logbook"]
 const show_duration: float = 0.25
 
 var sounds = {
@@ -19,10 +20,10 @@ func trigger(upgrade_type: int, added: int, total: int):
 	sounds["major_fanfare"].play(false, true)
 	
 	var upgrade_name: String
-	if "pickup_name" in Data.logbook[upgrade_type_string]:
-		upgrade_name = Data.logbook[upgrade_type_string]["pickup_name"]
+	if "pickup_name" in logbook_data[upgrade_type_string]:
+		upgrade_name = logbook_data[upgrade_type_string]["pickup_name"]
 	else:
-		upgrade_name = Data.logbook[upgrade_type_string]["name"]
+		upgrade_name = logbook_data[upgrade_type_string]["name"]
 	
 	$CanvasLayer/Added.text = "Added: " + str(added)
 	$CanvasLayer/Total.text = "Total: " + str(total)

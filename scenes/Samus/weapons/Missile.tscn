@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scenes/Samus/weapons/Missile.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=2]
@@ -40,7 +40,10 @@ animations = [ {
 "speed": 0.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 2, 6 )
+
+[sub_resource type="SpriteFrames" id=3]
 animations = [ {
 "frames": [ ExtResource( 30 ), ExtResource( 29 ) ],
 "loop": true,
@@ -48,7 +51,7 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="SpriteFrames" id=3]
+[sub_resource type="SpriteFrames" id=4]
 animations = [ {
 "frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 7 ) ],
 "loop": true,
@@ -56,10 +59,10 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 2, 6 )
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
 "frames": [ ExtResource( 21 ), ExtResource( 25 ), ExtResource( 28 ), ExtResource( 27 ), ExtResource( 12 ), ExtResource( 26 ), ExtResource( 14 ), ExtResource( 8 ), ExtResource( 22 ), ExtResource( 24 ), ExtResource( 20 ), ExtResource( 15 ), ExtResource( 17 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 23 ) ],
 "loop": false,
@@ -72,8 +75,7 @@ animations = [ {
 "speed": 60.0
 } ]
 
-[sub_resource type="Animation" id=6]
-resource_name = "end"
+[sub_resource type="Animation" id=7]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -101,8 +103,7 @@ tracks/1/keys = {
 "values": [ Vector2( 0, 84 ), Vector2( 0, 11.5 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "start"
+[sub_resource type="Animation" id=8]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -134,7 +135,6 @@ tracks/1/keys = {
 script = ExtResource( 1 )
 id = 1
 damage_type = 4
-cooldown = 0.15
 
 [node name="MenuIcon" type="Control" parent="."]
 margin_right = 40.0
@@ -168,9 +168,15 @@ frame = 8
 [node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
 collision_layer = 2
-collision_mask = 540676
+collision_mask = 524288
 script = ExtResource( 31 )
-base_velocity = 550.0
+
+[node name="CollisionArea" type="Area2D" parent="Projectile"]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile/CollisionArea"]
+shape = SubResource( 2 )
 
 [node name="Trail" type="Sprite" parent="Projectile"]
 position = Vector2( 0, 11.5 )
@@ -179,27 +185,27 @@ texture = ExtResource( 11 )
 
 [node name="Flame" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0, 11 )
-frames = SubResource( 2 )
+frames = SubResource( 3 )
 playing = true
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
-frames = SubResource( 3 )
-frame = 1
+frames = SubResource( 4 )
+frame = 3
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
 visible = false
 position = Vector2( -60, -2 )
 scale = Vector2( 0.5, 0.5 )
-frames = SubResource( 5 )
+frames = SubResource( 6 )
 animation = "end"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Projectile"]
-anims/end = SubResource( 6 )
-anims/start = SubResource( 7 )
+anims/end = SubResource( 7 )
+anims/start = SubResource( 8 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Projectile"]
 visible = false

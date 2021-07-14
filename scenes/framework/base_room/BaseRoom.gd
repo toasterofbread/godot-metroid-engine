@@ -1,7 +1,11 @@
 extends Node2D
 class_name Room
 
-var id: String
+var id_info_set: bool = false
+var id: String setget , get_id
+var area: String setget , get_area
+var area_index: int setget , get_area_index
+
 export var heat_damage: bool = false
 export var grid_position: Vector2 = Vector2.ZERO
 export(MapTile.colours) var default_mapchunk_colour = MapTile.colours.blue
@@ -19,17 +23,40 @@ func set_visible(value: bool):
 		if "visible" in child:
 			child.visible = value
 
+func get_id():
+	set_id_info()
+	return id
+func get_area():
+	set_id_info()
+	return area
+func get_area_index():
+	set_id_info()
+	return area_index
+
+func set_id_info():
+	if id_info_set:
+		return
+	
+	id = filename.split("/")[len(filename.split("/")) - 3] + "/" + filename.split("/")[len(filename.split("/")) - 2]
+	area = id.split("/")[0]
+	area_index = Enums.MapAreas.keys().find(area.to_upper())
+	id_info_set = true
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
-	pause_mode = Node.PAUSE_MODE_STOP
+	set_id_info()
 	
-	# Get the room's id from the parent folder name
-	id = filename.split("/")[len(filename.split("/")) - 3] + "/" + filename.split("/")[len(filename.split("/")) - 2]
+	pause_mode = Node.PAUSE_MODE_STOP
+	Loader.Save.add_save_function(funcref(self, "save"))
+	
 	vOverlay.SET("Room ID", id)
 	
-	z_index = Enums.Layers.WORLD
-	z_as_relative = false
+	# DEBUG
+	if Loader.current_room == null:
+		Loader.load_room(id)
+		queue_free()
+		return
 	
 #	for node in World.get_children() + self.get_children():
 #		if node is UpgradePickup:
@@ -42,23 +69,6 @@ func _ready():
 	
 	z_as_relative = false
 	z_index = Enums.Layers.WORLD
-	
-#	$Fluids.z_as_relative = false
-#	$Fluids.z_index = Enums.Layers.FLUID
-	
-	if $Background is ParallaxBackground:
-		for parallaxLayer in $Background.get_children():
-			if parallaxLayer is ParallaxLayer:
-				parallaxLayer.z_index = Enums.Layers.BACKGROUND
-				parallaxLayer.z_as_relative = false
-	
-#	if scale != Vector2.ONE:
-#		for child in get_children():
-#			if "scale" in child:
-#				child.scale *= scale
-#			elif "rect_scale" in child:
-#				child.rect_scale *= scale
-#		scale = Vector2.ONE
 	
 	yield(self, "ready")
 	scanNodes = get_tree().get_nodes_in_group("ScanNode")
@@ -81,3 +91,6 @@ func generate_maptiles():
 				mapchunk.generate_tile_data()
 			break
 		i += 1
+
+func save():
+	Loader.Save.set_data_key(["current_room_id"], id)

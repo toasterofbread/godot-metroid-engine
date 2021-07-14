@@ -4,9 +4,9 @@ var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
 
-const damage_type = Enums.DamageType.SPEEDBOOSTER
-const damage_amount = 0
-const id = "shinespark"
+const damage_type: int = Enums.DamageType.SPEEDBOOSTER
+var damage_amount: float = Data.data["damage_values"]["samus"]["weapons"]["speedbooster"]["damage"]
+const id: String = "shinespark"
 
 var ShinesparkUseWindow: Timer = Global.timer([self, "discharge_shinespark", []])
 var shinespark_hold_time: float = 3.0
@@ -45,6 +45,7 @@ func init_state(data: Dictionary):
 	ballspark = data["ballspark"]
 	
 	Physics.apply_gravity = false
+	Physics.vel = Vector2.ZERO
 	
 	discharge_shinespark()
 	Physics.disable_floor_snap = true
@@ -57,7 +58,7 @@ func init_state(data: Dictionary):
 		yield(animations["start"].play(), "completed")
 		Physics.vel.y = 0
 	else:
-		yield(Global.wait(0.1), "completed")
+		yield(Global.wait(0.05), "completed")
 		Physics.vel.y = 0
 		yield(Global.wait(0.15), "completed")
 	
@@ -156,15 +157,25 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 func physics_process(_delta: float):
 	return
 
+var previous_boosting: = false
+var previous_shinespark_charged: = false
 func process_speedboooster(_delta: float):
+	
 	
 	if Samus.boosting:
 		if Samus.current_state.id == "run":
 			ShinesparkStoreWindow.start(shinespark_store_window)
-
+	
+	if Samus.boosting == previous_boosting and Samus.shinespark_charged == previous_shinespark_charged:
+		return
+	previous_boosting = Samus.boosting
+	previous_shinespark_charged = Samus.shinespark_charged
+	
+	Animator.SpriteContainer.current_profile = "speedboost" if Samus.boosting else null
+	
 	if Samus.boosting or Samus.shinespark_charged:
 		SpeedboostAnimationPlayer.play("speedboost")
-	else:
+	elif SpeedboostAnimationPlayer.current_animation == "speedboost":
 		SpeedboostAnimationPlayer.play("reset")
 
 func charge_shinespark():

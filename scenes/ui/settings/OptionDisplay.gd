@@ -1,13 +1,11 @@
 extends Node2D
 
-var data: Dictionary
-const data_path = "res://scenes/ui/settings/settings_information.json"
+onready var data: Dictionary = Data.data["settings_information"]
 
 var index = 0
 onready var option_node = preload("res://scenes/ui/settings/option_types/Option.tscn")
 
 func _ready():
-	data = Global.load_json(data_path)
 	$Description.visible = false
 
 func load_category(category: String):
@@ -43,6 +41,9 @@ func load_category(category: String):
 
 func update_index(index: int, previous_index: int = -1):
 	
+	if $Categories.get_child_count() == 0:
+		return
+	
 	if index >= 0:
 		var current_node = $Categories.get_children()[index].get_node("Title/Background")
 		$Tween.interpolate_property(current_node, "rect_position:x", current_node.rect_position.x, -192, 0.1)
@@ -63,12 +64,13 @@ func update_index(index: int, previous_index: int = -1):
 func start():
 	update_index(0, -1)
 
-func end():
+func end(instant: bool = false):
 	update_index(-1, index)
 	index = 0
-	$Tween.interpolate_property(self, "modulate:a", 1, 0, 0.25)
-	$Tween.start()
-	yield(Global.wait(0.26, true), "completed")
+	if instant:
+		$Tween.interpolate_property(self, "modulate:a", 1, 0, 0.25)
+		$Tween.start()
+		yield(Global.wait(0.26, true), "completed")
 	visible = false
 	modulate.a = 1
 

@@ -1,0 +1,109 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://sprites/objects/map_station/extend_1.png" type="Texture" id=2]
+[ext_resource path="res://sprites/objects/map_station/base.png" type="Texture" id=3]
+[ext_resource path="res://sprites/objects/map_station/extend_3.png" type="Texture" id=4]
+[ext_resource path="res://sprites/objects/map_station/extend_2.png" type="Texture" id=5]
+[ext_resource path="res://sprites/objects/map_station/extend_0.png" type="Texture" id=6]
+[ext_resource path="res://scenes/objects/map_station/MapStation.gd" type="Script" id=7]
+[ext_resource path="res://classes/LayerSetter.gd" type="Script" id=8]
+[ext_resource path="res://sprites/objects/map_station/screen_2.png" type="Texture" id=9]
+[ext_resource path="res://sprites/objects/map_station/screen_3.png" type="Texture" id=10]
+[ext_resource path="res://sprites/objects/map_station/screen_1.png" type="Texture" id=11]
+[ext_resource path="res://sprites/objects/map_station/screen_0.png" type="Texture" id=12]
+[ext_resource path="res://sprites/samus/other/sSaveSparks_3.png" type="Texture" id=13]
+[ext_resource path="res://sprites/samus/other/sSaveSparks_5.png" type="Texture" id=14]
+[ext_resource path="res://sprites/samus/other/sSaveSparks_4.png" type="Texture" id=15]
+[ext_resource path="res://sprites/samus/other/sSaveSparks_2.png" type="Texture" id=16]
+[ext_resource path="res://sprites/samus/other/sSaveSparks_1.png" type="Texture" id=17]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 6 ) ],
+"loop": false,
+"name": "retract",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "extend",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": false,
+"name": "retracted",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": false,
+"name": "extended",
+"speed": 1.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 12 ), ExtResource( 11 ), ExtResource( 9 ), ExtResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 30.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 6, 16 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 17 ), ExtResource( 16 ), ExtResource( 13 ), ExtResource( 15 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "default",
+"speed": 30.0
+} ]
+
+[node name="MapStation" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="Console" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -3 )
+frames = SubResource( 1 )
+animation = "extend"
+frame = 3
+playing = true
+
+[node name="Screen" type="AnimatedSprite" parent="."]
+position = Vector2( 6, -14 )
+frames = SubResource( 2 )
+playing = true
+
+[node name="Tween" type="Tween" parent="Screen"]
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Base" type="Sprite" parent="."]
+position = Vector2( -5, 21 )
+texture = ExtResource( 3 )
+
+[node name="TriggerArea" type="Area2D" parent="."]
+visible = false
+position = Vector2( 9, -1 )
+collision_layer = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
+position = Vector2( 21, 12 )
+z_index = 1
+shape = SubResource( 3 )
+
+[node name="LayerSetter" type="Node2D" parent="."]
+script = ExtResource( 8 )
+z_layer = 1
+
+[node name="Sparks" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 23, 0 )
+rotation = 1.5708
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 4 )
+frame = 3
+playing = true
+
+[node name="SpritePosition" type="Position2D" parent="."]
+position = Vector2( 32, 0 )

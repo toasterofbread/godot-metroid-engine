@@ -2,6 +2,7 @@ extends Node2D
 
 onready var Samus: Node2D = get_parent()
 onready var Player: AnimationPlayer = $AnimationPlayer
+onready var SpriteContainer: SpriteTrailEmitter = $Sprites
 
 onready var sprites = {
 	false: { # Main
@@ -47,6 +48,25 @@ func _ready():
 		for sprite in set.values():
 			sprite.frames = suits.values()[0][0]
 			sprite.visible = false
+	
+	SpriteContainer.profiles = {
+		"speedboost": {
+			"frequency": 400,
+			"linger_time": 0.1,
+			"fade_out": true,
+			"modulate": Color(1, 1, 1, 0.5),
+			"material": NodePath("."),
+			"sprite": null
+		},
+		"spacejump": {
+			"frequency": 50,
+			"linger_time": 0.25,
+			"fade_out": true,
+			"modulate": Color(1, 1, 1, 0.3),
+			"material": NodePath("."),
+			"sprite": null#preload("res://sprites/samus/power/jump/spin/sSpaceJumpTrail_0.png")
+		},
+	}
 
 func pause(overlay: bool = false):
 	
@@ -108,3 +128,8 @@ func load_from_json(state_id: String, json_key = null) -> Dictionary:
 		
 		data[animation] = SamusAnimation.new(self, id, data[animation])
 	return data
+
+func set_dim(colour: Color, above_samus: bool):
+	$DimLayer.layer = 1 if above_samus else -2
+	$DimLayer/ColorRect.color = colour
+	$DimLayer/ColorRect.visible = false if colour.a == 0 else true

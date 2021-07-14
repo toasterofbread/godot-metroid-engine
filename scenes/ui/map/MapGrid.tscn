@@ -6,28 +6,17 @@
 [node name="MapGrid" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1840.0
-margin_bottom = -1032.0
+margin_right = -1880.0
+margin_bottom = -1056.0
 rect_clip_content = true
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
+[node name="Background" type="TextureRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-size_flags_horizontal = 15
-size_flags_vertical = 15
-color = Color( 0, 0, 0, 0.745098 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Background" type="TextureRect" parent="."]
-margin_right = 80.0
-margin_bottom = 48.0
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 2
@@ -43,15 +32,13 @@ __meta__ = {
 }
 
 [node name="Center" type="Control" parent="CenterContainer"]
-margin_left = 40.0
-margin_top = 24.0
-margin_right = 40.0
-margin_bottom = 24.0
+margin_left = 20.0
+margin_top = 12.0
+margin_right = 20.0
+margin_bottom = 12.0
 
 [node name="Tiles" type="Node2D" parent="CenterContainer/Center"]
-z_index = 5
 
 [node name="Tween" type="Tween" parent="."]
 
-[node name="Center" type="Position2D" parent="."]
-position = Vector2( 40, 24 )
+[node name="BackgroundOffsetTween" type="Tween" parent="."]

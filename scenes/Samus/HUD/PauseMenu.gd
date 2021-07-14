@@ -1,16 +1,21 @@
 extends Control
 
+onready var Samus: KinematicBody2D = Loader.Samus
+
 const menu_open_duration: float = 0.45
 const map_move_speed = 100
 const map_move_acceleration = 500
 var map_grid_parent: Node
+var mapGrid: Control
 
 var map_move_velocity = Vector2.ZERO
 var transitioning = false
 
 onready var Buttons = $CanvasLayer2/ButtonPrompts
-enum MODES {CLOSED, MAP, MAPMARKER, MAPAREA, SETTINGS, SETTINGSOPTION, EQUIPMENT, LOGBOOK}
+enum MODES {CLOSED, MAP, MAPMARKER, MAPAREA, SETTINGS, SETTINGSOPTION, EQUIPMENT, LOGBOOK, MAPREVEAL}
 var mode: int = MODES.CLOSED
+
+signal menu_closed
 
 func _ready():
 	
@@ -23,6 +28,8 @@ func _ready():
 	
 	$CanvasLayer.layer = Enums.CanvasLayers.MENU
 	$CanvasLayer2.layer = Enums.CanvasLayers.MENU
+	
+	$AnimationPlayer.play("reset")
 
 func pause():
 	
@@ -30,48 +37,59 @@ func pause():
 		return
 	
 	get_tree().paused = true
+	Samus.paused = true
 	transitioning = true
-	yield(Map.Grid.fade(false, 0.15), "completed")
 	
-	if not map_grid_parent:
-		map_grid_parent = Map.Grid.get_parent()
+	if not mapGrid:
+		mapGrid = Map.Grid
+		map_grid_parent = mapGrid.get_parent()
 	
-	Map.Grid.visible = false
-	Global.reparent_child(Map.Grid, $CanvasLayer)
-	Map.Grid.map_offset_offset = Vector2(4, -2)
-	Map.Grid.background_size = $CanvasLayer/MapGridPosition.rect_size
+	yield(mapGrid.fade(false, 0.1), "completed")
+	
+	mapGrid.visible = false
+	Global.reparent_child(mapGrid, $CanvasLayer)
+	mapGrid.map_offset_offset = Vector2(4, -2)
+	mapGrid.background_size = $CanvasLayer/MapGridPosition.rect_size
 	$AnimationPlayer.clear_caches()
 	$AnimationPlayer.play("open_menu")
 	yield($AnimationPlayer, "animation_finished")
-
+	
 	transitioning = false
 	mode = MODES.MAP
 
 func resume():
 	
-	if transitioning or $AnimationPlayer.current_animation != "":
+	if transitioning:
 		return
 	
-	get_tree().paused = false
 	transitioning = true
-	
-	$AnimationPlayer.play("close_menu", -1, 0.5)
+	$AnimationPlayer.play("close_menu" if mode == MODES.MAP else "fade_out")
 	yield($AnimationPlayer, "animation_finished")
 	
+	get_tree().paused = false
+	Samus.paused = false
 	mode = MODES.CLOSED
+	
+	$AnimationPlayer.play("reset")
+	yield($AnimationPlayer, "animation_finished")
 	transitioning = false
+	
+	emit_signal("menu_closed")
 
 func reset_minimap():
-	Map.Grid.modulate.a = 0
-	Global.reparent_child(Map.Grid, map_grid_parent)
-	Map.Grid.reset_minimap_properties()
+	mapGrid.modulate.a = 0
+	Global.reparent_child(mapGrid, map_grid_parent)
+	mapGrid.reset_minimap_properties()
 	if Map.current_chunk != null:
-		Map.Grid.set_focus_position(Map.current_chunk.tile.position, true)
-	Map.Grid.fade(true, 0.25)
+		mapGrid.set_focus_position(Map.current_chunk.tile.position, true)
+	mapGrid.fade(true, 0.25)
 
 func _process(delta: float):
 	
-	if mode == MODES.CLOSED or transitioning:
+	if transitioning:
+		mapGrid.update_background()
+		return
+	elif mode == MODES.CLOSED or mode == MODES.MAPREVEAL:
 		return
 	
 	var resuming = false
@@ -111,8 +129,9 @@ func _process(delta: float):
 			var pad_vector = -Shortcut.get_pad_vector("pressed")
 			map_move_velocity.x = move_toward(map_move_velocity.x, map_move_speed*pad_vector.x, map_move_acceleration*delta)
 			map_move_velocity.y = move_toward(map_move_velocity.y, map_move_speed*pad_vector.y, map_move_acceleration*delta)
-			Map.Grid.Tiles.position += map_move_velocity * delta
-#			Map.Grid.Tiles.position += Vector2(map_move_speed, map_move_speed) * pad_vector * delta
+			if map_move_velocity != Vector2.ZERO:
+				mapGrid.Tiles.position += map_move_velocity * delta
+				mapGrid.update_background()
 	else:
 		match mode:
 			MODES.MAPMARKER: process_marker(false, resuming)
@@ -157,7 +176,7 @@ func process_marker(first_frame: bool, last_frame: bool):
 	
 	if Map.Marker.moving:
 		Map.Marker.grid_position += Shortcut.get_pad_vector("just_pressed")
-		Map.Grid.set_focus_position(Map.Marker.position, false)
+		mapGrid.set_focus_position(Map.Marker.position, false)
 	
 	if Buttons.get_node("Marker").transitioning:
 		return
@@ -241,3 +260,38 @@ func process_settings_option(last_frame: float):
 		$CanvasLayer2/Settings/OptionDisplay.reset()
 	else:
 		$CanvasLayer2/Settings/OptionDisplay.process()
+
+func map_station_activated(area_index: int):
+	Map.current_chunk.tile.flash = false
+	yield(pause(), "completed")
+	mode = MODES.MAPREVEAL
+	
+	var tiles_to_reveal: Array = Map.tiles_by_area[area_index]
+	Map.Grid.show_all_tiles(tiles_to_reveal)
+	yield(Global.wait(0.5, true), "completed")
+	
+	var temporaryMapGrid: Control = Map.Grid.duplicate(4)
+	$CanvasLayer.add_child(temporaryMapGrid)
+	Global.reparent_child(Map.Grid, $CanvasLayer/MapRevealContainer/Container)
+	Map.Grid.get_node("Background").visible = false
+	Map.Grid.rect_size = temporaryMapGrid.rect_size
+	
+	$CanvasLayer.move_child($CanvasLayer/MapRevealContainer, $CanvasLayer.get_child_count() - 1)
+	$CanvasLayer.move_child($CanvasLayer/MapRevealCursor, $CanvasLayer.get_child_count() - 1)
+	
+	for tile in tiles_to_reveal:
+		tile.discovered = true
+	
+	$AnimationPlayer.play("mapreveal", -1, 1.0/3.5)
+	yield($AnimationPlayer, "animation_finished")
+	
+	Global.reparent_child(Map.Grid, $CanvasLayer)
+	Map.Grid.rect_size = temporaryMapGrid.rect_size
+	Map.Grid.get_node("Background").visible = true
+	temporaryMapGrid.queue_free()
+	
+	yield(Global.wait(0.5, true), "completed")
+	Map.current_chunk.tile.flash = true
+	mode = MODES.MAP
+	
+	yield(self, "menu_closed")

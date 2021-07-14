@@ -40,7 +40,7 @@ func init(upgrade_id: int, upgrade_data: Dictionary, sprites):
 	self.sprites = sprites
 	
 	value = Loader.Save.get_data_key(["samus", "upgrades", id, "active"])
-	$Label.text = Data.logbook[Enums.Upgrade.keys()[id]]["name"]
+	$Label.text = Data.data["logbook"][Enums.Upgrade.keys()[id]]["name"]
 	$TextureRect.texture = sprites[value]
 	set_selected(selected)
 	

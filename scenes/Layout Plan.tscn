@@ -1,0 +1,239 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://fonts/Pixeled.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://sprites/ui/map/tiles/ship.png" type="Texture" id=2]
+[ext_resource path="res://sprites/ui/map/tiles/save.png" type="Texture" id=3]
+[ext_resource path="res://sprites/destroyable_block/sBlockBomb_0.png" type="Texture" id=4]
+[ext_resource path="res://sprites/objects/upgrade_pickup/missile/sItemMissile_0.png" type="Texture" id=5]
+[ext_resource path="res://sprites/destroyable_block/sBlockMissile_0.png" type="Texture" id=6]
+[ext_resource path="res://sprites/objects/upgrade_pickup/etank/sItemEnergyTank_0.png" type="Texture" id=7]
+[ext_resource path="res://sprites/ui/map/tiles/map.png" type="Texture" id=8]
+[ext_resource path="res://sprites/layout_tileset.png" type="Texture" id=9]
+[ext_resource path="res://sprites/ui/map/tiles/upgrade_station.png" type="Texture" id=10]
+[ext_resource path="res://sprites/ui/map/tiles/door.png" type="Texture" id=11]
+[ext_resource path="res://sprites/objects/upgrade_pickup/morphball/sItemMorphBall_0.png" type="Texture" id=12]
+
+[sub_resource type="TileSet" id=1]
+0/name = "layout_tileset.png 0"
+0/texture = ExtResource( 9 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+1/name = "layout_tileset.png 1"
+1/texture = ExtResource( 9 )
+1/tex_offset = Vector2( 0, 0 )
+1/modulate = Color( 1, 1, 1, 1 )
+1/region = Rect2( 16, 0, 16, 16 )
+1/tile_mode = 0
+1/occluder_offset = Vector2( 0, 0 )
+1/navigation_offset = Vector2( 0, 0 )
+1/shape_offset = Vector2( 0, 0 )
+1/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+1/shape_one_way = false
+1/shape_one_way_margin = 0.0
+1/shapes = [  ]
+1/z_index = 0
+
+[sub_resource type="DynamicFont" id=2]
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[node name="TileMap" type="Node2D"]
+
+[node name="Ice Caves" type="Node2D" parent="."]
+position = Vector2( 131.361, 52.385 )
+
+[node name="TileMap" type="TileMap" parent="Ice Caves"]
+position = Vector2( -131.361, -4.38497 )
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 262153, 0, 0, 262154, 0, 0, 262155, 0, 0 )
+
+[node name="Labels" type="Node2D" parent="Ice Caves"]
+position = Vector2( -231.136, -21.5925 )
+
+[node name="Label" type="Label" parent="Ice Caves/Labels"]
+margin_left = 259.775
+margin_top = 79.0249
+margin_right = 423.775
+margin_bottom = 174.025
+rect_scale = Vector2( 0.25, 0.25 )
+custom_fonts/font = SubResource( 2 )
+custom_constants/line_spacing = -20
+text = "Grapple beam gap"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bosses" type="Node2D" parent="Ice Caves"]
+
+[node name="Items" type="Node2D" parent="Ice Caves"]
+
+[node name="Area" type="Polygon2D" parent="Ice Caves"]
+visible = false
+position = Vector2( 131.361, 52.385 )
+scale = Vector2( 0.568328, 0.271759 )
+color = Color( 0.541176, 0.780392, 0.819608, 0 )
+polygon = PoolVector2Array( 27.4286, 16, -83.6055, 193.063, 224, 128, 224, 16 )
+
+[node name="Caves" type="Node2D" parent="."]
+position = Vector2( -4.45048e-06, 46.517 )
+
+[node name="TileMap" type="TileMap" parent="Caves"]
+position = Vector2( 4.45048e-06, 1.48299 )
+tile_set = SubResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 196615, 0, 0, 262147, 1073741824, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 327684, 0, 0, 327685, 1, 0, 327686, 1, 0, 393220, 0, 0, 524287, 0, 0, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 524292, 0, 0, 589828, 0, 0, 655364, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 786436, 1, 0, 851972, 1, 0 )
+
+[node name="Doors" type="Node2D" parent="Caves"]
+
+[node name="Sprite" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 80, 65.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Sprite2" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 112, 65.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Sprite3" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 128, 65.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Sprite4" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 144, 65.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Sprite5" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 64, 65.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Sprite6" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 64, 113.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Sprite7" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 80, 177.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Sprite8" type="Sprite" parent="Caves/Doors"]
+position = Vector2( 64, 177.483 )
+rotation = 1.5708
+scale = Vector2( 2, 2 )
+texture = ExtResource( 11 )
+offset = Vector2( 4, 3 )
+
+[node name="Rooms" type="Node2D" parent="Caves"]
+position = Vector2( 4.45048e-06, 1.48299 )
+
+[node name="Sprite" type="Sprite" parent="Caves/Rooms"]
+position = Vector2( 128, 64 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+offset = Vector2( 4, 4 )
+
+[node name="Sprite3" type="Sprite" parent="Caves/Rooms"]
+position = Vector2( 96, 176 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+offset = Vector2( 4, 4 )
+
+[node name="Sprite2" type="Sprite" parent="Caves/Rooms"]
+position = Vector2( 80, 176 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 10 )
+offset = Vector2( 4, 4 )
+
+[node name="Gunship" type="Sprite" parent="Caves/Rooms"]
+position = Vector2( 64, 32 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+offset = Vector2( 4, 4 )
+
+[node name="Maproom" type="Sprite" parent="Caves/Rooms"]
+position = Vector2( 48, 64 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 8 )
+offset = Vector2( 4, 4 )
+
+[node name="Sprite6" type="Sprite" parent="Caves/Rooms/Maproom"]
+position = Vector2( 3.93306, 0 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 6 )
+offset = Vector2( 16, 16 )
+
+[node name="Items" type="Node2D" parent="Caves"]
+position = Vector2( 4.45048e-06, 1.48299 )
+
+[node name="Sprite3" type="Sprite" parent="Caves/Items"]
+position = Vector2( 96, 80 )
+texture = ExtResource( 5 )
+offset = Vector2( 8, 8 )
+
+[node name="Sprite4" type="Sprite" parent="Caves/Items/Sprite3"]
+position = Vector2( -16, 0 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+offset = Vector2( 16, 16 )
+
+[node name="Sprite5" type="Sprite" parent="Caves/Items"]
+position = Vector2( 16, 112 )
+texture = ExtResource( 5 )
+offset = Vector2( 8, 8 )
+
+[node name="Sprite4" type="Sprite" parent="Caves/Items"]
+position = Vector2( 112, 48 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 7 )
+offset = Vector2( 11, 11 )
+
+[node name="Sprite4" type="Sprite" parent="Caves/Items/Sprite4"]
+position = Vector2( 3.10648, 4.50591 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+offset = Vector2( 16, 16 )
+
+[node name="Bosses" type="Node2D" parent="Caves"]
+
+[node name="Labels" type="Node2D" parent="Caves"]
+
+[node name="Area" type="Polygon2D" parent="Caves"]
+visible = false
+show_behind_parent = true
+position = Vector2( -12.2457, 45.9425 )
+scale = Vector2( 0.583333, 0.690724 )
+color = Color( 0.219608, 0.219608, 0.219608, 1 )
+polygon = PoolVector2Array( 54.8571, 16, 54.8571, 128, 246.857, 128, 246.44, 15.6976 )

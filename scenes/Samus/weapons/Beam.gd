@@ -29,11 +29,22 @@ func set_types():
 	
 	ProjectileNode.get_node("IceParticles").emitting = Enums.Upgrade.ICEBEAM in current_types
 	ProjectileNode.get_node("Trail").texture = sprite_chargebeam.frames.get_frame(animation, 0)
+	
+	# Apply damage_amount and cooldown modifiers for each current type
+	damage_amount = damage_values["damage"]
+	cooldown = damage_values["cooldown"]
+	for type in current_types:
+		var data: Dictionary = damage_values["upgrades"][Enums.Upgrade.keys()[type]]
+		damage_amount *= data["damage_multiplier"]
+		cooldown *= data["cooldown_multiplier"]
 
 func set_collision():
 	var texture = sprite.frames.get_frame(sprite.animation, 0)
 	ProjectileNode.get_node("CollisionShape2D").shape.extents = texture.get_size()/2
 	ProjectileNode.get_node("CollisionShape2D").position = sprite.position
+	
+	ProjectileNode.get_node("CollisionArea/CollisionShape2D").shape.extents = texture.get_size()
+	ProjectileNode.get_node("CollisionArea/CollisionShape2D").position = sprite.position
 	
 
 func save_value_set(keys: Array, _value):
@@ -66,7 +77,7 @@ func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
 	var projectiles = []
 	if Enums.Upgrade.SPAZERBEAM in current_types:
 		for i in range(3):
-			var projectile = ProjectileNode.duplicate()
+			var projectile: SamusKinematicProjectile = ProjectileNode.duplicate()
 			projectile_data["position"] = i
 			projectile.init(self, pos, chargebeam_damage_multiplier, projectile_data.duplicate())
 			projectile.affected_by_world = not Enums.Upgrade.WAVEBEAM in current_types
@@ -75,7 +86,6 @@ func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
 				projectile.get_node("IceParticles").emitting = false
 		
 		if not Enums.Upgrade.WAVEBEAM in current_types:
-#			Engine.time_scale = 0.25
 			projectiles[0].position += 10*Vector2.LEFT.rotated(pos.rotation)
 			projectiles[2].position += 10*Vector2.RIGHT.rotated(pos.rotation)
 			
@@ -92,15 +102,21 @@ func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
 	
 	for projectile in projectiles:
 		projectile.get_node("IceParticles").preprocess = randf()*2
+		if Enums.Upgrade.PLASMABEAM in current_types:
+			projectile.apply_damage = false
+			projectile.data["damaged_bodies"] = []
+		
 	projectiles[0].burst_start(true, Enums.Upgrade.keys()[projectile_data["base_type"]] + " start")
 	return projectiles
 
 func offset(object, offset: Vector2):
 	object.position += offset
 
-func projectile_physics_process(projectile: SamusKinematicProjectile, collision: KinematicCollision2D, delta: float):
+func projectile_physics_process(projectile: SamusKinematicProjectile, colliders: Array, delta: float):
 	var types = projectile.data["types"]
+	
 	if Enums.Upgrade.WAVEBEAM in types:
+		# Apply wavebeam visual effect
 		if Enums.Upgrade.SPAZERBEAM in types:
 			if projectile.data["position"] != 1:
 				var y = -6*sin(0.075*projectile.travel_distance)*(projectile.data["position"]-1)
@@ -110,14 +126,32 @@ func projectile_physics_process(projectile: SamusKinematicProjectile, collision:
 			var y = -4.5*cos(0.1*projectile.travel_distance)
 			projectile.position += Vector2(y, 0).rotated(projectile.data["rotation"])*delta*60
 			projectile.rotation = Vector2(10, y).rotated(projectile.data["rotation"]).angle()
-			
-	if collision:
-		if (collision.collider.get_collision_layer_bit(19) and not Enums.Upgrade.WAVEBEAM in types) or (collision.collider.get_collision_layer_bit(2) and not Enums.Upgrade.PLASMABEAM in types):
-			projectile.visible = false
-			projectile.moving = false
-			
-			yield(projectile.burst_end(true, Enums.Upgrade.keys()[projectile.data["base_type"]] + " end"), "completed")
-			projectile.queue_free()
+	else:
+		# Projeciles should collide with world if not wavebeam
+		for collider in colliders:
+			if collider.get_collision_layer_bit(19):
+				projectile_collided(projectile)
+	
+	if Enums.Upgrade.PLASMABEAM in types:
+		for collider in colliders:
+			# Special damage case for plasmabeam to ensure enemies are only
+			# damaged once per projectile
+			if collider.has_method("damage") and not collider in projectile.data["damaged_bodies"]:
+				collider.damage(damage_type, damage_amount*(projectile.chargebeam_damage_multiplier if projectile.chargebeam_damage_multiplier != null else 1.0), projectile.get_node("ImpactPosition").global_position)
+				projectile.data["damaged_bodies"].append(collider)
+	else:
+		# Projectiles should collide with world if not plasmabeam
+		for collider in colliders:
+			if collider.get_collision_layer_bit(2):
+				projectile_collided(projectile)
+
+func projectile_collided(projectile: SamusKinematicProjectile):
+	if not projectile.visible:
+		return
+	projectile.visible = false
+	projectile.moving = false
+	yield(projectile.burst_end(true, Enums.Upgrade.keys()[projectile.data["base_type"]] + " end"), "completed")
+	projectile.queue_free()
 
 func fluid_splash(_projectile: SamusKinematicProjectile, _type: int):
 	return "large"# if abs(projectile.velocity.y) > 5 else "small"

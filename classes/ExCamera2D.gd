@@ -3,6 +3,8 @@ class_name ExCamera2D
 
 onready var tween: = Tween.new()
 
+const limit_paths = ["limit_top", "limit_bottom", "limit_left", "limit_right"]
+
 var current_tween_data = {
 	"limit_top": null,
 	"limit_bottom": null,
@@ -21,6 +23,12 @@ var current_tween_targets = {
 	"limit_left": null,
 	"limit_right": null
 }
+var max_limits = {
+	"limit_top": -10000000,
+	"limit_left": -10000000,
+	"limit_right": 10000000,
+	"limit_bottom": 10000000
+}
 var tween_duration = 0.0
 
 func _ready():
@@ -28,6 +36,9 @@ func _ready():
 	tween.pause_mode = Node.PAUSE_MODE_PROCESS
 	tween.playback_process_mode = Tween.TWEEN_PROCESS_PHYSICS
 	pause_mode = Node.PAUSE_MODE_PROCESS
+
+func get_center() -> Vector2:
+	return get_camera_screen_center()
 
 func get_adjusted_limits(_limits=null) -> Dictionary:
 	
@@ -70,13 +81,50 @@ func get_adjusted_limits(_limits=null) -> Dictionary:
 	
 	return limits
 
-func current_limits() -> Dictionary:
+func get_limits() -> Dictionary:
 	var ret = {}
-	for limit in ["limit_top", "limit_bottom", "limit_left", "limit_right"]:
+	for limit in limit_paths:
 		ret[limit] = get(limit)
 	return ret
 
-func interpolate_limits(target_limits: Dictionary, duration: float, trans_type:=Tween.TRANS_LINEAR, ease_type:=Tween.EASE_IN_OUT):
+func set_limits(limits):
+	
+	if limits == null:
+		for limit in limit_paths:
+			set(limit, max_limits[limit])
+	elif limits is Dictionary:
+		for limit in limits:
+			if limits[limit] == null:
+				limits[limit] = max_limits[limit]
+			set(limit, limits[limit])
+	elif limits is int or limits is float:
+		for limit in limit_paths:
+			set(limit, limits)
+
+func interpolate_position(pos: Vector2, return_time: = -1.0):
+	
+	if tween.is_active():
+		return false
+	
+	var origin_position = global_position
+	tween.interpolate_property(self, "global_position", global_position, pos, 0.5, Tween.TRANS_SINE, Tween.EASE_OUT)
+	tween.start()
+	yield(tween, "tween_completed")
+	
+	if return_time < 0:
+		return true
+	elif return_time > 0:
+		yield(Global.wait(return_time), "completed")
+	
+	tween.interpolate_property(self, "global_position", global_position, origin_position, 0.5, Tween.TRANS_SINE, Tween.EASE_OUT)
+	yield(tween, "tween_completed")
+
+func interpolate_limits(target_limits, duration: float, trans_type:=Tween.TRANS_LINEAR, ease_type:=Tween.EASE_IN_OUT):
+	
+	if tween.is_active():
+#		yield(get_tree(), "idle_frame")
+#		return false
+		tween.stop_all()
 	
 	var starting_position = global_position
 #	var original_smoothing = {
@@ -107,7 +155,10 @@ func interpolate_limits(target_limits: Dictionary, duration: float, trans_type:=
 	
 	tween.stop_all()
 	
-	var current_limits = current_limits()
+	if target_limits == null:
+		target_limits = max_limits
+	
+	var current_limits = get_limits()
 	var adjusted_current_limits = get_adjusted_limits()
 	var adjusted_target_limits = yield(get_adjusted_limits(target_limits), "completed")
 	

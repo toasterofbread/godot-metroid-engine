@@ -6,16 +6,10 @@ var Physics: Node
 
 const id = "jump"
 
-const damage_type = Enums.DamageType.SCREWATTACK
-const damage_amount = 0 
+const damage_type: int = Enums.DamageType.SCREWATTACK
+var damage_amount: float = Data.data["damage_values"]["samus"]["weapons"]["screwattack"]["damage"]
 
 # PHYSICS
-#const standard_jump_speed = 250
-#const standard_jump_acceleration = 99999
-#const standard_jump_time = 0.2
-#const high_jump_speed = 400
-#const high_jump_acceleration = 7500
-#const high_jump_time = 0.25
 const ledge_max_angle = 20
 
 var jump_speed: float
@@ -23,18 +17,13 @@ var jump_acceleration: float
 var jump_time: float
 var jump_current_time: float
 
-#const horiz_speed = 125
-#const horiz_acceleration = 10
-#
-#const spin_horiz_speed = 125
-#const spin_horiz_deceleration = 10
-
 var first_frame = false
-var spinning: bool = false
+var spinning: bool = false setget set_spinning
 var screwattacking: bool = false
 
-var ledge_above_raycast: RayCast2D
-var ledge_below_raycast: RayCast2D
+var grip_raycast_container: Node2D
+var grip_above_raycast: RayCast2D
+var grip_below_raycast: RayCast2D
 #var ledgeRaycastVert: RayCast2D
 #var ledgeRaycastHoriz: RayCast2D
 
@@ -67,11 +56,12 @@ func _init(_samus: Node2D):
 	
 #	ledgeRaycastVert = Animator.raycasts.get_node("jump/LedgeVert")
 #	ledgeRaycastHoriz = Animator.raycasts.get_node("jump/LedgeHoriz")
-	ledge_above_raycast = Animator.raycasts.get_node("jump/LedgeAbove")
-	ledge_below_raycast = Animator.raycasts.get_node("jump/LedgeBelow")
+	grip_raycast_container = Animator.raycasts.get_node("jump/PowerGrip")
+	grip_above_raycast = Animator.raycasts.get_node("jump/PowerGrip/Above")
+	grip_below_raycast = Animator.raycasts.get_node("jump/PowerGrip/Below")
 	walljump_raycasts = {
-		Enums.dir.LEFT: Animator.raycasts.get_node("jump/WalljumpLeft"),
-		Enums.dir.RIGHT: Animator.raycasts.get_node("jump/WalljumpRight")
+		Enums.dir.LEFT: Animator.raycasts.get_node("jump/WallJump/Left"),
+		Enums.dir.RIGHT: Animator.raycasts.get_node("jump/WallJump/Right")
 	}
 	WalljumpTimer = Global.start_timer("WalljumpPeriod", WalljumpPeriod, {}, null)
 	WalljumpTimer.stop()
@@ -91,11 +81,11 @@ func init_state(data: Dictionary):
 		PowergripCooldownTimer.start(powergrip_cooldown)
 	
 #	ledgeRaycastVert.enabled = true
-	ledge_above_raycast.enabled = true
-	ledge_below_raycast.enabled = true
+	grip_above_raycast.enabled = true
+	grip_below_raycast.enabled = true
 	set_walljump_raycasts_state(true)
 	
-	spinning = "spin" in options and Samus.aiming in [Samus.aim.FRONT, Samus.aim.NONE]
+	set_spinning("spin" in options and Samus.aiming in [Samus.aim.FRONT, Samus.aim.NONE])
 	
 	if "jump" in options:
 		if not spinning:
@@ -116,7 +106,7 @@ func process(_delta):
 	var fire_weapon = false
 	var original_spinning = spinning
 	
-	Samus.set_hurtbox_damage(damage_type, damage_amount if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning else null)
+	Samus.set_hurtbox_damage(damage_type, damage_amount if (Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning) else null)
 	
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
@@ -134,41 +124,41 @@ func process(_delta):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump") and Settings.get("controls/spin_from_jump"):
-		spinning = true
+		set_spinning(true)
 	elif Input.is_action_just_pressed("fire_weapon"):
 		fire_weapon = true
-		spinning = false
+		set_spinning(false)
 	
 	if Input.is_action_pressed("aim_weapon"):
 		if Input.is_action_just_pressed("pad_up"):
 			Samus.aiming = Samus.aim.UP
-			spinning = false
+			set_spinning(false)
 		elif Input.is_action_just_pressed("pad_down"):
-			spinning = false
+			set_spinning(false)
 			Samus.aiming = Samus.aim.DOWN
 		elif Samus.aiming == Samus.aim.FRONT:
 			Samus.aiming = Samus.aim.UP
-			spinning = false
+			set_spinning(false)
 	elif Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
 		if Input.is_action_pressed("pad_up"):
 			Samus.aiming = Samus.aim.UP
-			spinning = false
+			set_spinning(false)
 		elif Input.is_action_pressed("pad_down"):
 			Samus.aiming = Samus.aim.DOWN
-			spinning = false
+			set_spinning(false)
 		else:
 			Samus.aiming = Samus.aim.FRONT
 	else:
 		if Input.is_action_pressed("pad_up"):
 			Samus.aiming = Samus.aim.SKY
-			spinning = false
+			set_spinning(false)
 		elif Input.is_action_pressed("pad_down"):
 			if Samus.aiming == Samus.aim.FLOOR and Input.is_action_just_pressed("pad_down") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 				change_state("morphball", {"options": ["animate"]})
 				return
 			else:
 				Samus.aiming = Samus.aim.FLOOR
-				spinning = false
+				set_spinning(false)
 		elif (Samus.aiming != Samus.aim.SKY or Input.is_action_just_released("secondary_pad_up")) and (Samus.aiming != Samus.aim.FLOOR or Input.is_action_just_released("secondary_pad_down")):
 			Samus.aiming = Samus.aim.FRONT
 	
@@ -249,9 +239,10 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 		Samus.boosting = false
 #	ledgeRaycastVert.enabled = false
 #	ledgeRaycastHoriz.enabled = false
-	ledge_above_raycast.enabled = false
-	ledge_below_raycast.enabled = false
+	grip_above_raycast.enabled = false
+	grip_below_raycast.enabled = false
 	set_walljump_raycasts_state(false)
+	set_spinning(false)
 	Samus.set_hurtbox_damage(damage_type, null)
 	Samus.change_state(new_state_key, data)
 
@@ -262,33 +253,19 @@ func physics_process(delta: float):
 	if Samus.is_upgrade_active(Enums.Upgrade.POWERGRIP) and pad_x == (1 if Samus.facing == Enums.dir.RIGHT else -1):
 		
 		if Samus.facing == Enums.dir.LEFT:
-			ledge_above_raycast.rotation_degrees = 180
-			ledge_below_raycast.rotation_degrees = 180
-			ledge_above_raycast.position.x = 12
-			ledge_below_raycast.position.x = 12
-
-#			ledgeRaycastVert.rotation_degrees = 180
-#			ledgeRaycastHoriz.rotation_degrees = 180
-#			ledgeRaycastVert.get_child(0).rotation_degrees = 180
-#			ledgeRaycastVert.position.x = -7
-#			ledgeRaycastHoriz.position.x = 12
+			grip_above_raycast.rotation_degrees = 180
+			grip_below_raycast.rotation_degrees = 180
+			grip_raycast_container.position.x = 12
 		else:
-#			ledgeRaycastVert.rotation_degrees = 0
-#			ledgeRaycastHoriz.rotation_degrees = 0
-#			ledgeRaycastVert.get_child(0).rotation_degrees = 0
-#			ledgeRaycastVert.position.x = 17
-#			ledgeRaycastHoriz.position.x = -2
-
-			ledge_above_raycast.rotation_degrees = 0
-			ledge_below_raycast.rotation_degrees = 0
-			ledge_above_raycast.position.x = -2
-			ledge_below_raycast.position.x = -2
+			grip_above_raycast.rotation_degrees = 0
+			grip_below_raycast.rotation_degrees = 0
+			grip_raycast_container.position.x = -2
 		vOverlay.SET("ang", null)
 #		ledgeRaycastVert.force_raycast_update()
-		if PowergripCooldownTimer.time_left == 0 and ledge_below_raycast.is_colliding():
+		if PowergripCooldownTimer.time_left == 0 and grip_below_raycast.is_colliding():
 			var angle = 0
-			if ledge_above_raycast.is_colliding():
-				angle = abs(rad2deg(ledge_above_raycast.get_collision_normal().angle()) + 90)
+			if grip_above_raycast.is_colliding():
+				angle = abs(rad2deg(grip_above_raycast.get_collision_normal().angle()) + 90)
 			vOverlay.SET("ang", angle)
 			
 			if angle <= ledge_max_angle:
@@ -296,7 +273,7 @@ func physics_process(delta: float):
 #				ledgeRaycastHoriz.enabled = true
 #				ledgeRaycastHoriz.position.x = ledgeRaycastVert.get_collision_point().y + 0.1
 #				if ledgeRaycastHoriz.is_colliding():
-				change_state("powergrip", {"point": ledge_below_raycast.get_collision_point()})
+				change_state("powergrip", {"point": grip_below_raycast.get_collision_point()})
 #					ledgeRaycastHoriz.enabled = false
 #					return
 #				ledgeRaycastHoriz.enabled = false
@@ -326,7 +303,7 @@ func physics_process(delta: float):
 			elif walljump_raycasts[Enums.dir.LEFT].is_colliding() and Input.is_action_pressed("pad_left"):
 				jump_current_time = jump_time
 				sounds["walljump"].play()
-			elif Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP):
+			elif Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP) and Physics.vel.y > 0:
 				jump_current_time = jump_time
 		
 		if WalljumpTimer.time_left != 0:
@@ -356,7 +333,7 @@ func set_walljump_raycasts_state(enabled: bool):
 
 func chargebeam_fired():
 	if spinning:
-		spinning = false
+		set_spinning(false)
 		process(0)
 		Samus.Weapons.reset_fire_pos()
 
@@ -374,3 +351,15 @@ func save_value_set(path: Array, _value):
 	if len(path) != 4 or path[0] != "samus" or path[1] != "upgrades" or path[2] != Enums.Upgrade.HIGHJUMP:
 		return
 	set_jump_values()
+
+func set_spinning(value: bool):
+	
+	if spinning == value:
+		return
+	
+	spinning = value
+	Animator.SpriteContainer.current_profile = "spacejump" if spinning and Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP) else null
+	if Animator.SpriteContainer.current_profile == null:
+		Animator.SpriteContainer.clear_trail()
+	
+	grip_raycast_container.position.y = -1 if spinning else -14

@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=2]
+[gd_scene load_steps=107 format=2]
 
 [ext_resource path="res://scenes/Samus/weapons/Beam.gd" type="Script" id=1]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/beam/sBeamExpl_3.png" type="Texture" id=2]
@@ -13,7 +13,7 @@
 [ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam_1.png" type="Texture" id=11]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/ice_particles/FX.png" type="Texture" id=12]
 [ext_resource path="res://sprites/samus/weapons/beam/b/sBeam2_3.png" type="Texture" id=13]
-[ext_resource path="res://scenes/Samus/weapons/BeamProjectile.gd" type="Script" id=14]
+[ext_resource path="res://scenes/Samus/classes/KinematicProjectile.gd" type="Script" id=14]
 [ext_resource path="res://sprites/samus/weapons/beam/i/sIBeam_2.png" type="Texture" id=15]
 [ext_resource path="res://sprites/samus/weapons/beam/p/sPBeam_1.png" type="Texture" id=16]
 [ext_resource path="res://sprites/samus/weapons/beam/ps/sSPBeam_1.png" type="Texture" id=17]
@@ -97,13 +97,16 @@
 [ext_resource path="res://sprites/samus/weapons/beam/fx/beam/fire_0.png" type="Texture" id=95]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/ice/fire_0.png" type="Texture" id=96]
 
-[sub_resource type="CanvasItemMaterial" id=1]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 2.5, 5 )
+
+[sub_resource type="CanvasItemMaterial" id=2]
 particles_animation = true
 particles_anim_h_frames = 4
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="ParticlesMaterial" id=2]
+[sub_resource type="ParticlesMaterial" id=3]
 emission_shape = 2
 emission_box_extents = Vector3( 1, 1, 1 )
 flag_disable_z = true
@@ -115,23 +118,23 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 anim_speed = 1.0
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.995708, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.0343348, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=4]
-gradient = SubResource( 3 )
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
 
-[sub_resource type="ParticlesMaterial" id=5]
+[sub_resource type="ParticlesMaterial" id=6]
 flag_disable_z = true
 direction = Vector3( 0, 1, 0 )
 spread = 0.0
 gravity = Vector3( -100, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-color_ramp = SubResource( 4 )
+color_ramp = SubResource( 5 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
 "frames": [ ExtResource( 5 ) ],
 "loop": false,
@@ -214,7 +217,7 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="SpriteFrames" id=7]
+[sub_resource type="SpriteFrames" id=8]
 animations = [ {
 "frames": [ ExtResource( 38 ), ExtResource( 40 ), ExtResource( 39 ), ExtResource( 13 ) ],
 "loop": true,
@@ -297,44 +300,14 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 2.5, 5 )
 
-[sub_resource type="SpriteFrames" id=9]
+[sub_resource type="SpriteFrames" id=10]
 animations = [ {
 "frames": [ ExtResource( 96 ), ExtResource( 93 ), ExtResource( 93 ) ],
 "loop": false,
 "name": "ICEBEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 91 ), ExtResource( 92 ), ExtResource( 92 ) ],
-"loop": false,
-"name": "WAVEBEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 68 ), ExtResource( 9 ), ExtResource( 73 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 79 ), ExtResource( 65 ), ExtResource( 65 ) ],
-"loop": false,
-"name": "PLASMABEAM end",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 94 ), ExtResource( 90 ), ExtResource( 90 ) ],
-"loop": false,
-"name": "PLASMABEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 81 ), ExtResource( 70 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 80 ), ExtResource( 77 ), ExtResource( 78 ), ExtResource( 78 ) ],
-"loop": false,
-"name": "ICEBEAM end",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
-"loop": false,
-"name": "CHARGEBEAM start",
-"speed": 60.0
-}, {
-"frames": [ ExtResource( 74 ), ExtResource( 7 ), ExtResource( 72 ), ExtResource( 6 ), ExtResource( 67 ), ExtResource( 75 ), ExtResource( 66 ), ExtResource( 66 ) ],
-"loop": false,
-"name": "WAVEBEAM end",
 "speed": 60.0
 }, {
 "frames": [ ExtResource( 71 ), ExtResource( 69 ), ExtResource( 76 ), ExtResource( 2 ), ExtResource( 2 ) ],
@@ -347,6 +320,36 @@ animations = [ {
 "name": "POWERBEAM start",
 "speed": 60.0
 }, {
+"frames": [ ExtResource( 95 ), ExtResource( 89 ), ExtResource( 89 ) ],
+"loop": false,
+"name": "CHARGEBEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 94 ), ExtResource( 90 ), ExtResource( 90 ) ],
+"loop": false,
+"name": "PLASMABEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 91 ), ExtResource( 92 ), ExtResource( 92 ) ],
+"loop": false,
+"name": "WAVEBEAM start",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 68 ), ExtResource( 9 ), ExtResource( 73 ), ExtResource( 63 ), ExtResource( 64 ), ExtResource( 79 ), ExtResource( 65 ), ExtResource( 65 ) ],
+"loop": false,
+"name": "PLASMABEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 81 ), ExtResource( 70 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 80 ), ExtResource( 77 ), ExtResource( 78 ), ExtResource( 78 ) ],
+"loop": false,
+"name": "ICEBEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 74 ), ExtResource( 7 ), ExtResource( 72 ), ExtResource( 6 ), ExtResource( 67 ), ExtResource( 75 ), ExtResource( 66 ), ExtResource( 66 ) ],
+"loop": false,
+"name": "WAVEBEAM end",
+"speed": 60.0
+}, {
 "frames": [ ExtResource( 82 ), ExtResource( 85 ), ExtResource( 84 ), ExtResource( 88 ), ExtResource( 87 ), ExtResource( 86 ), ExtResource( 83 ), ExtResource( 83 ) ],
 "loop": false,
 "name": "CHARGEBEAM end",
@@ -357,25 +360,32 @@ animations = [ {
 script = ExtResource( 1 )
 id = 16
 damage_type = 1
-cooldown = 0.1
 is_base_weapon = true
 
 [node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
-collision_layer = 2
-collision_mask = 540676
+collision_mask = 524288
 script = ExtResource( 14 )
-base_velocity = 450.0
+
+[node name="CollisionArea" type="Area2D" parent="Projectile"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile/CollisionArea"]
+modulate = Color( 0.101961, 1, 0, 1 )
+position = Vector2( 0.5, -1.622 )
+rotation = -1.5708
+shape = SubResource( 1 )
 
 [node name="IceParticles" type="Particles2D" parent="Projectile"]
-material = SubResource( 1 )
+material = SubResource( 2 )
 position = Vector2( -0.395031, -0.499632 )
 emitting = false
 amount = 5
 lifetime = 0.35
 randomness = 0.5
 local_coords = false
-process_material = SubResource( 2 )
+process_material = SubResource( 3 )
 texture = ExtResource( 12 )
 
 [node name="Trail" type="Particles2D" parent="Projectile"]
@@ -386,32 +396,33 @@ emitting = false
 amount = 10
 lifetime = 0.5
 preprocess = 1.0
-process_material = SubResource( 5 )
+process_material = SubResource( 6 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectile"]
 visible = false
 position = Vector2( 0.111362, -0.111362 )
 rotation = -1.5708
-frames = SubResource( 6 )
+frames = SubResource( 7 )
 animation = "b"
 playing = true
 
 [node name="SpriteChargebeam" type="AnimatedSprite" parent="Projectile"]
 position = Vector2( 0.111362, -0.111362 )
 rotation = -1.5708
-frames = SubResource( 7 )
+frames = SubResource( 8 )
 animation = "s"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
+modulate = Color( 0.101961, 1, 0, 1 )
 position = Vector2( 0.5, -1.622 )
 rotation = -1.5708
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [node name="Burst" type="AnimatedSprite" parent="Projectile"]
 visible = false
 z_index = 999
 z_as_relative = false
-frames = SubResource( 9 )
+frames = SubResource( 10 )
 animation = "POWERBEAM start"
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Projectile"]

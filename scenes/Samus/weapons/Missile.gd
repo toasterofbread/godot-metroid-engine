@@ -1,7 +1,7 @@
 extends SamusWeapon
 
-func projectile_physics_process(projectile: SamusKinematicProjectile, collision: KinematicCollision2D, _delta: float):
-	if collision:
+func projectile_physics_process(projectile: SamusKinematicProjectile, colliders: Array, _delta: float):
+	if len(colliders) > 0:
 		projectile.moving = false
 		projectile.visible = false
 		if id == Enums.Upgrade.SUPERMISSILE:

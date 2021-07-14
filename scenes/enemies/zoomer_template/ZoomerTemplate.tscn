@@ -1,0 +1,99 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://scenes/enemies/zoomer_template/ZoomerTemplate.gd" type="Script" id=1]
+[ext_resource path="res://sprites/enemies/ice_zoomer/3.png" type="Texture" id=2]
+[ext_resource path="res://sprites/enemies/ice_zoomer/2.png" type="Texture" id=3]
+[ext_resource path="res://sprites/enemies/ice_zoomer/1.png" type="Texture" id=4]
+[ext_resource path="res://sprites/enemies/ice_zoomer/4.png" type="Texture" id=5]
+[ext_resource path="res://sprites/enemies/ice_zoomer/0.png" type="Texture" id=6]
+[ext_resource path="res://scenes/generic/explosion_emitter/ExplosionEmitter.tscn" type="PackedScene" id=7]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 7.5
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 1, 1 )
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 13.0384
+
+[node name="ZoomerTemplate" type="KinematicBody2D"]
+collision_layer = 4
+collision_mask = 524290
+script = ExtResource( 1 )
+id = "zoomer_template"
+direction = 1
+speed = 15.0
+visual_path = NodePath("AnimatedSprite")
+
+[node name="Dummy" type="KinematicBody2D" parent="."]
+collision_layer = 0
+collision_mask = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dummy"]
+position = Vector2( 1, 5 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 0.890196, 0.890196, 0.890196, 1 )
+position = Vector2( 1.33333, 4 )
+frames = SubResource( 2 )
+frame = 4
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 1, 5 )
+shape = SubResource( 1 )
+
+[node name="Raycasts" type="Node2D" parent="."]
+position = Vector2( 1, 5 )
+
+[node name="FloorL" type="RayCast2D" parent="Raycasts"]
+position = Vector2( -1, 9 )
+enabled = true
+cast_to = Vector2( -10, 0 )
+collision_mask = 524288
+
+[node name="FloorR" type="RayCast2D" parent="Raycasts"]
+position = Vector2( 1, 9 )
+enabled = true
+cast_to = Vector2( 10, 0 )
+collision_mask = 524288
+
+[node name="FloorD" type="RayCast2D" parent="Raycasts"]
+position = Vector2( 0, 7 )
+enabled = true
+cast_to = Vector2( 0, 2 )
+collision_mask = 524288
+
+[node name="ExplosionEmitter" parent="." instance=ExtResource( 7 )]
+position = Vector2( -9, -5 )
+type_weights = {
+"1": 1,
+"big_1": 0,
+"big_2": 0,
+"smoke_1": 1,
+"smoke_2": 1
+}
+
+[node name="EmissionArea" parent="ExplosionEmitter" index="0"]
+shape = SubResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( 1, 5 )
+shape = SubResource( 4 )
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+
+[editable path="ExplosionEmitter"]

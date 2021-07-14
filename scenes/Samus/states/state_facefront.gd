@@ -1,11 +1,13 @@
 extends Node
 
+const id = "facefront"
+
 var Samus: Node2D
 var Animator: Node
 var Physics: Node
 
-const id = "facefront"
-
+var face_back: = false setget set_face_back
+var prefix: = "back_"
 var animations = {}
 
 # Called during Samus's readying period
@@ -17,15 +19,24 @@ func _init(_samus: Node2D):
 	animations = Animator.load_from_json(self.id)
 
 # Called when Samus's state is changed to this one
-func init_state(_data: Dictionary):
+func init_state(data: Dictionary = {}):
 	Samus.aiming = Samus.aim.NONE
-	animations["turn"].play()
+	
+	if "face_back" in data:
+		set_face_back(data["face_back"])
+	
+	animations[prefix + "turn"].play()
+	
 
 func paused_process(delta):
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(false)
 	if not Animator.transitioning(false, true):
-		animations["idle"].play()
+		animations[prefix + "idle"].play()
+
+func set_face_back(value: bool):
+	face_back = value
+	prefix = "back_" if face_back else "front_"
 
 # Called every frame while this state is active
 func process(_delta):
@@ -33,19 +44,19 @@ func process(_delta):
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(false)
 	
-	if Input.is_action_just_pressed("pad_left"):
+	if Input.is_action_pressed("pad_left"):
 		Samus.facing = Enums.dir.LEFT
-		animations["turn"].play()
+		animations[prefix + "turn"].play()
 		change_state("neutral")
 		return
-	elif Input.is_action_just_pressed("pad_right"):
+	elif Input.is_action_pressed("pad_right"):
 		Samus.facing = Enums.dir.RIGHT
-		animations["turn"].play()
+		animations[prefix + "turn"].play()
 		change_state("neutral")
 		return
 	
 	if not Animator.transitioning(false, true):
-		animations["idle"].play()
+		animations[prefix + "idle"].play()
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):

@@ -11,7 +11,7 @@ onready var ChargebeamStartBurst: AnimatedSprite = get_parent().get_node("Animat
 onready var ChargeBeamGravityArea: Area2D = get_parent().get_node("Animator/ChargebeamStartBurst/Area2D")
 onready var CannonPositionAnchor: Node2D = $CannonPositionAnchor
 
-const charge_times = {1.5: 2.0, 1.0: 1.0, 0.5: 1.0}
+onready var charge_times: Dictionary = Data.data["damage_values"]["samus"]["weapons"]["chargebeam"]["charge_times"]
 var reversed_charge_times
 var charge_time_current: float = 0.0
 var weapon_fired: = false
@@ -56,6 +56,9 @@ var equipped_visors = []
 
 
 func _ready():
+	for key in charge_times.keys().duplicate():
+		charge_times[float(key)] = charge_times[key]
+		charge_times.erase(key)
 	reversed_charge_times = charge_times.keys().duplicate()
 	reversed_charge_times.invert()
 	
@@ -95,13 +98,14 @@ func _process(delta: float):
 		reset_weapon_selection(morphball, aiming_style)
 	elif Input.is_action_just_pressed("select_weapon"):
 		if not current_weapon:
-			current_weapon = added_weapons[morphball][0]
-		elif current_weapon.index + 1 == len(added_weapons[morphball]):
+			if len(added_weapons[morphball]) > 0:
+				current_weapon = added_weapons[morphball][0]
+		elif current_weapon.index + 1 >= len(added_weapons[morphball]):
 			reset_weapon_selection(morphball, aiming_style)
 		else:
 			current_weapon = added_weapons[morphball][current_weapon.index + 1]
 	elif morphball_changed:
-		current_weapon = added_weapons[morphball][0]
+		current_weapon = added_weapons[morphball][0] if len(added_weapons[morphball]) > 0 else null
 	else:
 		return
 	update_weapon_icons()
@@ -121,7 +125,7 @@ func process_chargebeam(delta: float):
 	
 	if charge_time_current >= charge_times.keys()[len(charge_times) - 1]:
 		ChargebeamAnimationPlayer.play("charge")
-	else:
+	elif ChargebeamAnimationPlayer.current_animation == "charge":
 		ChargebeamAnimationPlayer.play("reset")
 	
 	var fire = true
