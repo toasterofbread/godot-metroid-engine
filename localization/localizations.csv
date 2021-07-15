@@ -1,2 +1,6 @@
-keys,en_US
-KEY,
+keys,en,ja
+VALIDITY_TEST,en,ja
+mapstation_notification_start,Downloading area map data...,aaa
+mapstation_notification_end,Download completed,bbb
+settings_save_successful,Changes saved,ccc
+settings_save_nochanges,No changes made,ddd

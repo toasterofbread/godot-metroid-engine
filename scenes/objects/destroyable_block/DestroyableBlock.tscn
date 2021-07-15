@@ -66,6 +66,7 @@ pause_animated_sprites = false
 [node name="ScanNode" parent="." instance=ExtResource( 3 )]
 visible = false
 position = Vector2( 8, 8 )
+material_nodes = [ NodePath("../AnimatedSprite") ]
 
 [connection signal="body_entered" from="CrumbleArea" to="." method="_on_CrumbleArea_body_entered"]
 [connection signal="timeout" from="ReappearTimer" to="." method="reappear"]

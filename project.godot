@@ -15,11 +15,6 @@ _global_script_classes=[ {
 "path": "res://scenes/objects/ammo_pickup/AmmoPickup.gd"
 }, {
 "base": "Node2D",
-"class": "BaseNotification",
-"language": "GDScript",
-"path": "res://scenes/ui/notifications/BaseNotification.gd"
-}, {
-"base": "Node2D",
 "class": "ButtonPrompt",
 "language": "GDScript",
 "path": "res://scenes/ui/button_prompt/ButtonPrompt.gd"
@@ -191,7 +186,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "AmmoPickup": "",
-"BaseNotification": "",
 "ButtonPrompt": "",
 "CameraChunk": "",
 "DestroyableBlock": "",
@@ -244,8 +238,8 @@ driver=""
 [autoload]
 
 vOverlay="*res://addons/Var_Overlay/overlay.gd"
+Notification="*res://scenes/ui/notification_display/NotificationDisplay.tscn"
 Settings="*res://classes/singletons/Settings.gd"
-Notification="*res://classes/singletons/Notification/Notification.tscn"
 Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
 Data="*res://classes/singletons/Data.gd"
@@ -592,8 +586,8 @@ pointing/emulate_touch_from_mouse=true
 
 [locale]
 
-translations=PoolStringArray( "res://localization/localizations.en_US.translation" )
-locale_filter=[ 0, [  ] ]
+translations=PoolStringArray( "res://localization/localizations.en.translation", "res://localization/localizations.ja.translation" )
+locale_filter=[ 1, [ "en", "ja" ] ]
 
 [physics]
 

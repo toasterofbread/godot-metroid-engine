@@ -28,13 +28,11 @@ pause_mode = 1
 position = Vector2( 8, 8 )
 frames = ExtResource( 1 )
 animation = "missile"
-frame = 2
 playing = true
 
 [node name="ScanNode" parent="." instance=ExtResource( 3 )]
 position = Vector2( 8, 8 )
-length = 2
-dynamic_data_key = true
+material_nodes = [ NodePath("../AnimatedSprite") ]
 
 [node name="CollisionShape2D" parent="ScanNode" index="0"]
 shape = SubResource( 2 )

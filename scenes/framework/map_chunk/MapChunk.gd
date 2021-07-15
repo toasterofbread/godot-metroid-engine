@@ -77,10 +77,7 @@ func generate_tile_data():
 	
 	Global.save_json(Map.tile_data_path, data, false)
 
-func set_upgrade_icon(pickup: Area2D):
+func set_upgrade_icon(value: bool):
 	if tile == null:
 		yield(self, "tile_set")
-	if pickup.acquired:
-		tile.icon = tile.icons.obtained_item
-	else:
-		tile.icon = tile.icons.unobtained_item
+	tile.icon = tile.icons.unobtained_item if value else tile.icons.obtained_item

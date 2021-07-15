@@ -34,17 +34,14 @@ func check_for_scannodes():
 
 func start_scan(node: ScanNode):
 	$ProgressTween.stop_all()
-	$ProgressTween.interpolate_property(IconProgressIndicator, "rect_size:y", IconProgressIndicator.rect_size.y, 8, node.scan_duration)
+	$ProgressTween.interpolate_property(IconProgressIndicator, "rect_size:y", IconProgressIndicator.rect_size.y, 8, node.get_length())
 	$ProgressTween.start()
 	current_scanNode = node
-	node.start_scan()
-	yield($ProgressTween, "tween_completed")
+	yield(node.start_scan(), "completed")
 	if current_scanNode != node:
 		return
-	node.set_enabled(false)
-	node.save()
+	node.scanned()
 	display_info(node.data_key)
-	node.end_scan()
 	entered_scanNodes.erase(node)
 	if len(entered_scanNodes) >= 1:
 		start_scan(entered_scanNodes[0])
@@ -60,7 +57,7 @@ func end_scan():
 func _on_Area2D_area_entered(area):
 	if Weapons.current_visor != self or not area is ScanNode or area in entered_scanNodes:
 		return
-	if not area.enabled or area.data_key in Loader.Save.get_data_key(["logbook", "recorded_entries"]):
+	if not area.can_be_scanned():
 		return
 	
 	entered_scanNodes.append(area)
@@ -70,14 +67,14 @@ func _on_Area2D_area_entered(area):
 func set_pulse():
 	Icon.get_node("AnimationPlayer").play("reset")
 	for scanNode in Loader.current_room.scanNodes:
-		if scanNode.enabled:
+		if not scanNode.scanned:
 			Icon.get_node("AnimationPlayer").play("pulse")
 			break
 
 func display_info(data_key: String):
 	
 	get_tree().paused = true
-	$BottomPopup.trigger("RECORDED TO LOGBOOK", 0.5, 2.0)
+#	Notification.types["text"].instance().init("Recorded to logbook", Notification.lengths["normal"])
 	
 	$ScanInfo/Info/Panel/Title.text = logbook_data[data_key]["name"]
 	$ScanInfo/Info/Panel/Profile.text = logbook_data[data_key]["profile"]

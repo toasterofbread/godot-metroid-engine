@@ -932,7 +932,7 @@ tracks/18/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=6]
 resource_name = "fade_out"
 length = 0.25
 step = 0.05
@@ -961,8 +961,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "logbook_to_equipment"
+[sub_resource type="Animation" id=7]
 length = 0.5
 step = 0.01
 tracks/0/type = "value"
@@ -1204,7 +1203,7 @@ tracks/18/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=8]
 resource_name = "mapreveal"
 tracks/0/type = "value"
 tracks/0/path = NodePath("CanvasLayer/MapRevealContainer:rect_size")
@@ -1243,7 +1242,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=9]
 length = 0.5
 step = 0.01
 tracks/0/type = "value"
@@ -1471,7 +1470,7 @@ tracks/17/keys = {
 "values": [ Color( 0, 0, 0, 0.764706 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=10]
 step = 0.01
 tracks/0/type = "value"
 tracks/0/path = NodePath("CanvasLayer/MapGridPosition:color")
@@ -1704,7 +1703,7 @@ tracks/18/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=11]
 length = 0.5
 step = 0.01
 tracks/0/type = "value"
@@ -1846,7 +1845,7 @@ tracks/10/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=12]
 length = 0.69
 step = 0.01
 tracks/0/type = "value"
@@ -1926,7 +1925,7 @@ tracks/5/keys = {
 "values": [ Vector2( 922.353, -121.765 ), Vector2( 1449.41, -121.765 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=13]
 resource_name = "reset"
 length = 0.1
 tracks/0/type = "value"
@@ -2386,7 +2385,7 @@ tracks/35/keys = {
 "values": [ Vector2( 0, 896 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=14]
 length = 0.69
 step = 0.01
 tracks/0/type = "value"
@@ -2490,11 +2489,11 @@ tracks/7/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Gradient" id=16]
+[sub_resource type="Gradient" id=15]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=17]
-gradient = SubResource( 16 )
+[sub_resource type="GradientTexture" id=16]
+gradient = SubResource( 15 )
 
 [node name="PauseMenu" type="Control"]
 pause_mode = 2
@@ -2515,15 +2514,15 @@ anims/close_logbook = SubResource( 2 )
 anims/close_menu = SubResource( 3 )
 anims/close_settings = SubResource( 4 )
 anims/equipment_to_logbook = SubResource( 5 )
-anims/fade_out = SubResource( 13 )
-anims/logbook_to_equipment = SubResource( 6 )
-anims/mapreveal = SubResource( 14 )
-anims/open_equipment = SubResource( 7 )
-anims/open_menu = SubResource( 8 )
-anims/open_settings = SubResource( 9 )
-anims/options_to_settings = SubResource( 10 )
-anims/reset = SubResource( 15 )
-anims/settings_to_options = SubResource( 12 )
+anims/fade_out = SubResource( 6 )
+anims/logbook_to_equipment = SubResource( 7 )
+anims/mapreveal = SubResource( 8 )
+anims/open_equipment = SubResource( 9 )
+anims/open_menu = SubResource( 10 )
+anims/open_settings = SubResource( 11 )
+anims/options_to_settings = SubResource( 12 )
+anims/reset = SubResource( 13 )
+anims/settings_to_options = SubResource( 14 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 5
@@ -2558,7 +2557,7 @@ color = Color( 1, 1, 1, 0 )
 visible = false
 position = Vector2( 1920, 7.62939e-06 )
 scale = Vector2( 0.0234376, 897 )
-texture = SubResource( 17 )
+texture = SubResource( 16 )
 centered = false
 flip_h = true
 

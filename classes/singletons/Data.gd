@@ -3,19 +3,18 @@ extends Node
 const data_path = "res://data/"
 const logbook_images_path = "res://sprites/ui/map/logbook_images/"
 
-var language: Dictionary
+var language_code: String
 var cdb_text_database: Dictionary
 var data: Dictionary
 
 func _ready():
 	
-	var settings_information = Global.load_json(data_path + "static/settings_information.json")
-	var language_information = Global.load_json(data_path + "static/language_information.json")
-	language = language_information[settings_information["other"]["language"]["type"][Settings.get("other/language")]]
-	
-	cdb_text_database = Global.load_json(data_path + "localisable/" + language["code"] + ".cdb")
+	language_code = Settings.get("other/language")
+	Settings.connect("settings_changed", self, "settings_changed")
+	update_language()
 	
 	# Format settings data
+	var settings_information = Global.load_json(data_path + "static/settings_information.json")
 	var settings_text_information = get_cdb_sheet("settings_information")
 	for group in settings_text_information:
 		settings_text_information[group]["options"] = format_cdb_dict(settings_text_information[group]["options"])
@@ -39,7 +38,6 @@ func _ready():
 		"mini_upgrades": mini_upgrades_data,
 		"damage_values": Global.load_json(data_path + "static/damage_values.json"),
 		"settings_information": settings_text_information,
-		"language_information": language_information,
 	}
 
 func get_cdb_sheet(sheet_key: String):
@@ -75,3 +73,13 @@ func format_cdb_dict(dict: Array) -> Dictionary:
 		ret[line["key"]] = line
 		ret[line["key"]].erase("key")
 	return ret
+
+func update_language():
+	TranslationServer.set_locale(language_code)
+	TranslationServer.translate("VALIDITY_TEST")
+	cdb_text_database = Global.load_json(data_path + "localisable/" + language_code + ".cdb")
+
+func settings_changed(path: String, value):
+	if path == "other/language":
+		language_code = value
+		update_language()

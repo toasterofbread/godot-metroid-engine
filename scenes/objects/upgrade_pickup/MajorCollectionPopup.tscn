@@ -284,7 +284,3 @@ anims/hide = SubResource( 3 )
 anims/show = SubResource( 4 )
 
 [node name="Tween" type="Tween" parent="."]
-
-[node name="Timer" type="Timer" parent="."]
-pause_mode = 2
-one_shot = true
