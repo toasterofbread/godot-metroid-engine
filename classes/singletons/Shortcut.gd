@@ -1,5 +1,7 @@
 extends Node
 
+# TODO | Rename script to something like 'InputHandler'
+
 var using_keyboard: bool = false
 
 signal keyboard_mode_changed

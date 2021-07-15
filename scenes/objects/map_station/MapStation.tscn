@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
+[ext_resource path="res://sprites/objects/map_station/flash_1.png" type="Texture" id=1]
 [ext_resource path="res://sprites/objects/map_station/extend_1.png" type="Texture" id=2]
-[ext_resource path="res://sprites/objects/map_station/base.png" type="Texture" id=3]
+[ext_resource path="res://sprites/objects/map_station/off.png" type="Texture" id=3]
 [ext_resource path="res://sprites/objects/map_station/extend_3.png" type="Texture" id=4]
 [ext_resource path="res://sprites/objects/map_station/extend_2.png" type="Texture" id=5]
 [ext_resource path="res://sprites/objects/map_station/extend_0.png" type="Texture" id=6]
@@ -16,28 +17,32 @@
 [ext_resource path="res://sprites/samus/other/sSaveSparks_4.png" type="Texture" id=15]
 [ext_resource path="res://sprites/samus/other/sSaveSparks_2.png" type="Texture" id=16]
 [ext_resource path="res://sprites/samus/other/sSaveSparks_1.png" type="Texture" id=17]
+[ext_resource path="res://sprites/objects/map_station/flash_2.png" type="Texture" id=18]
+[ext_resource path="res://sprites/objects/map_station/flash_0.png" type="Texture" id=19]
+[ext_resource path="res://sprites/objects/map_station/flash_3.png" type="Texture" id=20]
+[ext_resource path="res://scenes/Samus/visors/scan/ScanNode.tscn" type="PackedScene" id=21]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 3 ) ],
 "loop": false,
-"name": "retract",
-"speed": 15.0
+"name": "off",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 19 ), ExtResource( 1 ), ExtResource( 18 ), ExtResource( 20 ) ],
+"loop": true,
+"name": "flash",
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 6 ), ExtResource( 2 ), ExtResource( 5 ), ExtResource( 4 ) ],
 "loop": false,
 "name": "extend",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 6 ) ],
+"frames": [ ExtResource( 4 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 6 ) ],
 "loop": false,
-"name": "retracted",
-"speed": 1.0
-}, {
-"frames": [ ExtResource( 4 ) ],
-"loop": false,
-"name": "extended",
-"speed": 1.0
+"name": "retract",
+"speed": 15.0
 } ]
 
 [sub_resource type="SpriteFrames" id=2]
@@ -59,28 +64,29 @@ animations = [ {
 "speed": 30.0
 } ]
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 50, 54 )
+
 [node name="MapStation" type="Node2D"]
 script = ExtResource( 7 )
 
 [node name="Console" type="AnimatedSprite" parent="."]
-position = Vector2( 0, -3 )
+position = Vector2( -3, -1 )
 frames = SubResource( 1 )
-animation = "extend"
-frame = 3
+animation = "flash"
+frame = 2
 playing = true
 
-[node name="Screen" type="AnimatedSprite" parent="."]
-position = Vector2( 6, -14 )
+[node name="ScreenOverlay" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 6, -15 )
 frames = SubResource( 2 )
+frame = 2
 playing = true
 
-[node name="Tween" type="Tween" parent="Screen"]
+[node name="Tween" type="Tween" parent="ScreenOverlay"]
 
 [node name="Tween" type="Tween" parent="."]
-
-[node name="Base" type="Sprite" parent="."]
-position = Vector2( -5, 21 )
-texture = ExtResource( 3 )
 
 [node name="TriggerArea" type="Area2D" parent="."]
 visible = false
@@ -106,4 +112,14 @@ frame = 3
 playing = true
 
 [node name="SpritePosition" type="Position2D" parent="."]
-position = Vector2( 32, 0 )
+position = Vector2( 32, 9.489 )
+
+[node name="ScanNode" parent="." instance=ExtResource( 21 )]
+data_key = "MISSILE"
+material_nodes = [ NodePath("../Console") ]
+
+[node name="CollisionShape2D" parent="ScanNode" index="0"]
+position = Vector2( -8, -2 )
+shape = SubResource( 5 )
+
+[editable path="ScanNode"]

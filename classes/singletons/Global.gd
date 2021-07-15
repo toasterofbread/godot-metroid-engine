@@ -259,23 +259,23 @@ func axis2dir(axis_value, x_axis: bool = true):
 #		Enums.dir.BOTRIGHT: return 135
 #		_: return 0
 
-func text_fade_in(label, time: float):
-	var tween: Tween = Tween.new()
-	self.add_child(tween)
-	label.visible = true
-	tween.interpolate_property(label, "percent_visible", 0, 1, time)
-	tween.start()
-	yield(wait(time), "completed")
-	tween.queue_free()
-	
-func text_fade_out(label, time: float):
-	var tween: Tween = Tween.new()
-	self.add_child(tween)
-	tween.interpolate_property(label, "percent_visible", label.percent_visible, 0, time)
-	tween.start()
-	yield(wait(time), "completed")
-	tween.queue_free()
-	label.visible = false
+#func text_fade_in(label, time: float):
+#	var tween: Tween = Tween.new()
+#	self.add_child(tween)
+#	label.visible = true
+#	tween.interpolate_property(label, "percent_visible", 0, 1, time)
+#	tween.start()
+#	yield(wait(time), "completed")
+#	tween.queue_free()
+#
+#func text_fade_out(label, time: float):
+#	var tween: Tween = Tween.new()
+#	self.add_child(tween)
+#	tween.interpolate_property(label, "percent_visible", label.percent_visible, 0, time)
+#	tween.start()
+#	yield(wait(time), "completed")
+#	tween.queue_free()
+#	label.visible = false
 
 func dim_screen(duration: float, percent_opacity:=1.0, z_index:=0):
 	var tween: Tween = Tween.new()

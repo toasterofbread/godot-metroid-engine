@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/turn_2.png-48bbb0aa955a203f9f25ad44799157ef.stex"
+path="res://.import/flash_1.png-ecbf636a14114a33f360d8f93208fafb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/objects/map_station/turn_2.png"
-dest_files=[ "res://.import/turn_2.png-48bbb0aa955a203f9f25ad44799157ef.stex" ]
+source_file="res://sprites/objects/map_station/flash_1.png"
+dest_files=[ "res://.import/flash_1.png-ecbf636a14114a33f360d8f93208fafb.stex" ]
 
 [params]
 

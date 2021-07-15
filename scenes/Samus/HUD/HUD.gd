@@ -7,7 +7,6 @@ onready var Modulate: CanvasModulate = $CanvasLayer/CanvasModulate
 
 var current_visor = null
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	$DeathScreen/AnimationPlayer.play("reset")
 	Modulate.color = Color.white
@@ -15,6 +14,8 @@ func _ready():
 	Map.Grid = $CanvasLayer/MapGrid
 	rows.invert()
 	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
+
+	Notification.set_preset("SamusHUD", false)
 
 func add_weapon(weapon_icon: SamusHUDIcon):
 	$CanvasLayer/TopBar/WeaponIcons.add_child(weapon_icon)

@@ -8,43 +8,31 @@ export var hidden: = false setget set_hidden
 
 var unique_id: int
 var save_path_acquired: Array
-var acquired = false setget set_acquired
+var acquired = false
 var gain_amount: int
 var mapChunk: MapChunk
-
 
 func set_upgrade_type(value: int):
 	$AnimatedSprite.play(Enums.Upgrade.keys()[value].to_lower())
 	upgrade_type = value
 
-func set_acquired(value):
-	if Engine.editor_hint:
-		return
-	if value == null:
-		value = false
-	
-	if acquired:
-		queue_free()
-	
-	$ScanNode.enabled = !value
-	$CollisionShape2D.set_deferred("disabled", value)
-	acquired = value
-	
-	if mapChunk:
-		mapChunk.set_upgrade_icon(self)
-	Loader.Save.set_data_key(save_path_acquired, value)
+func acquire():
+	mapChunk.set_upgrade_icon(false)
+	Loader.Save.set_data_key(save_path_acquired, true)
+	queue_free()
 
 func _ready():
 	
 	if Engine.editor_hint:
 		return
 	
-	$ScanNode.data_key = Enums.Upgrade.keys()[upgrade_type]
-	
 	if Loader.current_room == null:
 		yield(Loader, "room_loaded")
-	
 	save_path_acquired = ["rooms", Loader.current_room.id, "UpgradePickups", str(unique_id)]
+	if Loader.Save.get_data_key(save_path_acquired):
+		queue_free()
+	
+	$ScanNode.data_key = Enums.Upgrade.keys()[upgrade_type]
 	$AnimatedSprite.play(Enums.Upgrade.keys()[upgrade_type].to_lower())
 	
 	if upgrade_type in Enums.upgrade_gain_amounts:
@@ -53,7 +41,6 @@ func _ready():
 		gain_amount = 1
 	
 	set_hidden(hidden)
-	set_acquired(Loader.Save.get_data_key(save_path_acquired))
 
 func _on_UpgradePickup_body_entered(body):
 	if hidden or body != Loader.Samus:
@@ -71,14 +58,14 @@ func _on_UpgradePickup_body_entered(body):
 			else:
 				Samus.Weapons.add_weapon(upgrade_type)
 	
-	set_acquired(true)
 	
-	$CollectionPopup.trigger(upgrade_type, gain_amount, current_amount+gain_amount)
+	yield($CollectionPopup.trigger(upgrade_type, gain_amount, current_amount+gain_amount), "completed")
+	acquire()
 
 func _on_UpgradePickup_area_entered(area):
 	if mapChunk == null and area.get_child_count() == 1 and area.get_child(0) is MapChunk:
 		mapChunk = area.get_child(0)
-		mapChunk.set_upgrade_icon(self)
+		mapChunk.set_upgrade_icon(true)
 
 func set_hidden(value: bool):
 	hidden = value

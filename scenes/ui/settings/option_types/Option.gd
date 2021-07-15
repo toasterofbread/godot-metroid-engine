@@ -6,7 +6,7 @@ var path: Array
 var current_value
 var type: int
 enum TYPES {
-	ENUM, BOOL, INT, PERCENTAGE
+	ENUM, BOOL, INT, PERCENTAGE, DICT
 }
 
 func compare_arrays(arrayA: Array, arrayB: Array) -> bool:
@@ -36,6 +36,8 @@ func init(_data: Dictionary, _path: Array):
 				type = TYPES.INT
 		else:
 			type = TYPES.ENUM 
+	elif option_data["type"] is Dictionary:
+		type = TYPES.DICT
 	elif option_data["default"] is bool:
 		type = TYPES.BOOL
 	
@@ -70,12 +72,14 @@ func set_value_label():
 		TYPES.BOOL: $Value.text = "On" if current_value else "Off"
 		TYPES.INT: $Value.text = str(round(current_value))
 		TYPES.PERCENTAGE: $Value.text = str(round(current_value)) + "%"
+		TYPES.DICT: $Value.text = option_data["type"].keys()[option_data["type"].values().find(current_value)]
 		_: $Value.text = str(current_value)
 
 func process():
 	match type:
 		TYPES.ENUM: process_enum()
 		TYPES.BOOL: process_bool()
+		TYPES.DICT: process_dict()
 		TYPES.INT, TYPES.PERCENTAGE: process_int()
 
 func process_enum():
@@ -91,6 +95,17 @@ func process_enum():
 func process_bool():
 	if Input.is_action_just_pressed("ui_accept") or Shortcut.get_pad_vector("just_pressed").x != 0:
 		current_value = !current_value
+		set_value_label()
+
+func process_dict():
+	var pad_x: int = Shortcut.get_pad_vector("just_pressed").x
+	if pad_x != 0:
+		var i = option_data["type"].values().find(current_value) + pad_x
+		if i < 0:
+			i = len(option_data["type"] - 1)
+		elif i >= len(option_data["type"]):
+			i = 0
+		current_value = option_data["type"].values()[i]
 		set_value_label()
 
 func process_int():

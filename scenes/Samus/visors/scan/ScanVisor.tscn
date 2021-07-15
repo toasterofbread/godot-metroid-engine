@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scenes/Samus/classes/HUDIcon.gd" type="Script" id=1]
 [ext_resource path="res://sprites/ui/mainhud/visor/icons/scan_2.png" type="Texture" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://fonts/Pixeled.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://sprites/ui/map/logbook_images/block_grapple.png" type="Texture" id=9]
 [ext_resource path="res://scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scenes/ui/notifications/BottomPopup/BottomPopup.tscn" type="PackedScene" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -524,5 +523,3 @@ range_layer_min = -512
 __meta__ = {
 "_edit_lock_": true
 }
-
-[node name="BottomPopup" parent="." instance=ExtResource( 11 )]

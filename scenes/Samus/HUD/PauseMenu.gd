@@ -1,5 +1,7 @@
 extends Control
 
+signal map_reveal_completed
+
 onready var Samus: KinematicBody2D = Loader.Samus
 
 const menu_open_duration: float = 0.45
@@ -69,12 +71,11 @@ func resume():
 	get_tree().paused = false
 	Samus.paused = false
 	mode = MODES.CLOSED
+	emit_signal("menu_closed")
 	
 	$AnimationPlayer.play("reset")
 	yield($AnimationPlayer, "animation_finished")
 	transitioning = false
-	
-	emit_signal("menu_closed")
 
 func reset_minimap():
 	mapGrid.modulate.a = 0
@@ -294,4 +295,5 @@ func map_station_activated(area_index: int):
 	Map.current_chunk.tile.flash = true
 	mode = MODES.MAP
 	
+	emit_signal("map_reveal_completed")
 	yield(self, "menu_closed")

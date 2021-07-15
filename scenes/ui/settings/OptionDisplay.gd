@@ -82,9 +82,11 @@ func save():
 	
 	if new_value:
 		Settings.save_file()
-		$BottomPopup.trigger("CHANGES SAVED", 0.25, 1.0)
+		Notification.types["text"].instance().init(tr("settings_save_successful"), Notification.lengths["short"])
+#		$BottomPopup.trigger("CHANGES SAVED", 0.25, 1.0)
 	else:
-		$BottomPopup.trigger("NO CHANGES MADE", 0.25, 1.0)
+		Notification.types["text"].instance().init(tr("settings_save_nochanges"), Notification.lengths["short"])
+#		$BottomPopup.trigger("NO CHANGES MADE", 0.25, 1.0)
 
 func reset():
 	for node in $Categories.get_children():

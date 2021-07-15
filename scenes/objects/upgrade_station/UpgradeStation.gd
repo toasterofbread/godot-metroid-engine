@@ -60,7 +60,8 @@ func _process(delta):
 		else:
 			emit_signal("hide_prompt")
 			if samus_entered and not Samus.paused and Samus.Physics.vel.x == 0 and Samus.is_on_floor() and Samus.current_state.id in ["neutral", "crouch"]:
-				prompt = $ButtonPopup.trigger("ui_accept", "Access upgrade station", 0.25, [self, "hide_prompt"])
+#				prompt = $ButtonPopup.trigger("ui_accept", "Access upgrade station", 0.25, [self, "hide_prompt"])
+				prompt = Notification.types["buttonprompt"].instance().init("Access upgrade station", "ui_accept", [self, "hide_prompt"])
 
 func process_menu():
 	

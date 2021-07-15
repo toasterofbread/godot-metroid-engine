@@ -13,7 +13,7 @@
 		"visor_combo": {"type": null, "default": true}
 	},
 	"other": {
-		"language": {"type": ["English", "日本語"], "default": 0},
+		"language": {"type": {"English": "en", "日本語": "ja"}, "default": 0},
 		"joypad_button_icon_style": {"type": ["PlayStation", "Xbox", "Nintendo"], "default": 0},
 		"physics_mode": {"type": ["Default", "Super Metroid style"], "default": 0}
 	}

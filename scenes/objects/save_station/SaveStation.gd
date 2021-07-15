@@ -56,6 +56,8 @@ func _process(delta):
 			ghost.queue_free()
 			Samus.paused = false
 			saved = true
+			
+			Notification.types["text"].instance().init("Game saved", Notification.lengths["short"])
 		elif not Samus.current_state.id in ["neutral", "crouch", "run"]:
 			emit_signal("hide_save_prompt")
 			save_prompt = null
@@ -63,5 +65,5 @@ func _process(delta):
 		emit_signal("hide_save_prompt")
 		if not Samus.paused and $AnimatedSprite.animation == "down" and Samus in $SaveArea.get_overlapping_bodies():
 			if Samus.Physics.vel.x == 0 and Samus.is_on_floor() and Samus.current_state.id in ["neutral", "crouch"]:
-				save_prompt = $ButtonPopup.trigger("ui_accept", "Save progress", 0.25, [self, "hide_save_prompt"])
-
+#				save_prompt = $ButtonPopup.trigger("ui_accept", "Save progress", 0.25, [self, "hide_save_prompt"])
+				save_prompt = Notification.types["buttonprompt"].instance().init("Save progress", "ui_accept", [self, "hide_save_prompt"])
