@@ -23,8 +23,7 @@ func set_type(value: int):
 	type = value
 
 func remove_overlay():
-	for connection in on_shot_connections:
-		get_node(connection[0]).callv(connection[1], connection[2])
+	Global.call_connection_array(self, on_shot_connections)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

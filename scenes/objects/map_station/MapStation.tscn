@@ -112,7 +112,7 @@ frame = 3
 playing = true
 
 [node name="SpritePosition" type="Position2D" parent="."]
-position = Vector2( 32, 9.489 )
+position = Vector2( 32, 8.489 )
 
 [node name="ScanNode" parent="." instance=ExtResource( 21 )]
 data_key = "MISSILE"

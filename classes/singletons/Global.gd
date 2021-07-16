@@ -43,7 +43,7 @@ func _process(delta):
 			hold_actions[action] = 0
 	
 #	yield(Loader, "ready")
-	DimLayer.global_position = Loader.Samus.camera.global_position
+#	DimLayer.global_position = Loader.Samus.camera.global_position
 	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen

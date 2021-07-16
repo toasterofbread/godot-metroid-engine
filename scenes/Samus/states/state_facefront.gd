@@ -7,7 +7,7 @@ var Animator: Node
 var Physics: Node
 
 var face_back: = false setget set_face_back
-var prefix: = "back_"
+var prefix: = "front_"
 var animations = {}
 
 # Called during Samus's readying period

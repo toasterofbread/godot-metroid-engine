@@ -17,20 +17,20 @@
 				"cooldown": 0.1,
 				"upgrades": {
 					"ICEBEAM": {
-						"damage_multiplier": 1,
-						"cooldown_multiplier": 1
+						"damage_multiplier": 1.0,
+						"cooldown_multiplier": 1.0
 					},
 					"WAVEBEAM": {
-						"damage_multiplier": 1,
-						"cooldown_multiplier": 1
+						"damage_multiplier": 1.0,
+						"cooldown_multiplier": 1.25
 					},
 					"SPAZERBEAM": {
-						"damage_multiplier": 1,
-						"cooldown_multiplier": 1.5
+						"damage_multiplier": 1.0,
+						"cooldown_multiplier": 1.25
 					},
 					"PLASMABEAM": {
-						"damage_multiplier": 2,
-						"cooldown_multiplier": 1.5
+						"damage_multiplier": 5.0,
+						"cooldown_multiplier": 1.0
 					}
 				}
 			},

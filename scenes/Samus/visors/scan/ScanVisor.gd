@@ -37,8 +37,8 @@ func start_scan(node: ScanNode):
 	$ProgressTween.interpolate_property(IconProgressIndicator, "rect_size:y", IconProgressIndicator.rect_size.y, 8, node.get_length())
 	$ProgressTween.start()
 	current_scanNode = node
-	yield(node.start_scan(), "completed")
-	if current_scanNode != node:
+	
+	if yield(node.start_scan(), "completed") == false or current_scanNode != node:
 		return
 	node.scanned()
 	display_info(node.data_key)

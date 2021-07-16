@@ -112,8 +112,10 @@ func death(type: int):
 			"smoke_2": 0
 		}
 	
-	$CollisionShape2D.disabled = true
-	$Dummy/CollisionShape2D.disabled = true
+#	$CollisionShape2D.disabled = true
+#	$Dummy/CollisionShape2D.disabled = true
+	$CollisionShape2D.set_deferred("disabled", true)
+	$Dummy/CollisionShape2D.set_deferred("disabled", true)
 	
 	yield($ExplosionEmitter.emit_single(true), "completed")
 	queue_free()

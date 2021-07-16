@@ -84,6 +84,8 @@ func shift_position(position: Vector2):
 
 func _ready():
 	z_index = Enums.Layers.SAMUS
+	z_as_relative = false
+	$Animator/Sprites.trail_z_index = Enums.Layers.SAMUS
 	
 	var data = Loader.Save.data["samus"]
 	upgrades = data["upgrades"]

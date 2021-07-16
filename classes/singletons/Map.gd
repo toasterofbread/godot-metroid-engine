@@ -10,12 +10,13 @@ var Grid: Control
 var Marker: Node2D = preload("res://scenes/ui/map/MapMarker.tscn").instance()
 var tiles: Dictionary
 var tiles_by_area: Dictionary = {}
-onready var tile_data: Dictionary = Global.load_json(tile_data_path)
+var tile_data: Dictionary
 onready var savedata: Dictionary = Loader.Save.get_data_key(["map"])
 var current_chunk: MapChunk
 var previous_chunk = null
 
 func _ready():
+	
 	yield(Loader.Samus, "ready")
 	Marker.load_data()
 	load_tiles()
@@ -34,6 +35,7 @@ func samus_entered_chunk(body, chunk: MapChunk):
 		yield(self, "ready")
 	
 	chunk.tile.discovered = true
+	chunk.tile.explored = true
 	
 	if is_instance_valid(current_chunk) and current_chunk != null:
 		current_chunk.tile.current_tile = false
@@ -55,6 +57,7 @@ func samus_exited_chunk(body, chunk: MapChunk):
 
 func load_tiles():
 	
+	tile_data = Global.load_json(tile_data_path)
 	tiles.clear()
 	tiles_by_area.clear()
 	

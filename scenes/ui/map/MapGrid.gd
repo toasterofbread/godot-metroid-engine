@@ -44,7 +44,6 @@ func reset_minimap_properties():
 #	modulate = Color.white
 func set_focus_position(position: Vector2, instant: bool = false):
 	focus_position = position
-	print(position)
 	if not backgroundOffsetTween.is_inside_tree():
 		return
 	backgroundOffsetTween.interpolate_property(Tiles, "position", Tiles.position, -position, 0.0 if instant else 0.1, Tween.TRANS_LINEAR)

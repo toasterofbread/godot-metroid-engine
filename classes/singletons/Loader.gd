@@ -102,7 +102,7 @@ func door_transition(origin_door: Door):
 	var spawn_point = origin_door.targetSpawnPosition.global_position
 	var offset = current_room.global_position - destination_door.global_position
 	current_room.global_position = spawn_point + offset
-	current_room.set_visible(false)
+	current_room.visible = false
 #	current_room.World.visible = false
 	
 	# Why tf did I originally add Samus to the room rather than the Loader???
@@ -123,7 +123,7 @@ func door_transition(origin_door: Door):
 		yield(Global.dim_screen(0.25, 1, Enums.Layers.WORLD+1), "completed")
 		
 		previous_room.queue_free()
-		current_room.set_visible(true)
+		current_room.visible = true
 		
 		yield(Samus.camerachunk_entered(Samus.current_camerachunk, true, 0.45), "completed")
 		
@@ -136,7 +136,7 @@ func door_transition(origin_door: Door):
 		get_tree().paused = false
 	else:
 		previous_room.queue_free()
-		current_room.set_visible(true)
+		current_room.visible = true
 	
 	Samus.paused = null
 	transitioning = false

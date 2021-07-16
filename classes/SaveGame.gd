@@ -11,6 +11,9 @@ var save_functions: Array = []
 const default_data: Dictionary = {
 	"current_room_id": "Caves/ship",
 	"rooms": {
+#		"Caves/ship": {
+#			"acquired_upgradepickups": ["etank_0"]
+#		}
 	},
 	"samus": {
 		"upgrades": {

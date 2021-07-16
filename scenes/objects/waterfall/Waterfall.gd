@@ -23,6 +23,7 @@ func update_ice(_value=false):
 	$IceBox/StaticBody2D/CollisionShape2D.position = $IceBox/StaticBody2D/CollisionShape2D.shape.extents
 
 func _on_Area2D_body_entered(body):
+	return
 	if body is SamusKinematicProjectile and not $IceBox.visible and body.Weapon.id == Enums.Upgrade.POWERBEAM:
 		body.collision()
 		if Enums.Upgrade.ICEBEAM in body.Weapon.current_types:

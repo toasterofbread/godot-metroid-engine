@@ -21,15 +21,15 @@ animations = [ {
 "name": "obtained_item",
 "speed": 0.0
 }, {
-"frames": [ ExtResource( 8 ) ],
-"loop": true,
-"name": "ship",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 1 ) ],
 "loop": false,
 "name": "unobtained_item",
 "speed": 0.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "ship",
+"speed": 5.0
 } ]
 
 [sub_resource type="Animation" id=2]
