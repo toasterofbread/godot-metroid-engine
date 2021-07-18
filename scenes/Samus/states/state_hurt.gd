@@ -25,6 +25,9 @@ func process(_delta: float):
 
 # Called when Samus' state is changed to this one
 func init_state(data: Dictionary):
+	Physics.apply_velocity = true
+	Physics.apply_gravity = true
+	Animator.SpriteContainer.current_profile = null
 	yield(animations["knockback"].play(), "completed")
 	if Samus.is_on_floor():
 		change_state("neutral")

@@ -65,5 +65,11 @@
 	"hurt": {
 		"knockback_strength": [1],
 		"invincibility_duration": [2]
+	},
+	"airboost": {
+		"can_respin_after_boost": [false],
+		"vert_spin_sprite": [true],
+		"speed": [300],
+		"duration": [0.175]
 	}
 }

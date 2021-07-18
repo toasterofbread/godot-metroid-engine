@@ -53,7 +53,7 @@
 		"size": [17, 13],
 		"leftPos": [0, -3],
 		"rightPos": [8, -3],
-		"shape": "capsule"
+		"shape": "rect"
 	},
 	"shinespark/vert": {
 		"size": [7, 21],

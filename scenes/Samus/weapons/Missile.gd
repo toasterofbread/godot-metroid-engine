@@ -5,7 +5,8 @@ func projectile_physics_process(projectile: SamusKinematicProjectile, colliders:
 		projectile.moving = false
 		projectile.visible = false
 		if id == Enums.Upgrade.SUPERMISSILE:
-			Global.shake(Samus.camera, Vector2.ZERO, 2, cooldown*0.75)
+			Loader.current_room.earthquake(projectile.global_position, damage_values["earthquake_strength"], damage_values["earthquake_duration"])
+#			Global.shake(Samus.camera, Vector2.ZERO, 2, cooldown*0.75)
 		yield(projectile.burst_end(), "completed")
 		projectile.queue_free()
 

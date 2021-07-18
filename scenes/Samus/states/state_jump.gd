@@ -123,6 +123,9 @@ func process(_delta):
 	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true) and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
 		return
+	elif Input.is_action_just_pressed("airboost"):
+		change_state("airboost")
+		return
 	elif Input.is_action_just_pressed("jump") and Settings.get("controls/spin_from_jump"):
 		set_spinning(true)
 	elif Input.is_action_just_pressed("fire_weapon"):

@@ -1,6 +1,6 @@
 extends Node
 
-enum dir {LEFT, RIGHT, UP, DOWN, TOPLEFT, TOPRIGHT, BOTLEFT, BOTRIGHT}
+enum dir {LEFT, RIGHT, UP, DOWN, TOPLEFT, TOPRIGHT, BOTLEFT, BOTRIGHT, NONE}
 
 func _ready():
 	for i in range(len(DamageType)):

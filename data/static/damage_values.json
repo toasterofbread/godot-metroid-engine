@@ -9,7 +9,9 @@
 			"supermissile": {
 				"damage": 15,
 				"speed": 400,
-				"cooldown": 0.45
+				"cooldown": 0.45,
+				"earthquake_strength": 0.75,
+				"earthquake_duration": 0.3
 			},
 			"powerbeam": {
 				"damage": 2,
@@ -68,6 +70,8 @@
 			},
 			"speedbooster": {
 				"damage": 20,
+				"earthquake_strength": 0.5,
+				"earthquake_duration": 0.3
 			}
 		}
 	},

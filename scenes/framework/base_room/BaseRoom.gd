@@ -51,7 +51,7 @@ func _ready():
 	vOverlay.SET("Room ID", id)
 	
 	var room_data: Dictionary = Loader.Save.get_data_key(["rooms"])
-	if not id in room_data.keys():
+	if not id in room_data:
 		room_data[id] = {
 			"acquired_upgradepickups": []
 		}
@@ -89,3 +89,8 @@ func generate_maptiles():
 
 func save():
 	Loader.Save.set_data_key(["current_room_id"], id)
+
+signal earthquake
+func earthquake(center: Vector2, strength: float, duration):
+	emit_signal("earthquake", center, strength)
+	Global.shake_camera(Loader.Samus.camera, Vector2.ZERO, strength*10, duration)
