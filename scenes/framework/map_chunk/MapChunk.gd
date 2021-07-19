@@ -7,11 +7,14 @@ signal tile_set
 export var grid_position: Vector2
 var grid_position_adjusted: = false
 export(MapTile.icons) var icon: = MapTile.icons.none
-export(MapTile.colours) var colour = MapTile.colours.default
+#export(MapTile.colours) 
+var colour = MapTile.colours.default
 export(MapTile.wall_types) var left_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var right_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var top_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var bottom_wall = MapTile.wall_types.none
+export var upgrade_pickup: NodePath
+onready var upgradePickup = get_node_or_null(upgrade_pickup)
 export var hidden: bool = false
 
 onready var area: Area2D = Area2D.new()
@@ -26,9 +29,16 @@ func _ready():
 			shape = RectangleShape2D.new()
 		return
 	
+	if icon in [MapTile.icons.obtained_item, MapTile.icons.unobtained_item]:
+		assert(false)
+		icon = MapTile.icons.none
+	
 	if not grid_position_adjusted:
 		grid_position += get_parent().get_parent().grid_position
 		grid_position_adjusted = true
+	
+	if upgradePickup:
+		upgradePickup.connect("acquired", self, "set_upgrade_icon", [false])
 	
 	area.set_collision_layer_bit(0, false)
 	area.set_collision_layer_bit(15, false)
@@ -41,14 +51,15 @@ func _ready():
 	area.connect("body_exited", Map, "samus_exited_chunk", [self])
 	yield(Map, "samus_entered_chunk")
 	
-	if Map.tiles == null:
+	if len(Map.tiles) == 0:
 		yield(Map, "tiles_loaded")
 	
 	tile = Map.get_tile(grid_position)
 	emit_signal("tile_set")
 
-
 func generate_tile_data():
+	
+	
 	var data: Dictionary = Global.load_json(Map.tile_data_path)
 	
 	var room: Room = get_parent().get_parent()
@@ -61,13 +72,14 @@ func generate_tile_data():
 	if not x in data:
 		data[x] = {}
 	
+	upgradePickup = get_node_or_null(upgrade_pickup) 
 	# w - Walls
 	# i - Icon
 	# c - Colour
 	# h - Hidden
-	# a- Area (stored as int from Enums)
-	var area: String = room.id.split("/")[0]
-	data[x][y] = {"w": [top_wall, right_wall, bottom_wall, left_wall], "i": icon, "c": colour if colour != MapTile.colours.default else get_parent().get_parent().default_mapchunk_colour, "h": hidden, "a": Enums.MapAreas.keys().find(area.to_upper())}
+	# r- Room id
+	# u- UpgradePickup ID
+	data[x][y] = {"w": [top_wall, right_wall, bottom_wall, left_wall], "i": icon, "c": colour if colour != MapTile.colours.default else get_parent().get_parent().default_mapchunk_colour, "h": hidden, "r": room.id, "u": null if upgradePickup == null else upgradePickup.id}
 	
 #	if not "areas" in data:
 #		data["areas"] = {area: []}
@@ -81,3 +93,11 @@ func set_upgrade_icon(value: bool):
 	if tile == null:
 		yield(self, "tile_set")
 	tile.icon = tile.icons.unobtained_item if value else tile.icons.obtained_item
+	tile.save_icon()
+
+#func area_entered(area):
+#	if not area is UpgradePickup or area.mapChunk != null:
+#		return
+#	set_upgrade_icon(true)
+#	area.mapChunk = self
+#	area.connect("acquired", self, "set_upgrade_icon", [false])

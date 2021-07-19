@@ -9,7 +9,9 @@
 			"supermissile": {
 				"damage": 15,
 				"speed": 400,
-				"cooldown": 0.45
+				"cooldown": 0.45,
+				"earthquake_strength": 0.75,
+				"earthquake_duration": 0.3
 			},
 			"powerbeam": {
 				"damage": 2,
@@ -17,20 +19,20 @@
 				"cooldown": 0.1,
 				"upgrades": {
 					"ICEBEAM": {
-						"damage_multiplier": 1,
-						"cooldown_multiplier": 1
+						"damage_multiplier": 1.0,
+						"cooldown_multiplier": 1.0
 					},
 					"WAVEBEAM": {
-						"damage_multiplier": 1,
-						"cooldown_multiplier": 1
+						"damage_multiplier": 1.0,
+						"cooldown_multiplier": 1.25
 					},
 					"SPAZERBEAM": {
-						"damage_multiplier": 1,
-						"cooldown_multiplier": 1.5
+						"damage_multiplier": 1.0,
+						"cooldown_multiplier": 1.25
 					},
 					"PLASMABEAM": {
-						"damage_multiplier": 2,
-						"cooldown_multiplier": 1.5
+						"damage_multiplier": 5.0,
+						"cooldown_multiplier": 1.0
 					}
 				}
 			},
@@ -68,6 +70,8 @@
 			},
 			"speedbooster": {
 				"damage": 20,
+				"earthquake_strength": 0.5,
+				"earthquake_duration": 0.3
 			}
 		}
 	},

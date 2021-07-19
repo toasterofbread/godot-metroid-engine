@@ -72,8 +72,8 @@ func move_y(to: float, by: float = INF):
 func move_x(to: float, by: float = INF):
 	vel.x = move_toward(vel.x, to, by)
 
-func move(to: Vector2, by: float = INF):
-	vel = vel.move_toward(to, by)
+func move(to: Vector2, delta: float = INF):
+	vel = vel.move_toward(to, delta)
 
 func fluid_process(delta):
 	pass

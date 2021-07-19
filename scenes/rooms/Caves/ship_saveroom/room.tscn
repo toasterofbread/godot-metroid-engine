@@ -677,6 +677,7 @@ script = ExtResource( 3 )
 grid_position = Vector2( 3, 2 )
 
 [node name="MapChunks" type="Node2D" parent="."]
+visible = false
 
 [node name="MapChunk" type="CollisionShape2D" parent="MapChunks"]
 modulate = Color( 1, 0, 0.560784, 1 )
@@ -709,7 +710,7 @@ target_room_id = "Caves/ship"
 margin_left = -8.0
 margin_top = 66.0
 margin_right = 264.0
-margin_bottom = 120.0
+margin_bottom = 99.0
 flow_speed = -1.0
 
 [node name="Waterfall" parent="." instance=ExtResource( 5 )]
@@ -774,7 +775,7 @@ color = Color( 0.0313726, 0.0627451, 0.0941176, 1 )
 texture_offset = Vector2( 0, 200 )
 invert_enable = true
 invert_border = 500.0
-polygon = PoolVector2Array( 1952, 804, 1956, 882, 1892, 890, 1825, 958, 1484, 958, 1405.41, 862.763, 1542, 795, 1547, 732, 1692, 783, 1721, 761, 1861, 771 )
+polygon = PoolVector2Array( 1952, 804, 1956, 882, 1892, 890, 1824.77, 949.446, 1601.16, 951.702, 1492.99, 937.884, 1405.41, 862.763, 1542, 795, 1547, 732, 1692, 783, 1721, 761, 1861, 771 )
 __meta__ = {
 "_edit_lock_": true
 }

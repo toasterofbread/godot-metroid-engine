@@ -16,13 +16,6 @@ onready var CameraChunks = $CameraChunks.get_children()
 onready var MapChunks = $MapChunks.get_children()
 var scanNodes: Array
 
-onready var starting_children = get_children()
-
-func set_visible(value: bool):
-	for child in starting_children:
-		if "visible" in child:
-			child.visible = value
-
 func get_id():
 	set_id_info()
 	return id
@@ -47,25 +40,27 @@ func _ready():
 	
 	set_id_info()
 	
-	pause_mode = Node.PAUSE_MODE_STOP
-	Loader.Save.add_save_function(funcref(self, "save"))
-	
-	vOverlay.SET("Room ID", id)
-	
-	# DEBUG
+	# DEBUG | Handles launching current scene with F6
 	if Loader.current_room == null:
 		Loader.load_room(id)
 		queue_free()
 		return
 	
-#	for node in World.get_children() + self.get_children():
-#		if node is UpgradePickup:
-#			upgrade_pickups.append(node)
+	pause_mode = Node.PAUSE_MODE_STOP
+	Loader.Save.add_save_function(funcref(self, "save"))
+	vOverlay.SET("Room ID", id)
 	
-	var i = 0
+	var room_data: Dictionary = Loader.Save.get_data_key(["rooms"])
+	if not id in room_data:
+		room_data[id] = {
+			"acquired_upgradepickups": []
+		}
+	
+	# Ensure UpgradePickup IDs within this room are unique
+	var ids: Array = []
 	for upgradePickup in upgradePickups:
-		upgradePickup.unique_id = i
-		i += 1
+		assert(not upgradePickup.id in ids)
+		ids.append(upgradePickup.id)
 	
 	z_as_relative = false
 	z_index = Enums.Layers.WORLD
@@ -94,3 +89,8 @@ func generate_maptiles():
 
 func save():
 	Loader.Save.set_data_key(["current_room_id"], id)
+
+signal earthquake
+func earthquake(center: Vector2, strength: float, duration):
+	emit_signal("earthquake", center, strength)
+	Global.shake_camera(Loader.Samus.camera, Vector2.ZERO, strength*10, duration)

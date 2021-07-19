@@ -43,7 +43,7 @@ func _process(delta):
 			hold_actions[action] = 0
 	
 #	yield(Loader, "ready")
-	DimLayer.global_position = Loader.Samus.camera.global_position
+#	DimLayer.global_position = Loader.Samus.camera.global_position
 	
 	if Input.is_action_just_pressed("toggle_fullscreen"):
 		OS.window_fullscreen = !OS.window_fullscreen
@@ -158,7 +158,7 @@ func get_anchor(anchor_path: String) -> Node2D:
 	parent.pause_mode = Node.PAUSE_MODE_STOP
 	return parent
 
-func shake(camera: Camera2D, normal_offset: Vector2, intensity: float, duration: float, shake_frequency: float = 0.05):
+func shake_camera(camera: Camera2D, normal_offset: Vector2, intensity: float, duration: float, shake_frequency: float = 0.05):
 	var timer = Timer.new()
 	self.add_child(timer)
 	timer.one_shot = true
@@ -234,6 +234,18 @@ func dir2vector(direction: int) -> Vector2:
 		Enums.dir.BOTLEFT: return Vector2(-1, 1)
 		Enums.dir.BOTRIGHT: return Vector2(1, 1)
 		_: return Vector2.ZERO
+
+func vector2dir(vector: Vector2) -> int:
+	match vector:
+		Vector2(1, 0): return Enums.dir.RIGHT
+		Vector2(1, 1): return Enums.dir.BOTRIGHT
+		Vector2(0, 1): return Enums.dir.DOWN
+		Vector2(-1, 1): return Enums.dir.BOTLEFT
+		Vector2(-1, 0): return Enums.dir.LEFT
+		Vector2(-1, -1): return Enums.dir.TOPLEFT
+		Vector2(0, 1): return Enums.dir.UP
+		Vector2(1, -1): return Enums.dir.TOPRIGHT
+		_: return Enums.dir.NONE
 
 func axis2dir(axis_value, x_axis: bool = true):
 	axis_value = sign(axis_value) 

@@ -16,6 +16,7 @@ export var profiles: Dictionary = {
 var current_profile = null setget set_current_profile
 var current_profile_data = null
 export(Array, NodePath) var sprites: = []
+export var trail_z_index: int = 0
 
 onready var TrailAnchor: Node2D = Global.get_anchor("SpriteTrailEmitters/0")
 
@@ -45,6 +46,7 @@ func _ready():
 	
 	remove_child(TrailSpriteTemplate)
 	TrailSpriteTemplate.get_node("DeletionTimer").autostart = true
+	TrailAnchor.z_as_relative = false
 	
 	var spritepaths = sprites.duplicate()
 	sprites.clear()
@@ -68,6 +70,7 @@ func emit_trail():
 		
 		var SpriteContainer: Node2D = TrailSpriteTemplate.duplicate()
 		var TrailSprite: Node2D = sprite.duplicate() if current_profile_data["sprite"] == null else Sprite.new()
+		TrailSprite.z_index = trail_z_index
 		SpriteContainer.add_child(TrailSprite)
 		
 		TrailAnchor.add_child(SpriteContainer)

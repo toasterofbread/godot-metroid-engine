@@ -53,11 +53,14 @@ func start_scan():
 	scan_material.set("shader_param/dissolve_enabled", true)
 	$Tween.interpolate_property(scan_material, "shader_param/dissolve_progress", 0.0, scan_end_value, scan_duration)
 	$Tween.start()
-	if yield($Tween, "tween_completed") != [scan_material, "shader_param/dissolve_progress"] or scan_material.get("shader_param/dissolve_value") != 1:
-		return
+	yield($Tween, "tween_completed")# != [scan_material, "shader_param/dissolve_progress"]
+	if scan_material.get("shader_param/dissolve_progress") != scan_end_value:
+		return false
 	
 	scan_material.set("shader_param/dissolve_enabled", false)
 	scan_material.set("shader_param/dissolve_value", 0)
+	
+	return true
 
 func end_scan():
 	$Tween.stop_all()

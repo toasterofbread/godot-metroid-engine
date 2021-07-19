@@ -39,7 +39,8 @@ onready var states = {
 	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self),
 	"facefront": preload("res://scenes/Samus/states/state_facefront.gd").new(self),
 	"hurt": preload("res://scenes/Samus/states/state_hurt.gd").new(self),
-	"death": preload("res://scenes/Samus/states/state_death.gd").new(self)
+	"death": preload("res://scenes/Samus/states/state_death.gd").new(self),
+	"airboost": preload("res://scenes/Samus/states/state_airboost.gd").new(self),
 	}
 var previous_state_id: String
 onready var current_state: Node = states["neutral"]
@@ -84,6 +85,8 @@ func shift_position(position: Vector2):
 
 func _ready():
 	z_index = Enums.Layers.SAMUS
+	z_as_relative = false
+	$Animator/Sprites.trail_z_index = Enums.Layers.SAMUS
 	
 	var data = Loader.Save.data["samus"]
 	upgrades = data["upgrades"]

@@ -446,25 +446,25 @@ tracks/0/keys = {
 
 [sub_resource type="SpriteFrames" id=13]
 animations = [ {
-"frames": [ ExtResource( 29 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ) ],
-"loop": false,
-"name": "CHARGEBEAM 2 start",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 25 ), ExtResource( 20 ) ],
+"frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": true,
-"name": "CHARGEBEAM 2",
-"speed": 30.0
+"name": "WAVEBEAM 2",
+"speed": 5.0
 }, {
 "frames": [ ExtResource( 23 ), ExtResource( 31 ), ExtResource( 51 ), ExtResource( 32 ) ],
 "loop": false,
 "name": "PLASMABEAM 2 start",
 "speed": 15.0
 }, {
-"frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
+"frames": [ ExtResource( 25 ), ExtResource( 20 ) ],
 "loop": true,
-"name": "WAVEBEAM 2",
-"speed": 5.0
+"name": "CHARGEBEAM 2",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ) ],
+"loop": false,
+"name": "CHARGEBEAM 2 start",
+"speed": 30.0
 }, {
 "frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
 "loop": true,
@@ -858,6 +858,7 @@ position = Vector2( -356, -54 )
 position = Vector2( 1, 0 )
 frames = ExtResource( 1 )
 animation = "death_suit_right"
+frame = 2
 playing = true
 script = ExtResource( 14 )
 state_key = "death"

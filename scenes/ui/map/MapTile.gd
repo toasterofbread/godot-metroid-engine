@@ -13,6 +13,7 @@ var y: String
 var icon: int = icons.none setget set_icon
 var area_index: int
 var discovered: bool = false setget set_discovered
+var explored: bool = false setget set_explored
 
 var colour_data = {
 	colours.default: Color.black,
@@ -45,17 +46,23 @@ func update_flash():
 func set_icon(value: int):
 	icon = value
 	
-	$Icon.visible = true
 	match icon:
 		icons.none: $Icon.visible = false
 		icons.save: $Icon.play("save")
 		icons.obtained_item: $Icon.play("obtained_item")
 		icons.unobtained_item: $Icon.play("unobtained_item")
 		_: push_error("Unknown MapTile icon")
+	
+	set_explored(explored)
 
 func set_discovered(value: bool):
 	discovered = value
 	visible = discovered
+
+func set_explored(value: bool):
+	explored = value
+	if icon in [icons.obtained_item, icons.unobtained_item]:
+		$Icon.visible = explored
 
 func load_data(data: Dictionary, x: String, y: String):
 	
@@ -78,13 +85,16 @@ func load_data(data: Dictionary, x: String, y: String):
 	
 	if data["i"]:
 		set_icon(int(data["i"]))
+	elif data["u"] != null:
+		set_icon(icons.obtained_item if data["u"] in Loader.Save.get_data_key(["rooms", Loader.current_room.id, "acquired_upgradepickups"]) else icons.unobtained_item)
 	else:
 		set_icon(icons.none)
 	
 	if int(data["c"]) in colour_data:
 		$ColorRect.color = colour_data[int(data["c"])]
 	
-	area_index = int(data["a"])
+	var room_id: String = data["r"]
+	area_index = Enums.MapAreas.keys().find(room_id.split("/")[0].to_upper())
 	assert(area_index in Enums.MapAreas.values())
 	
 #	grid_position = Vector2(int(x), int(y))
@@ -93,6 +103,12 @@ func load_data(data: Dictionary, x: String, y: String):
 	
 	$Lines/Wall.queue_free()
 	$Lines/Door.queue_free()
+
+# DEBUG
+func save_icon():
+	var current_data: Dictionary = Global.load_json(Map.tile_data_path)
+	current_data[x][y]["i"] = icon
+	Global.save_json(Map.tile_data_path, current_data)
 
 func save():
 	if discovered:

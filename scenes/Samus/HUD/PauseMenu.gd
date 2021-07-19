@@ -6,7 +6,7 @@ onready var Samus: KinematicBody2D = Loader.Samus
 
 const menu_open_duration: float = 0.45
 const map_move_speed = 100
-const map_move_acceleration = 500
+const map_move_acceleration = 750
 var map_grid_parent: Node
 var mapGrid: Control
 

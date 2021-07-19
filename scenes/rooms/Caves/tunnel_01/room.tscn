@@ -983,6 +983,7 @@ shape = SubResource( 1 )
 script = ExtResource( 3 )
 top_wall = 2
 bottom_wall = 2
+upgrade_pickup = NodePath("../../Items/Node2D/UpgradePickup")
 
 [node name="MapChunk2" type="CollisionShape2D" parent="MapChunks"]
 modulate = Color( 1, 0, 0.560784, 1 )
@@ -1010,6 +1011,7 @@ script = ExtResource( 3 )
 grid_position = Vector2( -2, 1 )
 left_wall = 2
 right_wall = 2
+upgrade_pickup = NodePath("../../Items/Node2D2/UpgradePickup")
 
 [node name="CameraChunks" type="Node2D" parent="."]
 z_index = -4095
@@ -1056,14 +1058,15 @@ range_item_cull_mask = 524288
 size = Vector2( 16, 44 )
 
 [node name="UpgradePickup" parent="Items/Node2D" instance=ExtResource( 10 )]
-position = Vector2( 0, -80 )
-hidden = true
+position = Vector2( -0.264862, -80.2649 )
+id = "missile_1"
 
 [node name="Node2D2" type="Node2D" parent="Items"]
 position = Vector2( -1033, 59 )
 
 [node name="UpgradePickup" parent="Items/Node2D2" instance=ExtResource( 10 )]
 position = Vector2( 134, 60 )
+id = "missile_1"
 
 [node name="HiddenArea" parent="Items/Node2D2" instance=ExtResource( 11 )]
 position = Vector2( -1.29456, 68.5116 )

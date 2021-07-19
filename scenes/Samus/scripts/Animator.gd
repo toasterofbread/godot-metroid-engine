@@ -58,6 +58,14 @@ func _ready():
 			"material": NodePath("."),
 			"sprite": null
 		},
+		"airboost": {
+			"frequency": 400,
+			"linger_time": 0.1,
+			"fade_out": true,
+			"modulate": Color(1, 1, 1, 0.5),
+			"material": NodePath("."),
+			"sprite": null
+		},
 		"spacejump": {
 			"frequency": 50,
 			"linger_time": 0.25,

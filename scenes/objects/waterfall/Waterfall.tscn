@@ -189,6 +189,7 @@ visible = false
 shape = SubResource( 7 )
 
 [node name="IceBox" type="Control" parent="."]
+visible = false
 show_behind_parent = true
 material = SubResource( 9 )
 margin_left = -25.0
@@ -221,6 +222,7 @@ script = ExtResource( 5 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="IceBox/StaticBody2D"]
 position = Vector2( 29, 4.48762 )
 shape = SubResource( 14 )
+disabled = true
 
 [node name="Tween" type="Tween" parent="IceBox"]
 

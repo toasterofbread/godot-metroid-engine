@@ -151,8 +151,8 @@ type_weights = {
 "1": 1,
 "big_1": 0,
 "big_2": 0,
-"smoke_1": 1,
-"smoke_2": 1
+"smoke_1": 0,
+"smoke_2": 0
 }
 
 [node name="EmissionArea" parent="ExplosionEmitter" index="0"]
