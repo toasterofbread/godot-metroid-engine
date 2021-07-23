@@ -1,12 +1,8 @@
 ![icon](icon.png)
 
-# Godot Metroid Engine (working title)
+# Godot Metroid Engine
 
-A custom Metroid engine built in the Godot engine. Currently in early development.
-
-
-
-
+A custom Metroid engine built in the Godot engine. Currently in the final stages of development.
 
 ## Used assets
 

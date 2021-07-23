@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://engine/scenes/Samus/classes/HUDIcon.gd" type="Script" id=1]
+[ext_resource path="res://engine/sprites/ui/mainhud/visor/icons/xray_0.png" type="Texture" id=2]
+[ext_resource path="res://engine/sprites/ui/mainhud/visor/icons/xray_2.png" type="Texture" id=3]
+[ext_resource path="res://engine/sprites/ui/mainhud/visor/icons/xray_1.png" type="Texture" id=4]
+[ext_resource path="res://engine/scenes/Samus/classes/Visor.gd" type="Script" id=5]
+[ext_resource path="res://engine/sprites/samus/visors/mask.png" type="Texture" id=6]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 3 ) ],
+"loop": false,
+"name": "default",
+"speed": 0.0
+} ]
+
+[node name="XRayScope" type="Node2D"]
+position = Vector2( 15, 0 )
+script = ExtResource( 5 )
+id = 24
+
+[node name="MenuIcon" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="MenuIcon"]
+margin_right = 10.0
+margin_bottom = 10.0
+color = Color( 0, 0, 0, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="AnimatedSprite" parent="MenuIcon"]
+position = Vector2( 5, 5 )
+frames = SubResource( 1 )
+
+[node name="Light" type="Node2D" parent="."]
+
+[node name="Hide" type="Light2D" parent="Light"]
+texture = ExtResource( 6 )
+offset = Vector2( 348, 0 )
+texture_scale = 0.2
+mode = 3
+range_item_cull_mask = 2

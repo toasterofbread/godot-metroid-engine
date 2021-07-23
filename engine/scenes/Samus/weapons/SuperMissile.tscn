@@ -1,0 +1,217 @@
+[gd_scene load_steps=40 format=2]
+
+[ext_resource path="res://engine/sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://engine/scenes/Samus/classes/KinematicProjectile.gd" type="Script" id=2]
+[ext_resource path="res://engine/scenes/Samus/weapons/Missile.gd" type="Script" id=3]
+[ext_resource path="res://engine/scenes/Samus/classes/HUDIcon.gd" type="Script" id=4]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/projectile/2.png" type="Texture" id=5]
+[ext_resource path="res://engine/sprites/ui/mainhud/icons/sGUISMissile_0.png" type="Texture" id=6]
+[ext_resource path="res://engine/sprites/ui/mainhud/icons/sGUISMissile_1.png" type="Texture" id=7]
+[ext_resource path="res://engine/sprites/ui/mainhud/icons/sGUISMissile_2.png" type="Texture" id=8]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/0.png" type="Texture" id=9]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/projectile/1.png" type="Texture" id=10]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/trail.png" type="Texture" id=11]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/1.png" type="Texture" id=12]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/projectile/0.png" type="Texture" id=13]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/2.png" type="Texture" id=14]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/flame_1.png" type="Texture" id=15]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/6.png" type="Texture" id=16]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/4.png" type="Texture" id=17]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/5.png" type="Texture" id=18]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/3.png" type="Texture" id=19]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/8.png" type="Texture" id=20]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/7.png" type="Texture" id=21]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/10.png" type="Texture" id=22]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/9.png" type="Texture" id=23]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/11.png" type="Texture" id=24]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/12.png" type="Texture" id=25]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/13.png" type="Texture" id=26]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/14.png" type="Texture" id=27]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/15.png" type="Texture" id=28]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/burst_collide/16.png" type="Texture" id=29]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/flame_0.png" type="Texture" id=30]
+[ext_resource path="res://engine/sprites/samus/weapons/supermissile/flame_2.png" type="Texture" id=31]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "default",
+"speed": 0.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 2, 5 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 30 ), ExtResource( 15 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 13 ), ExtResource( 10 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 15.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 2, 5 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ ExtResource( 9 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 19 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 21 ), ExtResource( 20 ), ExtResource( 23 ), ExtResource( 22 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ) ],
+"loop": false,
+"name": "end",
+"speed": 60.0
+}, {
+"frames": [  ],
+"loop": false,
+"name": "start",
+"speed": 60.0
+} ]
+
+[sub_resource type="Animation" id=7]
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Trail:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 0.09375 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Trail:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 84 ), Vector2( 0, 11.5 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Trail:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 11.5 ), Vector2( 0, 84 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Trail:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0.09375 ), Vector2( 1, 1 ) ]
+}
+
+[node name="SuperMissile" type="Node2D"]
+script = ExtResource( 3 )
+id = 2
+damage_type = 5
+
+[node name="MenuIcon" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="MenuIcon"]
+margin_right = 27.0
+margin_bottom = 14.0
+color = Color( 0, 0, 0, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="AnimatedSprite" parent="MenuIcon"]
+position = Vector2( 9, 7 )
+frames = SubResource( 1 )
+
+[node name="Digits" type="Node2D" parent="MenuIcon"]
+position = Vector2( 1, 7 )
+
+[node name="0" type="AnimatedSprite" parent="MenuIcon/Digits"]
+position = Vector2( 21, 0 )
+frames = ExtResource( 1 )
+animation = "fontB"
+frame = 8
+
+[node name="Projectile" type="KinematicBody2D" parent="."]
+position = Vector2( 43, 2 )
+collision_layer = 2
+collision_mask = 540676
+script = ExtResource( 2 )
+
+[node name="CollisionArea" type="Area2D" parent="Projectile"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile/CollisionArea"]
+position = Vector2( 0, -1 )
+shape = SubResource( 2 )
+
+[node name="Trail" type="Sprite" parent="Projectile"]
+position = Vector2( 0, 11.5 )
+scale = Vector2( 1, 0.09375 )
+texture = ExtResource( 11 )
+
+[node name="Flame" type="AnimatedSprite" parent="Projectile"]
+position = Vector2( 0, 8 )
+frames = SubResource( 3 )
+frame = 1
+playing = true
+
+[node name="Sprite" type="AnimatedSprite" parent="Projectile"]
+frames = SubResource( 4 )
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Projectile"]
+position = Vector2( 0, -1 )
+shape = SubResource( 5 )
+
+[node name="Burst" type="AnimatedSprite" parent="Projectile"]
+visible = false
+position = Vector2( -60, -2 )
+frames = SubResource( 6 )
+animation = "end"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Projectile"]
+anims/end = SubResource( 7 )
+anims/start = SubResource( 8 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="Projectile"]
+position = Vector2( 5.96046e-08, 0.5 )
+scale = Vector2( 0.4, 0.75 )
+
+[node name="ImpactPosition" type="Position2D" parent="Projectile"]
+position = Vector2( 0, -6 )

@@ -1,0 +1,529 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://engine/scenes/Samus/classes/HUDIcon.gd" type="Script" id=3]
+[ext_resource path="res://engine/scenes/Samus/visors/scan/ScanVisor.gd" type="Script" id=4]
+[ext_resource path="res://engine/sprites/ui/mainhud/visor/icons/scan_2.png" type="Texture" id=5]
+[ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=6]
+[ext_resource path="res://engine/sprites/ui/mainhud/visor/icons/scan_1.png" type="Texture" id=7]
+[ext_resource path="res://engine/sprites/ui/map/logbook_images/block_grapple.png" type="Texture" id=8]
+[ext_resource path="res://engine/sprites/samus/visors/mask_inverted.png" type="Texture" id=9]
+[ext_resource path="res://engine/sprites/ui/mainhud/visor/icons/scan_0.png" type="Texture" id=10]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 10 ), ExtResource( 7 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "default",
+"speed": 0.0
+} ]
+
+[sub_resource type="Animation" id=2]
+resource_name = "pulse"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Icon:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1.46409, 1.46409, 1.46409 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.309804 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "reset"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Icon:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.027451, 0.156863, 0.270588, 0.74902 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.027451, 0.156863, 0.270588, 0.74902 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.963636, 1 )
+colors = PoolColorArray( 0.00784314, 0.537255, 1, 1, 0.027451, 0.156863, 0.270588, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=7]
+gradient = SubResource( 6 )
+
+[sub_resource type="StyleBoxTexture" id=8]
+texture = SubResource( 7 )
+region_rect = Rect2( 0, 0, 2048, 1 )
+
+[sub_resource type="DynamicFont" id=9]
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=10]
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=11]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Info/Image:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 211.383, 277.899 ), Vector2( 462, 278 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Info/Image:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 500, 500 ), Vector2( 0, 500 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Info/Panel:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 759.81, 278 ), Vector2( 1249, 278 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Info/Panel:rect_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 978, 500 ), Vector2( 0, 500 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Info:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ColorRect:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("ColorRect:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.823529 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("ColorRect2:rect_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 1432, 801 ), Vector2( 1585, 801 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("ColorRect2:rect_size")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 306, 66 ), Vector2( 0, 66 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("ColorRect2:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Info/Image:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 462, 278 ), Vector2( 211.383, 277.899 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Info/Image:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 0, 500 ), Vector2( 500, 500 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Info/Panel:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 1249, 278 ), Vector2( 759.81, 278 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Info/Panel:rect_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 0, 500 ), Vector2( 978, 500 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Info:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("ColorRect:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("ColorRect:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.823529 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("ColorRect2:rect_position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 1585, 801 ), Vector2( 1432, 801 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("ColorRect2:rect_size")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.116629, 0.116629 ),
+"update": 0,
+"values": [ Vector2( 0, 66 ), Vector2( 306, 66 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("ColorRect2:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="ScanVisor" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 4 )
+background_tint = Color( 0, 0, 0, 0 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="ProgressTween" type="Tween" parent="."]
+
+[node name="MenuIcon" type="Control" parent="."]
+margin_left = -35.0
+margin_top = -5.0
+margin_right = -25.0
+margin_bottom = 5.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="MenuIcon"]
+margin_right = 10.0
+margin_bottom = 10.0
+color = Color( 0, 0, 0, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="AnimatedSprite" parent="MenuIcon"]
+position = Vector2( 5, 5 )
+frames = SubResource( 1 )
+
+[node name="ProgressIndicator" type="ColorRect" parent="MenuIcon"]
+margin_left = 9.0
+margin_top = 9.0
+margin_right = 17.0
+margin_bottom = 9.0
+rect_rotation = 180.0
+color = Color( 0, 1, 0.227451, 0.501961 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MenuIcon"]
+anims/pulse = SubResource( 2 )
+anims/reset = SubResource( 3 )
+
+[node name="ScanInfo" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="ScanInfo"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" type="Node2D" parent="ScanInfo"]
+
+[node name="Position2D" type="Position2D" parent="ScanInfo/Info"]
+position = Vector2( 1310.95, 278 )
+scale = Vector2( 5, 5 )
+
+[node name="Image" type="Panel" parent="ScanInfo/Info"]
+margin_left = 462.0
+margin_top = 278.0
+margin_right = 462.0
+margin_bottom = 778.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="ScanInfo/Info/Image"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="ScanInfo/Info"]
+margin_left = 1249.0
+margin_top = 278.0
+margin_right = 1249.0
+margin_bottom = 778.0
+rect_pivot_offset = Vector2( 2160.41, 175.415 )
+rect_clip_content = true
+custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="ScanInfo/Info/Panel"]
+margin_left = 976.0
+margin_top = 2.0
+margin_right = 1076.0
+margin_bottom = 976.0
+rect_rotation = 90.0
+custom_styles/panel = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="ScanInfo/Info/Panel"]
+margin_left = 48.6873
+margin_top = -19.3814
+margin_right = 398.687
+margin_bottom = 34.6186
+rect_scale = Vector2( 2.5, 2.5 )
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+text = "Bendezium"
+align = 2
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleUnderline" type="Line2D" parent="ScanInfo/Info/Panel"]
+visible = false
+position = Vector2( 931.383, 106.981 )
+scale = Vector2( 6.06768, 4 )
+points = PoolVector2Array( 0, 7.62939e-06, -144, 7.62939e-06 )
+width = 3.056
+default_color = Color( 1, 1, 1, 1 )
+
+[node name="Shadow" type="Line2D" parent="ScanInfo/Info/Panel/TitleUnderline"]
+show_behind_parent = true
+position = Vector2( 1.22009, 1.28802 )
+points = PoolVector2Array( 0, 7.62939e-06, -144, 7.62939e-06 )
+width = 3.056
+default_color = Color( 0, 0, 0, 1 )
+
+[node name="Profile" type="Label" parent="ScanInfo/Info/Panel"]
+margin_left = 54.8893
+margin_top = 146.664
+margin_right = 356.889
+margin_bottom = 309.664
+rect_scale = Vector2( 3, 3 )
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "An attachment point with a mechanism that allows grapple beam users to securely tether themselves. The Federation frequently makes use of these to allow passage over wide gaps in situations where constructing a bridge would be unneccesary or impossible."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="ScanInfo"]
+show_behind_parent = true
+margin_left = 1585.0
+margin_top = 801.0
+margin_right = 1585.0
+margin_bottom = 867.0
+rect_clip_content = true
+color = Color( 0.027451, 0.156863, 0.270588, 0.74902 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonPrompt" parent="ScanInfo/ColorRect2" instance=ExtResource( 6 )]
+position = Vector2( 56, 32.7491 )
+scale = Vector2( 2, 2 )
+action_keys = [ "ui_cancel" ]
+text = [ "Cancel" ]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ScanInfo"]
+anims/hide = SubResource( 11 )
+anims/show = SubResource( 12 )
+
+[node name="Light" type="Node2D" parent="."]
+
+[node name="Light" type="Light2D" parent="Light"]
+scale = Vector2( 1, 1.2 )
+texture = ExtResource( 9 )
+offset = Vector2( 348, 0 )
+texture_scale = 0.2
+color = Color( 0, 1, 0.227451, 0.839216 )
+energy = 0.75
+range_z_min = -4096
+range_z_max = 4096
+range_layer_min = -512
+range_layer_max = 512
+range_item_cull_mask = 1048575
+__meta__ = {
+"_edit_lock_": true
+}
