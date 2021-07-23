@@ -204,6 +204,7 @@ func load_json(path: String):
 	return JSON.parse(data).result
 
 func save_json(path: String, data, pretty: bool = false):
+	print(path)
 	var f = File.new()
 	f.open(path, File.WRITE)
 	f.store_string(JSON.print(data, "\t" if pretty else ""))

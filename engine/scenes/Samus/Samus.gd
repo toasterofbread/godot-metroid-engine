@@ -1,7 +1,6 @@
 extends KinematicBody2D
 
 signal state_changed
-signal landed
 
 onready var Animator: Node2D = $Animator
 onready var Collision: CollisionShape2D = $Collision
