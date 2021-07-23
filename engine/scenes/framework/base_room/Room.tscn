@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://engine/scenes/framework/base_room/Room.gd" type="Script" id=1]
+
+[sub_resource type="TileSet" id=1]
+
+[node name="room" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="MapChunks" type="Node2D" parent="."]
+z_index = 4096
+
+[node name="CameraChunks" type="Node2D" parent="."]
+z_index = 4096
+
+[node name="SpawnPos" type="Position2D" parent="." groups=[
+"SpawnPosition",
+]]
+
+[node name="VisualTileMapPrecise3" type="TileMap" parent="."]
+cell_size = Vector2( 1, 1 )
+format = 1
+
+[node name="VisualTileMapPrecise2" type="TileMap" parent="."]
+cell_size = Vector2( 1, 1 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+
+[node name="VisualTileMapPrecise" type="TileMap" parent="."]
+cell_size = Vector2( 1, 1 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+
+[node name="VisualTileMapPrecise4" type="TileMap" parent="."]
+tile_set = SubResource( 1 )
+cell_size = Vector2( 1, 1 )
+collision_layer = 0
+collision_mask = 0
+format = 1
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 524288
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2( 0, -24 )
+polygon = PoolVector2Array( 0, 24, 0, 56, 56, 56, 56, 24 )

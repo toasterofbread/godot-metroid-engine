@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndDoorClose.wav-1cd04b7145db41358a2cd3a9dd7b4667.sample"
+
+[deps]
+
+source_file="res://engine/audio/objects/door/sndDoorClose.wav"
+dest_files=[ "res://.import/sndDoorClose.wav-1cd04b7145db41358a2cd3a9dd7b4667.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

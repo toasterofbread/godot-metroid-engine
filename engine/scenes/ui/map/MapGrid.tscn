@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://engine/scenes/ui/map/MapGrid.gd" type="Script" id=1]
+[ext_resource path="res://engine/sprites/ui/map/bgMapScreenBG.png" type="Texture" id=2]
+
+[node name="MapGrid" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1880.0
+margin_bottom = -1056.0
+rect_clip_content = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Center" type="Control" parent="CenterContainer"]
+margin_left = 20.0
+margin_top = 12.0
+margin_right = 20.0
+margin_bottom = 12.0
+
+[node name="Tiles" type="Node2D" parent="CenterContainer/Center"]
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="BackgroundOffsetTween" type="Tween" parent="."]
