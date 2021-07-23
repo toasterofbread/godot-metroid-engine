@@ -103,8 +103,9 @@ func load_data(data: Dictionary, x: String, y: String):
 		$ColorRect.color = colour_data[int(data["c"])]
 	
 	var room_id: String = data["r"]
-	area_index = Enums.MapAreas.keys().find(room_id.split("/")[0].to_upper())
-	assert(area_index in Enums.MapAreas.values())
+#	area_index = Enums.MapAreas.keys().find(room_id.split("/")[0].to_upper())
+	area_index = Data.data["map_areas"].keys().find(room_id.split("/")[0].to_upper())
+#	assert(area_index in Enums.MapAreas.values())
 	
 	grid_position = Vector2(int(x), int(y))
 	var discovered_chunks: Dictionary = Map.savedata["discovered_chunks"]

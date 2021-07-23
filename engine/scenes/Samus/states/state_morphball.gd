@@ -21,9 +21,6 @@ var sounds = {
 	"morph": Audio.get_player("/samus/morphball/sndMorph", Audio.TYPE.SAMUS),
 	"unmorph": Audio.get_player("/samus/morphball/sndUnMorph", Audio.TYPE.SAMUS),
 	"bounce": Audio.get_player("/samus/morphball/sndBallBounce", Audio.TYPE.SAMUS),
-#	"morph": Sound.new("res://engine/audio/samus/morphball/sndMorph.wav", Sound.TYPE.SAMUS),
-#	"unmorph": Sound.new("res://engine/audio/samus/morphball/sndUnMorph.wav", Sound.TYPE.SAMUS),
-#	"bounce": Sound.new("res://engine/audio/samus/morphball/sndBallBounce.wav", Sound.TYPE.SAMUS)
 }
 
 # Called during Samus's readying period

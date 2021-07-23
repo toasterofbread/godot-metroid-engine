@@ -30,15 +30,20 @@ func init_state(data: Dictionary):
 	
 	tween.interpolate_property(Loader.current_room, "modulate:a", Loader.current_room.modulate.a, 0, 0.2)
 	
-	var colour_value = 0
-	tween.interpolate_property(Animator.get_node("DimLayer/ColorRect"), "color", Color(colour_value, colour_value, colour_value, 0), Color(colour_value, colour_value, colour_value, 1), 0.2)
+#	var colour_value = 0
+	Samus.camera.dim_colour = Color.black
+	Samus.camera.set_dim_layer(-1)
+	tween.interpolate_property(Samus.camera, "dim_colour:a", 0, 1, 0.2)
+#	tween.interpolate_property(Animator.get_node("DimLayer/ColorRect"), "color", Color(colour_value, colour_value, colour_value, 0), Color(colour_value, colour_value, colour_value, 1), 0.2)
 	tween.interpolate_property(Samus.HUD.Modulate, "color:a", Samus.HUD.Modulate.color.a, 0, 0.2)
 	
 	tween.start()
 	yield(tween, "tween_all_completed")
 	Samus.get_tree().paused = true
 	
-	var death_sound: AudioPlayer = sounds["death_real" if Samus.real else "death"].play(false, true)
+	var death_sound: AudioPlayer = sounds["death_real" if Samus.real else "death"]
+	print(death_sound)
+	death_sound.play()
 	if not Samus.real:
 		yield(death_sound, "finished")
 		yield(Global.wait(0.5, true), "completed")

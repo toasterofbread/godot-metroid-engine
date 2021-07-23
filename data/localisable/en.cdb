@@ -633,6 +633,32 @@
 					"display": null
 				}
 			]
+		},
+		{
+			"name": "map_areas",
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "key"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				}
+			],
+			"lines": [
+				{
+					"name": "Caves",
+					"key": "CAVES"
+				},
+				{
+					"name": "DEBUG",
+					"key": "DEBUG"
+				}
+			],
+			"separators": [],
+			"props": {}
 		}
 	],
 	"customTypes": [],
