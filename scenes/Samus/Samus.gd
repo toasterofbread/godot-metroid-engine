@@ -1,46 +1,52 @@
 extends KinematicBody2D
 
-onready var Animator = $Animator
-onready var Collision = $Collision
-onready var Physics = $Physics
-onready var Weapons = $Weapons
-onready var HUD = $HUD
-onready var PauseMenu = $PauseMenu
+signal state_changed
+signal landed
+
+onready var Animator: Node2D = $Animator
+onready var Collision: CollisionShape2D = $Collision
+onready var Hurtbox: CollisionShape2D = $Hurtbox/CollisionShape2D
+onready var Physics: Node = $Physics
+onready var Weapons: Node2D = $Weapons
+onready var HUD: Control = $HUD
+onready var PauseMenu: Control = $PauseMenu
 onready var camera: ExCamera2D = $ExCamera2D
 
-var facing = Enums.dir.LEFT
+var facing: int = Enums.dir.LEFT
 var armed: bool = false
 enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
-var aiming = aim.FRONT setget set_aiming
-var aim_none_timer = Global.timer()
+var aiming: int = aim.FRONT setget set_aiming
+var aim_none_timer: Timer = Global.get_timer()
 
-var hurtbox_damage = {}
+var hurtbox_damage: Dictionary = {}
 
 var boosting: bool = false setget set_boosting
 var shinespark_charged: bool = false
 
 var fall_time: float = 0
+var was_on_floor: bool = false
 
-const collision_data_json_path = "res://scenes/Samus/animations/collision_data.json"
-onready var collision_data = Global.load_json(collision_data_json_path)
+const collision_data_json_path: String = "res://scenes/Samus/animations/collision_data.json"
+onready var collision_data: Dictionary = Global.load_json(collision_data_json_path)
 
 var current_fluid: int
 
 onready var states = {
-	"jump": preload("res://scenes/Samus/states/state_jump.gd").new(self),
-	"neutral": preload("res://scenes/Samus/states/state_neutral.gd").new(self),
-	"run": preload("res://scenes/Samus/states/state_run.gd").new(self),
-	"crouch": preload("res://scenes/Samus/states/state_crouch.gd").new(self),
-	"morphball": preload("res://scenes/Samus/states/state_morphball.gd").new(self),
-	"spiderball": preload("res://scenes/Samus/states/state_spiderball.gd").new(self),
-	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self),
-	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self),
-	"visor": $Weapons/SamusVisors,
-	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self),
-	"facefront": preload("res://scenes/Samus/states/state_facefront.gd").new(self),
-	"hurt": preload("res://scenes/Samus/states/state_hurt.gd").new(self),
-	"death": preload("res://scenes/Samus/states/state_death.gd").new(self),
-	"airboost": preload("res://scenes/Samus/states/state_airboost.gd").new(self),
+	"jump": preload("res://scenes/Samus/states/state_jump.gd").new(self, "jump"),
+	"neutral": preload("res://scenes/Samus/states/state_neutral.gd").new(self, "neutral"),
+	"run": preload("res://scenes/Samus/states/state_run.gd").new(self, "run"),
+	"crouch": preload("res://scenes/Samus/states/state_crouch.gd").new(self, "crouch"),
+	"morphball": preload("res://scenes/Samus/states/state_morphball.gd").new(self, "morphball"),
+	"spiderball": preload("res://scenes/Samus/states/state_spiderball.gd").new(self, "spiderball"),
+	"shinespark": preload("res://scenes/Samus/states/state_shinespark.gd").new(self, "shinespark"),
+	"powergrip": preload("res://scenes/Samus/states/state_powergrip.gd").new(self, "powergrip"),
+	"visor": preload("res://scenes/Samus/states/state_visor.gd").new(self, "visor"),
+#	"visor": $Weapons/SamusVisors,
+	"grapple": preload("res://scenes/Samus/states/state_grapple.gd").new(self, "grapple"),
+	"facefront": preload("res://scenes/Samus/states/state_facefront.gd").new(self, "facefront"),
+	"hurt": preload("res://scenes/Samus/states/state_hurt.gd").new(self, "hurt"),
+	"death": preload("res://scenes/Samus/states/state_death.gd").new(self, "death"),
+	"airspark": preload("res://scenes/Samus/states/state_airspark.gd").new(self, "airspark"),
 	}
 var previous_state_id: String
 onready var current_state: Node = states["neutral"]
@@ -52,6 +58,8 @@ var upgrades: Dictionary
 
 var paused = null
 var real: = false
+
+#var functions_to_process: Array = []
 
 func set_boosting(value: bool):
 	boosting = value
@@ -106,8 +114,11 @@ func _ready():
 				weapon.ammo = upgrades[upgrade]["ammo"]
 			weapon.amount = upgrades[upgrade]["amount"]
 	
-	change_state("neutral")
+#	for state in states.values():
+#		if state.has_method("persistent_process"):
+#			functions_to_process.append(funcref(state, "persistent_process"))
 	
+	change_state("neutral")
 	Loader.Save.connect("value_set", self, "save_value_set")
 	
 	# DEBUG
@@ -115,16 +126,15 @@ func _ready():
 	register_commands()
 
 func _process(delta):
-	
 	# DEBUG
-	if Input.is_action_just_pressed("[DEBUG] increase energy"):
-		energy += 1
-		print("Increased energy to: " + str(energy))
-		HUD.set_energy(energy)
-	elif Input.is_action_just_pressed("[DEBUG] decrease energy"):
-		energy -= 1
-		print("Decreased energy to: " + str(energy))
-		HUD.set_energy(energy)
+#	if Input.is_action_just_pressed("[DEBUG] increase energy"):
+#		energy += 1
+#		print("Increased energy to: " + str(energy))
+#		HUD.set_energy(energy)
+#	elif Input.is_action_just_pressed("[DEBUG] decrease energy"):
+#		energy -= 1
+#		print("Decreased energy to: " + str(energy))
+#		HUD.set_energy(energy)
 	
 	if get_tree().paused and paused == null or paused:
 		if current_state.has_method("paused_process"):
@@ -134,6 +144,9 @@ func _process(delta):
 	current_state.process(delta)
 	if is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		states["shinespark"].process_speedboooster(delta)
+	
+#	for function in functions_to_process:
+#		function.call_func(delta)
 	
 #	if is_upgrade_active(Enums.Upgrade.CHARGEBEAM):
 #		process_chargebeam(delta)
@@ -160,14 +173,19 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	if get_tree().paused and paused == null or paused:
 		return
 	
+#	if states[new_state_key].init_state(data):
+	states[new_state_key].init_state(data)
 	if new_state_key in ["crouch", "morphball"] and is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		if states["shinespark"].ShinesparkStoreWindow.time_left > 0 or boosting:
 			states["shinespark"].charge_shinespark()
-	
 	previous_state_id = current_state.id
 	state_change_record = [[new_state_key, Global.time()]] + state_change_record
 	current_state = states[new_state_key]
-	states[new_state_key].init_state(data)
+	emit_signal("state_changed", previous_state_id, new_state_key, data)
+#	return true
+#	else:
+#		return false
+	
 
 var upgrade_cache: = {}
 func is_upgrade_active(upgrade_key: int):
@@ -211,7 +229,7 @@ func death():
 		current_state.change_state("death")
 
 onready var damage_reduction_mini_upgrade: Array = [get_mini_upgrade("power_suit_damage_reduction", 0), get_mini_upgrade("power_suit_damage_reduction", 1)["data"]["increase_percentage"]]
-func damage(type: int, amount: float, impact_position):
+func _damage(type: int, amount: float, impact_position):
 	
 	if InvincibilityTimer.time_left > 0:
 		return
@@ -264,16 +282,13 @@ func get_current_limits() -> Dictionary:
 
 var current_camerachunk = null
 var previous_camerachunk = null
-var camerachunk_set_while_paused: = false
 func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0.5):
-	
 	if chunk == current_camerachunk:
 		return
 	
 	previous_camerachunk = current_camerachunk
 	current_camerachunk = chunk
 	if get_tree().paused and paused == null or paused and not room_transition:
-		camerachunk_set_while_paused = true
 		return
 	
 	if not camera.is_inside_tree():
@@ -307,42 +322,46 @@ func set_collider(animation: SamusAnimation):
 	if collider_cache == data:
 		return
 	collider_cache = data
-	
-	$Collision.position = animation.positions[facing]
-	$Collision.rotation_degrees = 0
+
+#	var tempcollision: CollisionShape2D = Collision.duplicate()
+#	add_child(tempcollision)
+	Collision.position = animation.positions[facing]
+	Collision.rotation_degrees = 0
 	for key in collision_data[main_key]:
 		var value = collision_data[main_key][key]
 		if key == "pos": 
-			$Collision.position = Vector2(value[0], value[1])
+			Collision.position = Vector2(value[0], value[1])
 		elif (key == "leftPos" and facing == Enums.dir.LEFT) or (key == "rightPos" and facing == Enums.dir.RIGHT):
-			$Collision.position = Vector2(value[0], value[1])
+			Collision.position = Vector2(value[0], value[1])
 		elif key == "size":
 			var shape = "rect"
 			if "shape" in collision_data[main_key]:
 				shape = collision_data[main_key]["shape"]
 			
 			if shape == "rect":
-				if not $Collision.shape is RectangleShape2D:
-					$Collision.shape = RectangleShape2D.new()
-				$Collision.shape.extents = Vector2(value[0], value[1])
+				if not Collision.shape is RectangleShape2D:
+					Collision.shape = RectangleShape2D.new()
+				Collision.shape.extents = Vector2(value[0], value[1])
 			elif shape == "circle":
-				if not $Collision.shape is CircleShape2D:
-					$Collision.shape = CircleShape2D.new()
-				$Collision.shape.radius = value[0]
+				if not Collision.shape is CircleShape2D:
+					Collision.shape = CircleShape2D.new()
+				Collision.shape.radius = value[0]
 			elif shape == "capsule":
-				if not $Collision.shape is CapsuleShape2D:
-					$Collision.shape = CapsuleShape2D.new()
+				if not Collision.shape is CapsuleShape2D:
+					Collision.shape = CapsuleShape2D.new()
 				
 				if value[1] < value[0]:
-					$Collision.rotation_degrees = 90
-					$Collision.shape.radius = value[1]
-					$Collision.shape.height = value[0]
+					Collision.rotation_degrees = 90
+					Collision.shape.radius = value[1]
+					Collision.shape.height = value[0]
 				else:
-					$Collision.shape.radius = value[0]
-					$Collision.shape.height = value[1]
+					Collision.shape.radius = value[0]
+					Collision.shape.height = value[1]
 				
 			else:
 				push_error("Unknown collision_data shape")
+#	tempcollision.queue_free()
+	Hurtbox.shape = Collision.shape
 
 func fluid_entered(fluid: Fluid):
 	current_fluid = fluid.type
@@ -356,8 +375,14 @@ func fluid_exited(fluid: Fluid):
 func fluid_splash(type: int) -> bool:
 	return abs(Physics.vel.y) > 50
 
-func acquire_ammo_pickup(pickup: AmmoPickup):
-	print(pickup)
+func acquire_ammo_pickup(ammo_data: Dictionary):
+	
+	if ammo_data["type"] == AmmoPickup.TYPES.ENERGY:
+		energy = min((etanks*100)+99, energy + ammo_data["amount"])
+		HUD.set_energy(energy)
+	elif ammo_data["type"] == AmmoPickup.TYPES.UPGRADE:
+		ammo_data["weapon"].ammo = min(ammo_data["weapon"].amount, ammo_data["weapon"].ammo + ammo_data["amount"]) 
+
 
 var step_sounds = {
 	"snow": [
@@ -372,15 +397,19 @@ func step(index: int):
 	step_sounds["snow"][index].play()
 
 onready var InvincibilityPlayer: AnimationPlayer = Animator.get_node("InvincibilityPlayer")
-onready var InvincibilityTimer: ExTimer = Global.timer([self, "invincibility_changed", [false]], [self, "invincibility_changed", [true]])
+var InvincibilityTimer: ExTimer = Global.get_timer([self, "invincibility_changed", [false]], [self, "invincibility_changed", [true]])
 func invincibility_changed(status: bool):
 	if status == (InvincibilityPlayer.current_animation == "invincibility"):
 		return
 	InvincibilityPlayer.play("invincibility" if status else "reset")
 	if not status:
-		$Collision.disabled = true
+		# DEBUG
+		pass
+#		Collision.disabled = true
+		Hurtbox.disabled = true
 		yield(get_tree(), "idle_frame")
-		$Collision.disabled = false
+		Hurtbox.disabled = false
+#		Collision.disabled = false
 
 # DEBUG
 func register_commands():

@@ -117,12 +117,13 @@ func death(type: int):
 	$CollisionShape2D.set_deferred("disabled", true)
 	$Dummy/CollisionShape2D.set_deferred("disabled", true)
 	
+	.death(type)
 	yield($ExplosionEmitter.emit_single(true), "completed")
 	queue_free()
 
 func _on_Area2D_body_entered(body):
 	
-	if health == 0:
+	if health <= 0:
 		return
 	
 	if body == Samus:
@@ -133,4 +134,3 @@ func _on_Area2D_body_entered(body):
 	
 	if body.has_method("damage"):
 		body.damage(Enums.DamageType.ENEMYCOLLISION, data["collision_damage"]["outgoing"], $CollisionShape2D.global_position)
-		damage(Enums.DamageType.ENEMYCOLLISION, data["collision_damage"]["incoming"], $CollisionShape2D.global_position)

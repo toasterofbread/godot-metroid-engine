@@ -84,15 +84,15 @@
 	},
 	"zoomer_template": {
 		"health": 5,
+		"ammo_drop_profile": 0,
 		"collision_damage": {
-			"incoming": 2,
 			"outgoing": 10
 		},
 	},
 	"crystallite": {
 		"health": 15,
+		"ammo_drop_profile": 2,
 		"collision_damage": {
-			"incoming": 2,
 			"outgoing": 500
 		},
 		"spike": {

@@ -7,7 +7,7 @@ export var apply_right: = false
 export var apply_top: = false
 export var apply_bottom: = false
 
-var area: Area2D
+var area: ExArea2D
 var room: Room
 
 func _ready():
@@ -20,13 +20,14 @@ func _ready():
 	yield(get_parent(), "ready")
 	room = get_parent().get_parent()
 	
-	area = Area2D.new()
+	area = ExArea2D.new()
 	area.pause_mode = Node.PAUSE_MODE_PROCESS
 	self.get_parent().add_child(area)
 	Global.reparent_child(self, area)
+	area.name = name
 	
-	area.connect("body_entered", self, "body_entered")
-	area.connect("body_exited", self, "body_exited")
+	area.connect("body_entered_safe", self, "body_entered")
+	area.connect("body_exited_safe", self, "body_exited")
 
 func get_limits():
 	var limits = {

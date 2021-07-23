@@ -5,14 +5,17 @@ onready var Samus: KinematicBody2D = Loader.Samus
 const transfer_wait_time: float = 2.0
 
 export var flip: bool = false
-onready var used_data: Array = Loader.Save.get_data_key(["map", "used_maprooms"])
-onready var used: bool = Loader.current_room.area_index in used_data setget set_used
+onready var scanned_areas: Array = Loader.Save.get_data_key(["map", "scanned_areas"])
+var used: bool = false setget set_used
 
 func update_screenoverlay():
 	$ScreenOverlay.visible = $Console.animation in ["extend", "retract"]
 
 func _ready():
-	set_used(used, false)
+	
+	yield(Loader, "room_loaded")
+	set_used(Loader.current_room.area_index in scanned_areas)
+	
 	$ScreenOverlay.play("default")
 
 func set_used(value: bool, animate: bool = true):
@@ -26,6 +29,9 @@ func set_used(value: bool, animate: bool = true):
 	else:
 		$ScreenOverlay.self_modulate.a = int(!used)
 	$ScreenOverlay.visible = !used
+	
+	if used:
+		scanned_areas.append(Loader.current_room.area_index)
 
 func _process(_delta):
 	

@@ -28,7 +28,7 @@ func trigger(upgrade_type: int, added: int, total: int):
 	$CanvasLayer/Added.text = "Added: " + str(added)
 	$CanvasLayer/Total.text = "Total: " + str(total)
 	
-	Global.dim_screen(show_duration*2, 0.75, 5)
+	Global.dim_screen(show_duration*2, 0.75, 5, 0)
 	
 	$CanvasLayer/Icon.play(upgrade_type_string.to_lower())
 	$CanvasLayer/Label.text = upgrade_name + "\nacquired"

@@ -1,7 +1,5 @@
-extends Node2D
+extends SamusState
 
-const id: String = "visor"
-var Samus: KinematicBody2D
 var Weapons: Node2D
 var Animator: Node2D
 var Physics: Node
@@ -11,7 +9,8 @@ const walk_acceleration = 15
 const walk_deceleration = 50
 const max_walk_speed = 75
 
-onready var scanner: Node2D = $Scanner
+var node: Node2D
+var scanner: Node2D
 
 var enabled: bool = false
 var angle: float = 90
@@ -24,65 +23,62 @@ onready var GhostAnchor: Node2D = Global.get_anchor("Samus/Visors/" + self.id)
 var force_transition: bool = false
 var fire_pos = null
 
-func _ready():
-	$Scanner.visible = false
-	Samus = Loader.Samus
-	yield(Samus, "ready")
-	Animator = Samus.Animator
-	Physics = Samus.Physics
-	Weapons = Samus.Weapons
-	animations = Animator.load_from_json(self.id)
-	Samus.Weapons.connect("visor_mode_changed", self, "visor_mode_changed")
-	
-	z_index = Enums.Layers.VISOR
-	z_as_relative = false
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
+	node = Weapons.get_node("VisorNode")
+	scanner = node.get_node("Scanner")
+	scanner.visible = false
+	Weapons.connect("visor_mode_changed", self, "visor_mode_changed")
+	scanner.get_node("Area2D").connect("area_entered", self, "_on_Area2D_area_entered")
+	scanner.get_node("Area2D").connect("area_exited", self, "_on_Area2D_area_exited")
 
-func init_state(_data:={}):
+func init_state(_data: Dictionary = {}):
 	movement_speed_multiplier = 1
+	var tintOverlay: ColorRect = node.get_node("CanvasLayer/TintOverlay")
+	var tween: Tween = node.get_node("CanvasLayer/Tween")
 	if Weapons.current_visor != null:
 		
-		for light in $Scanner/Lights.get_children():
+		for light in scanner.get_node("Lights").get_children():
 			light.visible = light.name == str(Weapons.current_visor.id)
 		
-		if not $CanvasLayer/TintOverlay.visible:
-			$CanvasLayer/TintOverlay.visible = true
-			$CanvasLayer/Tween.interpolate_property(
-				$CanvasLayer/TintOverlay,
+		if not tintOverlay.visible:
+			tintOverlay.visible = true
+			tween.interpolate_property(
+				tintOverlay,
 				"modulate:a",
 				0,
 				1,
 				0.5
 			)
-			$CanvasLayer/TintOverlay.color = Weapons.current_visor.background_tint
+			tintOverlay.color = Weapons.current_visor.background_tint
 		else:
-			$CanvasLayer/Tween.interpolate_property(
-				$CanvasLayer/TintOverlay, 
+			node.get_node("CanvasLayer/Tween").interpolate_property(
+				tintOverlay, 
 				"color", 
-				$CanvasLayer/TintOverlay.color, 
+				tintOverlay.color, 
 				Weapons.current_visor.background_tint,
 				0.5
 			)
-		$CanvasLayer/Tween.start()
+		tween.start()
 		
-	elif $CanvasLayer/TintOverlay.visible:
-		$CanvasLayer/Tween.interpolate_property(
-			$CanvasLayer/TintOverlay, 
+	elif tintOverlay.visible:
+		tween.interpolate_property(
+			tintOverlay, 
 			"modulate:a", 
 			1, 
 			0,
 			0.5
 		)
-		$CanvasLayer/Tween.start()
-		yield($CanvasLayer/Tween, "tween_completed")
-		$CanvasLayer/TintOverlay.visible = false
-
+		tween.start()
+		yield(tween, "tween_completed")
+		tintOverlay.visible = false
+	
+	return true
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	Animator.resume()
-	Samus.change_state(new_state_key, data)
 	disable()
-
+	.change_state(new_state_key, data)
 
 # Called every frame while the visor is enabled
 func process(delta: float):
@@ -95,8 +91,8 @@ func process(delta: float):
 		init_state()
 		return
 	
-	if Weapons.current_visor != null:
-		Weapons.current_visor.process(delta)
+#	if Weapons.current_visor != null:
+#		Weapons.current_visor._process(delta)
 	
 	scanner.get_node("Lights").scale.x = scanner_scale_multiplier.x
 	scanner.get_node("Lights").scale.y = scanner.get_node("Lights").scale.x * scanner_scale_multiplier.y
@@ -165,8 +161,8 @@ func process(delta: float):
 
 func physics_process(delta: float):
 	
-	if Weapons.current_visor != null:
-		Weapons.current_visor.physics_process(delta)
+#	if Weapons.current_visor != null:
+#		Weapons.current_visor._physics_process(delta)
 	
 	angle_process()
 	
@@ -253,7 +249,7 @@ func enable():
 	enabled = true
 	if Weapons.current_visor:
 		Weapons.current_visor.enabled()
-	$AnimationPlayer.play("enable_scanner")
+	node.get_node("AnimationPlayer").play("enable_scanner")
 
 func disable():
 	if not enabled:
@@ -261,8 +257,8 @@ func disable():
 	enabled = false
 	if Weapons.current_visor:
 		Weapons.current_visor.disabled()
-	$AnimationPlayer.play("disable_scanner")
-	yield($AnimationPlayer, "animation_finished")
+	node.get_node("AnimationPlayer").play("disable_scanner")
+	yield(node.get_node("AnimationPlayer"), "animation_finished")
 	movement_speed_multiplier = 1
 
 func get_emit_pos():

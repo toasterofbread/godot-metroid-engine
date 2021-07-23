@@ -16,6 +16,8 @@ onready var CameraChunks = $CameraChunks.get_children()
 onready var MapChunks = $MapChunks.get_children()
 var scanNodes: Array
 
+var spawnPosition = null
+
 func get_id():
 	set_id_info()
 	return id
@@ -65,6 +67,15 @@ func _ready():
 	z_as_relative = false
 	z_index = Enums.Layers.WORLD
 	
+	var spawn_positions = get_tree().get_nodes_in_group("SpawnPosition")
+	if len(spawn_positions) == 1:
+		spawnPosition = spawn_positions[0]
+	elif len(spawn_positions) == 0:
+		assert(false, "No SpawnPositions found in room")
+		return "No SpawnPositions found in room"
+	else:
+		push_warning("Multiple SpawnPositions found in room: " + id)
+	
 	yield(self, "ready")
 	scanNodes = get_tree().get_nodes_in_group("ScanNode")
 	
@@ -73,10 +84,10 @@ func _ready():
 		if not is_instance_valid(scanNode) or not is_a_parent_of(scanNode):
 			scanNodes.erase(scanNode)
 
-func transitioning():
-	for node in CameraChunks:
-		node.queue_free()
-		yield(node, "tree_exited")
+#func transitioning():
+#	for node in CameraChunks:
+#		node.queue_free()
+#		yield(node, "tree_exited")
 
 func generate_maptiles():
 	var i = 0

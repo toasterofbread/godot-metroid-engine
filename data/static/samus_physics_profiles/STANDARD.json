@@ -24,7 +24,8 @@
 		"horiz_acceleration": [10],
 
 		"horiz_spin_speed": [125],
-		"horiz_spin_deceleration": [10]
+		"horiz_spin_deceleration": [10],
+		"horiz_spin_max_speed": [200],
 	},
 	"morphball": {
 		"ground_speed": [150],
@@ -66,7 +67,7 @@
 		"knockback_strength": [1],
 		"invincibility_duration": [2]
 	},
-	"airboost": {
+	"airspark": {
 		"can_respin_after_boost": [false],
 		"vert_spin_sprite": [true],
 		"speed": [300],

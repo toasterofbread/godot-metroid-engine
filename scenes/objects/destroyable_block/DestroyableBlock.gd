@@ -74,11 +74,11 @@ func _process(_delta: float):
 	
 	if disable:
 #		$VisibilityEnabler2D.process_parent = false
-		self.set_collision_layer_bit(19, false)
+		set_collision_layer_bit(19, false)
 		state = STATES.COLLISIONDISABLED
 	elif state == STATES.COLLISIONDISABLED and not disable:
 #		$VisibilityEnabler2D.process_parent = true
-		self.set_collision_layer_bit(19 , true)
+		set_collision_layer_bit(19 , true)
 		state = STATES.NORMAL
 			
 

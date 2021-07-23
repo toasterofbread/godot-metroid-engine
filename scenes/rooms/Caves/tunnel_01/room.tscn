@@ -1,6 +1,6 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
-[ext_resource path="res://scenes/framework/base_room/BaseRoom.gd" type="Script" id=1]
+[ext_resource path="res://scenes/framework/base_room/Room.gd" type="Script" id=1]
 [ext_resource path="res://sprites/tilesheets/ice.png" type="Texture" id=2]
 [ext_resource path="res://scenes/framework/map_chunk/MapChunk.gd" type="Script" id=3]
 [ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=4]
@@ -11,21 +11,24 @@
 [ext_resource path="res://scenes/objects/destroyable_block/DestroyableBlock.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/objects/upgrade_pickup/UpgradePickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/generic/hidden_area/HiddenArea.tscn" type="PackedScene" id=11]
+[ext_resource path="res://classes/CameraChunk.gd" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 256, 256 )
 
-[sub_resource type="ViewportTexture" id=2]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 679.709, 205.799 )
+
+[sub_resource type="ViewportTexture" id=3]
 viewport_path = NodePath("Items/Node2D/Viewport")
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 89.2341, 12.0105 )
 
-[sub_resource type="ViewportTexture" id=4]
+[sub_resource type="ViewportTexture" id=5]
 viewport_path = NodePath("Items/Node2D/Viewport")
 
-[sub_resource type="Animation" id=5]
-resource_name = "entered"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light2D:scale")
 tracks/0/interp = 1
@@ -99,8 +102,7 @@ tracks/5/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "exited"
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Light2D:scale")
 tracks/0/interp = 1
@@ -174,7 +176,7 @@ tracks/5/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="TileSet" id=7]
+[sub_resource type="TileSet" id=8]
 0/name = "ice.png 0"
 0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
@@ -932,7 +934,7 @@ tracks/5/keys = {
 55/shapes = [  ]
 55/z_index = 0
 
-[sub_resource type="ViewportTexture" id=8]
+[sub_resource type="ViewportTexture" id=9]
 viewport_path = NodePath("Platforms/2/Node2D/Viewport")
 
 [node name="Tunnel01" type="Node2D"]
@@ -1014,7 +1016,17 @@ right_wall = 2
 upgrade_pickup = NodePath("../../Items/Node2D2/UpgradePickup")
 
 [node name="CameraChunks" type="Node2D" parent="."]
-z_index = -4095
+z_index = 4096
+
+[node name="CameraChunk" type="CollisionShape2D" parent="CameraChunks"]
+modulate = Color( 0, 1, 0.529412, 1 )
+position = Vector2( -639.804, -63.5398 )
+shape = SubResource( 2 )
+script = ExtResource( 12 )
+apply_left = true
+apply_right = true
+apply_top = true
+apply_bottom = true
 
 [node name="Doors" type="Node2D" parent="."]
 
@@ -1023,11 +1035,14 @@ position = Vector2( -4, -1 )
 rotation = -3.14159
 target_room_id = "Caves/ship"
 target_door_id = "ToTunnel01"
+cameraChunk = NodePath("../../CameraChunks/CameraChunk")
 
 [node name="ToMaproom" parent="Doors" instance=ExtResource( 4 )]
 position = Vector2( -1275, -33 )
 target_room_id = "Caves/maproom"
 target_door_id = "ToTunnel01"
+colour = 1
+cameraChunk = NodePath("../../CameraChunks/CameraChunk")
 
 [node name="Items" type="Node2D" parent="."]
 
@@ -1050,7 +1065,7 @@ light_mask = 524288
 position = Vector2( 8, 13.5 )
 scale = Vector2( 1, 1.38636 )
 enabled = false
-texture = SubResource( 2 )
+texture = SubResource( 3 )
 mode = 3
 range_item_cull_mask = 524288
 
@@ -1077,7 +1092,7 @@ exited_connections = [ [ NodePath("AnimationPlayer"), "play", [ "exited" ] ] ]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Items/Node2D2/HiddenArea"]
 position = Vector2( 73.2946, -0.638466 )
 z_index = 1
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Viewport" type="Viewport" parent="Items/Node2D2/HiddenArea"]
 size = Vector2( 1, 1 )
@@ -1086,15 +1101,15 @@ size = Vector2( 1, 1 )
 position = Vector2( -37.7055, 0.488359 )
 scale = Vector2( 1e-05, 0.318182 )
 enabled = false
-texture = SubResource( 4 )
+texture = SubResource( 5 )
 mode = 3
 range_item_cull_mask = 524288
 shadow_enabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Items/Node2D2/HiddenArea"]
 playback_speed = 5.0
-anims/entered = SubResource( 5 )
-anims/exited = SubResource( 6 )
+anims/entered = SubResource( 6 )
+anims/exited = SubResource( 7 )
 
 [node name="Polygon2D" type="Polygon2D" parent="Items/Node2D2/HiddenArea"]
 position = Vector2( -240.333, -27.3197 )
@@ -1149,7 +1164,7 @@ position = Vector2( 76.3819, -318.716 )
 
 [node name="VisualTileMapPrecise2" type="TileMap" parent="."]
 light_mask = 524289
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 collision_layer = 0
 collision_mask = 0
@@ -1158,7 +1173,7 @@ tile_data = PoolIntArray( -8257939, 536870957, 0, -6030380, 44, 0, -5833847, -10
 
 [node name="VisualTileMapPrecise" type="TileMap" parent="."]
 light_mask = 524289
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 collision_layer = 0
 collision_mask = 0
@@ -1167,7 +1182,7 @@ tile_data = PoolIntArray( -10224022, -536870881, 0, -7864751, 536870952, 0, -747
 
 [node name="VisualTileMapPrecise3" type="TileMap" parent="."]
 light_mask = 524289
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 format = 1
 tile_data = PoolIntArray( -6685025, -536870875, 0, -6684752, 31, 0, -6422587, -1073741793, 0, -5702155, 536870952, 0, -5374054, 51, 0, -5243849, 46, 0, -5177889, 536870963, 0, -5112385, 536870964, 0, -4981673, 30, 0, -4981329, 47, 0, -4391545, 43, 0, -4325434, 40, 0, -3342362, 30, 0, -875, -2147483619, 0, 523308, 1610612776, 0, 1507153, 1610612780, 0, 1572088, 1610612780, 0, 1637631, -536870882, 0, 1834053, 536870942, 0, 1834902, 1073741867, 0, 2030844, -536870882, 0, 2096684, 1073741868, 0, 2227272, 536870967, 0, 2227984, -2147483619, 0, 2292983, -536870882, 0, 2686745, -2147483618, 0, 2817808, -2147483618, 0, 2817811, -2147483618, 0, 3014121, -2147483621, 0, 3079961, -2147483618, 0, 3210528, 1610612766, 0, 3211024, -2147483618, 0, 3211027, -2147483618, 0, 4062811, -2147483617, 0, 4324995, -2147483618, 0, 4390528, -2147483618, 0, 4390535, -2147483618, 0, 4456054, -2147483618, 0, 4521594, -2147483618, 0, 4521598, -2147483618, 0, 6749286, 43, 0, 8190958, 55, 0, 8191004, 1073741867, 0, 9174033, 1610612766, 0, 9305110, 1073741854, 0, 9567249, 1610612766, 0, 9698326, 1073741854, 0 )
@@ -1181,21 +1196,21 @@ collision_mask = 15
 
 [node name="TileMap0" type="TileMap" parent="Platforms/1"]
 position = Vector2( 226.7, -49 )
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 format = 1
 tile_data = PoolIntArray( 2228005, -2147483609, 0, 2490088, -1610612698, 0, 2817840, -1073741794, 0, 2948915, -1073741794, 0, 3014455, -1073741794, 0, 3145509, -1073741785, 0, 3210982, -536870873, 0, 3473154, -536870885, 0 )
 
 [node name="TileMap1" type="TileMap" parent="Platforms/1"]
 position = Vector2( 226.7, -49 )
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 format = 1
 tile_data = PoolIntArray( 2096892, 1073741870, 0, 2096923, 1610612781, 0, 3145489, 43, 0, 3211057, 30, 0 )
 
 [node name="TileMap2" type="TileMap" parent="Platforms/1"]
 position = Vector2( 226.7, -49 )
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 format = 1
 
@@ -1233,7 +1248,7 @@ size = Vector2( 16, 35 )
 [node name="Light2D" type="Light2D" parent="Platforms/2/Node2D"]
 position = Vector2( -41, 22.5 )
 enabled = false
-texture = SubResource( 8 )
+texture = SubResource( 9 )
 color = Color( 0, 0, 0, 0 )
 energy = 0.0
 mode = 3
@@ -1243,7 +1258,7 @@ range_item_cull_mask = 524288
 light_mask = 524288
 position = Vector2( -277, 73 )
 rotation = 3.14159
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 format = 1
 tile_data = PoolIntArray( 2228005, -2147483609, 0, 2490088, -1610612698, 0, 2817840, -1073741794, 0, 2948915, -1073741794, 0, 3014455, -1073741794, 0, 3145509, -1073741785, 0, 3210982, -536870873, 0, 3473154, -536870885, 0 )
@@ -1252,7 +1267,7 @@ tile_data = PoolIntArray( 2228005, -2147483609, 0, 2490088, -1610612698, 0, 2817
 light_mask = 524288
 position = Vector2( -277, 73 )
 rotation = 3.14159
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 format = 1
 tile_data = PoolIntArray( 2096892, 1073741870, 0, 2096923, 1610612781, 0, 3145489, 43, 0, 3211057, 30, 0 )
@@ -1261,7 +1276,7 @@ tile_data = PoolIntArray( 2096892, 1073741870, 0, 2096923, 1610612781, 0, 314548
 light_mask = 524288
 position = Vector2( -277, 73 )
 rotation = 3.14159
-tile_set = SubResource( 7 )
+tile_set = SubResource( 8 )
 cell_size = Vector2( 1, 1 )
 format = 1
 

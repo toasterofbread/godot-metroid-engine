@@ -58,7 +58,7 @@ func _ready():
 			"material": NodePath("."),
 			"sprite": null
 		},
-		"airboost": {
+		"airspark": {
 			"frequency": 400,
 			"linger_time": 0.1,
 			"fade_out": true,
@@ -136,8 +136,3 @@ func load_from_json(state_id: String, json_key = null) -> Dictionary:
 		
 		data[animation] = SamusAnimation.new(self, id, data[animation])
 	return data
-
-func set_dim(colour: Color, above_samus: bool):
-	$DimLayer.layer = 1 if above_samus else -2
-	$DimLayer/ColorRect.color = colour
-	$DimLayer/ColorRect.visible = false if colour.a == 0 else true

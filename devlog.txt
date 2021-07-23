@@ -50,7 +50,12 @@ Thu 13 May 2021:
  - 12~23
  - Finished X-Ray scope
  - Added space jump (literally one line of code excluding animation)
- - Added screw attack (needed a shit ton of optimisation because using signals for this was insanely resource-intensive)
+ - Added screw attack (needed a ton of optimisation because using signals for this was insanely resource-intensive)
  - Added power bombs (pretty much done, just needs visual polish and sound)
  - Started spiderball state (technically did, even if it was just 2 minutes before going to bed)
- 
+
+Development during this period was fairly active, just not quite as much as before
+
+Mon 19 July 2021:
+ - Finally created a class for Samus's states (I have no idea why it took me so long)
+ - Completed the airspark state (which was started yesterday)

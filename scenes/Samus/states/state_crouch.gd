@@ -1,32 +1,30 @@
-extends Node
+extends SamusState
 
-var Samus: Node2D
 var Animator: Node
 var Physics: Node
+var animations = {}
 
 var CeilingRaycast: RayCast2D
 
-const id = "crouch"
-
-var animations = {}
-
 # Called during Samus's readying period
-func _init(_samus: Node2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
-	
-	self.CeilingRaycast = Animator.raycasts.get_node("crouch/Ceiling")
-	
-	animations = Animator.load_from_json(self.id)
+func _init(_Samus: Node2D, _id: String).(_Samus, _id):
+	CeilingRaycast = Animator.raycasts.get_node("crouch/Ceiling")
 
 # Called when Samus's state is changed to this one
 func init_state(_data: Dictionary):
 	CeilingRaycast.enabled = true
-	return self
+
+# Changes Samus's state to the passed state script
+func change_state(new_state_key: String, data: Dictionary = {}):
+	Shortcut.remove_input_hold_monitor("pad_right", id)
+	Shortcut.remove_input_hold_monitor("pad_left", id)
+	
+	CeilingRaycast.enabled = false
+	
+	.change_state(new_state_key, data)
 
 # Called every frame while this state is active
-func process(_delta):
+func process(_delta: float):
 	
 	var play_transition = false
 	var original_facing = Samus.facing
@@ -44,35 +42,38 @@ func process(_delta):
 			return
 		if Input.is_action_just_pressed("fire_weapon") and Samus.Weapons.current_visor == null:
 			Samus.Weapons.fire()
-		if Input.is_action_just_pressed("jump"):
+		if Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
+			change_state("airspark")
+			return
+		elif Input.is_action_just_pressed("jump"):
 			change_state("jump", {"options": ["jump"]})
 			return
 		
 		if Input.is_action_pressed("pad_left"):
 			Samus.facing = Enums.dir.LEFT
-			Global.remove_hold_action("pad_right")
+			Shortcut.remove_input_hold_monitor("pad_right", id)
 			
 			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
-			elif not Animator.transitioning() and Global.is_action_held("pad_left", 0.1) and Samus.time_since_last_state("morphball", 0.1):
+			elif not Animator.transitioning() and Shortcut.get_input_hold_value("pad_left") >= 0.1 and Samus.time_since_last_state("morphball", 0.1):
 				if not CeilingRaycast.is_colliding():
 					change_state("run", {"boost": false})
 					return
 			elif not Animator.transitioning():
-				Global.create_hold_action("pad_left")
+				Shortcut.add_input_hold_monitor("pad_left", id)
 				
 		elif Input.is_action_pressed("pad_right"):
 			Samus.facing = Enums.dir.RIGHT
-			Global.remove_hold_action("pad_left")
+			Shortcut.remove_input_hold_monitor("pad_left", id)
 			
 			if original_facing == Enums.dir.LEFT:
 				play_transition = true
-			elif not Animator.transitioning() and Global.is_action_held("pad_right", 0.1) and Samus.time_since_last_state("morphball", 0.1):
+			elif not Animator.transitioning() and Shortcut.get_input_hold_value("pad_right") >= 0.1 and Samus.time_since_last_state("morphball", 0.1):
 				if not CeilingRaycast.is_colliding():
 					change_state("run", {"boost": false})
 					return
 			elif not Animator.transitioning():
-				Global.create_hold_action("pad_right")
+				Shortcut.add_input_hold_monitor("pad_right", id)
 	
 	if Input.is_action_pressed("aim_weapon"):
 		
@@ -114,15 +115,6 @@ func process(_delta):
 		animations["turn_" + animation].play()
 	elif not Animator.transitioning(false, true):
 		animations[animation].play(true)
-	
-# Changes Samus's state to the passed state script
-func change_state(new_state_key: String, data: Dictionary = {}):
-	
-	Global.remove_hold_action("pad_right")
-	Global.remove_hold_action("pad_left")
-	CeilingRaycast.enabled = false
-	
-	Samus.change_state(new_state_key, data)
-	
-func physics_process(_delta: float):
-	Physics.move_x(0, Physics.data["run"]["deceleration"])
+
+func physics_process(delta: float):
+	Physics.move_x(0, Physics.data["run"]["deceleration"]*delta)

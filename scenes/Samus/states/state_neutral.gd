@@ -1,30 +1,21 @@
-extends Node
+extends SamusState
 
-var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
-
-const id = "neutral"
 var animations = {}
-var animations_json_path: String
 
-var idle_timer: Timer = Global.timer([self, "play_idle_animation", []])
+var idle_timer: Timer = Global.get_timer([self, "play_idle_animation", []])
 var idle_animations: Array
 const idle_animation_interval = [5, 10] 
 
 var from_powergrip = false
 
 # Called during Samus's readying period
-func _init(_samus: KinematicBody2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
-	
-	self.animations = Animator.load_from_json(self.id)
-	self.idle_animations = Animator.load_from_json(self.id, "neutral_idle").values()
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
+	idle_animations = Animator.load_from_json(id, "neutral_idle").values()
 
 # Called every frame while this state is active
-func process(_delta):
+func process(_delta: float):
 	
 	# DEBUG
 	if Input.is_action_just_pressed("[DEBUG] trigger_idle_animation"):
@@ -34,18 +25,24 @@ func process(_delta):
 	var original_facing = Samus.facing
 	var play_transition = false
 	var reset_idle_timer = false
-	var fire_weapon = false
 	
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
-	if Samus.Weapons.cycle_visor():
-		change_state("visor")
-		return
+	if Input.is_action_just_pressed("fire_weapon"):
+		Samus.Weapons.fire()
+		reset_idle_timer = true
+		Samus.aim_none_timer.start()
 	
-	if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
+	if Input.is_action_just_pressed("pause") and Samus.PauseMenu.mode == Samus.PauseMenu.MODES.CLOSED:
+		reset_idle_timer = true
+		Samus.PauseMenu.pause()
+	elif Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
+		return
+	elif Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
+		change_state("airspark")
 		return
 	elif Input.is_action_just_pressed("jump"):
 		if Physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
@@ -60,16 +57,12 @@ func process(_delta):
 	elif not Samus.is_on_floor() and not from_powergrip:
 		change_state("jump", {"options": ["fall"]})
 		return
-	elif Input.is_action_just_pressed("fire_weapon"):
-		fire_weapon = true
-		reset_idle_timer = true
-		Samus.aim_none_timer.start()
-	elif Input.is_action_just_pressed("pause") and Samus.PauseMenu.mode == Samus.PauseMenu.MODES.CLOSED:
-		reset_idle_timer = true
-		Samus.PauseMenu.pause()
 #		Animator.Player.play("neutral_open_map_left")
 	elif from_powergrip and Samus.is_on_floor():
 		from_powergrip = false
+	elif Samus.Weapons.cycle_visor():
+		change_state("visor")
+		return
 	
 	var shortcut_facing = Shortcut.get_facing()
 	if shortcut_facing != null and shortcut_facing != Samus.facing:
@@ -132,9 +125,9 @@ func process(_delta):
 	
 	var animation: String
 	
-	if play_transition and "run_transition" in Global.timers:
-		Samus.aiming = Global.timers["run_transition"][1]["aiming"]
-		Global.clear_timer("run_transition")
+#	if play_transition and Samus.states["run"].run_transition != null:
+#		Samus.aiming = Samus.states["run"].run_transition
+#		Samus.states["run"].run_transition = null
 	
 	match Samus.aiming:
 		Samus.aim.SKY: animation = "aim_sky"
@@ -151,9 +144,6 @@ func process(_delta):
 	if reset_idle_timer:
 		idle_timer.start()
 	
-	if fire_weapon:
-		Samus.Weapons.fire()
-	
 # Called when Samus's state changes to this one
 func init_state(data: Dictionary):
 	idle_timer.start(Global.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
@@ -161,8 +151,8 @@ func init_state(data: Dictionary):
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-	Samus.change_state(new_state_key, data)
 	idle_timer.stop()
+	.change_state(new_state_key, data)
 
 # Called by the idle timer, plays a random idle animation
 func play_idle_animation():
@@ -177,5 +167,5 @@ func play_idle_animation():
 		# Restart the timer with a random time
 		idle_timer.start(Global.rng.randi_range(4, 10))
 
-func physics_process(_delta: float):
-	Physics.move_x(0, Physics.data["run"]["deceleration"])
+func physics_process(delta: float):
+	Physics.move_x(0, Physics.data["run"]["deceleration"]*delta)

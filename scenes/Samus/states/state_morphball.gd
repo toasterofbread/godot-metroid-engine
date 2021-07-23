@@ -1,10 +1,9 @@
-extends Node
+extends SamusState
 
-const id = "morphball"
-
-var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
+var animations: Dictionary
+var physics_data: Dictionary
 
 var CeilingRaycast: RayCast2D
 var particles: Particles2D
@@ -18,26 +17,17 @@ var springball_acceleration: float
 var springball_time: float
 var springball_current_time: float
 
-var animations = {}
 var sounds = {
 	"morph": Sound.new("res://audio/samus/morphball/sndMorph.wav", Sound.TYPE.SAMUS),
 	"unmorph": Sound.new("res://audio/samus/morphball/sndUnMorph.wav", Sound.TYPE.SAMUS),
 	"bounce": Sound.new("res://audio/samus/morphball/sndBallBounce.wav", Sound.TYPE.SAMUS)
 }
-var physics_data: Dictionary
 
 # Called during Samus's readying period
-func _init(_samus: Node2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
-	
-	self.CeilingRaycast = Animator.raycasts.get_node("morphball/Ceiling")
-	self.particles = Samus.get_node("Particles/morphball")
+func _init(_Samus: Node2D, _id: String).(_Samus, _id):
+	CeilingRaycast = Animator.raycasts.get_node("morphball/Ceiling")
+	particles = Samus.get_node("Particles/morphball")
 	particles.emitting = false
-	
-	animations = Animator.load_from_json(self.id)
-	physics_data = Physics.data["morphball"]
 	
 	Loader.Save.connect("value_set", self, "save_value_set")
 	set_jump_values()
@@ -50,17 +40,18 @@ func init_state(data: Dictionary):
 		sounds["morph"].play()
 	Samus.aiming = Samus.aim.NONE
 	CeilingRaycast.enabled = true
-	return self
 
 # Called every frame while this state is active
-func process(_delta):
+func process(_delta: float):
 	
 	var original_facing = Samus.facing
-	var fire_weapon = false
 
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
+	if Input.is_action_just_pressed("fire_weapon"):
+		Samus.Weapons.fire()
+	
 	if Samus.is_upgrade_active(Enums.Upgrade.SPIDERBALL):
 		if (Settings.get("controls/spiderball_style") == 0 and Input.is_action_pressed("spiderball")) or (Settings.get("controls/spiderball_style") == 1 and Input.is_action_just_pressed("spiderball")):
 			change_state("spiderball")
@@ -78,8 +69,10 @@ func process(_delta):
 			else:
 				change_state("jump", {"options": []})
 			return
-	elif Input.is_action_just_pressed("fire_weapon"):
-		fire_weapon = true
+	elif Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
+		animations["unmorph"].play()
+		change_state("airspark")
+		return
 
 	if Input.is_action_pressed("pad_left"):
 		Samus.facing = Enums.dir.LEFT
@@ -100,9 +93,6 @@ func process(_delta):
 #		if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id:
 #			Animator.pause()
 	
-	if fire_weapon:
-		Samus.Weapons.fire()
-	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	Samus.boosting = false
@@ -113,7 +103,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 		sounds["unmorph"].play()
 		Animator.resume()
 	
-	Samus.change_state(new_state_key, data)
+	.change_state(new_state_key, data)
 
 func bounce(amount: float):
 	if Samus.current_fluid == Fluid.TYPES.NONE:
@@ -123,7 +113,7 @@ func bounce(amount: float):
 #	Physics.disable_floor_snap = true
 #	Physics.vel.y = -amount
 
-func physics_process(delta: float, spiderball=false):
+func physics_process(delta: float, spiderball: bool = false):
 	
 	if spiderball:
 		Samus.fall_time = 0.0

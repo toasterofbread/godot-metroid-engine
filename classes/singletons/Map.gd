@@ -12,8 +12,10 @@ var tiles: Dictionary
 var tiles_by_area: Dictionary = {}
 var tile_data: Dictionary
 onready var savedata: Dictionary = Loader.Save.get_data_key(["map"])
+
 var current_chunk: MapChunk
 var previous_chunk = null
+var current_tile: MapTile
 
 func _ready():
 	
@@ -24,6 +26,10 @@ func _ready():
 func get_tile(tile_position: Vector2):
 	var x = str(tile_position.x)
 	var y = str(tile_position.y)
+	
+	if not x in tiles or not y in tiles[x]:
+		return null
+	
 	return tiles[x][y]
 
 func samus_entered_chunk(body, chunk: MapChunk):
@@ -38,20 +44,23 @@ func samus_entered_chunk(body, chunk: MapChunk):
 	chunk.tile.explored = true
 	
 	if is_instance_valid(current_chunk) and current_chunk != null:
-		current_chunk.tile.current_tile = false
+		current_chunk.tile.is_current_tile = false
 		previous_chunk = current_chunk
+	elif current_tile != null:
+		current_tile.is_current_tile = false
 	
 	current_chunk = chunk
-	current_chunk.tile.current_tile = true
+	current_tile = current_chunk.tile
+	current_tile.is_current_tile = true
 
 func samus_exited_chunk(body, chunk: MapChunk):
 	if is_instance_valid(previous_chunk) and previous_chunk != null and body == Loader.Samus:
 		if chunk == current_chunk:
-			current_chunk.tile.current_tile = false
+			current_chunk.tile.is_current_tile = false
 			current_chunk = previous_chunk
 			emit_signal("samus_entered_chunk", current_chunk)
 			previous_chunk = chunk
-			current_chunk.tile.current_tile = true
+			current_chunk.tile.is_current_tile = true
 		elif chunk == previous_chunk:
 			previous_chunk = null
 
@@ -78,5 +87,8 @@ func load_tiles():
 				tiles_by_area[tile.area_index] = [tile]
 			else:
 				tiles_by_area[tile.area_index].append(tile)
+	
+#	for tile in Grid.Tiles.get_children():
+#		tile.check_for_wall_overlap()
 	
 	emit_signal("tiles_loaded")

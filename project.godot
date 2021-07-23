@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/enemies/Enemy.gd"
 }, {
+"base": "Area2D",
+"class": "ExArea2D",
+"language": "GDScript",
+"path": "res://classes/ExArea2D.gd"
+}, {
 "base": "Camera2D",
 "class": "ExCamera2D",
 "language": "GDScript",
@@ -107,7 +112,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "Room",
 "language": "GDScript",
-"path": "res://scenes/framework/base_room/BaseRoom.gd"
+"path": "res://scenes/framework/base_room/Room.gd"
 }, {
 "base": "Node",
 "class": "SamusAnimation",
@@ -133,6 +138,11 @@ _global_script_classes=[ {
 "class": "SamusRigidProjectile",
 "language": "GDScript",
 "path": "res://scenes/Samus/classes/RigidProjectile.gd"
+}, {
+"base": "Node",
+"class": "SamusState",
+"language": "GDScript",
+"path": "res://scenes/Samus/classes/State.gd"
 }, {
 "base": "Node2D",
 "class": "SamusVisor",
@@ -191,6 +201,7 @@ _global_script_class_icons={
 "DestroyableBlock": "",
 "Door": "",
 "Enemy": "",
+"ExArea2D": "",
 "ExCamera2D": "",
 "ExTimer": "",
 "ExTween": "",
@@ -210,6 +221,7 @@ _global_script_class_icons={
 "SamusKinematicProjectile": "",
 "SamusProjectile": "",
 "SamusRigidProjectile": "",
+"SamusState": "",
 "SamusVisor": "",
 "SamusWeapon": "",
 "SaveGame": "",
@@ -239,8 +251,8 @@ driver=""
 
 vOverlay="*res://addons/Var_Overlay/overlay.gd"
 Notification="*res://scenes/ui/notification_display/NotificationDisplay.tscn"
+Global="*res://classes/singletons/Global.tscn"
 Settings="*res://classes/singletons/Settings.gd"
-Global="*res://classes/singletons/Global.gd"
 Enums="*res://classes/singletons/Enums.gd"
 Data="*res://classes/singletons/Data.gd"
 Audio="*res://classes/singletons/Audio.gd"
@@ -271,6 +283,7 @@ gdscript/warnings/function_used_as_property=false
 
 window/size/width=1920
 window/size/height=1080
+window/size/always_on_top=true
 window/size/test_width=1280
 window/size/test_height=720
 window/stretch/mode="viewport"
@@ -488,16 +501,6 @@ shortcut={
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":2,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
-"[DEBUG] increase energy"={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777235,"unicode":0,"echo":false,"script":null)
- ]
-}
-"[DEBUG] decrease energy"={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777236,"unicode":0,"echo":false,"script":null)
- ]
-}
 analog_visor_left={
 "deadzone": 0.1,
 "events": [ Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":-1.0,"script":null)
@@ -558,9 +561,29 @@ quentincaffeino_console_history_down={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"unicode":0,"echo":false,"script":null)
  ]
 }
-airboost={
+airspark={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
+ ]
+}
+DEBUG_display_shortcut_info={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777350,"unicode":0,"echo":false,"script":null)
+ ]
+}
+DEBUG_reload_room={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777359,"unicode":0,"echo":false,"script":null)
+ ]
+}
+DEBUG_reset_samus_position={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777356,"unicode":0,"echo":false,"script":null)
+ ]
+}
+DEBUG_record_gif={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777357,"unicode":0,"echo":false,"script":null)
  ]
 }
 

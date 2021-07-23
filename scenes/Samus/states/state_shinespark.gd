@@ -1,22 +1,19 @@
-extends Node
+extends SamusState
 
-const id: String = "shinespark"
-
-var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
-
 var animations: Dictionary
 var physics_data: Dictionary
 
 const damage_type: int = Enums.DamageType.SPEEDBOOSTER
 var damage_values: Dictionary = Data.data["damage_values"]["samus"]["weapons"]["speedbooster"]
 var damage_amount: float = damage_values["damage"]
+var maintain_shinespark_when_airsparking: Dictionary
 
-var ShinesparkUseWindow: Timer = Global.timer([self, "discharge_shinespark", []])
+var ShinesparkUseWindow: Timer = Global.get_timer([self, "discharge_shinespark", []])
 var shinespark_hold_time: float = 3.0
 
-var ShinesparkStoreWindow: Timer = Global.timer()
+var ShinesparkStoreWindow: Timer = Global.get_timer()
 var shinespark_store_window: float = 0.2
 var SpeedboostAnimationPlayer: AnimationPlayer
 
@@ -31,16 +28,9 @@ var ballspark: bool = false
 var sprite
 
 # Called during Samus's readying period
-func _init(_samus: Node2D):
-	Samus = _samus
-	Animator = Samus.Animator
-	Physics = Samus.Physics
-	
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	SpeedboostAnimationPlayer = Animator.get_node("SpeedboostAnimationPlayer")
-	
-	animations = Animator.load_from_json(self.id)
-	physics_data = Physics.data["shinespark"]
-
+	maintain_shinespark_when_airsparking = Samus.get_mini_upgrade("maintain_shinespark_when_airsparking", 0)
 
 # Called when Samus's state is changed to this one
 func init_state(data: Dictionary):
@@ -90,13 +80,10 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	moving = false
 	Physics.apply_gravity = true
 	
-	Samus.change_state(new_state_key, data)
+	.change_state(new_state_key, data)
 	
 # Called every frame while this state is active
-func process(_delta):
-
-#	if animation_key:
-#		Samus.set_collider(animations[animation_key])
+func process(_delta: float):
 	
 	if not moving:
 		return
@@ -106,7 +93,6 @@ func process(_delta):
 	vOverlay.SET("Slope", Physics.on_slope)
 	if Physics.on_slope and direction.x != 0:
 		moving = false
-		print("BNDAGBHJDGB")
 		Physics.apply_gravity = true
 		Animator.resume()
 		if ballspark:
@@ -115,17 +101,19 @@ func process(_delta):
 		else:
 			change_state("run", {"boost": true})
 		return
-	elif Input.is_action_just_pressed("airboost"):
-		change_state("airboost")
+	elif Input.is_action_just_pressed("airspark"):
+		change_state("airspark")
+		if maintain_shinespark_when_airsparking["created"] > 0:
+			charge_shinespark()
 		return
 	
 	var stop_shinespark = false
 	if direction.y == 0:
 		stop_shinespark = Samus.is_on_wall()
 	elif direction.x == 0:
-		stop_shinespark = Samus.is_on_ceiling() if direction.y == 1 else Samus.is_on_floor()
+		stop_shinespark = Samus.is_on_ceiling() if direction.y == -1 else Samus.is_on_floor()
 	else:
-		if direction.y == 1:
+		if direction.y == -1:
 			stop_shinespark = Samus.is_on_ceiling() or Samus.is_on_wall()
 		else:
 			stop_shinespark = Samus.is_on_floor() or Samus.is_on_wall()
@@ -136,7 +124,6 @@ func process(_delta):
 		Samus.boosting = false
 		moving = false
 		
-#		Global.shake(Samus.camera, Vector2(0, 0), 7, 0.25)
 		Loader.current_room.earthquake(Samus.global_position, damage_values["earthquake_strength"], damage_values["earthquake_duration"])
 		
 		Animator.pause()
@@ -147,13 +134,11 @@ func process(_delta):
 			if sprite != null:
 				sprite.flip_v = false
 #			yield(animations["end"].play(), "completed")
+			if direction != Vector2(0, 1):
+				animations["end"].play()
 			change_state("jump", {"options": []})
 		else:
 			change_state("morphball", {"options": []})
-
-
-func physics_process(_delta: float):
-	return
 
 var previous_boosting: = false
 var previous_shinespark_charged: = false

@@ -55,79 +55,10 @@
 [ext_resource path="res://sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_0.png" type="Texture" id=53]
 [ext_resource path="res://sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_0.png" type="Texture" id=54]
 [ext_resource path="res://scenes/framework/sprite_trail_emitter/SpriteTrailEmitter.tscn" type="PackedScene" id=55]
+[ext_resource path="res://materials/DissolveAndWhiten.tres" type="Material" id=56]
+[ext_resource path="res://classes/DamageConnector.gd" type="Script" id=57]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-uniform float whitening_value;
-uniform bool whitening_enabled;
-
-uniform bool dissolve_enabled;
-uniform float dissolve_progress : hint_range(0.0, 1.0);
-uniform float dissolve_noise_desnity = 60;
-uniform float dissolve_beam_size : hint_range(0.01, 0.15);
-uniform vec4 dissolve_color : hint_color = vec4(0.0, 1.02, 1.2, 1.0);
-
-vec2 random(vec2 uv){
-    uv = vec2( dot(uv, vec2(127.1,311.7) ),
-               dot(uv, vec2(269.5,183.3) ) );
-    return -1.0 + 2.0 * fract(sin(uv) * 43758.5453123);
-}
-
-float noise(vec2 uv) {
-    vec2 uv_index = floor(uv);
-    vec2 uv_fract = fract(uv);
-
-    vec2 blur = smoothstep(0.0, 1.0, uv_fract);
-
-    return mix( mix( dot( random(uv_index + vec2(0.0,0.0) ), uv_fract - vec2(0.0,0.0) ),
-                     dot( random(uv_index + vec2(1.0,0.0) ), uv_fract - vec2(1.0,0.0) ), blur.x),
-                mix( dot( random(uv_index + vec2(0.0,1.0) ), uv_fract - vec2(0.0,1.0) ),
-                     dot( random(uv_index + vec2(1.0,1.0) ), uv_fract - vec2(1.0,1.0) ), blur.x), blur.y) * 0.5 + 0.5;
-}
-
-void fragment() {
-	if (dissolve_enabled){
-		vec4 tex = texture(TEXTURE, UV);
-		
-		float noise = noise(UV * dissolve_noise_desnity) * UV.y;
-		
-		float d1 = step(dissolve_progress, noise);
-		float d2 = step(dissolve_progress - dissolve_beam_size, noise);
-		
-		vec3 beam = vec3(d2 - d1) * dissolve_color.rgb;
-		
-		tex.rgb += beam;
-		tex.a *= d2;
-		
-		COLOR = tex;
-		
-		if (whitening_enabled) {
-//		    vec4 texture_color = texture(TEXTURE, UV);
-		    COLOR = vec4(mix(tex.rgb, vec3(1,1,1), whitening_value), tex.a);
-		}
-	}
-	else if (whitening_enabled) {
-	    vec4 texture_color = texture(TEXTURE, UV);
-	    COLOR = vec4(mix(texture_color.rgb, vec3(1,1,1), whitening_value), texture_color.a);
-	}
-	else {
-		COLOR = texture(TEXTURE, UV)
-	}
-}
-"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/whitening_value = 0.0
-shader_param/whitening_enabled = false
-shader_param/dissolve_enabled = false
-shader_param/dissolve_progress = 0.0
-shader_param/dissolve_noise_desnity = 60.0
-shader_param/dissolve_beam_size = 0.01
-shader_param/dissolve_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprites:modulate")
@@ -166,7 +97,7 @@ tracks/2/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 length = 0.2
 loop = true
 step = 0.02
@@ -219,7 +150,7 @@ tracks/3/keys = {
 "values": [  ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -235,7 +166,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 0.133333, 0.133333, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0.133333, 0.133333, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprites:modulate")
@@ -250,7 +181,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=5]
 length = 0.266667
 step = 0.0666667
 tracks/0/type = "value"
@@ -290,7 +221,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 length = 0.266667
 step = 0.0666667
 tracks/0/type = "value"
@@ -330,7 +261,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=7]
 length = 0.266667
 step = 0.0666667
 tracks/0/type = "value"
@@ -370,7 +301,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=8]
 length = 0.266667
 step = 0.0666667
 tracks/0/type = "value"
@@ -410,7 +341,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=9]
 resource_name = "invincibility"
 length = 0.25
 loop = true
@@ -428,7 +359,7 @@ tracks/0/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=10]
 resource_name = "reset"
 length = 0.001
 tracks/0/type = "value"
@@ -444,7 +375,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="SpriteFrames" id=13]
+[sub_resource type="SpriteFrames" id=11]
 animations = [ {
 "frames": [ ExtResource( 26 ), ExtResource( 27 ) ],
 "loop": true,
@@ -527,10 +458,10 @@ animations = [ {
 "speed": 15.0
 } ]
 
-[sub_resource type="CircleShape2D" id=14]
+[sub_resource type="CircleShape2D" id=12]
 radius = 176.182
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=13]
 step = 0.0333333
 tracks/0/type = "method"
 tracks/0/path = NodePath("../PauseMenu")
@@ -583,7 +514,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=14]
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
@@ -664,7 +595,7 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=15]
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
@@ -745,10 +676,10 @@ tracks/3/keys = {
 } ]
 }
 
-[sub_resource type="CircleShape2D" id=18]
+[sub_resource type="CircleShape2D" id=16]
 radius = 7.5
 
-[sub_resource type="Environment" id=19]
+[sub_resource type="Environment" id=17]
 background_mode = 4
 glow_enabled = true
 glow_intensity = 8.0
@@ -760,7 +691,7 @@ glow_bicubic_upscale = true
 pause_mode = 2
 position = Vector2( 2, -2 )
 z_as_relative = false
-collision_mask = 950284
+collision_mask = 950272
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ]
@@ -908,7 +839,7 @@ data = {
 }
 
 [node name="Sprites" parent="Animator" instance=ExtResource( 55 )]
-material = SubResource( 2 )
+material = ExtResource( 56 )
 sprites = [ NodePath("sOverlayLeft"), NodePath("sOverlayRight"), NodePath("sMainLeft"), NodePath("sMainRight") ]
 
 [node name="sOverlayLeft" type="AnimatedSprite" parent="Animator/Sprites"]
@@ -944,28 +875,28 @@ animation = "death_samus"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
-anims/reset = SubResource( 3 )
-anims/speedboost = SubResource( 4 )
+anims/reset = SubResource( 1 )
+anims/speedboost = SubResource( 2 )
 
 [node name="ChargebeamAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
-anims/charge = SubResource( 5 )
-anims/reset = SubResource( 6 )
+anims/charge = SubResource( 3 )
+anims/reset = SubResource( 4 )
 
 [node name="ChargebeamStartBurstPlayer" type="AnimationPlayer" parent="Animator"]
-"anims/CHARGEBEAM 2" = SubResource( 7 )
-"anims/ICEBEAM 2" = SubResource( 8 )
-"anims/PLASMABEAM 2" = SubResource( 9 )
-"anims/WAVEBEAM 2" = SubResource( 10 )
+"anims/CHARGEBEAM 2" = SubResource( 5 )
+"anims/ICEBEAM 2" = SubResource( 6 )
+"anims/PLASMABEAM 2" = SubResource( 7 )
+"anims/WAVEBEAM 2" = SubResource( 8 )
 
 [node name="InvincibilityPlayer" type="AnimationPlayer" parent="Animator"]
 playback_speed = 1.5
-anims/invincibility = SubResource( 11 )
-anims/reset = SubResource( 12 )
+anims/invincibility = SubResource( 9 )
+anims/reset = SubResource( 10 )
 
 [node name="ChargebeamStartBurst" type="AnimatedSprite" parent="Animator"]
 position = Vector2( 40, 8 )
-frames = SubResource( 13 )
+frames = SubResource( 11 )
 animation = "CHARGEBEAM 2 start"
 frame = 3
 playing = true
@@ -974,29 +905,18 @@ playing = true
 collision_mask = 131072
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Animator/ChargebeamStartBurst/Area2D"]
-shape = SubResource( 14 )
+shape = SubResource( 12 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
-anims/neutral_open_map_left = SubResource( 15 )
-anims/powergrip_climb_left = SubResource( 16 )
-anims/powergrip_climb_right = SubResource( 17 )
-
-[node name="DimLayer" type="CanvasLayer" parent="Animator"]
-layer = -1
-
-[node name="ColorRect" type="ColorRect" parent="Animator/DimLayer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+anims/neutral_open_map_left = SubResource( 13 )
+anims/powergrip_climb_left = SubResource( 14 )
+anims/powergrip_climb_right = SubResource( 15 )
 
 [node name="Collision" type="CollisionShape2D" parent="."]
 pause_mode = 2
 position = Vector2( 5, 10 )
-shape = SubResource( 18 )
+shape = SubResource( 16 )
 
 [node name="Weapons" type="Node2D" parent="."]
 pause_mode = 2
@@ -1218,7 +1138,7 @@ position = Vector2( 5.5, -17 )
 position = Vector2( 1, -15 )
 rotation = -0.785398
 
-[node name="SamusVisors" parent="Weapons" instance=ExtResource( 13 )]
+[node name="VisorNode" parent="Weapons" instance=ExtResource( 13 )]
 
 [node name="SamusWeapons" type="Node2D" parent="Weapons"]
 
@@ -1237,16 +1157,26 @@ draw_order = 1
 process_material = ExtResource( 9 )
 texture = ExtResource( 8 )
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+pause_mode = 2
+environment = SubResource( 17 )
+
 [node name="ExCamera2D" type="Camera2D" parent="."]
+pause_mode = 2
 position = Vector2( -2, 2 )
 current = true
 zoom = Vector2( 0.25, 0.25 )
 script = ExtResource( 10 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="ExCamera2D"]
-pause_mode = 2
-environment = SubResource( 19 )
-
 [node name="Pauser" type="Node" parent="."]
 pause_mode = 2
 script = ExtResource( 7 )
+
+[node name="Hurtbox" type="StaticBody2D" parent="."]
+collision_layer = 0
+collision_mask = 12
+script = ExtResource( 57 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+
+[connection signal="damage" from="Hurtbox" to="." method="_damage"]

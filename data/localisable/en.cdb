@@ -440,6 +440,35 @@
 					"data": {
 						"increase_percentage": 0.1
 					}
+				},
+				{
+					"key": "maintain_shinespark_when_airsparking",
+					"name": "Maintain shinespark when airsparking",
+					"description": "When airsparking during a shinespark, the shinespark charge is kept.",
+					"group": "Power suit",
+					"cost": 15,
+					"maximum": 1,
+					"dependencies": [
+						{
+							"value": "SPEEDBOOSTER"
+						},
+						{
+							"value": "AIRSPARK"
+						}
+					]
+				},
+				{
+					"key": "additional_midair_airsparks",
+					"name": "Additional midair airsparks",
+					"description": "Allows Samus to perform an additional airspark in the air before landing.",
+					"group": "Power suit",
+					"cost": 15,
+					"maximum": 3,
+					"dependencies": [
+						{
+							"value": "AIRSPARK"
+						}
+					]
 				}
 			],
 			"separators": [],

@@ -21,7 +21,6 @@ func _ready():
 func set_collider(animation: SamusAnimation):
 #	if Samus.boosting:
 #		set_speedbooster_collider(animation)
-	
 	var key: String
 	if animation.position_node_path in collision_data:
 		key = animation.position_node_path

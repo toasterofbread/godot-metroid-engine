@@ -1,12 +1,13 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://sprites/flat.png" type="Texture" id=1]
 [ext_resource path="res://scenes/framework/map_chunk/MapChunk.gd" type="Script" id=2]
-[ext_resource path="res://scenes/framework/base_room/BaseRoom.gd" type="Script" id=3]
+[ext_resource path="res://scenes/framework/base_room/Room.gd" type="Script" id=3]
 [ext_resource path="res://scenes/objects/destroyable_block/DestroyableBlock.tscn" type="PackedScene" id=4]
 [ext_resource path="res://sprites/backgrounds/surface/parallax_forest/1.png" type="Texture" id=5]
 [ext_resource path="res://scenes/objects/fluid/Fluid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/objects/upgrade_pickup/UpgradePickup.tscn" type="PackedScene" id=7]
+[ext_resource path="res://classes/CameraChunk.gd" type="Script" id=8]
 [ext_resource path="res://scenes/objects/samus_ship/Gunship.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=10]
 [ext_resource path="res://test.gd" type="Script" id=11]
@@ -32,21 +33,27 @@ extents = Vector2( 256, 256 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 256, 128 )
 
-[sub_resource type="CanvasItemMaterial" id=4]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 232, 269 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 811, 269 )
+
+[sub_resource type="CanvasItemMaterial" id=6]
 particles_animation = true
 particles_anim_h_frames = 5
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=7]
 min_value = -40.0
 max_value = 40.0
 _data = [ Vector2( 0, 40 ), 0.0, 0.0, 0, 0, Vector2( 1, -40 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=6]
-curve = SubResource( 5 )
+[sub_resource type="CurveTexture" id=8]
+curve = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=7]
+[sub_resource type="ParticlesMaterial" id=9]
 emission_shape = 2
 emission_box_extents = Vector3( 1300, 1, 1 )
 flag_disable_z = true
@@ -58,7 +65,7 @@ angular_velocity_random = 1.0
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 tangential_accel_random = 1.0
-tangential_accel_curve = SubResource( 6 )
+tangential_accel_curve = SubResource( 8 )
 damping = 15.68
 angle = 469.0
 angle_random = 0.37
@@ -67,7 +74,7 @@ scale_random = 1.0
 anim_offset = 0.5
 anim_offset_random = 1.0
 
-[sub_resource type="Shader" id=8]
+[sub_resource type="Shader" id=10]
 code = "/*
 Shader from Godot Shaders - the free shader library.
 godotshaders.com/shader/2d-waterfall
@@ -149,12 +156,6 @@ void fragment()
 	
 	COLOR = color;
 }"
-
-[sub_resource type="OpenSimplexNoise" id=9]
-
-[sub_resource type="NoiseTexture" id=10]
-seamless = true
-noise = SubResource( 9 )
 
 [sub_resource type="OpenSimplexNoise" id=11]
 
@@ -162,10 +163,16 @@ noise = SubResource( 9 )
 seamless = true
 noise = SubResource( 11 )
 
-[sub_resource type="ShaderMaterial" id=13]
-shader = SubResource( 8 )
+[sub_resource type="OpenSimplexNoise" id=13]
+
+[sub_resource type="NoiseTexture" id=14]
+seamless = true
+noise = SubResource( 13 )
+
+[sub_resource type="ShaderMaterial" id=15]
+shader = SubResource( 10 )
 shader_param/scale = Vector2( 0.563824, 4.89517 )
-shader_param/zoom = 3.1748
+shader_param/zoom = 1.49831
 shader_param/gap_stretch = Vector2( 0.8, 0.05 )
 shader_param/refraction_stretch = Vector2( 2, 0.8 )
 shader_param/refraction_strength = 0.02
@@ -174,13 +181,13 @@ shader_param/water_highlight = Color( 0.631373, 0.843137, 1, 0.301961 )
 shader_param/speed = 0.6
 shader_param/flow_gaps = 0.33
 shader_param/highlight_width = 0.01
-shader_param/refraction_map = SubResource( 10 )
-shader_param/water_mask = SubResource( 12 )
+shader_param/refraction_map = SubResource( 12 )
+shader_param/water_mask = SubResource( 14 )
 
-[sub_resource type="ShaderMaterial" id=14]
-shader = SubResource( 8 )
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 10 )
 shader_param/scale = Vector2( 0.167963, 6.64 )
-shader_param/zoom = 3.1748
+shader_param/zoom = 1.49831
 shader_param/gap_stretch = Vector2( 0.8, 0.05 )
 shader_param/refraction_stretch = Vector2( 2, 0.8 )
 shader_param/refraction_strength = 0.02
@@ -189,10 +196,10 @@ shader_param/water_highlight = Color( 0.631373, 0.843137, 1, 0.301961 )
 shader_param/speed = 0.6
 shader_param/flow_gaps = 0.33
 shader_param/highlight_width = 0.01
-shader_param/refraction_map = SubResource( 10 )
-shader_param/water_mask = SubResource( 12 )
+shader_param/refraction_map = SubResource( 12 )
+shader_param/water_mask = SubResource( 14 )
 
-[sub_resource type="Shader" id=15]
+[sub_resource type="Shader" id=17]
 code = "/*
 Shader from Godot Shaders - the free shader library.
 godotshaders.com/shader/2d-waterfall
@@ -275,22 +282,22 @@ void fragment()
 	COLOR = color;
 }"
 
-[sub_resource type="OpenSimplexNoise" id=16]
-
-[sub_resource type="NoiseTexture" id=17]
-seamless = true
-noise = SubResource( 16 )
-
 [sub_resource type="OpenSimplexNoise" id=18]
 
 [sub_resource type="NoiseTexture" id=19]
 seamless = true
 noise = SubResource( 18 )
 
-[sub_resource type="ShaderMaterial" id=20]
-shader = SubResource( 15 )
+[sub_resource type="OpenSimplexNoise" id=20]
+
+[sub_resource type="NoiseTexture" id=21]
+seamless = true
+noise = SubResource( 20 )
+
+[sub_resource type="ShaderMaterial" id=22]
+shader = SubResource( 17 )
 shader_param/scale = Vector2( 0.312499, 8.88473 )
-shader_param/zoom = 3.1748
+shader_param/zoom = 1.49831
 shader_param/gap_stretch = Vector2( 0.8, 0.05 )
 shader_param/refraction_stretch = Vector2( 2, 0.8 )
 shader_param/refraction_strength = 0.02
@@ -299,10 +306,10 @@ shader_param/water_highlight = Color( 0.631373, 0.843137, 1, 0.301961 )
 shader_param/speed = 0.6
 shader_param/flow_gaps = 0.33
 shader_param/highlight_width = 0.01
-shader_param/refraction_map = SubResource( 17 )
-shader_param/water_mask = SubResource( 19 )
+shader_param/refraction_map = SubResource( 19 )
+shader_param/water_mask = SubResource( 21 )
 
-[sub_resource type="TileSet" id=21]
+[sub_resource type="TileSet" id=23]
 0/name = "ice.png 0"
 0/texture = ExtResource( 19 )
 0/tex_offset = Vector2( 0, 0 )
@@ -1013,8 +1020,21 @@ left_wall = 2
 right_wall = 2
 
 [node name="CameraChunks" type="Node2D" parent="."]
-visible = false
 z_index = 4096
+
+[node name="CameraChunk" type="CollisionShape2D" parent="CameraChunks"]
+modulate = Color( 0, 1, 0.529412, 1 )
+position = Vector2( 1267, 896 )
+shape = SubResource( 4 )
+script = ExtResource( 8 )
+apply_left = true
+apply_right = true
+
+[node name="CameraChunk2" type="CollisionShape2D" parent="CameraChunks"]
+modulate = Color( 0, 1, 0.529412, 1 )
+position = Vector2( 757, 356 )
+shape = SubResource( 5 )
+script = ExtResource( 8 )
 
 [node name="Background" type="ParallaxBackground" parent="."]
 layer = -128
@@ -1102,11 +1122,6 @@ invert_enable = true
 invert_border = 1615.4
 polygon = PoolVector2Array( -1365.83, -1425.88, -1380.1, 542.792, 1026.36, 546.714, 1024.78, 629.787, 1368.44, 597.734, 1358.6, 432.35, 3172.19, 439.319, 3172.19, -1440.15 )
 
-[node name="LayerSetter" type="Node2D" parent="BackgroundFront/Polygon2D"]
-position = Vector2( -16, -48 )
-script = ExtResource( 23 )
-z_layer = 2
-
 [node name="CaveBG" type="Polygon2D" parent="BackgroundFront"]
 position = Vector2( 16, 48 )
 color = Color( 0.2, 0.266667, 1, 1 )
@@ -1114,14 +1129,13 @@ texture = ExtResource( 16 )
 texture_offset = Vector2( 0, 200 )
 polygon = PoolVector2Array( 1102.68, 615.265, 1093.25, 613.538, 1086.93, 614.648, 1080.32, 613.586, 1075.25, 610.413, 1069.42, 607.639, 1065.88, 605.515, 1059.62, 604.217, 1053.84, 603.155, 1047.09, 601.495, 1028.26, 606.839, 1029.5, 628.125, 1043.75, 627.375, 1044.75, 708.5, 1068.4, 710.372, 1107, 906, 1130.5, 920.75, 1133, 961.25, 1194, 987.75, 1176.25, 1036.22, 1106.6, 1034.1, 1103.77, 1111.18, 1225.14, 1114.09, 1243.35, 1091.64, 1280.82, 1088.28, 1367.27, 1036.31, 1435, 1042.5, 1438.2, 967.023, 1358.02, 960.786, 1356.27, 904.659, 1224.38, 883.724, 1284.07, 845.415, 1329.06, 846.529, 1387.64, 759.221, 1383.85, 624.25, 1364.42, 569.428, 1376.46, 522.075, 1361.24, 504.883, 1344, 512, 1312, 528, 1269.55, 539.056, 1261.42, 545.306, 1253.42, 551.306, 1246.3, 553.431, 1238.42, 557.806, 1232.8, 561.181, 1229.8, 567.556, 1221.05, 573.181, 1216.42, 579.881, 1210.17, 581.931, 1202.92, 583.056, 1197.55, 585.806, 1190.8, 588.931, 1182.13, 592.256, 1177.92, 596.056, 1172.17, 598.181, 1164.3, 605.056, 1147.12, 611.701, 1131.01, 615.175, 1123.47, 614.58, 1113.55, 615.572 )
 
-[node name="LayerSetter" type="Node2D" parent="BackgroundFront/CaveBG"]
-position = Vector2( -16, -48 )
+[node name="LayerSetter" type="Node2D" parent="BackgroundFront"]
 script = ExtResource( 23 )
 z_layer = 2
 
 [node name="Particles2D" type="Particles2D" parent="."]
 visible = false
-material = SubResource( 4 )
+material = SubResource( 6 )
 position = Vector2( -416, -80 )
 emitting = false
 amount = 1000
@@ -1129,7 +1143,7 @@ lifetime = 15.0
 preprocess = 50.0
 speed_scale = 0.75
 visibility_rect = Rect2( -49999, -100, 99999, 99999 )
-process_material = SubResource( 7 )
+process_material = SubResource( 9 )
 texture = ExtResource( 17 )
 
 [node name="Gunship" parent="." instance=ExtResource( 9 )]
@@ -1148,21 +1162,21 @@ margin_bottom = 631.0
 flow_speed = 0.1
 
 [node name="Waterfall" type="Sprite" parent="."]
-material = SubResource( 13 )
+material = SubResource( 15 )
 position = Vector2( 1208, 499 )
 scale = Vector2( 0.563824, 4.89517 )
 texture = ExtResource( 1 )
 script = ExtResource( 11 )
 
 [node name="Waterfall2" type="Sprite" parent="."]
-material = SubResource( 14 )
+material = SubResource( 16 )
 position = Vector2( 1190.37, 832.48 )
 scale = Vector2( 0.167963, 6.64 )
 texture = ExtResource( 1 )
 script = ExtResource( 11 )
 
 [node name="Waterfall3" type="Sprite" parent="."]
-material = SubResource( 20 )
+material = SubResource( 22 )
 position = Vector2( 1220.37, 907.311 )
 scale = Vector2( 0.312499, 8.88473 )
 texture = ExtResource( 1 )
@@ -1175,11 +1189,13 @@ position = Vector2( 1449, 1050 )
 rotation = 3.14159
 target_room_id = "Caves/ship_saveroom"
 target_door_id = "ToShip"
+cameraChunk = NodePath("../../CameraChunks/CameraChunk")
 
 [node name="ToTunnel01" parent="Doors" instance=ExtResource( 10 )]
 position = Vector2( 1134, 1125 )
 target_room_id = "Caves/tunnel_01"
 target_door_id = "ToShip"
+cameraChunk = NodePath("../../CameraChunks/CameraChunk")
 
 [node name="UpgradePickups" type="Node2D" parent="."]
 
@@ -1209,7 +1225,7 @@ range_item_cull_mask = 524288
 [node name="VisualTileMapPrecise2" type="TileMap" parent="."]
 light_mask = 524288
 position = Vector2( 264, 280 )
-tile_set = SubResource( 21 )
+tile_set = SubResource( 23 )
 cell_size = Vector2( 1, 1 )
 collision_layer = 0
 collision_mask = 0
@@ -1219,7 +1235,7 @@ tile_data = PoolIntArray( 18547474, 20, 0, 19137634, -1610612689, 0, 21431183, 5
 [node name="VisualTileMap" type="TileMap" parent="."]
 light_mask = 524288
 position = Vector2( 264, 120 )
-tile_set = SubResource( 21 )
+tile_set = SubResource( 23 )
 cell_size = Vector2( 32, 32 )
 collision_layer = 0
 collision_mask = 0
@@ -1229,7 +1245,7 @@ tile_data = PoolIntArray( 720930, 15, 0, 983025, 4, 0, 983026, 0, 0, 983027, 1, 
 [node name="VisualTileMapPrecise" type="TileMap" parent="."]
 light_mask = 524288
 position = Vector2( 262, 281 )
-tile_set = SubResource( 21 )
+tile_set = SubResource( 23 )
 cell_size = Vector2( 1, 1 )
 collision_layer = 0
 collision_mask = 0
@@ -1239,7 +1255,7 @@ tile_data = PoolIntArray( 11535448, 1, 0, 15205451, 1073741853, 0, 16516176, 107
 [node name="VisualTileMapPrecise3" type="TileMap" parent="."]
 light_mask = 524288
 position = Vector2( 264, 280 )
-tile_set = SubResource( 21 )
+tile_set = SubResource( 23 )
 cell_size = Vector2( 1, 1 )
 format = 1
 tile_data = PoolIntArray( 21300165, 24, 0, 21955523, 29, 0, 22348758, 30, 0, 22348759, 30, 0, 22479831, 30, 0, 22741974, 30, 0, 22807511, 30, 0, 23004118, 30, 0, 35652499, 1073741854, 0, 35652510, 1073741854, 0, 35914639, 1073741854, 0, 36111248, 536870959, 0, 36307860, 1073741854, 0, 36307866, 1073741854, 0, 50922286, 31, 0, 56623991, 1073741867, 0, 56755004, 1073741871, 0, 56820556, 1073741869, 0 )
