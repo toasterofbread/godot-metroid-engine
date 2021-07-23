@@ -31,6 +31,8 @@ func get_player(audio_path: String, type: int, loop_amount: int = 0, follow=null
 	else:
 		player = AudioPlayer2D.new(sound, loop_amount)
 		follow.add_child(player)
+	
+	player.pause_mode = PAUSE_MODE_PROCESS
 	player.volume_db = volume
 	
 	return player

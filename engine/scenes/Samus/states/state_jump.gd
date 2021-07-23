@@ -37,19 +37,12 @@ var sounds = {
 	"jump": Audio.get_player("/samus/jump/sndJump", Audio.TYPE.SAMUS),
 	"walljump": Audio.get_player("/samus/jump/sndWallJump", Audio.TYPE.SAMUS),
 	"land": Audio.get_player("/samus/jump/sndLand", Audio.TYPE.SAMUS),
-#	"jump": Sound.new("res://engine/audio/samus/jump/sndJump.wav", Sound.TYPE.SAMUS),
-#	"walljump": Sound.new("res://engine/audio/samus/jump/sndWallJump.wav", Sound.TYPE.SAMUS),
-#	"land": Sound.new("res://engine/audio/samus/jump/sndLand.wav", Sound.TYPE.SAMUS)
 }
 var sounds_spin = {
 	"spin": Audio.get_player("/samus/jump/sndSpinJump", Audio.TYPE.SAMUS, -1),
 	"spin_space": Audio.get_player("/samus/jump/sndSpaceJump", Audio.TYPE.SAMUS, -1),
 	"spin_screw": Audio.get_player("/samus/jump/sndScrewAttack", Audio.TYPE.SAMUS, -1),
 	"spin_space_screw": Audio.get_player("/samus/jump/sndSpaceScrewAttack", Audio.TYPE.SAMUS, -1),
-#	"spin": Sound.new("res://engine/audio/samus/jump/sndSpinJump.wav", true),
-#	"spin_space": Sound.new("res://engine/audio/samus/jump/sndSpaceJump.wav", true),
-#	"spin_screw": Sound.new("res://engine/audio/samus/jump/sndScrewAttack.wav", true),
-#	"spin_space_screw": Sound.new("res://engine/audio/samus/jump/sndSpaceScrewAttack.wav", true),
 }
 
 # Called during Samus's readying period

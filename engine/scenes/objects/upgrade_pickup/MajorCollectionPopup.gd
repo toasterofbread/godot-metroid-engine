@@ -3,8 +3,8 @@ extends Control
 onready var logbook_data: Dictionary = Data.data["logbook"]
 const show_duration: float = 0.25
 
-var sounds = {
-	"major_fanfare": Sound.new("res://engine/audio/objects/upgade_pickup/Metroid Prime Music - Item Acquisition Fanfare.wav", Sound.TYPE.MUSIC)
+onready var sounds = {
+	"major_fanfare": Audio.get_player("/objects/upgade_pickup/Metroid Prime Music - Item Acquisition Fanfare", Audio.TYPE.MUSIC)
 }
 
 
@@ -41,7 +41,7 @@ func trigger(upgrade_type: int, added: int, total: int):
 	while true:
 		if Input.is_action_just_pressed("ui_accept"):
 			button_pressed_count += 1
-			if button_pressed_count >= 5 or sounds["major_fanfare"].status == Sound.STATE.FINISHED:
+			if button_pressed_count >= 5 or sounds["major_fanfare"].status == AudioPlayer.STATE.FINISHED:
 				yield(get_tree(), "idle_frame")
 				break
 		yield(get_tree(), "idle_frame")

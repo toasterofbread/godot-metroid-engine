@@ -34,7 +34,7 @@ func set_id_info():
 	
 	id = filename.split("/")[len(filename.split("/")) - 3] + "/" + filename.split("/")[len(filename.split("/")) - 2]
 	area = id.split("/")[0]
-	area_index = Enums.MapAreas.keys().find(area.to_upper())
+	area_index = Data.data["map_areas"].keys().find(area.to_upper())
 	id_info_set = true
 
 # Called when the node enters the scene tree for the first time.

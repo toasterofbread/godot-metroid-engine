@@ -391,10 +391,6 @@ onready var step_sounds = {
 		Audio.get_player("/samus/step_sounds/snow/snow_step_dry-02", Audio.TYPE.SAMUS),
 		Audio.get_player("/samus/step_sounds/snow/snow_step_dry-03", Audio.TYPE.SAMUS),
 		Audio.get_player("/samus/step_sounds/snow/snow_step_dry-04", Audio.TYPE.SAMUS),
-#		Sound.new("res://engine/audio/samus/step_sounds/snow/snow_step_dry-01.wav", Sound.TYPE.SAMUS), 
-#		Sound.new("res://engine/audio/samus/step_sounds/snow/snow_step_dry-02.wav", Sound.TYPE.SAMUS),
-#		Sound.new("res://engine/audio/samus/step_sounds/snow/snow_step_dry-03.wav", Sound.TYPE.SAMUS),
-#		Sound.new("res://engine/audio/samus/step_sounds/snow/snow_step_dry-04.wav", Sound.TYPE.SAMUS),
 	]
 }
 

@@ -20,10 +20,10 @@ var type: String
 
 var sounds = {
 	"energy_small": Audio.get_player("/objects/ammo_pickup/sndHPickup", Audio.TYPE.FX),
-	"energy_large": Audio.get_player("/objects/ammo_pickup/sndHBigPickup.wav", Audio.TYPE.FX),
-	"missile": Audio.get_player("/objects/ammo_pickup/sndMPickup.wav", Audio.TYPE.FX),
-	"supermissile": Audio.get_player("/objects/ammo_pickup/sndSMPickup.wav", Audio.TYPE.FX),
-	"powerbomb": Audio.get_player("/objects/ammo_pickup/sndPBPickup.wav", Audio.TYPE.FX),
+	"energy_large": Audio.get_player("/objects/ammo_pickup/sndHBigPickup", Audio.TYPE.FX),
+	"missile": Audio.get_player("/objects/ammo_pickup/sndMPickup", Audio.TYPE.FX),
+	"supermissile": Audio.get_player("/objects/ammo_pickup/sndSMPickup", Audio.TYPE.FX),
+	"powerbomb": Audio.get_player("/objects/ammo_pickup/sndPBPickup", Audio.TYPE.FX),
 }
 
 # TODO | This looks horrible

@@ -1,6 +1,6 @@
 extends Node
 
-const data_path = "res://engine/data/"
+const data_path = "res://data/"
 const logbook_images_path = "res://engine/sprites/ui/map/logbook_images/"
 
 var language_code: String
@@ -46,6 +46,7 @@ func _ready():
 		"damage_values": Global.load_json(data_path + "static/damage_values.json"),
 		"engine_config": engine_config,
 		"settings_information": settings_text_information,
+		"map_areas": get_cdb_sheet("map_areas")
 	}
 
 func get_cdb_sheet(sheet_key: String):

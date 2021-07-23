@@ -17,7 +17,7 @@ func _ready():
 	# Register all rooms to the room variable
 	var room_dirs: Array = []
 	for dir in Data.data["engine_config"]["room_directories"]:
-		room_dirs.append(Global.dir2dict(dir, true))
+		room_dirs.append(Global.dir2dict(dir, true, ["room.tscn"]))
 	rooms = Global.combine_dicts(room_dirs)
 	
 	# DEBUG

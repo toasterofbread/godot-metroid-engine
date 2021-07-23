@@ -9,7 +9,6 @@ var _config: ConfigFile = ConfigFile.new()
 func _ready():
 	yield(Data, "ready")
 	settings_file_path = Data.get_from_user_dir("settings.cfg")
-	print(settings_file_path)
 	load_file()
 
 func save_file():

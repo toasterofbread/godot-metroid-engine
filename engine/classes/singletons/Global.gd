@@ -204,7 +204,6 @@ func load_json(path: String):
 	return JSON.parse(data).result
 
 func save_json(path: String, data, pretty: bool = false):
-	print(path)
 	var f = File.new()
 	f.open(path, File.WRITE)
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
@@ -308,7 +307,7 @@ func combine_dicts(dicts: Array) -> Dictionary:
 			ret[key] = dict[key]
 	return ret
 
-func dir2dict(path: String, single_layer: bool = false, top_path: String = "") -> Dictionary:
+func dir2dict(path: String, single_layer: bool = false, allowed_files = null, top_path: String = "") -> Dictionary:
 	var ret: Dictionary = {}
 	var data: Dictionary = ret
 	if top_path == "":
@@ -320,13 +319,13 @@ func dir2dict(path: String, single_layer: bool = false, top_path: String = "") -
 	for file in Global.iterate_directory(dir):
 		if dir.dir_exists(file):
 			if not single_layer:
-				data[file] = dir2dict(path + file + "/", single_layer, top_path)
+				data[file] = dir2dict(path + file + "/", single_layer, allowed_files, top_path)
 			else:
-				var layer_data: Dictionary = dir2dict(path + file + "/", single_layer, top_path)
+				var layer_data: Dictionary = dir2dict(path + file + "/", single_layer, allowed_files, top_path)
 				for key in layer_data:
 					data[key] = layer_data[key]
 			
-		elif not file.ends_with(".import"):
+		elif not file.ends_with(".import") and (allowed_files == null or file in allowed_files):
 			var key: String = file.split(".")[0] if not single_layer else path.trim_prefix(top_path)
 			data[key.trim_suffix("/")] = path + file
 	
