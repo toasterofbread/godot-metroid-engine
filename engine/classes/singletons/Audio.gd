@@ -1,7 +1,5 @@
 extends Node
 
-signal loaded
-
 enum TYPE {SAMUS, ENEMY, FX, MUSIC}
 var audio_resources: Dictionary = {}
 

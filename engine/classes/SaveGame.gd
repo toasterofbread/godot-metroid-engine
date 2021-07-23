@@ -77,8 +77,6 @@ const default_data: Dictionary = {
 #	}
 }
 
-const debug_save_path: String = "res://engine/debug_save.json"
-
 func _init(_filename: String = ""):
 	filename = _filename
 	load_file()

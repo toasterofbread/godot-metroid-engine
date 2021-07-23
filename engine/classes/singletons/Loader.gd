@@ -5,7 +5,7 @@ signal room_loaded
 var current_room: Room
 var Samus: KinematicBody2D = preload("res://engine/scenes/Samus/Samus.tscn").instance()
 var room_container: Node2D = self
-var Save: SaveGame = SaveGame.new(SaveGame.debug_save_path)
+onready var Save: SaveGame = SaveGame.new(Data.get_from_user_dir("/saves/0.json"))
 var transitioning: bool = false
 
 var rooms = {}

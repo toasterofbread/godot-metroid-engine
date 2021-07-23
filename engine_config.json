@@ -1,5 +1,5 @@
 {
 	"room_directories": ["res://engine/scenes/rooms/"],
 	"audio_directories": ["res://engine/audio/"],
-	"user_dir_override": "res://debug_user_dir/"
+	"user_dir_override": "res://debug_user_dir/",
 }
