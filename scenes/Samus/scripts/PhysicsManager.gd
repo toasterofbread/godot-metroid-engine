@@ -32,11 +32,17 @@ func _ready():
 			profiles[file.replace(".json", "")] = Global.load_json(physics_profiles_path + file)
 	
 	set_data()
+	
+	Settings.connect("settings_changed", self, "settings_changed")
 
 func _physics_process(delta: float):
 	
 	if get_tree().paused or Samus.paused:
 		return
+	
+#	if not Samus.was_on_floor and Samus.is_on_floor():
+#		Samus.was_on_floor = true
+#		Samus.emit_signal("landed")
 	
 	if Samus.current_fluid != Fluid.TYPES.NONE:
 		fluid_process(delta)

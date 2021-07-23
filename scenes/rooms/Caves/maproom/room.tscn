@@ -1,9 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://scenes/framework/base_room/BaseRoom.gd" type="Script" id=1]
+[ext_resource path="res://scenes/framework/base_room/Room.gd" type="Script" id=1]
+[ext_resource path="res://scenes/objects/door/Door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://classes/CameraChunk.gd" type="Script" id=3]
 [ext_resource path="res://sprites/tilesheets/ice.png" type="Texture" id=4]
+[ext_resource path="res://sprites/backgrounds/surface/cave/bgA0Cave4BG.png" type="Texture" id=5]
+[ext_resource path="res://scenes/objects/map_station/MapStation.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/framework/map_chunk/MapChunk.gd" type="Script" id=7]
 
-[sub_resource type="TileSet" id=1]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 254, 160 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 160, 78 )
+
+[sub_resource type="TileSet" id=3]
 0/name = "ice.png 0"
 0/texture = ExtResource( 4 )
 0/tex_offset = Vector2( 0, 0 )
@@ -665,39 +676,113 @@
 
 [node name="MapRoom" type="Node2D"]
 script = ExtResource( 1 )
+grid_position = Vector2( -2, 2 )
+
+[node name="Background" type="Node2D" parent="."]
+position = Vector2( -856, 191 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CaveBG" type="Polygon2D" parent="Background"]
+position = Vector2( -796, -820 )
+z_index = -1
+z_as_relative = false
+color = Color( 0.2, 0.266667, 1, 1 )
+texture = ExtResource( 5 )
+texture_offset = Vector2( 0, 25 )
+polygon = PoolVector2Array( 1465, 556, 1467, 666, 1534, 668, 1621, 689, 1749, 658, 1747, 621, 1677, 566 )
+
+[node name="CaveBG2" type="Polygon2D" parent="Background"]
+position = Vector2( -796, -820 )
+z_index = -1
+z_as_relative = false
+color = Color( 0.0313726, 0.0627451, 0.0941176, 1 )
+texture_offset = Vector2( 0, 25 )
+invert_enable = true
+invert_border = 1000.0
+polygon = PoolVector2Array( 1465, 556, 1467, 666, 1534, 668, 1621, 689, 1749, 658, 1747, 621, 1677, 566 )
 
 [node name="MapChunks" type="Node2D" parent="."]
-z_index = -4095
+position = Vector2( -30, -4 )
+z_index = 4096
+
+[node name="MapChunk" type="CollisionShape2D" parent="MapChunks"]
+visible = false
+modulate = Color( 1, 0, 0.560784, 1 )
+shape = SubResource( 1 )
+script = ExtResource( 7 )
+icon = 2
+left_wall = 2
+right_wall = 1
+top_wall = 2
+bottom_wall = 2
 
 [node name="CameraChunks" type="Node2D" parent="."]
 z_index = -4095
 
+[node name="CameraChunk" type="CollisionShape2D" parent="CameraChunks"]
+modulate = Color( 0, 1, 0.529412, 1 )
+position = Vector2( -44, -1 )
+z_index = 4096
+shape = SubResource( 2 )
+script = ExtResource( 3 )
+apply_left = true
+apply_right = true
+apply_bottom = true
+
 [node name="SpawnPos" type="Position2D" parent="." groups=[
 "SpawnPosition",
 ]]
+position = Vector2( -11, 10 )
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="ToTunnel01" parent="Doors" instance=ExtResource( 2 )]
+position = Vector2( 64, 5 )
+rotation = 3.14159
+target_room_id = "Caves/tunnel_01"
+target_door_id = "ToMaproom"
+colour = 1
+cameraChunk = NodePath("../../CameraChunks/CameraChunk")
+
+[node name="MapStation" parent="." instance=ExtResource( 6 )]
+position = Vector2( -133, 3 )
 
 [node name="VisualTileMapPrecise3" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 1, 1 )
 format = 1
 
 [node name="VisualTileMapPrecise2" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 1, 1 )
 collision_layer = 0
 collision_mask = 0
 format = 1
 
 [node name="VisualTileMapPrecise" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 1, 1 )
 collision_layer = 0
 collision_mask = 0
 format = 1
+tile_data = PoolIntArray( -3276713, 1610612767, 0, -2621400, 40, 0, -1834937, 39, 0, 917312, 1610612780, 0, 917606, 1610612767, 0, 1113997, 1610612779, 0, 1572919, 1073741864, 0, 1834872, 1073741869, 0, 1965978, -1073741783, 0, 2359383, 1610612767, 0, 2490297, 1610612776, 0, 2424842, -1610612698, 0, 3014637, 1073741870, 0, 3276761, 1610612781, 0 )
 
 [node name="VisualTileMapPrecise4" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
+tile_set = SubResource( 3 )
 cell_size = Vector2( 1, 1 )
 collision_layer = 0
 collision_mask = 0
 format = 1
+tile_data = PoolIntArray( -1179562, 536870953, 0, 720982, 1073741862, 0, 1572889, 1073741867, 0, 1834858, 1073741871, 0, 2883640, 1073741854, 0, 2949176, 1073741854, 0 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( -67, -1 )
+collision_layer = 524288
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
+position = Vector2( 2, -1 )
+polygon = PoolVector2Array( -127, 76, 179, 77, 179, 39, 88, 39, 73, 50, 53, 50, 46, 54, 25, 54, -24, 31, -86, 31, -98, 26, -121, 26, -127, 29 )

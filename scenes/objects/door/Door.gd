@@ -106,6 +106,7 @@ export var target_room_id: String
 export var target_door_id: String
 enum DOOR_COLOURS {blue, red, green, yellow}
 export(DOOR_COLOURS) var colour: int = DOOR_COLOURS.blue setget set_colour
+export var cameraChunk: NodePath
 export var visual: bool = true setget set_visual
 
 var locked: bool = false setget set_locked
@@ -138,9 +139,12 @@ func set_visual(value: bool):
 func set_colour(value: int):
 	colour = value
 
+func _ready():
+	set_open(open, false)
+
 func set_open(value: bool, animate: bool = true):
-	if open == value:
-		return
+#	if open == value:
+#		return
 	open = value
 	
 	var animation: String = DOOR_COLOURS.keys()[colour] + ("_open" if open else "_close")

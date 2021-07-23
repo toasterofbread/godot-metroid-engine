@@ -1,17 +1,16 @@
-extends Node
+extends SamusState
 
-var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
+var animations: Dictionary
+var physics_data: Dictionary
 
-const id = "grapple"
-var animations: = {}
-var swing_animations: = {}
+var swing_animations: Dictionary = {}
 
 var beam: Node2D
 var anchor: Node2D
 
-var SpeedboostTimer: Timer = Global.timer([self, "speedboost", []])
+var SpeedboostTimer: Timer = Global.get_timer([self, "speedboost", []])
 var speedboost_charge_time: float
 var collision
 
@@ -26,17 +25,12 @@ var angle
 var beampos: Vector2
 var jump_current_time = 125
 
-var physics_data: Dictionary
 onready var jump_state = Samus.states["jump"]
 
 var aim_thresholds: = {}
 
 # Called during Samus's readying period
-func _init(_samus: KinematicBody2D):
-	self.Samus = _samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
-	
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	yield(Samus, "ready")
 	aim_thresholds = {
 		Samus.aim.SKY: [0, 30],
@@ -45,13 +39,10 @@ func _init(_samus: KinematicBody2D):
 		Samus.aim.DOWN: [115, 180]
 	}
 	speedboost_charge_time = Samus.states["run"].speedboost_charge_time*1.25
-	
-	animations = Animator.load_from_json("grapple")
 	swing_animations = Animator.load_from_json("jump")
-	physics_data = Physics.data["grapple"]
 
 # Called every frame while this state is active
-func process(_delta):
+func process(_delta: float):
 	
 	var original_facing = Samus.facing
 	var play_transition = false
@@ -136,7 +127,7 @@ func process(_delta):
 	
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-	Samus.change_state(new_state_key, data)
+	.change_state(new_state_key, data)
 	if beam:
 		beam.queue_free()
 	beam = null
@@ -192,6 +183,8 @@ func init_state(data: Dictionary):
 	
 	angle = anchor.global_position.angle_to_point(beam.global_position) - deg2rad(90)
 	angle = (Vector2.LEFT.rotated(angle) * Vector2(1, -1)).angle()
+	
+	return true
 
 func physics_process(delta: float):
 	var pad_vector = Shortcut.get_pad_vector("pressed")
@@ -269,7 +262,6 @@ func physics_process(delta: float):
 		beam.set_length(beam.length + pad_vector.y*2, true)
 
 var collided = false
-
 
 func speedboost():
 	Samus.boosting = true

@@ -77,8 +77,7 @@ func _ready():
 	# Add all visors to the scene, passing the visor state object
 	yield(Samus, "ready")
 	for visor in all_visors.values():
-		visor.visor_state = Samus.states["visor"]
-		$SamusVisors.add_child(visor)
+		$VisorNode.add_child(visor)
 
 func _process(delta: float):
 	
@@ -214,7 +213,7 @@ func get_fire_weapon() -> SamusWeapon:
 # (DONE) TODO | Yeah this defintely needs an overhaul
 func fire(chargebeam_damage_multiplier=null):
 	var weapon = get_fire_weapon()
-	if weapon:
+	if weapon != null:
 		weapon_fired = weapon.fire(chargebeam_damage_multiplier)
 		return weapon_fired
 	else:

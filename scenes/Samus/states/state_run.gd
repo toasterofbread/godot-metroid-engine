@@ -1,14 +1,14 @@
-extends Node
+extends SamusState
 
-var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
-const id = "run"
+var animations: Dictionary
+var physics_data: Dictionary
 
 var speedboost_charge_time: float = 2.0
 var SpeedboostTimer: Timer
-var animations: Dictionary
-var physics_data: Dictionary
+
+var run_transition = null
 
 # PHYSICS
 #const run_acceleration = 15*60
@@ -19,20 +19,13 @@ var physics_data: Dictionary
 #const boost_deceleration = 50
 #const max_boost_speed = 500
 
-
-func _init(_samus: Node2D):
-	Samus = _samus
-	Animator = Samus.Animator
-	Physics = Samus.Physics
-	SpeedboostTimer = Global.timer([Samus, "set", ["boosting", true]])
-	animations = Animator.load_from_json(self.id)
-	physics_data = Physics.data["run"]
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
+	SpeedboostTimer = Global.get_timer([Samus, "set", ["boosting", true]])
 
 # Called every frame while this state is active
-func process(_delta):
+func process(_delta: float):
 	
 	var play_transition = false
-	var fire_weapon = false
 	
 	if Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning() and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"]})
@@ -51,15 +44,19 @@ func process(_delta):
 		change_state("neutral")
 		return
 	
+	if Input.is_action_just_pressed("fire_weapon"):
+		Samus.Weapons.fire()
+		Samus.aim_none_timer.start()
+	
 	if Input.is_action_just_pressed("jump"):
 		change_state("jump", {"options": ["jump", "spin"]})
+		return
+	elif Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
+		change_state("airspark")
 		return
 	elif not Samus.is_on_floor():
 		change_state("jump", {"options": ["fall"]})
 		return
-	elif Input.is_action_just_pressed("fire_weapon"):
-		fire_weapon = true
-		Samus.aim_none_timer.start()
 	
 	if Input.is_action_pressed("aim_weapon"):
 		if Samus.aiming == Samus.aim.FRONT or Samus.aiming == Samus.aim.NONE:
@@ -103,8 +100,10 @@ func process(_delta):
 			change_state("crouch")
 			return
 		else:
-			Global.start_timer("run_transition", 0.2, {"aiming": Samus.aiming})
+			run_transition = Samus.aiming
 			change_state("neutral")
+			yield(Global.wait(0.2), "completed")
+			run_transition = null
 			return
 	
 	if play_transition:
@@ -113,25 +112,21 @@ func process(_delta):
 	elif not Animator.transitioning(false, true):
 		animations[animation].play(true, min(1.5, abs(Physics.vel.x) / physics_data["speed"]))
 	
-	if fire_weapon:
-		Samus.Weapons.fire()
-	
 # Called when Samus' state is changed to this one
 func init_state(data: Dictionary):
 	Samus.boosting = data["boost"]
 	if Samus.is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		SpeedboostTimer.start(speedboost_charge_time)
-	return self
 
 # Changes Samus' state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	SpeedboostTimer.stop()
 	Samus.aim_none_timer.stop()
-	Samus.change_state(new_state_key, data)
 	if new_state_key == "jump":
 		Samus.boosting = "spin" in data["options"] and Samus.boosting
 	elif new_state_key != "morphball":
 		Samus.boosting = false
+	.change_state(new_state_key, data)
 
 func physics_process(delta: float):
 	

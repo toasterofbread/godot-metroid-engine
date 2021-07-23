@@ -5,10 +5,12 @@ const slide_time: float = 0.35
 const reorder_time: float = 0.1
 
 onready var container: Control = $Container/Notifications
+const moving_interaction_button: String = "pad_up"
 
 var node_data: Dictionary = {}
 onready var types = {
 	"text": preload("res://scenes/ui/notification_display/notification_types/TextNotification.tscn"),
+	"largetext": preload("res://scenes/ui/notification_display/notification_types/LargeTextNotification.tscn"),
 	"buttonprompt": preload("res://scenes/ui/notification_display/notification_types/ButtonPromptNotification.tscn"),
 }
 const lengths = {

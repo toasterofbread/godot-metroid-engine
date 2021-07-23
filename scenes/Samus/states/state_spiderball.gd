@@ -1,50 +1,40 @@
-extends Node
-const id = "spiderball"
+extends SamusState
 
-var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
-
-# PHYSICS
 var animations = {}
-var sounds = {
-	
-}
 var physics_data: Dictionary
+
+#var sounds = {
+#}
 
 var FloorRaycastL: RayCast2D
 var FloorRaycastR: RayCast2D
 var FloorRaycastD: RayCast2D
 var FloorRaycastContainer: Node2D
 
-var rotation: float = 0
-
 var attached = false
 var FLOOR: Vector2 = Vector2.ZERO setget set_floor
 
+#var rotation: float = 0
+
 # Called during Samus's readying period
-func _init(_samus: Node2D):
-	Samus = _samus
-	Animator = Samus.Animator
-	Physics = Samus.Physics
-	
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	FloorRaycastContainer = Animator.raycasts.get_node("spiderball")
 	FloorRaycastL = FloorRaycastContainer.get_node("FloorL")
 	FloorRaycastR = FloorRaycastContainer.get_node("FloorR")
 	FloorRaycastD = FloorRaycastContainer.get_node("FloorD")
 	
 	animations = Animator.load_from_json("morphball")
-	physics_data = Physics.data["spiderball"]
 
 # Called when Samus's state is changed to this one
 func init_state(_data: Dictionary):
 	Samus.aiming = Samus.aim.NONE
 	if Samus.is_on_floor():
 		set_floor(Vector2.DOWN)
-	return self
 
 # Called every frame while this state is active
-func process(_delta):
+func process(_delta: float):
 	
 	var original_facing = Samus.facing
 
@@ -82,12 +72,12 @@ func process(_delta):
 #		anim_speed *= vector_speed.aspect()*0.5
 		animations["roll_spider"].play(true, anim_speed)
 		FloorRaycastContainer.position.x = Animator.current[false].sprites[Samus.facing].position.x
-	
+
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	set_floor(Vector2.ZERO)
 	Animator.resume()
-	Samus.change_state(new_state_key, data)
+	.change_state(new_state_key, data)
 
 func set_floor(value: Vector2):
 	attached = value != Vector2.ZERO
@@ -205,7 +195,7 @@ func physics_process(delta: float):
 	
 	var collision = Samus.move_and_collide(velocity, true, true, true)
 	if collision != null:
-		yield(Global, "physics_frame")
+		yield(Samus.get_tree(), "physics_frame")
 		set_floor(-collision.normal)
 	else:
 #		if pad_x != 0:

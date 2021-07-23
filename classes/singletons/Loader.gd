@@ -12,6 +12,7 @@ var rooms = {}
 const room_directory = "res://scenes/rooms/"
 
 func _ready():
+	
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
 	# Register all rooms to the room variable
@@ -54,13 +55,8 @@ func load_room(room_id: String, set_position: bool = true):
 	current_room = room
 	room_container.add_child(room)
 	
-	if set_position:
-		var spawn_positions = get_tree().get_nodes_in_group("SpawnPosition")
-		if len(spawn_positions) >= 1:
-			Samus.global_position = spawn_positions[0].global_position
-		else:
-			assert(false, "No SpawnPositions found in room")
-			return "No SpawnPositions found in room"
+	if set_position and room.spawnPosition != null:
+		Samus.global_position = room.spawnPosition.global_position
 	
 	if not Samus.is_inside_tree():
 		add_child(Samus)
@@ -112,26 +108,44 @@ func door_transition(origin_door: Door):
 #	Samus.global_position = samus_position
 	
 	# If Samus entered a CameraChunk, animate the transition
-	get_tree().paused = false
-	yield(Global.wait(0.1, true), "completed")
-	if Samus.camerachunk_set_while_paused:
-		get_tree().paused = true
+#	get_tree().paused = false
+#	yield(Global.wait(0.1, true), "completed")
+	
+	# DEBUG | Should be get_node instead of get_node_or_null
+	# Also, the if statement shouldn't be needed
+	var destination_cameraChunk = destination_door.get_node_or_null(destination_door.cameraChunk)
+	if destination_cameraChunk != null:
+		destination_cameraChunk = destination_cameraChunk.get_child(0)
+		Samus.z_index = Enums.Layers.MENU
 		
-		Samus.z_index = Enums.Layers.WORLD + 1
-		origin_door.fade_out(0.25)
-		destination_door.fade_out(0)
-		yield(Global.dim_screen(0.25, 1, Enums.Layers.WORLD+1), "completed")
+		var tween: Tween = Global.get_tween(true)
+		tween.interpolate_property(origin_door, "modulate:a", origin_door.modulate.a, 0, 0.25)
+#		yield(Global.dim_screen(0.25, 1.0, 0, Enums.Layers.WORLD + 1), "completed")
+#		tween.interpolate_method(Samus.Animator, "set_dim", Color(0, 0, 0, 0), Color(0, 0, 0, 1), 0.25)
+		Samus.camera.dim_colour = Color(0, 0, 0, 0)
+		Samus.camera.set_dim_layer(-1)
+		tween.interpolate_property(Samus.camera, "dim_colour:a", 0, 1, 0.25)
+		tween.start()
+		yield(tween, "tween_all_completed")
+		destination_door.visible = false
 		
 		previous_room.queue_free()
 		current_room.visible = true
 		
-		yield(Samus.camerachunk_entered(Samus.current_camerachunk, true, 0.45), "completed")
+		yield(Samus.camerachunk_entered(destination_cameraChunk, true, 0.45), "completed")
 		
-		destination_door.fade_in(0.25)
-		yield(Global.undim_screen(0.25), "completed")
+		tween.interpolate_property(destination_door, "modulate:a", destination_door.modulate.a, 1, 0.25)
+#		tween.interpolate_method(Samus.Animator, "set_dim", Color(0, 0, 0, 1), Color(0, 0, 0, 0), 0.25)
+		tween.interpolate_property(Samus.camera, "dim_colour:a", 1, 0, 0.25)
+		tween.start()
+		destination_door.visible = true
+		yield(tween, "tween_all_completed")
+#		destination_door.fade_in(0.25)
+#		yield(Global.undim_screen(0.25), "completed")
+		
+		tween.queue_free()
 		
 		Samus.z_index = Enums.Layers.SAMUS
-		Samus.camerachunk_set_while_paused = false
 		
 		get_tree().paused = false
 	else:
@@ -154,9 +168,11 @@ func register_commands():
 		.add_argument("room_id", TYPE_STRING)\
 		.register()
 	Console.add_command("reloadroom", self, "command_reload_room")\
-		.set_description("Reloads the current room. Inputting 'yes' will reset Samus's position, while inputting 'no' will keep it unaltered.")\
-		.add_argument("reset_position", TYPE_STRING)\
+		.set_description("Reloads the current room without repositioning Samus.")\
 		.register()
+	
+	Shortcut.register_debug_shortcut("DEBUG_reload_room", "Reload room", {"just_pressed": funcref(self, "command_reload_room")})
+	Shortcut.register_debug_shortcut("DEBUG_reset_samus_position", "Reset Samus's position", {"just_pressed": funcref(self, "command_reset_samus_position")})
 
 func command_load_room(room_id: String):
 	var result = load_room(room_id)
@@ -168,31 +184,27 @@ func command_load_room(room_id: String):
 		Console.write_line("An error occurred while loading room of ID [" + room_id + "]")
 		Console.write_line(result)
 
-func command_reload_room(reset_position: String):
-	
-	var set_position: bool
-	if reset_position.to_lower() in ["y", "yes"]:
-		set_position = true
-	elif reset_position.to_lower() in ["n", "no"]:
-		set_position = false
-	else:
-		Console.write_line("Invalid input. Must match one of the following: [y, yes, n, no]")
-		return
+func command_reload_room():
 	
 	var room_position = current_room.position
 	
 	var room_id: String = current_room.id
-	var result = load_room(room_id, set_position)
+	var result = load_room(room_id, false)
 	if result is GDScriptFunctionState:
 		result = yield(result, "completed")
 	if result == true:
 		Console.write_line("Reloaded room: " + room_id)
+		Notification.types["text"].instance().init("Reloaded room: " + room_id, Notification.lengths["short"])
 	else:
 		Console.write_line("An error occurred while reloading room of ID [" + room_id + "]")
 		Console.write_line(result)
-	
-	if not set_position:
-		current_room.position = room_position
+
+func command_reset_samus_position():
+	if current_room.spawnPosition == null:
+		Notification.types["text"].instance().init("No SpawnPosition registered to current room", Notification.lengths["short"])
+	else:
+		Samus.global_position = current_room.spawnPosition.global_position
+		Notification.types["text"].instance().init("Samus's position set to " + str(Samus.global_position), Notification.lengths["short"])
 
 func kill_game():
 	get_tree().quit()

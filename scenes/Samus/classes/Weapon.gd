@@ -24,9 +24,9 @@ var Cooldown: Timer = Timer.new()
 var index: int
 
 func set_ammo(value: int):
-	if Icon:
-		Icon.update_digits(value)
 	ammo = value
+	if Icon:
+		Icon.update_digits(ammo)
 
 func _save_value_set(path: Array, _value):
 	if len(path) != 4 or path[0] != "samus" or path[1] != "upgrades" or not path[2] == self.id:
@@ -88,7 +88,6 @@ func fired(_projectile):
 	pass
 
 func fire(chargebeam_damage_multiplier):
-	
 	if not Weapons.fire_pos:
 		return false
 	

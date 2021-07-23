@@ -48,6 +48,7 @@ const default_data: Dictionary = {
 			Enums.Upgrade.XRAYVISOR: {"amount": 1, "active": true},
 			
 			Enums.Upgrade.FLAMETHROWER: {"amount": 1, "active": true},
+			Enums.Upgrade.AIRSPARK: {"amount": 1, "active": true},
 			Enums.Upgrade.SCRAPMETAL: {"amount": 60}
 		},
 		"mini_upgrades": {
@@ -58,18 +59,22 @@ const default_data: Dictionary = {
 			"power_suit_damage_reduction": {"blueprint": true, "created": 0},
 			"bomb_placement_cap_increase": {"blueprint": true, "created": 0},
 			"grapple_range_increase": {"blueprint": true, "created": 0},
+			"maintain_shinespark_when_airsparking": {"blueprint": true, "created": 1},
+			"additional_midair_airsparks": {"blueprint": true, "created": 1},
 		},
 		"energy": -1 # Setting energy to below 0 will fill all available ETanks
 	},
 	"map": {
 		"marker": null,
 		"discovered_chunks": {},
-#		"discovered_chunks": {"1": ["0", "2"], "2": ["0", "2", "1"], "3": ["2"]},
-		"used_maprooms": []
+		"scanned_areas": []
 	},
 	"logbook": {
 		"recorded_entries": ["POWERSUIT", "POWERBEAM"]
-	}
+	},
+#	"difficulty": {
+#		"level": 1
+#	}
 }
 
 const debug_save_path: String = "res://debug_save.json"

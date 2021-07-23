@@ -7,7 +7,8 @@ var IconProgressIndicator: ColorRect
 var entered_scanNodes = []
 var current_scanNode = null
 
-func ready():
+func _ready():
+	._ready()
 	IconProgressIndicator = Icon.get_node("ProgressIndicator")
 	IconProgressIndicator.color = scan_colour
 	
@@ -91,7 +92,7 @@ func display_info(data_key: String):
 	$ScanInfo/AnimationPlayer.play("show")
 	
 	while not $ScanInfo/ColorRect2/ButtonPrompt.just_pressed():
-		yield(Global, "process_frame")
+		yield(get_tree(), "idle_frame")
 	
 	get_tree().paused = false
 	$ScanInfo/AnimationPlayer.play("hide", -1, 1.5)

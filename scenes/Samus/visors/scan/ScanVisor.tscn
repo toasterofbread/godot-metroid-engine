@@ -519,7 +519,11 @@ offset = Vector2( 348, 0 )
 texture_scale = 0.2
 color = Color( 0, 1, 0.227451, 0.839216 )
 energy = 0.75
+range_z_min = -4096
+range_z_max = 4096
 range_layer_min = -512
+range_layer_max = 512
+range_item_cull_mask = 1048575
 __meta__ = {
 "_edit_lock_": true
 }

@@ -364,7 +364,8 @@ is_base_weapon = true
 
 [node name="Projectile" type="KinematicBody2D" parent="."]
 position = Vector2( 43, 2 )
-collision_mask = 524288
+collision_layer = 2
+collision_mask = 524292
 script = ExtResource( 14 )
 
 [node name="CollisionArea" type="Area2D" parent="Projectile"]

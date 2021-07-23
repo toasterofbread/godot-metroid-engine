@@ -1,26 +1,16 @@
-extends Node
+extends SamusState
 
-var Samus: KinematicBody2D
 var Animator: Node
 var Physics: Node
-const id = "death"
 var animations: Dictionary
-var sounds = {
+var sounds: Dictionary = {
 	"death": Sound.new("res://audio/samus/death/death.ogg", Sound.TYPE.SAMUS, 20.0),
 	"death_real": Sound.new("res://audio/samus/death/death_real.ogg", Sound.TYPE.SAMUS, 20.0),
 }
 
-var tween: Tween = Global.tween(true)
+var tween: Tween = Global.get_tween(true)
 
-func _init(_samus: Node2D):
-	Samus = _samus
-	Animator = Samus.Animator
-	Physics = Samus.Physics
-	animations = Animator.load_from_json(self.id)
-#	physics_data = Physics.data[id]
-
-# Called every frame while this state is active
-func process(_delta: float):
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	pass
 
 # Called when Samus' state is changed to this one
@@ -76,13 +66,6 @@ func init_state(data: Dictionary):
 	
 	yield(Global.wait(0.5, true), "completed")
 	Samus.HUD.display_death_screen(Samus.real)
-
-func set_room_modulation(value: float):
-	pass
-
-# Changes Samus' state to the passed state script
-func change_state(new_state_key: String, data: Dictionary = {}):
-	Samus.change_state(new_state_key, data)
 
 func paused_physics_process(delta: float):
 	Physics.vel = lerp(Physics.vel, Vector2.ZERO, delta)

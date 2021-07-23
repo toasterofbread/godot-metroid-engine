@@ -1,6 +1,8 @@
 extends SamusWeapon
 
 onready var time_to_detonation: float = damage_values["time_to_detonation"]
+onready var bomb_bounce_timer: Timer = Global.get_timer()
+var bomb_bounce_limit: float
 const bomb_bounce_amount: float = 350.0
 const bomb_horiz_bounce_amount: float = 200.0
 const samus_aerial_damage: int = 10
@@ -121,7 +123,9 @@ func explode(projectile: PhysicsBody2D):
 					
 					var offset: float = projectile.global_position.x - Samus.global_position.x - (2 if Samus.facing == Enums.dir.LEFT else 6)
 					if abs(offset) > 2.5: 
-						morphball_horiz_bounce(offset)
+#						morphball_horiz_bounce(offset)
+						bomb_bounce_timer.start(0.2)
+						bomb_bounce_limit = bomb_horiz_bounce_amount * -sign(offset)
 					
 					if not Samus.is_on_floor():
 						if Samus.current_fluid == Fluid.TYPES.NONE:
@@ -134,15 +138,21 @@ func explode(projectile: PhysicsBody2D):
 			else:
 				if body.has_method("damage"):
 					body.damage(damage_type, damage_amount, projectile.global_position)
-		yield(Global, "process_frame")
+		yield(get_tree(), "idle_frame")
 	projectiles.erase(projectile)
 	projectile.queue_free()
 	burst.queue_free()
 
-func morphball_horiz_bounce(offset: float):
-	var timer: GDScriptFunctionState = Global.wait(0.2)
-	var limit = bomb_horiz_bounce_amount if offset < 0 else -bomb_horiz_bounce_amount
-	while timer.is_valid():
-		var delta = yield(Global, "physics_frame")
-		Samus.Physics.move_x(limit, bomb_horiz_bounce_amount*30*delta)
+func _process(delta):
+	if bomb_bounce_timer.time_left > 0.0:
+		Samus.Physics.move_x(bomb_bounce_limit, bomb_horiz_bounce_amount*30*delta)
+
+#func morphball_horiz_bounce(offset: float):
+##	var tween: Tween = Tween.new()
+##	tween.interpolate_method(Samus.Physics, "move_x", )
+#
+#	var timer: GDScriptFunctionState = Global.wait(0.2)
+#	while timer.is_valid():
+#		var delta = yield(get_tree(), "idle_frame")
+#		Samus.Physics.move_x(limit, bomb_horiz_bounce_amount*30*delta)
 		

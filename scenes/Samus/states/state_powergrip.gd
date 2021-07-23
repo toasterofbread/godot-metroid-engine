@@ -1,13 +1,10 @@
-extends Node
+extends SamusState
 
-var Samus: KinematicBody2D
-var Animator: Node2D
 var Physics: Node
-const id = "powergrip"
-
-var attach_point: Vector2
+var Animator: Node2D
 var animations: Dictionary
 
+var attach_point: Vector2
 var climbing: bool = false
 
 var direction = {
@@ -15,14 +12,10 @@ var direction = {
 	false: "" # Away from wall
 }
 
-func _init(_Samus: KinematicBody2D):
-	self.Samus = _Samus
-	self.Animator = Samus.Animator
-	self.Physics = Samus.Physics
-	
-	self.animations = Animator.load_from_json(self.id)
+func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
+	pass
 
-func init_state(data: Dictionary):
+func init_state(data: Dictionary) -> bool:
 	
 	if Samus.facing == Enums.dir.LEFT:
 		direction = {
@@ -42,12 +35,14 @@ func init_state(data: Dictionary):
 	Samus.Physics.apply_velocity = false
 	if Samus.aiming == Samus.aim.FRONT:
 		Samus.aiming = Samus.aim.NONE
+	
+	return true
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	Physics.apply_velocity = true
-	Samus.change_state(new_state_key, data)
+	.change_state(new_state_key, data)
 
-func process(_delta):
+func process(_delta: float):
 	
 	Physics.vel = Vector2.ZERO
 	

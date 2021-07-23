@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scenes/Samus/states/state_visor.gd" type="Script" id=4]
+[ext_resource path="res://classes/LayerSetter.gd" type="Script" id=1]
 
 [sub_resource type="Animation" id=1]
 length = 0.2
@@ -67,8 +67,7 @@ resource_name = "scan"
 [sub_resource type="Animation" id=5]
 length = 0.2
 
-[node name="Visor" type="Node2D"]
-script = ExtResource( 4 )
+[node name="VisorNode" type="Node2D"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/disable_scanner = SubResource( 1 )
@@ -105,5 +104,6 @@ __meta__ = {
 
 [node name="Tween" type="Tween" parent="CanvasLayer"]
 
-[connection signal="area_entered" from="Scanner/Area2D" to="." method="_on_Area2D_area_entered"]
-[connection signal="area_exited" from="Scanner/Area2D" to="." method="_on_Area2D_area_exited"]
+[node name="LayerSetter" type="Node2D" parent="."]
+script = ExtResource( 1 )
+z_layer = 11
