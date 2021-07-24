@@ -12,9 +12,9 @@
 		"speedboost_acceleration": [900]
 	},
 	"jump": {
-		"speed": [250],
-		"acceleration": [99999],
-		"time": [0.2],
+		"speed": [200],
+		"acceleration": [999999],
+		"time": [0.32],
 
 		"speed_high": [400],
 		"acceleration_high": [7500],
@@ -24,10 +24,11 @@
 		"horiz_acceleration": [10],
 
 		"horiz_spin_speed": [125],
-		"horiz_spin_deceleration": [10]
+		"horiz_spin_deceleration": [10],
+		"horiz_spin_max_speed": [200],
 	},
 	"morphball": {
-		"ground_speed": [225],
+		"ground_speed": [150],
 		"ground_acceleration": [1500],
 		"ground_deceleration": [3000],
 
@@ -44,7 +45,7 @@
 		"springball_time_high": [0.2]
 	},
 	"spiderball": {
-		"speed": [75],
+		"speed": [50],
 		"acceleration": [1500]
 	},
 	"grapple": {
@@ -60,9 +61,17 @@
 		"walk_deceleration": [50]
 	},
 	"shinespark": {
-		"speed": [600]
+		"speed": [600],
+		"airspark_into_shinespark": [true]
 	},
 	"hurt": {
-		"knockback_strength": [1]
+		"knockback_strength": [1],
+		"invincibility_duration": [2]
+	},
+	"airspark": {
+		"can_respin_after_boost": [false],
+		"vert_spin_sprite": [true],
+		"speed": [300],
+		"duration": [0.175]
 	}
 }

@@ -112,7 +112,7 @@ func process(_delta: float):
 		change_state("neutral")
 		return
 	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true) and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
-		change_state("morphball", {"options": ["animate"]})
+		change_state("morphball", {"options": ["animate"], "jump_current_time": jump_current_time})
 		return
 	elif Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
 		change_state("airspark")
@@ -145,7 +145,7 @@ func process(_delta: float):
 			set_spinning(false)
 		elif Input.is_action_pressed("pad_down"):
 			if Samus.aiming == Samus.aim.FLOOR and Input.is_action_just_pressed("pad_down") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
-				change_state("morphball", {"options": ["animate"]})
+				change_state("morphball", {"options": ["animate"], "jump_current_time": jump_current_time})
 				return
 			else:
 				Samus.aiming = Samus.aim.FLOOR

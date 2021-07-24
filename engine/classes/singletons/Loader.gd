@@ -1,6 +1,7 @@
 extends Node2D
 
 signal room_loaded
+signal room_transitioning
 
 var current_room: Room
 var Samus: KinematicBody2D = preload("res://engine/scenes/Samus/Samus.tscn").instance()
@@ -77,6 +78,8 @@ func door_transition(origin_door: Door):
 	if not destination_door:
 		assert(false, "No destination door found in room")
 		return
+	
+	emit_signal("room_transitioning")
 	
 	destination_door.set_locked(true, false)
 	destination_door.set_open(true, false)

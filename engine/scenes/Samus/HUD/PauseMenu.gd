@@ -14,19 +14,21 @@ var map_move_velocity = Vector2.ZERO
 var transitioning = false
 
 onready var Buttons = $CanvasLayer2/ButtonPrompts
-enum MODES {CLOSED, MAP, MAPMARKER, MAPAREA, SETTINGS, SETTINGSOPTION, EQUIPMENT, LOGBOOK, MAPREVEAL}
+enum MODES {CLOSED, MAP, MAPMARKER, SETTINGS, SETTINGSOPTION, EQUIPMENT, LOGBOOK, MAPREVEAL}
 var mode: int = MODES.CLOSED
 
 signal menu_closed
 
 func _ready():
 	
-	$CanvasLayer/MapGridPosition.visible = false
+#	$CanvasLayer/MapGridPosition.visible = false
+	$CanvasLayer/MapGridContainer/ColorRect.queue_free()
 	
-	for animation_name in $AnimationPlayer.get_animation_list():
-		var animation = $AnimationPlayer.get_animation(animation_name)
-		for track in animation.get_track_count():
-			animation.track_set_path(track, str(animation.track_get_path(track)).replace("CanvasLayer/MapGridPosition", "CanvasLayer/MapGrid"))
+	# Why on earth did I think this was a good idea
+#	for animation_name in $AnimationPlayer.get_animation_list():
+#		var animation = $AnimationPlayer.get_animation(animation_name)
+#		for track in animation.get_track_count():
+#			animation.track_set_path(track, str(animation.track_get_path(track)).replace("CanvasLayer/MapGridPosition", "CanvasLayer/MapGrid"))
 	
 	$CanvasLayer.layer = Enums.CanvasLayers.MENU
 	$CanvasLayer2.layer = Enums.CanvasLayers.MENU
@@ -48,11 +50,16 @@ func pause():
 	
 	yield(mapGrid.fade(false, 0.1), "completed")
 	
-	mapGrid.visible = false
-	Global.reparent_child(mapGrid, $CanvasLayer)
+#	mapGrid.visible = false
+	Global.reparent_child(mapGrid, $CanvasLayer/MapGridContainer)
+	mapGrid.map_offset_offset = Vector2(0, 0) + mapGrid.rect_position
+#	mapGrid.rect_position = Vector2.ZERO
 	mapGrid.map_offset_offset = Vector2(4, -2)
-	mapGrid.background_size = $CanvasLayer/MapGridPosition.rect_size
-	$AnimationPlayer.clear_caches()
+	mapGrid.background_size = $CanvasLayer/MapGridContainer.rect_size
+	mapGrid.modulate.a = 1
+	if Map.current_chunk != null:
+		mapGrid.set_focus_position(Map.current_chunk.tile.position, true)
+#	$AnimationPlayer.clear_caches()
 	$AnimationPlayer.play("open_menu")
 	yield($AnimationPlayer, "animation_finished")
 	
@@ -88,7 +95,7 @@ func reset_minimap():
 func _process(delta: float):
 	
 	if transitioning:
-		mapGrid.update_background()
+		mapGrid.update_minimap()
 		return
 	elif mode == MODES.CLOSED or mode == MODES.MAPREVEAL:
 		return
@@ -111,14 +118,6 @@ func _process(delta: float):
 				
 				process_marker(true, resuming)
 				return
-		elif Buttons.get_node("Areas/ButtonPrompts/Open").just_pressed():
-			if Buttons.get_node("Areas").expand_to_point(1):
-				mode = MODES.MAPAREA
-				Buttons.get_node("Areas/ButtonPrompts/Open").switch_to_index(1)
-				Buttons.get_node("Areas/ButtonPrompts/Cancel").enabled = true
-				
-				Buttons.get_node("Settings").enabled = false
-				Buttons.get_node("Equipment").enabled = false
 			
 		elif Buttons.get_node("Settings").just_pressed() and $AnimationPlayer.current_animation == "":
 			$AnimationPlayer.play("open_settings")
@@ -127,16 +126,27 @@ func _process(delta: float):
 			$AnimationPlayer.play("open_equipment")
 			mode = MODES.EQUIPMENT
 		else:
+			var update: bool = false
 			var pad_vector = -Shortcut.get_pad_vector("pressed")
 			map_move_velocity.x = move_toward(map_move_velocity.x, map_move_speed*pad_vector.x, map_move_acceleration*delta)
 			map_move_velocity.y = move_toward(map_move_velocity.y, map_move_speed*pad_vector.y, map_move_acceleration*delta)
 			if map_move_velocity != Vector2.ZERO:
 				mapGrid.Tiles.position += map_move_velocity * delta
-				mapGrid.update_background()
+				update = true
+				
+			var zoom_speed: float = 0.5
+			if Buttons.get_node("Zoom/ButtonPrompts/ZoomIn").pressed():
+				mapGrid.minimap_scale += Vector2(zoom_speed, zoom_speed)*delta
+				update = true
+			elif Buttons.get_node("Zoom/ButtonPrompts/ZoomOut").pressed():
+				mapGrid.minimap_scale -= Vector2(zoom_speed, zoom_speed)*delta
+				update = true
+			
+			if update:
+				mapGrid.update_minimap()
 	else:
 		match mode:
 			MODES.MAPMARKER: process_marker(false, resuming)
-			MODES.MAPAREA: process_area(resuming)
 			MODES.SETTINGS: process_settings(resuming)
 			MODES.SETTINGSOPTION: process_settings_option(resuming)
 			MODES.EQUIPMENT: process_equipment(resuming)
@@ -207,22 +217,6 @@ func process_marker(first_frame: bool, last_frame: bool):
 		
 		Buttons.get_node("Marker/ButtonPrompts/Delete").set_enabled(false, 0.1)
 		Buttons.get_node("Marker/ButtonPrompts/Rename").set_enabled(false, 0.1)
-		
-func process_area(last_frame: bool):
-	
-	if Buttons.get_node("Areas/ButtonPrompts/Open").just_pressed():
-		pass
-	elif Buttons.get_node("Areas/ButtonPrompts/Cancel").just_pressed():
-		mode = MODES.MAP
-	
-	if mode != MODES.MAPAREA or last_frame:
-		Buttons.get_node("Areas").expand_to_point(0)
-		Buttons.get_node("Areas/ButtonPrompts/Open").switch_to_index(0, 0.25)
-		
-		Buttons.get_node("Settings").enabled = true
-		Buttons.get_node("Equipment").enabled = true
-		
-		Buttons.get_node("Areas/ButtonPrompts/Cancel").set_enabled(false, 0.1)
 
 func process_settings(last_frame: bool):
 	

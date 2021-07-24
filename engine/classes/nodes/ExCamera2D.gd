@@ -5,7 +5,7 @@ onready var dimColorRectContainer: Node2D = Node2D.new()
 onready var dimColorRect: ColorRect = ColorRect.new()
 var dim_colour: Color = Color.transparent setget set_dim_colour
 var dim_layer: int = 0 setget set_dim_layer
-onready var tween: = Global.get_tween(true, self)
+onready var tween: Tween = Global.get_tween(true, self)
 var current_limit_interpolation = null
 
 const limit_paths = ["limit_top", "limit_bottom", "limit_left", "limit_right"]
@@ -24,6 +24,14 @@ var max_limits = {
 }
 var tween_duration = 0.0
 
+func _set(property, value):
+	if property == "current":
+		current = value
+		if current:
+			Global.current_camera = self
+		return true
+	return false
+
 func _ready():
 	tween.playback_process_mode = Tween.TWEEN_PROCESS_PHYSICS
 	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -36,6 +44,8 @@ func _ready():
 	dimColorRectContainer.add_child(dimColorRect)
 	set_dim_colour(dim_colour)
 	dimColorRect.rect_size = Vector2(480, 270)
+	
+	_set("current", current)
 
 func set_dim_layer(z_index: int):
 	dim_layer = z_index
@@ -50,7 +60,7 @@ func set_dim_colour(colour: Color):
 func get_center() -> Vector2:
 	return get_camera_screen_center()
 
-func _process(delta):
+func _process(_delta: float):
 	
 	# Yes, I'm moving a ColorRect every frame to match the camera
 	# instead of just using a CanvasLayer.
@@ -85,7 +95,7 @@ func get_adjusted_limits(_limits=null) -> Dictionary:
 			yield(Global.wait(0.01, true), "completed")
 		
 		adjusted_position = cam.get_camera_screen_center()
-		current = true
+		set("current", true)
 		cam.queue_free()
 	
 	var size = (Vector2(1920, 1080)*zoom)/2

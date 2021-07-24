@@ -8,6 +8,7 @@ onready var Timers = Node2D.new()
 onready var AnchorContainer = Node2D.new()
 
 var rng = RandomNumberGenerator.new()
+var current_camera: ExCamera2D
 
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
@@ -45,20 +46,6 @@ func _process(delta):
 
 func _physics_process(delta):
 	emit_signal("physics_frame", delta)
-
-#func start_timer(timer_id: String, seconds: float, data: Dictionary = {}, connect=[self, "clear_timer"]):
-#
-#	clear_timer(timer_id)
-#	var timer = Timer.new()
-#	self.add_child(timer)
-#	timer.one_shot = true
-#	timer.pause_mode = Node.PAUSE_MODE_STOP
-#	timers[timer_id] = [timer, data]
-#	if connect != null:
-#		timer.connect("timeout", connect[0], connect[1], [timer_id])
-#	timer.start(seconds)
-#
-#	return timer
 
 func get_timer(timeout_connect=null, started_connect=null, parent=null):
 	var timer = ExTimer.new()
@@ -316,7 +303,7 @@ func dir2dict(path: String, single_layer: bool = false, allowed_files = null, to
 	var dir: Directory = Directory.new()
 	assert(dir.open(path) == OK)
 	
-	for file in Global.iterate_directory(dir):
+	for file in iterate_directory(dir):
 		if dir.dir_exists(file):
 			if not single_layer:
 				data[file] = dir2dict(path + file + "/", single_layer, allowed_files, top_path)

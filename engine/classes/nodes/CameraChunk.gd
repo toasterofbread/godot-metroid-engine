@@ -22,6 +22,11 @@ func _ready():
 	
 	area = ExArea2D.new()
 	area.pause_mode = Node.PAUSE_MODE_PROCESS
+	
+	area.set_collision_layer_bit(14, true)
+	area.set_collision_layer_bit(0, false)
+	area.set_collision_mask_bit(0, false)
+	
 	self.get_parent().add_child(area)
 	Global.reparent_child(self, area)
 	area.name = name

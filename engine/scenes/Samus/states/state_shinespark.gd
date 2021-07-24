@@ -37,13 +37,16 @@ func init_state(data: Dictionary):
 	
 	Physics.apply_gravity = false
 	Physics.vel = Vector2.ZERO
+	direction = Shortcut.get_pad_vector("pressed")
 	
 	discharge_shinespark()
 	Physics.disable_floor_snap = true
-	if Samus.is_on_floor():
-		Physics.vel.y = -50
-	
 	Samus.boosting = true
+	
+	var from_airspark: bool = "from_airspark" in data and data["from_airspark"]
+	if not from_airspark:
+		if Samus.is_on_floor():
+			Physics.vel.y = -50
 	
 	ballspark = data["ballspark"]
 	if not ballspark:
@@ -54,8 +57,10 @@ func init_state(data: Dictionary):
 		Physics.vel.y = 0
 		yield(Global.wait(0.15), "completed")
 	
-	direction = Shortcut.get_pad_vector("pressed")
-	if direction == Vector2.ZERO:
+	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
+	if pad_vector != Vector2.ZERO:
+		direction = pad_vector
+	elif direction == Vector2.ZERO:
 		direction = Vector2(0, -1)
 	velocity = direction.normalized() * physics_data["speed"]
 	Physics.vel = velocity
@@ -86,6 +91,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 func process(_delta: float):
 	
 	if not moving:
+		Physics.vel.x = 0
 		return
 	
 	Physics.vel = velocity
@@ -102,9 +108,13 @@ func process(_delta: float):
 			change_state("run", {"boost": true})
 		return
 	elif Input.is_action_just_pressed("airspark"):
-		change_state("airspark")
 		if maintain_shinespark_when_airsparking["created"] > 0:
-			charge_shinespark()
+			if physics_data["airspark_into_shinespark"]:
+				change_state(id, {"from_airspark": true, "ballspark": ballspark})
+				return
+			else:
+				charge_shinespark()
+		change_state("airspark")
 		return
 	
 	var stop_shinespark = false

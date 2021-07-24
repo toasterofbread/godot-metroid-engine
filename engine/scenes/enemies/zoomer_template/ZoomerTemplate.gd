@@ -123,10 +123,10 @@ func death(type: int):
 
 func _on_Area2D_body_entered(body):
 	
-	if health <= 0:
+	if health <= 0 or body == self:
 		return
 	
-	if body == Samus:
+	if body.name == "Samus":
 		var damage = Samus.check_hurtbox_damage(null)
 		if damage != null:
 			damage(damage[0], damage[1], damage[2])

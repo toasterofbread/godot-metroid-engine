@@ -17,8 +17,10 @@ func trigger(upgrade_type: int, added: int, total: int):
 	var upgrade_type_string = Enums.Upgrade.keys()[upgrade_type]
 	
 	get_tree().paused = true
-	sounds["major_fanfare"].play(false, true)
+	sounds["major_fanfare"].play()
 	
+	# I know this looks weird
+	# But pickup_name is just an override for pickups specifically
 	var upgrade_name: String
 	if "pickup_name" in logbook_data[upgrade_type_string]:
 		upgrade_name = logbook_data[upgrade_type_string]["pickup_name"]
@@ -28,7 +30,11 @@ func trigger(upgrade_type: int, added: int, total: int):
 	$CanvasLayer/Added.text = "Added: " + str(added)
 	$CanvasLayer/Total.text = "Total: " + str(total)
 	
-	Global.dim_screen(show_duration*2, 0.75, 5, 0)
+	var camera: ExCamera2D = Global.current_camera
+	camera.set_dim_layer(Enums.Layers.MENU)
+	camera.dim_colour = Color(0, 0, 0, 0)
+	$Tween.interpolate_property(camera, "dim_colour:a", 0, 0.75, show_duration*2)
+	$Tween.start()
 	
 	$CanvasLayer/Icon.play(upgrade_type_string.to_lower())
 	$CanvasLayer/Label.text = upgrade_name + "\nacquired"
@@ -47,7 +53,8 @@ func trigger(upgrade_type: int, added: int, total: int):
 		yield(get_tree(), "idle_frame")
 	$AnimationPlayer.play("hide", -1, 1/show_duration)
 	
-	Global.undim_screen(show_duration*2)
+	$Tween.interpolate_property(camera, "dim_colour:a", camera.dim_colour.a, 0, show_duration*2)
+	$Tween.start()
 	yield($AnimationPlayer, "animation_finished")
 	
 	if $Tween.is_active():

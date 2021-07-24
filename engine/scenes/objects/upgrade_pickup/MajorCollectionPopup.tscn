@@ -248,7 +248,6 @@ rotation = 0.00140782
 scale = Vector2( 7.5, 7.5 )
 frames = ExtResource( 3 )
 animation = "missile"
-frame = 2
 playing = true
 
 [node name="Added" type="Label" parent="CanvasLayer"]

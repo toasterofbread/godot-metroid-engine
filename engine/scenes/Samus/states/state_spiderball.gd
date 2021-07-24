@@ -66,8 +66,10 @@ func process(_delta: float):
 			if direction == null:
 				direction = get_direction()
 			anim_speed = direction * (-1.0 if Samus.facing == Enums.dir.RIGHT else 1.0)
+		else:
+			anim_speed = int(Physics.vel.x != 0)
 		
-		var target_physics_speed = physics_data["speed"] if attached else Physics.data["morphball"]["air_speed"]
+#		var target_physics_speed = physics_data["speed"] if attached else Physics.data["morphball"]["air_speed"]
 #		var vector_speed: Vector2 = Physics.vel / FLOOR.rotated(deg2rad(90))*direction*spider_speed
 #		anim_speed *= vector_speed.aspect()*0.5
 		animations["roll_spider"].play(true, anim_speed)
