@@ -12,7 +12,7 @@ onready var ineffective_types: Array = data["ineffective_types"] if "ineffective
 func _ready():
 	z_as_relative = false
 	z_index = Enums.Layers.ENEMY
-	material = preload("res://engine/materials/DissolveAndWhiten.tres").duplicate()
+	material = preload("res://engine/resources/DissolveAndWhiten.tres").duplicate()
 	material.set("shader_param/whitening_enabled", false)
 	material.set("shader_param/whitening_value", 0.0)
 

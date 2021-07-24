@@ -4,7 +4,7 @@ signal state_changed
 
 onready var Animator: Node2D = $Animator
 onready var Collision: CollisionShape2D = $Collision
-onready var Hurtbox: CollisionShape2D = $Hurtbox/CollisionShape2D
+onready var Hurtbox: CollisionShape2D = $Samus/CollisionShape2D
 onready var Physics: Node = $Physics
 onready var Weapons: Node2D = $Weapons
 onready var HUD: Control = $HUD
@@ -103,7 +103,7 @@ func _ready():
 	
 	energy = data["energy"]
 	if energy < 0:
-		energy = etanks * 100 + 99
+		energy = (etanks * 100) + 99
 	HUD.set_energy(energy)
 	
 	for upgrade in upgrades:

@@ -61,7 +61,8 @@
 		"walk_deceleration": [50]
 	},
 	"shinespark": {
-		"speed": [600]
+		"speed": [600],
+		"airspark_into_shinespark": [true]
 	},
 	"hurt": {
 		"knockback_strength": [1],

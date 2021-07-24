@@ -2,7 +2,6 @@
 # Godot-specific ignores
 .import/
 debug_user_dir/screenshots/
-addons/
 build/
 export.cfg
 export_presets.cfg

@@ -581,6 +581,11 @@
 							"key": "visor_combo",
 							"title": "Use combo to cycle visor",
 							"description": "If enabled, visors will only be cycled if the visor input is pressed at the same time as the combo input"
+						},
+						{
+							"key": "reset_weapon_on_door_enter",
+							"title": "Reset weapon selection on room entry",
+							"description": "When entering a room, Samus's weapon selection will be reset"
 						}
 					]
 				},
@@ -602,6 +607,11 @@
 							"key": "physics_mode",
 							"title": "Samus physics mode",
 							"description": "Changes Samus's physics parameters. Non-default values may lead to gameplay issues."
+						},
+						{
+							"key": "morphball_always_spin",
+							"title": "Always spinning morphball",
+							"description": "If enabled, the morphball will always spin regardless of momentum"
 						}
 					]
 				}

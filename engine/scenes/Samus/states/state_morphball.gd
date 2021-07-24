@@ -38,6 +38,10 @@ func init_state(data: Dictionary):
 	if "animate" in options:
 		animations["morph"].play()
 		sounds["morph"].play()
+	
+	if "jump_current_time" in data:
+		springball_current_time = data["jump_current_time"]
+	
 	Samus.aiming = Samus.aim.NONE
 	CeilingRaycast.enabled = true
 
@@ -85,10 +89,16 @@ func process(_delta: float):
 			animations["turn"].play()
 
 	if not Animator.transitioning(false, true):
-		var anim_speed = 0 if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id else 1
 		
-		var target_physics_speed = physics_data["ground_speed"] if Samus.is_on_floor() else physics_data["air_speed"]
-		animations["roll"].play(true, anim_speed * (abs(Physics.vel.x)/target_physics_speed))
+		var anim_speed: float
+		if Settings.get("other/morphball_always_spin"):
+			anim_speed = 1.0
+		else:
+			anim_speed = 0.0 if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id else 1
+			var target_physics_speed: float = physics_data["ground_speed"] if Samus.is_on_floor() else physics_data["air_speed"]
+			anim_speed *= (abs(Physics.vel.x)/target_physics_speed)
+		
+		animations["roll"].play(true, anim_speed)
 
 #		if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id:
 #			Animator.pause()

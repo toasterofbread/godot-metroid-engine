@@ -74,6 +74,8 @@ func _ready():
 	for weapon in all_weapons.values():
 		$SamusWeapons.add_child(weapon)
 	
+	Loader.connect("room_transitioning", self, "room_transitioning")
+	
 	# Add all visors to the scene, passing the visor state object
 	yield(Samus, "ready")
 	for visor in all_visors.values():
@@ -341,3 +343,8 @@ func sort_visors():
 		if visor in temp:
 			equipped_visors.append(visor)
 			Samus.HUD.add_visor(visor.Icon)
+
+func room_transitioning():
+	if Settings.get("controls/reset_weapon_on_door_enter"):
+		reset_weapon_selection(morphball, aiming_style)
+		update_weapon_icons()

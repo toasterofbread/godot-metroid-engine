@@ -40,7 +40,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -52,7 +52,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -271,7 +271,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/2/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -339,7 +339,7 @@ tracks/6/keys = {
 length = 0.75
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/0/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -351,7 +351,7 @@ tracks/0/keys = {
 "values": [ Vector2( -2.91038e-11, 0.00012207 ), Vector2( -2.91038e-11, 1280 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CanvasLayer/MapGridPosition:visible")
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -487,7 +487,7 @@ tracks/11/keys = {
 } ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -577,7 +577,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -601,7 +601,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/4/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -720,7 +720,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -732,7 +732,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -991,7 +991,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1003,7 +1003,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1272,7 +1272,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1284,7 +1284,7 @@ tracks/2/keys = {
 "values": [ Vector2( 955.294, -121.765 ), Vector2( 955.294, -121.765 ), Vector2( 1449.41, -121.765 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1473,31 +1473,31 @@ tracks/17/keys = {
 [sub_resource type="Animation" id=10]
 step = 0.01
 tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer/MapGridPosition:color")
+tracks/0/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 0,
-"values": [  ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 0.164939, 0.164939 ),
 "update": 0,
 "values": [ Vector2( -2.91038e-11, 1280 ), Vector2( -2.91038e-11, 0.00012207 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 768, 360 ) ]
+}
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer/MapGridPosition:rect_size")
+tracks/2/path = NodePath("CanvasLayer/MapGridContainer:rect_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1506,10 +1506,10 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 384, 180 ) ]
+"values": [ Vector2( 2.5, 2.5 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridPosition:rect_scale")
+tracks/3/path = NodePath("CanvasLayer/MapGridContainer:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1517,35 +1517,35 @@ tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 5, 5 ) ]
+"update": 1,
+"values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/MapGridPosition:visible")
+tracks/4/path = NodePath("CanvasLayer/MapGridContainer:modulate")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer/MapGridPosition:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 0, 0.55 ),
 "transitions": PoolRealArray( 2.14355, 2.14355 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.921569 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1, 0.75 ),
+"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
+"update": 0,
+"values": [ Vector2( 0, 1088 ), Vector2( 0, 1088 ), Vector2( 0, 896 ) ]
+}
 tracks/6/type = "value"
-tracks/6/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1554,10 +1554,10 @@ tracks/6/keys = {
 "times": PoolRealArray( 0, 0.1, 0.75 ),
 "transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
 "update": 0,
-"values": [ Vector2( 0, 1088 ), Vector2( 0, 1088 ), Vector2( 0, 896 ) ]
+"values": [ Vector2( 9.41177, 112.941 ), Vector2( 9.41177, 112.941 ), Vector2( 9.41177, 0.00012207 ) ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -1566,10 +1566,10 @@ tracks/7/keys = {
 "times": PoolRealArray( 0, 0.1, 0.75 ),
 "transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
 "update": 0,
-"values": [ Vector2( 9.41177, 112.941 ), Vector2( 9.41177, 112.941 ), Vector2( 9.41177, 0.00012207 ) ]
+"values": [ Vector2( 809.412, 112.941 ), Vector2( 809.412, 112.941 ), Vector2( 809.412, 0 ) ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
+tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -1578,39 +1578,27 @@ tracks/8/keys = {
 "times": PoolRealArray( 0, 0.1, 0.75 ),
 "transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
 "update": 0,
-"values": [ Vector2( 809.412, 112.941 ), Vector2( 809.412, 112.941 ), Vector2( 809.412, 0 ) ]
+"values": [ Vector2( 912.941, 112.941 ), Vector2( 912.941, 112.941 ), Vector2( 912.941, 0 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
+tracks/9/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
 "times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
-"update": 0,
-"values": [ Vector2( 912.941, 112.941 ), Vector2( 912.941, 112.941 ), Vector2( 912.941, 0 ) ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0, 0.1, 0.75 ),
 "transitions": PoolRealArray( 0.116629, 0.116629, 0.116629 ),
 "update": 0,
 "values": [ Vector2( -489.412, -122.353 ), Vector2( -489.412, -122.353 ), Vector2( 9.41177, -122.353 ) ]
 }
-tracks/11/type = "method"
-tracks/11/path = NodePath("CanvasLayer2/MainLabel")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = false
-tracks/11/keys = {
+tracks/10/type = "method"
+tracks/10/path = NodePath("CanvasLayer2/MainLabel")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = false
+tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -1618,20 +1606,32 @@ tracks/11/keys = {
 "method": "set_text"
 } ]
 }
-tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
+tracks/11/type = "value"
+tracks/11/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
 "times": PoolRealArray( 0, 0.1, 0.75 ),
 "transitions": PoolRealArray( 0.116629, 0.116629, 0.116629 ),
 "update": 0,
 "values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
 }
+tracks/12/type = "value"
+tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 tracks/13/type = "value"
-tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts:visible")
+tracks/13/path = NodePath("CanvasLayer2/Background:visible")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -1643,7 +1643,7 @@ tracks/13/keys = {
 "values": [ true ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/Background:visible")
+tracks/14/path = NodePath("CanvasLayer2/MainLabel:visible")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -1655,48 +1655,36 @@ tracks/14/keys = {
 "values": [ true ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("CanvasLayer2/MainLabel:visible")
+tracks/15/path = NodePath("CanvasLayer2/MainLabel:position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("CanvasLayer2/MainLabel:position")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
 "times": PoolRealArray( 0, 0.1, 0.75 ),
 "transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
 "update": 0,
 "values": [ Vector2( 960, 1152 ), Vector2( 960, 1152 ), Vector2( 960, 800 ) ]
 }
-tracks/17/type = "value"
-tracks/17/path = NodePath("CanvasLayer/CanvasModulate:color")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
+tracks/16/type = "value"
+tracks/16/path = NodePath("CanvasLayer/CanvasModulate:color")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
-tracks/18/type = "value"
-tracks/18/path = NodePath("CanvasLayer2/CanvasModulate:color")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
+tracks/17/type = "value"
+tracks/17/path = NodePath("CanvasLayer2/CanvasModulate:color")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -1733,7 +1721,7 @@ tracks/1/keys = {
 } ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1757,7 +1745,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/4/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1913,7 +1901,7 @@ tracks/4/keys = {
 "values": [ Vector2( 9.412, -122.353 ), Vector2( -489.412, -122.353 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1929,7 +1917,7 @@ tracks/5/keys = {
 resource_name = "reset"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer/MapGridPosition:rect_position")
+tracks/0/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -1941,7 +1929,7 @@ tracks/0/keys = {
 "values": [ Vector2( -2.91038e-11, 1280 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CanvasLayer/MapGridPosition:rect_size")
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -2099,7 +2087,7 @@ tracks/13/keys = {
 "values": [ Vector2( -489.412, -122.353 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -2153,7 +2141,7 @@ tracks/17/keys = {
 } ]
 }
 tracks/18/type = "method"
-tracks/18/path = NodePath("CanvasLayer2/ButtonPrompts/Areas")
+tracks/18/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
@@ -2333,7 +2321,7 @@ tracks/31/keys = {
 } ]
 }
 tracks/32/type = "method"
-tracks/32/path = NodePath("CanvasLayer2/ButtonPrompts/Areas/ButtonPrompts/Open")
+tracks/32/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -2346,8 +2334,8 @@ tracks/32/keys = {
 "method": "switch_to_index"
 } ]
 }
-tracks/33/type = "method"
-tracks/33/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
+tracks/33/type = "value"
+tracks/33/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:enabled")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -2355,30 +2343,16 @@ tracks/33/enabled = true
 tracks/33/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.0, true ],
-"method": "switch_to_index"
-} ]
+"update": 1,
+"values": [ true ]
 }
 tracks/34/type = "value"
-tracks/34/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:enabled")
+tracks/34/path = NodePath("CanvasLayer/MapRevealContainer:rect_size")
 tracks/34/interp = 1
 tracks/34/loop_wrap = true
 tracks/34/imported = false
 tracks/34/enabled = true
 tracks/34/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/35/type = "value"
-tracks/35/path = NodePath("CanvasLayer/MapRevealContainer:rect_size")
-tracks/35/interp = 1
-tracks/35/loop_wrap = true
-tracks/35/imported = false
-tracks/35/enabled = true
-tracks/35/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -2453,7 +2427,7 @@ tracks/4/keys = {
 "values": [ Vector2( -489.412, -122.353 ), Vector2( -489.412, -122.353 ), Vector2( 9.412, -122.353 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Areas:position")
+tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -2527,17 +2501,23 @@ anims/settings_to_options = SubResource( 14 )
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 5
 
-[node name="MapGridPosition" type="ColorRect" parent="CanvasLayer"]
+[node name="MapGridContainer" type="CenterContainer" parent="CanvasLayer"]
 modulate = Color( 1, 1, 1, 0.921569 )
 margin_left = -2.91038e-11
-margin_top = 1280.0
-margin_right = 384.0
-margin_bottom = 1460.0
-rect_scale = Vector2( 5, 5 )
-color = Color( 0.0431373, 0.360784, 0.196078, 0.380392 )
+margin_top = 0.00012207
+margin_right = 768.0
+margin_bottom = 360.0
+rect_scale = Vector2( 2.5, 2.5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/MapGridContainer"]
+margin_left = 384.0
+margin_top = 180.0
+margin_right = 384.0
+margin_bottom = 180.0
+color = Color( 0.0431373, 0.360784, 0.196078, 0.380392 )
 
 [node name="Background" type="ColorRect" parent="CanvasLayer"]
 visible = false
@@ -2551,7 +2531,6 @@ __meta__ = {
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="CanvasLayer"]
-color = Color( 1, 1, 1, 0 )
 
 [node name="MapRevealCursor" type="Sprite" parent="CanvasLayer"]
 visible = false
@@ -2578,18 +2557,16 @@ layer = 5
 [node name="LogbookScreen" parent="CanvasLayer2" instance=ExtResource( 8 )]
 
 [node name="Background" type="ColorRect" parent="CanvasLayer2"]
-visible = false
-margin_top = 1088.0
+margin_top = 896.0
 margin_right = 1920.0
-margin_bottom = 1280.0
+margin_bottom = 1088.0
 color = Color( 0, 0, 0, 0.934118 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MainLabel" parent="CanvasLayer2" instance=ExtResource( 7 )]
-visible = false
-position = Vector2( 960, 1152 )
+position = Vector2( 960, 800 )
 scale = Vector2( 2.25, 2 )
 animation_duration = 0.5
 all_caps = true
@@ -2600,22 +2577,22 @@ position = Vector2( 64, 1040 )
 scale = Vector2( 1.7, 1.7 )
 
 [node name="Close" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( 9.41177, 112.941 )
+position = Vector2( 9.41177, 0.00012207 )
 action_keys = [ "pause" ]
 text = [ "Close" ]
 
 [node name="Settings" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( 875.294, 112.941 )
+position = Vector2( 809.412, 0 )
 action_keys = [ "ui_cancel", "#ui_cancel" ]
 text = [ "Settings", "Back" ]
 
 [node name="Equipment" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( 981.961, 112.941 )
+position = Vector2( 912.941, 0 )
 action_keys = [ "ui_accept", "ui_special_2", "ui_special_2" ]
 text = [ "Equipment & Logbook", "Logbook", "Equipment" ]
 
 [node name="Marker" type="Node2D" parent="CanvasLayer2/ButtonPrompts"]
-position = Vector2( -489.412, -122.353 )
+position = Vector2( 9.41177, -122.353 )
 script = ExtResource( 2 )
 duration = 0.35
 transition_type = 1
@@ -2689,16 +2666,12 @@ text = [ "Rename marker", "Confirm rename" ]
 
 [node name="Tween" type="Tween" parent="CanvasLayer2/ButtonPrompts/Marker"]
 
-[node name="Areas" type="Node2D" parent="CanvasLayer2/ButtonPrompts"]
-position = Vector2( 1449.41, -121.765 )
-script = ExtResource( 2 )
-duration = 0.35
-transition_type = 1
-ease_type = 1
+[node name="Zoom" type="Node2D" parent="CanvasLayer2/ButtonPrompts"]
+position = Vector2( 955.294, -121.765 )
 
-[node name="Background" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Areas"]
+[node name="Background" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Zoom"]
 margin_left = -19.0
-margin_top = -19.0
+margin_top = -53.0
 margin_right = 109.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 38 )
@@ -2707,59 +2680,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BackgroundStates" type="Node2D" parent="CanvasLayer2/ButtonPrompts/Areas"]
-visible = false
+[node name="ButtonPrompts" type="Node2D" parent="CanvasLayer2/ButtonPrompts/Zoom"]
 
-[node name="Closed" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Areas/BackgroundStates"]
-visible = false
-margin_left = -19.4115
-margin_top = -18.8235
-margin_right = 107.589
-margin_bottom = 19.1765
-rect_pivot_offset = Vector2( 0, 38 )
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ZoomIn" parent="CanvasLayer2/ButtonPrompts/Zoom/ButtonPrompts" instance=ExtResource( 1 )]
+action_keys = [ "map_zoom_in" ]
+text = [ "Zoom in" ]
 
-[node name="Opened" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Areas/BackgroundStates"]
-visible = false
-margin_left = -116.823
-margin_top = -217.0
-margin_right = 109.177
-margin_bottom = 19.0001
-rect_pivot_offset = Vector2( 0, 38 )
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Options" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Areas/BackgroundStates"]
-margin_left = -19.0
-margin_top = -19.0
-margin_right = 141.0
-margin_bottom = 19.0
-rect_pivot_offset = Vector2( 0, 38 )
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ButtonPrompts" type="Node2D" parent="CanvasLayer2/ButtonPrompts/Areas"]
-
-[node name="Open" parent="CanvasLayer2/ButtonPrompts/Areas/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( -0.00012207, 0 )
-action_keys = [ "ui_special_2", "ui_accept", "#ui_special_2" ]
-text = [ "Select area", "Confirm area", "Reset to default" ]
-
-[node name="Cancel" parent="CanvasLayer2/ButtonPrompts/Areas/ButtonPrompts" instance=ExtResource( 1 )]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( -94.1218, 6.10352e-05 )
-action_keys = [ "ui_cancel" ]
-text = [ "Cancel" ]
-
-[node name="Tween" type="Tween" parent="CanvasLayer2/ButtonPrompts/Areas"]
+[node name="ZoomOut" parent="CanvasLayer2/ButtonPrompts/Zoom/ButtonPrompts" instance=ExtResource( 1 )]
+position = Vector2( 0, -32.7178 )
+action_keys = [ "map_zoom_out" ]
+text = [ "Zoom out" ]
 
 [node name="Settings" type="Node2D" parent="CanvasLayer2"]
 position = Vector2( 960, 208 )
@@ -2771,6 +2701,5 @@ position = Vector2( -1856, 16 )
 position = Vector2( -1846.37, 16 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="CanvasLayer2"]
-color = Color( 1, 1, 1, 0 )
 
 [editable path="CanvasLayer2/EquipmentScreen"]

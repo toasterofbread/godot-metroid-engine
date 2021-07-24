@@ -1,0 +1,14 @@
+[gd_scene format=2]
+
+[node name="Overlay" type="CanvasLayer"]
+scale = Vector2( 2.5, 2.5 )
+transform = Transform2D( 2.5, 0, 0, 2.5, 0, 0 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_right = 90.0
+margin_bottom = 429.0
+grow_vertical = 0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}

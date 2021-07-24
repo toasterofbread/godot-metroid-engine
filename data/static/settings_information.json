@@ -10,11 +10,13 @@
 		"spin_from_jump": {"type": null, "default": true},
 		"spiderball_relative_controls": {"type": null, "default": true},
 		"spiderball_style": {"type": ["Hold", "Toggle", "Classic"], "default": 0},
-		"visor_combo": {"type": null, "default": true}
+		"visor_combo": {"type": null, "default": true},
+		"reset_weapon_on_door_enter": {"type": null, "default": false}
 	},
 	"other": {
 		"language": {"type": {"English": "en", "日本語": "ja"}, "default": 0},
 		"joypad_button_icon_style": {"type": ["PlayStation", "Xbox", "Nintendo"], "default": 0},
-		"physics_mode": {"type": ["Default", "Super Metroid style"], "default": 0}
+		"physics_mode": {"type": ["Default", "Super Metroid style"], "default": 0},
+		"morphball_always_spin": {"type": null, "default": false}
 	}
 }

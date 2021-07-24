@@ -56,7 +56,7 @@
 [ext_resource path="res://engine/sprites/samus/weapons/beam/fx/ice/sChargeIBeamSpark1_0.png" type="Texture" id=54]
 [ext_resource path="res://engine/sprites/samus/weapons/beam/fx/wave/sChargeWBeamSpark1_0.png" type="Texture" id=55]
 [ext_resource path="res://engine/classes/nodes/DamageConnector.gd" type="Script" id=56]
-[ext_resource path="res://engine/materials/DissolveAndWhiten.tres" type="Material" id=57]
+[ext_resource path="res://engine/resources/DissolveAndWhiten.tres" type="Material" id=57]
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -691,7 +691,7 @@ glow_bicubic_upscale = true
 pause_mode = 2
 position = Vector2( 2, -2 )
 z_as_relative = false
-collision_mask = 950272
+collision_mask = 966656
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_horizontal_guides_": [  ]
@@ -789,7 +789,7 @@ position = Vector2( -356, -54 )
 position = Vector2( 1, 0 )
 frames = ExtResource( 2 )
 animation = "death_suit_right"
-frame = 3
+frame = 4
 playing = true
 script = ExtResource( 4 )
 state_key = "death"
@@ -1172,11 +1172,11 @@ script = ExtResource( 5 )
 pause_mode = 2
 script = ExtResource( 11 )
 
-[node name="Hurtbox" type="StaticBody2D" parent="."]
+[node name="Samus" type="StaticBody2D" parent="."]
 collision_layer = 0
 collision_mask = 12
 script = ExtResource( 56 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Samus"]
 
-[connection signal="damage" from="Hurtbox" to="." method="_damage"]
+[connection signal="damage" from="Samus" to="." method="_damage"]

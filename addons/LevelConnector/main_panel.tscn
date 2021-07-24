@@ -1,0 +1,260 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/LevelConnector/main_panel.gd" type="Script" id=1]
+[ext_resource path="res://addons/LevelConnector/level.tscn" type="PackedScene" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.152941 )
+
+[node name="MainPanel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.561218
+margin_top = -0.23597
+margin_right = -823.561
+margin_bottom = -426.236
+rect_clip_content = true
+size_flags_vertical = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sidebar" type="Panel" parent="."]
+margin_right = 163.0
+margin_bottom = 652.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ActionButtons" type="VBoxContainer" parent="Sidebar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -61.0
+margin_top = -307.728
+margin_right = 61.0
+margin_bottom = -185.728
+rect_clip_content = true
+custom_constants/separation = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Sidebar/ActionButtons"]
+margin_right = 122.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
+
+[node name="Button2" type="Button" parent="Sidebar/ActionButtons"]
+margin_top = 33.0
+margin_right = 122.0
+margin_bottom = 58.0
+rect_min_size = Vector2( 0, 25 )
+
+[node name="Button3" type="Button" parent="Sidebar/ActionButtons"]
+margin_top = 66.0
+margin_right = 122.0
+margin_bottom = 91.0
+rect_min_size = Vector2( 0, 25 )
+
+[node name="Button4" type="Button" parent="Sidebar/ActionButtons"]
+margin_top = 99.0
+margin_right = 122.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 25 )
+text = "Delete level"
+
+[node name="LevelSelector" type="Panel" parent="Sidebar"]
+margin_top = 402.0
+margin_right = 163.0
+margin_bottom = 654.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Sidebar/LevelSelector"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 9.0
+margin_top = 9.0
+margin_right = -7.0
+custom_constants/separation = 9
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonInsertRoom" type="Button" parent="Sidebar/LevelSelector/VBoxContainer"]
+margin_right = 147.0
+margin_bottom = 20.0
+focus_mode = 0
+text = "Insert level"
+
+[node name="ButtonSelectArea" type="OptionButton" parent="Sidebar/LevelSelector/VBoxContainer"]
+margin_top = 29.0
+margin_right = 147.0
+margin_bottom = 49.0
+focus_mode = 0
+text = "Select area"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelScrollContainer" type="ScrollContainer" parent="Sidebar/LevelSelector/VBoxContainer"]
+margin_top = 58.0
+margin_right = 147.0
+margin_bottom = 243.0
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="LevelContainer" type="VBoxContainer" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer"]
+margin_right = 130.0
+margin_bottom = 332.0
+rect_clip_content = true
+
+[node name="ButtonInsertRoom" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_right = 130.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom6" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 24.0
+margin_right = 130.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom7" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 48.0
+margin_right = 130.0
+margin_bottom = 68.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom8" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 72.0
+margin_right = 130.0
+margin_bottom = 92.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom9" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 96.0
+margin_right = 130.0
+margin_bottom = 116.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom10" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 120.0
+margin_right = 130.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom11" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 144.0
+margin_right = 130.0
+margin_bottom = 164.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom12" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 168.0
+margin_right = 130.0
+margin_bottom = 188.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom13" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 192.0
+margin_right = 130.0
+margin_bottom = 212.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom14" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 216.0
+margin_right = 130.0
+margin_bottom = 236.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom2" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 240.0
+margin_right = 130.0
+margin_bottom = 260.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom3" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 264.0
+margin_right = 130.0
+margin_bottom = 284.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom4" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 288.0
+margin_right = 130.0
+margin_bottom = 308.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="ButtonInsertRoom5" type="Button" parent="Sidebar/LevelSelector/VBoxContainer/LevelScrollContainer/LevelContainer"]
+margin_top = 312.0
+margin_right = 130.0
+margin_bottom = 332.0
+rect_min_size = Vector2( 130, 0 )
+rect_clip_content = true
+focus_mode = 1
+text = "ship_saveroom"
+clip_text = true
+
+[node name="Level" parent="." instance=ExtResource( 2 )]
+margin_left = 318.0
+margin_top = 199.0
+margin_right = -634.0
+margin_bottom = -187.0
