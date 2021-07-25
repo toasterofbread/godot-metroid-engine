@@ -33,7 +33,7 @@ func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	set_jump_values()
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary):
+func init_state(data: Dictionary, _previous_state_id: String):
 	var options = data["options"]
 	if "animate" in options:
 		animations["morph"].play()

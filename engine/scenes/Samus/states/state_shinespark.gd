@@ -33,7 +33,7 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	maintain_shinespark_when_airsparking = Samus.get_mini_upgrade("maintain_shinespark_when_airsparking", 0)
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary):
+func init_state(data: Dictionary, _previous_state_id: String):
 	
 	Physics.apply_gravity = false
 	Physics.vel = Vector2.ZERO

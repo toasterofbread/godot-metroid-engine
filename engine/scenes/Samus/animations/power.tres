@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=557 format=2]
+[gd_resource type="SpriteFrames" load_steps=578 format=2]
 
 [ext_resource path="res://engine/sprites/samus/power/morphball/morph/sMorph_1.png" type="Texture" id=1]
 [ext_resource path="res://engine/sprites/samus/power/crouch/aim_up/left_2.png" type="Texture" id=2]
@@ -556,6 +556,27 @@
 [ext_resource path="res://engine/sprites/samus/power/death/sDeathL_1.png" type="Texture" id=554]
 [ext_resource path="res://engine/sprites/samus/power/death/sDeathL_0.png" type="Texture" id=555]
 [ext_resource path="res://engine/sprites/samus/power/death/sDeathR_0.png" type="Texture" id=556]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_land/sLand_2.png" type="Texture" id=557]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_land/sLand_1.png" type="Texture" id=558]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_land/sLand_0.png" type="Texture" id=559]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_R_0.png" type="Texture" id=560]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_L_2.png" type="Texture" id=561]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_R_1.png" type="Texture" id=562]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_L_0.png" type="Texture" id=563]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_R_2.png" type="Texture" id=564]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_L_1.png" type="Texture" id=565]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_R_1.png" type="Texture" id=566]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_R_2.png" type="Texture" id=567]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_L_0.png" type="Texture" id=568]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_L_2.png" type="Texture" id=569]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_L_1.png" type="Texture" id=570]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_R_0.png" type="Texture" id=571]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_R_2.png" type="Texture" id=572]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_R_1.png" type="Texture" id=573]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_R_0.png" type="Texture" id=574]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_L_2.png" type="Texture" id=575]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_L_1.png" type="Texture" id=576]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_L_0.png" type="Texture" id=577]
 
 [resource]
 animations = [ {
@@ -1148,4 +1169,69 @@ animations = [ {
 "loop": false,
 "name": "death_samus",
 "speed": 15.0
+}, {
+"frames": [ ExtResource( 569 ), ExtResource( 570 ), ExtResource( 568 ) ],
+"loop": false,
+"name": "crouch_crouch_aim_down_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 575 ), ExtResource( 576 ), ExtResource( 577 ) ],
+"loop": false,
+"name": "crouch_crouch_aim_up_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 563 ), ExtResource( 565 ), ExtResource( 561 ) ],
+"loop": false,
+"name": "crouch_uncrouch_aim_front_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 560 ), ExtResource( 562 ), ExtResource( 564 ) ],
+"loop": false,
+"name": "crouch_uncrouch_aim_front_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 559 ), ExtResource( 558 ), ExtResource( 557 ) ],
+"loop": true,
+"name": "jump_legs_land",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 567 ), ExtResource( 566 ), ExtResource( 571 ) ],
+"loop": false,
+"name": "crouch_crouch_aim_down_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 572 ), ExtResource( 573 ), ExtResource( 574 ) ],
+"loop": false,
+"name": "crouch_crouch_aim_up_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 561 ), ExtResource( 565 ), ExtResource( 563 ) ],
+"loop": false,
+"name": "crouch_crouch_aim_front_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 577 ), ExtResource( 576 ), ExtResource( 575 ) ],
+"loop": false,
+"name": "crouch_uncrouch_aim_up_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 571 ), ExtResource( 566 ), ExtResource( 567 ) ],
+"loop": false,
+"name": "crouch_uncrouch_aim_down_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 574 ), ExtResource( 573 ), ExtResource( 572 ) ],
+"loop": false,
+"name": "crouch_uncrouch_aim_up_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 568 ), ExtResource( 570 ), ExtResource( 569 ) ],
+"loop": false,
+"name": "crouch_uncrouch_aim_down_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 564 ), ExtResource( 562 ), ExtResource( 560 ) ],
+"loop": false,
+"name": "crouch_crouch_aim_front_right",
+"speed": 60.0
 } ]

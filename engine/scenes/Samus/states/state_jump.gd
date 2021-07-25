@@ -39,10 +39,10 @@ var sounds = {
 	"land": Audio.get_player("/samus/jump/sndLand", Audio.TYPE.SAMUS),
 }
 var sounds_spin = {
-	"spin": Audio.get_player("/samus/jump/sndSpinJump", Audio.TYPE.SAMUS, -1),
-	"spin_space": Audio.get_player("/samus/jump/sndSpaceJump", Audio.TYPE.SAMUS, -1),
-	"spin_screw": Audio.get_player("/samus/jump/sndScrewAttack", Audio.TYPE.SAMUS, -1),
-	"spin_space_screw": Audio.get_player("/samus/jump/sndSpaceScrewAttack", Audio.TYPE.SAMUS, -1),
+	"spin": Audio.get_player("/samus/jump/sndSpinJump", Audio.TYPE.SAMUS),#.set_loop(-1),
+	"spin_space": Audio.get_player("/samus/jump/sndSpaceJump", Audio.TYPE.SAMUS),#.set_loop(-1),
+	"spin_screw": Audio.get_player("/samus/jump/sndScrewAttack", Audio.TYPE.SAMUS),#.set_loop(-1),
+	"spin_space_screw": Audio.get_player("/samus/jump/sndSpaceScrewAttack", Audio.TYPE.SAMUS),#.set_loop(-1),
 }
 
 # Called during Samus's readying period
@@ -57,9 +57,10 @@ func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	
 	set_jump_values()
 	Loader.Save.connect("value_set", self, "save_value_set")
+	Physics.connect("physics_data_set", self, "set_jump_values")
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary):
+func init_state(data: Dictionary, _previous_state_id: String):
 	var options: Array = data["options"]
 	first_frame = true
 	

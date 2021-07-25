@@ -470,6 +470,72 @@
 				7,
 				0
 			]
+		},
+		"crouch_aim_front": {
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				6,
+				0
+			],
+			"transition": true
+		},
+		"uncrouch_aim_front": {
+			"leftPos": [
+				1,
+				0
+			],
+			"rightPos": [
+				6,
+				0
+			],
+			"transition": true
+		},
+		"crouch_aim_down": {
+			"leftPos": [
+				2,
+				0
+			],
+			"rightPos": [
+				6,
+				0
+			],
+			"transition": true
+		},
+		"uncrouch_aim_down": {
+			"leftPos": [
+				2,
+				0
+			],
+			"rightPos": [
+				6,
+				0
+			],
+			"transition": true
+		},
+		"crouch_aim_up": {
+			"leftPos": [
+				1,
+				-1
+			],
+			"rightPos": [
+				6,
+				-1
+			],
+			"transition": true
+		},
+		"uncrouch_aim_up": {
+			"leftPos": [
+				1,
+				-1
+			],
+			"rightPos": [
+				6,
+				-1
+			],
+			"transition": true
 		}
 	},
 	"morphball": {

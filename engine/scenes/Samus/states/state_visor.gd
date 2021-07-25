@@ -31,7 +31,7 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	scanner.get_node("Area2D").connect("area_entered", self, "_on_Area2D_area_entered")
 	scanner.get_node("Area2D").connect("area_exited", self, "_on_Area2D_area_exited")
 
-func init_state(_data: Dictionary = {}):
+func init_state(_data: Dictionary, _previous_state_id: String):
 	movement_speed_multiplier = 1
 	var tintOverlay: ColorRect = node.get_node("CanvasLayer/TintOverlay")
 	var tween: Tween = node.get_node("CanvasLayer/Tween")
@@ -88,7 +88,7 @@ func process(delta: float):
 	
 	if not Samus.Weapons.cycle_visor():
 		change_state("neutral")
-		init_state()
+		init_state({}, "")
 		return
 	
 #	if Weapons.current_visor != null:
@@ -307,7 +307,7 @@ func visor_process():
 
 func visor_mode_changed(mode):
 	if mode != null:
-		init_state()
+		init_state({}, "")
 
 
 func _on_Area2D_area_exited(area):

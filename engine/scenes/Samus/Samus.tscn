@@ -782,40 +782,37 @@ cast_to = Vector2( 0, 2 )
 collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
-visible = false
 position = Vector2( -356, -54 )
 
-[node name="suit" type="AnimatedSprite" parent="Animator/TestSprites"]
+[node name="aim_front" type="AnimatedSprite" parent="Animator/TestSprites"]
 position = Vector2( 1, 0 )
 frames = ExtResource( 2 )
-animation = "death_suit_right"
-frame = 4
-playing = true
-script = ExtResource( 4 )
-state_key = "death"
-animation_key = "suit"
-facing = 1
-data = {
-"leftPos": [ 7.0, 0.0 ],
-"rightPos": [ 1.0, 0.0 ],
-"step_frames": [  ]
-}
-
-[node name="samus" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 9, 0 )
-frames = ExtResource( 2 )
-animation = "death_samus"
-frame = 12
+animation = "crouch_aim_front_left"
+frame = 1
 playing = true
 flip_h = true
 script = ExtResource( 4 )
-state_key = "death"
-animation_key = "samus"
+state_key = "crouch"
+animation_key = "aim_front"
 data = {
-"directional": false,
-"leftPos": [ 9.0, 0.0 ],
-"rightPos": [ -2.0, 0.0 ],
-"step_frames": [ 0, 3 ]
+"leftPos": [ 1.0, 0.0 ],
+"rightPos": [ 7.0, 0.0 ]
+}
+
+[node name="crouch_aim_up" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 1, -1 )
+frames = ExtResource( 2 )
+animation = "crouch_crouch_aim_up_left"
+frame = 2
+playing = true
+flip_h = true
+script = ExtResource( 4 )
+state_key = "crouch"
+animation_key = "crouch_aim_up"
+data = {
+"leftPos": [ 1.0, -1.0 ],
+"rightPos": [ 6.0, -1.0 ],
+"transition": true
 }
 step_frames = [ 0, 3 ]
 
@@ -823,8 +820,8 @@ step_frames = [ 0, 3 ]
 visible = false
 position = Vector2( 4, -17 )
 frames = ExtResource( 2 )
-animation = "death_samus"
-frame = 12
+animation = "crouch_uncrouch_aim_down_right"
+frame = 2
 playing = true
 script = ExtResource( 4 )
 state_key = "grapple"
@@ -843,10 +840,11 @@ material = ExtResource( 57 )
 sprites = [ NodePath("sOverlayLeft"), NodePath("sOverlayRight"), NodePath("sMainLeft"), NodePath("sMainRight") ]
 
 [node name="sOverlayLeft" type="AnimatedSprite" parent="Animator/Sprites"]
+visible = false
 use_parent_material = true
 position = Vector2( -300, 7 )
 frames = ExtResource( 2 )
-animation = "neutral_aim_front_left"
+animation = "crouch_uncrouch_aim_down_right"
 flip_h = true
 
 [node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
@@ -854,15 +852,15 @@ visible = false
 use_parent_material = true
 position = Vector2( 7, 0 )
 frames = ExtResource( 2 )
-animation = "death_samus"
+animation = "crouch_uncrouch_aim_down_right"
 
 [node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
 visible = false
 use_parent_material = true
 position = Vector2( -394, -43 )
 frames = ExtResource( 2 )
-animation = "death_samus"
-frame = 12
+animation = "crouch_uncrouch_aim_down_right"
+frame = 2
 playing = true
 flip_h = true
 
@@ -871,7 +869,7 @@ visible = false
 use_parent_material = true
 position = Vector2( -45, -84 )
 frames = ExtResource( 2 )
-animation = "death_samus"
+animation = "crouch_uncrouch_aim_down_right"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1
@@ -1166,6 +1164,9 @@ pause_mode = 2
 position = Vector2( -2, 2 )
 current = true
 zoom = Vector2( 0.25, 0.25 )
+drag_margin_v_enabled = true
+drag_margin_top = 0.02
+drag_margin_bottom = 0.02
 script = ExtResource( 5 )
 
 [node name="Pauser" type="Node" parent="."]

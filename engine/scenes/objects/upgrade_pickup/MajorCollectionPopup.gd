@@ -4,7 +4,7 @@ onready var logbook_data: Dictionary = Data.data["logbook"]
 const show_duration: float = 0.25
 
 onready var sounds = {
-	"major_fanfare": Audio.get_player("/objects/upgade_pickup/Metroid Prime Music - Item Acquisition Fanfare", Audio.TYPE.MUSIC)
+	"major_fanfare": Audio.get_player("/objects/upgade_pickup/Metroid Prime Music - Item Acquisition Fanfare", Audio.TYPE.MUSIC).set_ignore_paused(true)
 }
 
 

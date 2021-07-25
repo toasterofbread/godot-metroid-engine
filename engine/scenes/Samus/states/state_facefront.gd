@@ -11,7 +11,7 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	pass
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary = {}):
+func init_state(data: Dictionary, _previous_state_id: String):
 	Samus.aiming = Samus.aim.NONE
 	if "face_back" in data:
 		set_face_back(data["face_back"])

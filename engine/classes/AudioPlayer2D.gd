@@ -6,12 +6,21 @@ signal looping
 
 enum STATE {PLAYING, STOPPED, UNSTARTED, FINISHED}
 var status: int = STATE.UNSTARTED
-var loop_amount
+var loop_amount: int = 0
 
-func _init(sound, _loop_amount: int):
-	loop_amount = _loop_amount
+func _init(sound):
 	connect("finished", self, "_on_finished")
 	stream = sound
+
+func set_loop(loop: int):
+	loop_amount = loop
+	return self
+func set_ignore_paused(ignore_paused: bool):
+	pause_mode = Node.PAUSE_MODE_PROCESS if ignore_paused else Node.PAUSE_MODE_STOP
+	return self
+func set_volume(volume: float):
+	volume_db = volume
+	return self
 
 func play(from_position: float = 0.0):
 	.play(from_position)

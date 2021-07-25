@@ -15,7 +15,7 @@ var direction = {
 func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	pass
 
-func init_state(data: Dictionary) -> bool:
+func init_state(data: Dictionary, _previous_state_id: String) -> bool:
 	
 	if Samus.facing == Enums.dir.LEFT:
 		direction = {

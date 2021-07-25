@@ -20,6 +20,10 @@ onready var scan_beam_size: float = scan_material.get("shader_param/dissolve_bea
 
 var scanned: bool = false
 func set_data_key(value: String):
+	
+	if not Loader.is_a_parent_of(self):
+		return
+	
 	data_key = value
 	scanned = data_key in Loader.Save.get_data_key(["logbook", "recorded_entries"])
 

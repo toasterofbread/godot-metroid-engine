@@ -8,7 +8,6 @@ var area_index: int setget , get_area_index
 
 export var heat_damage: bool = false
 export var grid_position: Vector2 = Vector2.ZERO
-export(MapTile.colours) var default_mapchunk_colour = MapTile.colours.blue
 
 onready var upgradePickups = get_tree().get_nodes_in_group("UpgradePickip")
 onready var doors = get_tree().get_nodes_in_group("Door")
@@ -68,6 +67,11 @@ func _ready():
 	z_index = Enums.Layers.WORLD
 	
 	var spawn_positions = get_tree().get_nodes_in_group("SpawnPosition")
+	
+	for position in spawn_positions:
+		if not is_a_parent_of(position):
+			spawn_positions.erase(position)
+	
 	if len(spawn_positions) == 1:
 		spawnPosition = spawn_positions[0]
 	elif len(spawn_positions) == 0:

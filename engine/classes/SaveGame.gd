@@ -40,7 +40,7 @@ const default_data: Dictionary = {
 			Enums.Upgrade.SPEEDBOOSTER: {"amount": 1, "active": true},
 			Enums.Upgrade.POWERGRIP: {"amount": 1, "active": true},
 			Enums.Upgrade.HIGHJUMP: {"amount": 1, "active": false},
-			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
+			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": false},
 			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": false},
 			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
 			
@@ -66,7 +66,8 @@ const default_data: Dictionary = {
 	},
 	"map": {
 		"marker": null,
-		"discovered_chunks": {},
+		"entered_chunks": {}, # Chunks that have been entered by Samus
+		"revealed_chunks": {}, # Chunks that have been revealed by a map station
 		"scanned_areas": []
 	},
 	"logbook": {

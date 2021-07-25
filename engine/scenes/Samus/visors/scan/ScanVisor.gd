@@ -8,7 +8,7 @@ var entered_scanNodes = []
 var current_scanNode = null
 
 func _ready():
-	._ready()
+#	._ready()
 	IconProgressIndicator = Icon.get_node("ProgressIndicator")
 	IconProgressIndicator.color = scan_colour
 	

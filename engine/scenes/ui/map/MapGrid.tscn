@@ -7,16 +7,32 @@
 pause_mode = 2
 margin_right = 40.0
 margin_bottom = 24.0
+rect_clip_content = true
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Tween" type="Tween" parent="."]
+
+[node name="BackgroundOffsetTween" type="Tween" parent="."]
+
+[node name="Center" type="Control" parent="."]
 margin_left = 20.0
 margin_top = 12.0
 margin_right = 20.0
 margin_bottom = 12.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="TextureRect" parent="Center"]
+margin_left = -0.148651
+margin_top = 0.297298
+margin_right = 39.8513
+margin_bottom = 24.2973
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 2
@@ -24,14 +40,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Center" type="Control" parent="."]
-margin_left = 20.0
-margin_top = 12.0
-margin_right = 20.0
-margin_bottom = 12.0
-
 [node name="Tiles" type="Node2D" parent="Center"]
-
-[node name="Tween" type="Tween" parent="."]
-
-[node name="BackgroundOffsetTween" type="Tween" parent="."]

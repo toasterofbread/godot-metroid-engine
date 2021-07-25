@@ -74,14 +74,14 @@ script = ExtResource( 7 )
 position = Vector2( -3, -1 )
 frames = SubResource( 1 )
 animation = "flash"
-frame = 2
+frame = 3
 playing = true
 
 [node name="ScreenOverlay" type="AnimatedSprite" parent="."]
 visible = false
 position = Vector2( 6, -15 )
 frames = SubResource( 2 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Tween" type="Tween" parent="ScreenOverlay"]
@@ -108,7 +108,6 @@ position = Vector2( 23, 0 )
 rotation = 1.5708
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 4 )
-frame = 3
 playing = true
 
 [node name="SpritePosition" type="Position2D" parent="."]

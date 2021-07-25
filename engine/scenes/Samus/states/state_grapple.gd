@@ -176,7 +176,7 @@ func set_angle():
 		angle = (Vector2.LEFT.rotated(angle) * Vector2(1, -1)).angle()
 
 # Called when Samus's state changes to this one
-func init_state(data: Dictionary):
+func init_state(data: Dictionary, _previous_state_id: String):
 	anchor = data["anchor"]
 	beam = data["beam"]
 	set_state(STATES.STAND if Samus.is_on_floor() else STATES.SWING, false)

@@ -85,7 +85,7 @@ func wait(seconds: float, ignore_pause: bool = false, function_call=null):
 		yield(timer, "timeout")
 		timer.queue_free()
 	
-	if function_call != null:
+	if function_call != null and is_instance_valid(function_call[0]):
 		function_call[0].callv(function_call[1], function_call[2])
 
 #func erase(container, value):
@@ -347,3 +347,12 @@ func dict_get_by_path(dict: Dictionary, path: String):
 			return null
 	
 	return current_value
+
+func clamp_vector2(value: Vector2, _minimum, _maximum) -> Vector2:
+	for axis in ["x", "y"]:
+		value[axis] = clamp(
+			value[axis], 
+			_minimum.x if _minimum is Vector2 else _minimum, 
+			_maximum.x if _maximum is Vector2 else _maximum
+		)
+	return value
