@@ -52,6 +52,7 @@ func set_energy(energy: int):
 	else:
 		$CanvasLayer/TopBar/AnimationPlayer.stop()
 	
+	#warning-ignore:integer_division
 	var etanks = int(energy / 100)
 	for row in rows:
 		for etank in row.get_children():

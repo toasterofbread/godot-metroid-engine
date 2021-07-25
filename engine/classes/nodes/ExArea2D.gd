@@ -25,6 +25,8 @@ func _body_exited(body):
 	body_enter_record.erase(body)
 	body_exit_record[body] = OS.get_ticks_msec()
 	
-	yield(Global.wait(safe_wait_time), "completed")
+	Global.wait(safe_wait_time, false, [self, "_body_exited_waited", [body]])
+
+func _body_exited_waited(body):
 	if not body in body_enter_record and is_instance_valid(body):
 		emit_signal("body_exited_safe", body)

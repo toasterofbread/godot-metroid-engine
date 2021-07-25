@@ -12,7 +12,7 @@ func _init(_Samus: Node2D, _id).(_Samus, _id):
 	InvincibilityTimer = Samus.InvincibilityTimer
 
 # Called when Samus' state is changed to this one
-func init_state(data: Dictionary):
+func init_state(data: Dictionary, _previous_state_id: String):
 	Physics.apply_velocity = true
 	Physics.apply_gravity = true
 	Animator.SpriteContainer.current_profile = null

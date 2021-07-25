@@ -18,7 +18,7 @@ func _init(_Samus: KinematicBody2D, _id: String) -> void:
 	if "physics_data" in self:
 		self.physics_data = Samus.Physics.data[id]
 
-func init_state(_data: Dictionary):
+func init_state(_data: Dictionary, _previous_state_id: String):
 	return true
 
 func change_state(new_state_key: String, data: Dictionary = {}) -> void:

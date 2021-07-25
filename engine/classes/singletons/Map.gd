@@ -40,8 +40,8 @@ func samus_entered_chunk(body, chunk: MapChunk):
 	if not tiles:
 		yield(self, "ready")
 	
-	chunk.tile.discovered = true
-	chunk.tile.explored = true
+	chunk.tile.revealed = true
+	chunk.tile.entered = true
 	
 	if is_instance_valid(current_chunk) and current_chunk != null:
 		current_chunk.tile.is_current_tile = false

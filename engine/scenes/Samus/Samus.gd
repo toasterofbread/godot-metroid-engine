@@ -173,7 +173,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 		return
 	
 #	if states[new_state_key].init_state(data):
-	states[new_state_key].init_state(data)
+	states[new_state_key].init_state(data, current_state.id)
 	if new_state_key in ["crouch", "morphball"] and is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		if states["shinespark"].ShinesparkStoreWindow.time_left > 0 or boosting:
 			states["shinespark"].charge_shinespark()

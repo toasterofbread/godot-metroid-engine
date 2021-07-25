@@ -18,11 +18,11 @@ var additional_midair_airsparks: Dictionary
 func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	trailEmitter = Animator.SpriteContainer
 	additional_midair_airsparks = Samus.get_mini_upgrade("additional_midair_airsparks", 0)
-	Samus.connect("landed", self, "samus_landed")
+	Physics.connect("landed", self, "samus_landed")
 	animations = Animator.load_from_json("shinespark")
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary = {}):
+func init_state(data: Dictionary, _previous_state_id: String):
 	direction = Shortcut.get_pad_vector("pressed")
 	if direction == Vector2.ZERO:
 		direction = Vector2(0, -1)
@@ -70,7 +70,8 @@ func physics_process(_delta: float):
 	pass
 
 func samus_landed():
-	print("landed")
+	# TODO
+	pass
 
 func can_airspark() -> bool:
 	if not Samus.is_upgrade_active(Enums.Upgrade.AIRSPARK):

@@ -145,7 +145,7 @@ func process(_delta: float):
 		idle_timer.start()
 	
 # Called when Samus's state changes to this one
-func init_state(data: Dictionary):
+func init_state(data: Dictionary, _previous_state_id: String):
 	idle_timer.start(Global.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
 	from_powergrip = "from_powergrip" in data and data["from_powergrip"]
 

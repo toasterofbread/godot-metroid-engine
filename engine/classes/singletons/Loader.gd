@@ -3,6 +3,8 @@ extends Node2D
 signal room_loaded
 signal room_transitioning
 
+var room_is_loaded: bool = false
+
 var current_room: Room
 var Samus: KinematicBody2D = preload("res://engine/scenes/Samus/Samus.tscn").instance()
 var room_container: Node2D = self
@@ -49,6 +51,7 @@ func load_room(room_id: String, set_position: bool = true):
 		add_child(Samus)
 	
 	emit_signal("room_loaded")
+	room_is_loaded = true
 	return true
 
 func door_transition(origin_door: Door):

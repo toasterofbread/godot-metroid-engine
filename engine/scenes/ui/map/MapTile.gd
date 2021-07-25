@@ -3,22 +3,23 @@ class_name MapTile
 
 enum wall_types {none, door, wall}
 enum icons {none, save, mapstation, obtained_item, unobtained_item}
-enum colours {default, blue, green, red}
+#enum colours {default, blue, green, red}
 
 var flash: bool = true setget set_flash
 
 var x: String
 var y: String
 
+var hidden: bool = false
 var icon: int = icons.none setget set_icon
 var area_index: int
-var discovered: bool = false setget set_discovered
-var explored: bool = false setget set_explored
+var revealed: bool = false setget set_revealed
+var entered: bool = false setget set_entered
 
-var colour_data = {
-	colours.default: Color.black,
-	colours.blue: Color("004aa0"),
-	colours.green: Color("075c00"),
+var colour_values = {
+	"entered": Color("004aa0"),
+	"revealed": Color("696969"), # nice
+	"hidden": Color.green
 }
 var grid_position: Vector2
 
@@ -58,19 +59,22 @@ func set_icon(value: int):
 		icons.unobtained_item: $Icon.play("unobtained_item")
 		_: push_error("Unknown MapTile icon")
 	
-	set_explored(explored)
+	set_entered(entered)
 
-func set_discovered(value: bool):
-	discovered = value
-	visible = discovered
-	
-	if discovered:
+func set_revealed(value: bool):
+	revealed = value
+	visible = revealed
+	update_colour()
+	if revealed:
 		check_for_wall_overlap()
 
-func set_explored(value: bool):
-	explored = value
+func set_entered(value: bool):
+	entered = value
 	if icon in [icons.obtained_item, icons.unobtained_item]:
-		$Icon.visible = explored
+		$Icon.visible = entered
+	update_colour()
+	if entered and not revealed:
+		set_revealed(true)
 
 func load_data(data: Dictionary, x: String, y: String):
 	
@@ -99,8 +103,8 @@ func load_data(data: Dictionary, x: String, y: String):
 	else:
 		set_icon(icons.none)
 	
-	if int(data["c"]) in colour_data:
-		$ColorRect.color = colour_data[int(data["c"])]
+#	if int(data["c"]) in colour_data:
+#		$ColorRect.color = colour_data[int(data["c"])]
 	
 	var room_id: String = data["r"]
 #	area_index = Enums.MapAreas.keys().find(room_id.split("/")[0].to_upper())
@@ -108,11 +112,26 @@ func load_data(data: Dictionary, x: String, y: String):
 #	assert(area_index in Enums.MapAreas.values())
 	
 	grid_position = Vector2(int(x), int(y))
-	var discovered_chunks: Dictionary = Map.savedata["discovered_chunks"]
-	set_discovered(x in discovered_chunks and y in discovered_chunks[x])
+	
+	var entered_chunks: Dictionary = Map.savedata["entered_chunks"]
+	set_entered(x in entered_chunks and y in entered_chunks[x])
+	var revealed_chunks: Dictionary = Map.savedata["revealed_chunks"]
+	set_revealed(x in revealed_chunks and y in revealed_chunks[x])
+	
+	hidden = data["h"]
+	update_colour()
 	
 	$Lines/Wall.queue_free()
 	$Lines/Door.queue_free()
+
+func update_colour():
+	if hidden:
+		if entered:
+			$ColorRect.color = colour_values["hidden"]
+	elif entered:
+		$ColorRect.color = colour_values["entered"]
+	elif revealed: 
+		$ColorRect.color = colour_values["revealed"]
 
 # DEBUG
 func save_icon():
@@ -121,12 +140,18 @@ func save_icon():
 	Global.save_json(Map.tile_data_path, current_data)
 
 func save():
-	if discovered:
-		var discovered_chunks: Dictionary = Map.savedata["discovered_chunks"]
-		if not grid_position.x in discovered_chunks:
-			discovered_chunks[x] = [y]
-		else:
-			discovered_chunks[x].append(y)
+	if revealed:
+		var revealed_chunks: Dictionary = Map.savedata["revealed_chunks"]
+		if not grid_position.x in revealed_chunks:
+			revealed_chunks[x] = [y]
+		elif not y in revealed_chunks[x]:
+			revealed_chunks[x].append(y)
+	if entered:
+		var entered_chunks: Dictionary = Map.savedata["entered_chunks"]
+		if not grid_position.x in entered_chunks:
+			entered_chunks[x] = [y]
+		elif not y in entered_chunks[x]:
+			entered_chunks[x].append(y)
 
 func get_adjacent_tile(direction):
 	

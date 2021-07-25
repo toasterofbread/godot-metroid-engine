@@ -7,8 +7,6 @@ signal tile_set
 export var grid_position: Vector2
 var grid_position_adjusted: = false
 export(MapTile.icons) var icon: = MapTile.icons.none
-#export(MapTile.colours) 
-var colour = MapTile.colours.default
 export(MapTile.wall_types) var left_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var right_wall = MapTile.wall_types.none
 export(MapTile.wall_types) var top_wall = MapTile.wall_types.none
@@ -21,6 +19,9 @@ onready var area: Area2D = Area2D.new()
 var tile: MapTile
 
 func _ready():
+	
+	if not Loader.is_a_parent_of(self):
+		return
 	
 	modulate = Color("ff008f")
 	
@@ -73,13 +74,13 @@ func generate_tile_data():
 		data[x] = {}
 	
 	upgradePickup = get_node_or_null(upgrade_pickup) 
-	# w - Walls
-	# i - Icon
-	# c - Colour
-	# h - Hidden
-	# r- Room id
-	# u- UpgradePickup ID
-	data[x][y] = {"w": [top_wall, right_wall, bottom_wall, left_wall], "i": icon, "c": colour if colour != MapTile.colours.default else get_parent().get_parent().default_mapchunk_colour, "h": hidden, "r": room.id, "u": null if upgradePickup == null else upgradePickup.id}
+	data[x][y] = {
+		"w": [top_wall, right_wall, bottom_wall, left_wall], # Walls
+		"i": icon, # Icon
+		"h": hidden, # Hidden
+		"r": room.id, # Room ID
+		"u": null if upgradePickup == null else upgradePickup.id # UpgradePickup ID
+		}
 	
 #	if not "areas" in data:
 #		data["areas"] = {area: []}

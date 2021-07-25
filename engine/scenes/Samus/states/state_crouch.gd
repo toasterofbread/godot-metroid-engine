@@ -6,21 +6,40 @@ var animations = {}
 
 var CeilingRaycast: RayCast2D
 
+const crouch_animation_speed: float = 1.5
+
 # Called during Samus's readying period
 func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	CeilingRaycast = Animator.raycasts.get_node("crouch/Ceiling")
 
 # Called when Samus's state is changed to this one
-func init_state(_data: Dictionary):
+func init_state(_data: Dictionary, previous_state_id: String):
 	CeilingRaycast.enabled = true
+	
+	if previous_state_id == "neutral":
+		var animation: String
+		match Samus.aiming:
+			Samus.aim.UP: animation = "aim_up"
+			Samus.aim.DOWN: animation = "aim_down"
+			_: animation = "aim_front"
+		
+		animations["crouch_" + animation].play(false, crouch_animation_speed)
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	Shortcut.remove_input_hold_monitor("pad_right", id)
 	Shortcut.remove_input_hold_monitor("pad_left", id)
 	
-	CeilingRaycast.enabled = false
+	if new_state_key == "neutral":
+		var animation: String
+		match Samus.aiming:
+			Samus.aim.UP: animation = "aim_up"
+			Samus.aim.DOWN: animation = "aim_down"
+			_: animation = "aim_front"
+		
+		animations["uncrouch_" + animation].play(false, crouch_animation_speed)
 	
+	CeilingRaycast.enabled = false
 	.change_state(new_state_key, data)
 
 # Called every frame while this state is active

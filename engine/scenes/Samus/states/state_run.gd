@@ -113,7 +113,7 @@ func process(_delta: float):
 		animations[animation].play(true, min(1.5, abs(Physics.vel.x) / physics_data["speed"]))
 	
 # Called when Samus' state is changed to this one
-func init_state(data: Dictionary):
+func init_state(data: Dictionary, _previous_state_id: String):
 	Samus.boosting = data["boost"]
 	if Samus.is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		SpeedboostTimer.start(speedboost_charge_time)

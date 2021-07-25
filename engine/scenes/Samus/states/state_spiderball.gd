@@ -28,7 +28,7 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	animations = Animator.load_from_json("morphball")
 
 # Called when Samus's state is changed to this one
-func init_state(_data: Dictionary):
+func init_state(_data: Dictionary, _previous_state_id: String):
 	Samus.aiming = Samus.aim.NONE
 	if Samus.is_on_floor():
 		set_floor(Vector2.DOWN)

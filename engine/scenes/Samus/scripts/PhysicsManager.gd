@@ -1,5 +1,7 @@
 extends Node
 
+signal landed
+signal physics_data_set
 onready var Samus: KinematicBody2D = get_parent()
 
 const UP_DIRECTION = Vector2.UP
@@ -14,7 +16,7 @@ var apply_velocity: bool = true
 var disable_floor_snap: bool = false
 var on_slope: bool = false
 
-onready var profiles: Dictionary
+onready var profiles: Dictionary = {}
 const physics_profiles_path = Data.data_path + "static/samus_physics_profiles/"
 var data: = {}
 onready var mode: int = Settings.get("other/physics_mode")
@@ -24,25 +26,33 @@ var profile: = "STANDARD"
 #var time = -1
 
 func _ready():
+	reload_data()
+	set_data()
+	Settings.connect("settings_changed", self, "settings_changed")
 	
+	Shortcut.register_debug_shortcut("DEBUG_reload_samus_physics_data", "Reload Samus physics data", {"just_pressed": funcref(self, "shortcut_reload_data")})
+
+func reload_data():
 	var dir = Directory.new()
 	assert(dir.open(physics_profiles_path) == OK, "Profiles directory couldn't be opened")
+	profiles.clear()
 	for file in Global.iterate_directory(dir):
 		if not dir.dir_exists(file) and file.ends_with(".json"):
 			profiles[file.replace(".json", "")] = Global.load_json(physics_profiles_path + file)
-	
+
+func shortcut_reload_data():
+	reload_data()
 	set_data()
-	
-	Settings.connect("settings_changed", self, "settings_changed")
+	Notification.types["text"].instance().init("Reloaded Samus physics data", Notification.lengths["normal"])
 
 func _physics_process(delta: float):
 	
 	if get_tree().paused or Samus.paused:
 		return
 	
-#	if not Samus.was_on_floor and Samus.is_on_floor():
-#		Samus.was_on_floor = true
-#		Samus.emit_signal("landed")
+	if not Samus.was_on_floor and Samus.is_on_floor():
+		Samus.was_on_floor = true
+		emit_signal("landed")
 	
 	if Samus.current_fluid != Fluid.TYPES.NONE:
 		fluid_process(delta)
@@ -96,6 +106,7 @@ func set_data():
 			data[group] = {}
 		for key in profile_data[group]:
 			data[group][key] = profile_data[group][key][mode]
+	emit_signal("physics_data_set")
 
 func set_profile(key):
 	profile = key if key != null else "STANDARD"

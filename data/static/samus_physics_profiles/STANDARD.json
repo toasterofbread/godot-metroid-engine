@@ -1,6 +1,6 @@
 {
 	"general": {
-		"gravity": [1200],
+		"gravity": [1750],
 		"fall_speed_cap": [325]
 	},
 	"run": {
@@ -12,9 +12,9 @@
 		"speedboost_acceleration": [900]
 	},
 	"jump": {
-		"speed": [200],
+		"speed": [250],
 		"acceleration": [999999],
-		"time": [0.32],
+		"time": [0.3],
 
 		"speed_high": [400],
 		"acceleration_high": [7500],
