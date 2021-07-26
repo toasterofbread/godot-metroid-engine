@@ -44,6 +44,7 @@ func _ready():
 func collided(body):
 	if not moving:
 		return
+	
 	if body.has_method("damage"):
 		body.damage(weapon.damage_type, weapon.damage_amount, $Area2D.get_child(0).global_position)
 	if body.has_method("attach_grapple"):

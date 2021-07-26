@@ -18,6 +18,7 @@ export(Array, NodePath) var material_nodes: Array = []
 onready var scan_material: Material = material.duplicate()
 onready var scan_beam_size: float = scan_material.get("shader_param/dissolve_beam_size")
 
+var hidden: bool = false
 var scanned: bool = false
 func set_data_key(value: String):
 	
@@ -31,6 +32,8 @@ func set_data_key(value: String):
 #	return $CollisionShape2D.global_position
 
 func _ready():
+	Enums.add_node_to_group(self, Enums.Groups.SCANNODE)
+	
 	yield(get_parent(), "ready")
 	if not Loader.Samus.is_inside_tree():
 		yield(Loader.Samus, "ready")
@@ -83,4 +86,4 @@ func get_length():
 	return scan_duration
 
 func can_be_scanned():
-	return not scanned and $VisibilityNotifier2D.is_on_screen()
+	return not scanned and $VisibilityNotifier2D.is_on_screen() and not hidden

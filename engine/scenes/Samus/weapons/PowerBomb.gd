@@ -34,7 +34,7 @@ func fired(projectile: SamusKinematicProjectile):
 			if explosion_damage_refresh_time != 0:
 				processed_bodies.append(body)
 			if explosion_damage_refresh_time > 0:
-				Global.wait(explosion_damage_refresh_time, false, [Global, "erase", [processed_bodies, body]])
+				Global.wait(explosion_damage_refresh_time, false, [self, "erase", [processed_bodies, body]])
 			
 			if body != Loader.Samus:
 				if body.has_method("damage"):
@@ -43,6 +43,9 @@ func fired(projectile: SamusKinematicProjectile):
 		yield(Global, "process_frame")
 	
 	projectile.queue_free()
+
+func erase(container: Array, body):
+	container.erase(body)
 
 func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
 	if Cooldown.time_left > 0 or ammo == 0:

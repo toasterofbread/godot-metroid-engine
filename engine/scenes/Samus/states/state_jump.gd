@@ -100,7 +100,7 @@ func process(_delta: float):
 		if spinning:
 			set_spinning(false)
 			play_animation(false)
-			Samus.Weapons.reset_fire_pos()
+			Samus.Weapons.update_fire_pos()
 		Samus.Weapons.fire()
 	
 	if Samus.shinespark_charged and not spinning:
@@ -333,7 +333,7 @@ func chargebeam_fired():
 	if spinning:
 		set_spinning(false)
 		process(0)
-		Samus.Weapons.reset_fire_pos()
+		Samus.Weapons.update_fire_pos()
 
 func set_jump_values():
 	if Samus.is_upgrade_active(Enums.Upgrade.HIGHJUMP):

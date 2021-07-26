@@ -50,13 +50,13 @@
 		"ignore": true
 	},
 	"shinespark/horiz": {
-		"size": [17, 13],
+		"size": [17, 7],
 		"leftPos": [0, -3],
 		"rightPos": [8, -3],
-		"shape": "rect"
+		"shape": "capsule"
 	},
 	"shinespark/vert": {
-		"size": [7, 21],
+		"size": [5, 25],
 		"leftPos": [4.5, 0],
 		"rightPos": [4.5, 0],
 		"shape": "capsule"

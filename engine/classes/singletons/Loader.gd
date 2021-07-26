@@ -12,6 +12,7 @@ onready var Save: SaveGame = SaveGame.new(Data.get_from_user_dir("/saves/0.json"
 var transitioning: bool = false
 
 var rooms = {}
+var samuses: Dictionary = {}
 
 func _ready():
 	
@@ -31,8 +32,7 @@ func _ready():
 	
 	register_commands()
 
-
-func load_room(room_id: String, set_position: bool = true):
+func load_room(room_id: String, set_samus_position: bool = true, data: Dictionary = {}):
 	
 	assert("/" in room_id and len(room_id.split("/")) == 2)
 	var room: Room = load(rooms[room_id]).instance()
@@ -40,11 +40,12 @@ func load_room(room_id: String, set_position: bool = true):
 	if current_room != null:
 		current_room.queue_free()
 		yield(current_room, "tree_exited")
-		
+	
 	current_room = room
+	current_room.init(data)
 	room_container.add_child(room)
 	
-	if set_position and room.spawnPosition != null:
+	if set_samus_position and room.spawnPosition != null:
 		Samus.global_position = room.spawnPosition.global_position
 	
 	if not Samus.is_inside_tree():
@@ -69,6 +70,7 @@ func door_transition(origin_door: Door):
 #	yield(previous_room.transitioning() "completed")
 	
 	# DEBUG | Map tiles don't need to be reloaded on room change normally
+	current_room.init({})
 	Loader.room_container.call_deferred("add_child", current_room)
 	yield(current_room, "ready")
 	

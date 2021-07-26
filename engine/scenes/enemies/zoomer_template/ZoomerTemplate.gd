@@ -28,6 +28,7 @@ func _ready():
 		return
 	
 	visual = get_node(visual_path)
+	._ready()
 
 func _physics_process(delta: float):
 	

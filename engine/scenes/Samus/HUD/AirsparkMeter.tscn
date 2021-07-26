@@ -1,0 +1,135 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://engine/fonts/Pixel-Life.tres" type="DynamicFont" id=1]
+[ext_resource path="res://engine/scenes/Samus/HUD/AirsparkMeter.gd" type="Script" id=2]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.00431034, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = SubResource( 2 )
+region_rect = Rect2( 0, 0, 2048, 1 )
+modulate_color = Color( 1, 0.72549, 0.101961, 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0, 0, 0, 0.180392 )
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+corner_detail = 20
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+anti_aliasing = false
+
+[node name="AirsparkMeter" type="Node2D"]
+position = Vector2( 66, -54 )
+script = ExtResource( 2 )
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_right = 275.0
+margin_bottom = 12.0
+rect_rotation = -90.0
+mouse_filter = 2
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
+max_value = 5.0
+value = 5.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ProgressBar"]
+modulate = Color( 1, 1, 1, 0.498039 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 45
+alignment = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="SplitterTemplate" type="ColorRect" parent="ProgressBar/HBoxContainer"]
+margin_left = 45.0
+margin_right = 46.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 1, 0 )
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SplitterTemplate2" type="ColorRect" parent="ProgressBar/HBoxContainer"]
+margin_left = 91.0
+margin_right = 92.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 1, 0 )
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SplitterTemplate3" type="ColorRect" parent="ProgressBar/HBoxContainer"]
+margin_left = 137.0
+margin_right = 138.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 1, 0 )
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SplitterTemplate4" type="ColorRect" parent="ProgressBar/HBoxContainer"]
+margin_left = 183.0
+margin_right = 184.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 1, 0 )
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SplitterTemplate5" type="ColorRect" parent="ProgressBar/HBoxContainer"]
+margin_left = 229.0
+margin_right = 230.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 1, 0 )
+size_flags_vertical = 3
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ValueTween" type="Tween" parent="."]
+
+[node name="VisibilityTween" type="Tween" parent="."]
+
+[node name="SplitterVisibilityTween" type="Tween" parent="."]
+
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_left = -26.5515
+margin_top = -275.0
+margin_right = -17.5515
+margin_bottom = -92.0
+rect_scale = Vector2( 1.5, 1.5 )
+custom_fonts/font = ExtResource( 1 )
+text = "AIRSPARK"
+align = 1
+valign = 1
+autowrap = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

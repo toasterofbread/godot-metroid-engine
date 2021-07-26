@@ -80,3 +80,11 @@ const upgrade_gain_amounts = {
 
 enum Layers {BACKGROUND, BACKGROUND_ELEMENT, BACKGROUND_FILLER, ENEMY, SAMUS, DOOR, WORLD, BLOCK, AMMOPICKUP, PROJECTILE, FLUID, VISOR, MENU, NOTIFICATION}
 enum CanvasLayers {BACKGROUND, BACKGROUND_FRONT, SAMUS, HUD, MENU, NOTIFICATION}
+
+enum Groups {ENEMY, SAVESTATION, SCANNODE, DOOR}
+func add_node_to_group(node: Node, group: int):
+	node.add_to_group(Groups.keys()[group])
+func get_nodes_in_group(group: int):
+	return get_tree().get_nodes_in_group(Groups.keys()[group])
+func is_node_in_group(node: Node, group: int):
+	return node.is_in_group(Groups.keys()[group])

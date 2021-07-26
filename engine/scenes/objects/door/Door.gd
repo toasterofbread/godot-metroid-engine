@@ -28,7 +28,7 @@ const colour_damage_types = {
 onready var destructive_damage_types = colour_damage_types[colour]
 
 onready var coverSprite: AnimatedSprite = $Cover/Sprite
-onready var coverCollider: CollisionPolygon2D = $Cover/CollisionPolygon2D
+onready var coverCollider: CollisionShape2D = $Cover/CollisionShape2D
 const cover_animation_frames: int = 4
 
 onready var target_room_scene: PackedScene = load(Loader.rooms[target_room_id])
@@ -36,22 +36,29 @@ onready var targetSpawnPosition: Position2D = $TargetSpawnPosition
 
 func set_visual(value: bool):
 	visual = value
+	visible = visual
+	if not visual:
+		for node in [$Cover, $CollisionPolygon2D, $FullDoorArea]:
+			node.queue_free()
 func set_colour(value: int):
 	colour = value
 
 func _ready():
+	Enums.add_node_to_group(self, Enums.Groups.DOOR)
 	set_open(open, false)
 
 func set_open(value: bool, animate: bool = true):
-#	if open == value:
-#		return
 	open = value
+	
+	if not visual:
+		return
 	
 	var animation: String = DOOR_COLOURS.keys()[colour] + ("_open" if open else "_close")
 	coverSprite.play(animation)
 	
 	if open:
 		coverCollider.disabled = true
+		$CollisionPolygon2D.disabled = true
 	coverSprite.visible = true
 	
 	if animate:
@@ -64,6 +71,7 @@ func set_open(value: bool, animate: bool = true):
 	
 	if not open:
 		coverCollider.disabled = false
+		$CollisionPolygon2D.disabled = false
 	else:
 		coverSprite.visible = false
 
@@ -71,6 +79,8 @@ func set_locked(value: bool, animate: bool = true):
 	if locked == value:
 		return
 	locked = value
+	if not visual:
+		return
 	
 	if animate:
 		sounds["lock" if locked else "unlock"].play()
@@ -82,9 +92,8 @@ func _on_Cover_damage(type: int, amount: int, _impact_position):
 		set_open(true)
 
 func _on_TransitionTriggerArea_body_entered(body):
-	if body.name != "Samus":
-		return
-	Loader.door_transition(self)
+	if body.name == "Samus":
+		Loader.door_transition(self)
 
 func door_entered():
 	locked = false

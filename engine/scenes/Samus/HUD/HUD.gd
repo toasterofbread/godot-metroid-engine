@@ -8,6 +8,10 @@ onready var Modulate: CanvasModulate = $CanvasLayer/CanvasModulate
 var current_visor = null
 
 func _ready():
+	
+	# DEBUG
+	$DEBUG.queue_free()
+	
 	$DeathScreen/AnimationPlayer.play("reset")
 	Modulate.color = Color.white
 	$CanvasLayer.layer = Enums.CanvasLayers.HUD

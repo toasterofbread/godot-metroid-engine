@@ -67,6 +67,7 @@ func _ready():
 	ChargebeamStartBurst.position = Vector2.ZERO
 	
 	for state in CannonPositions.get_children():
+		state.visible = true # DEBUG
 		for animation in state.get_children():
 			fire_pos_nodes[state.name + "/" + animation.name] = animation
 	
@@ -82,8 +83,7 @@ func _ready():
 		$VisorNode.add_child(visor)
 
 func _process(delta: float):
-	
-	reset_fire_pos()
+	update_fire_pos()
 	
 	if not get_tree().paused and Samus.is_upgrade_active(Enums.Upgrade.CHARGEBEAM) and delta:
 		process_chargebeam(delta)
@@ -129,10 +129,12 @@ func process_chargebeam(delta: float):
 	elif ChargebeamAnimationPlayer.current_animation == "charge":
 		ChargebeamAnimationPlayer.play("reset")
 	
-	var fire = true
-	if Samus.current_state.id in ["neutral", "run", "jump", "crouch", "powergrip"] and Input.is_action_pressed("fire_weapon") and get_fire_weapon().can_charge:
+	var fire: bool
+	if Samus.current_state.id in ["neutral", "run", "jump", "crouch", "powergrip", "airspark"] and Input.is_action_pressed("fire_weapon") and get_fire_weapon().can_charge:
 		charge_time_current += delta
 		fire = false
+	else:
+		fire = Samus.current_state.can_fire_chargebeam
 	
 	ChargebeamStartBurst.visible = false
 	if charge_time_current != 0.0:
@@ -290,31 +292,30 @@ func _on_SpeedboosterDamageArea_body_entered(body):
 	if body.has_method("damage"):
 		body.damage(shinespark.damage_type, shinespark.damage_amount)
 
-func get_fire_pos(facing_override:=Samus.facing):
+func update_fire_pos():
 	
 	if not Samus.Animator.current[false]:
 		return
 	
 	var position_node_path = Samus.Animator.current[false].position_node_path
 	if not position_node_path in fire_pos_nodes:
+		if fire_pos != null:
+			fire_pos.reset()
+		fire_pos = null
 		return null
-	var pos: Position2D = fire_pos_nodes[position_node_path]
+	var pos: SamusCannonPosition = fire_pos_nodes[position_node_path]
 	
-	var ret = pos.duplicate()
-	ret.global_position = pos.global_position
+	if fire_pos != null:
+		fire_pos.reset()
+	fire_pos = pos
+		
+	if Samus.facing == Enums.dir.RIGHT:
+		fire_pos.position.x += (pos.position.x * -1 + 8) - pos.position.x
+		fire_pos.rotation = (Vector2(-1, 0).rotated(pos.rotation) * Vector2(-1, 1)).angle()
 	
-	if facing_override == Enums.dir.RIGHT:
-		ret.position.x += (pos.position.x * -1 + 8) - pos.position.x
-		ret.rotation = (Vector2(-1, 0).rotated(pos.rotation) * Vector2(-1, 1)).angle()
+	CannonPositionAnchor.global_position = fire_pos.global_position
 	
-	CannonPositionAnchor.global_position = ret.position
-	
-	return ret
-
-func reset_fire_pos():
-	if fire_pos:
-		fire_pos.queue_free()
-	fire_pos = get_fire_pos()
+	return fire_pos
 
 func add_visor(visor: SamusVisor):
 	if visor in equipped_visors:

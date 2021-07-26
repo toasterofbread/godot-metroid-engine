@@ -7,6 +7,7 @@
 [ext_resource path="res://engine/sprites/objects/save_station/sSaveStation2_1.png" type="Texture" id=5]
 [ext_resource path="res://engine/scenes/objects/save_station/SaveStation.gd" type="Script" id=6]
 [ext_resource path="res://engine/scenes/Samus/visors/scan/ScanNode.tscn" type="PackedScene" id=7]
+[ext_resource path="res://engine/classes/nodes/ExArea2D.gd" type="Script" id=8]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -25,9 +26,6 @@ animations = [ {
 extents = Vector2( 21, 16 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 21, 3 )
-
-[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 21, 3 )
 
 [sub_resource type="RectangleShape2D" id=5]
@@ -83,25 +81,17 @@ animation = "up"
 frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2( 0, 3 )
 shape = SubResource( 2 )
 
-[node name="StepArea" type="Area2D" parent="."]
+[node name="TriggerArea" type="Area2D" parent="."]
 visible = false
 collision_layer = 524288
+script = ExtResource( 8 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StepArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
 position = Vector2( 0, -16 )
 shape = SubResource( 3 )
-
-[node name="SaveArea" type="Area2D" parent="."]
-visible = false
-collision_layer = 524288
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SaveArea"]
-position = Vector2( 0, -16 )
-shape = SubResource( 4 )
 
 [node name="ScanNode" parent="." instance=ExtResource( 7 )]
 data_key = "save_station"
@@ -134,9 +124,7 @@ position = Vector2( -1, -16 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/save = SubResource( 6 )
 
-[connection signal="body_entered" from="StepArea" to="." method="_on_Step_body_entered"]
-[connection signal="body_exited" from="StepArea" to="." method="_on_Step_body_exited"]
-[connection signal="body_entered" from="SaveArea" to="." method="_on_Step_body_entered"]
-[connection signal="body_exited" from="SaveArea" to="." method="_on_Step_body_exited"]
+[connection signal="body_entered_safe" from="TriggerArea" to="." method="_on_TriggerArea_body_entered_safe"]
+[connection signal="body_exited_safe" from="TriggerArea" to="." method="_on_TriggerArea_body_exited_safe"]
 
 [editable path="ScanNode"]

@@ -12,6 +12,7 @@ onready var ineffective_types: Array = data["ineffective_types"] if "ineffective
 func _ready():
 	z_as_relative = false
 	z_index = Enums.Layers.ENEMY
+	Enums.add_node_to_group(self, Enums.Groups.ENEMY)
 	material = preload("res://engine/resources/DissolveAndWhiten.tres").duplicate()
 	material.set("shader_param/whitening_enabled", false)
 	material.set("shader_param/whitening_value", 0.0)
@@ -32,5 +33,5 @@ func damage(type: int, amount: float, _impact_position):
 		else:
 			material.set("shader_param/whitening_enabled", true)
 			material.set("shader_param/whitening_value", 1.0)
-			yield(Global.wait(0.1), "completed")
-			material.set("shader_param/whitening_enabled", false)
+			Global.wait(0.1, false, [material, "set", ["shader_param/whitening_enabled", false]])
+#			material.set("shader_param/whitening_enabled", false)

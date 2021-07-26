@@ -25,8 +25,8 @@ var shinespark_charged: bool = false
 var fall_time: float = 0
 var was_on_floor: bool = false
 
-const collision_data_json_path: String = "res://engine/scenes/Samus/animations/collision_data.json"
-onready var collision_data: Dictionary = Global.load_json(collision_data_json_path)
+const collision_data_path: String = "res://data/static/samus/collision_data.json"
+onready var collision_data: Dictionary = Global.load_json(collision_data_path)
 
 var current_fluid: int
 
@@ -135,7 +135,7 @@ func _process(delta):
 #		print("Decreased energy to: " + str(energy))
 #		HUD.set_energy(energy)
 	
-	if get_tree().paused and paused == null or paused:
+	if (get_tree().paused and paused == null) or paused:
 		if current_state.has_method("paused_process"):
 			current_state.paused_process(delta)
 		return
@@ -155,7 +155,7 @@ func _physics_process(delta):
 	vOverlay.SET("hurboxdamage", hurtbox_damage)
 	vOverlay.SET("State", current_state.id)
 	
-	if get_tree().paused and paused == null or paused:
+	if (get_tree().paused and paused == null) or paused:
 		if current_state.has_method("paused_physics_process"):
 			current_state.paused_physics_process(delta)
 		return
@@ -167,9 +167,9 @@ func _physics_process(delta):
 	else:
 		fall_time = 0
 
-func change_state(new_state_key: String, data: Dictionary = {}):
+func change_state(new_state_key: String, data: Dictionary = {}, ignore_paused: bool = false):
 	
-	if get_tree().paused and paused == null or paused:
+	if not ignore_paused and ((get_tree().paused and paused == null) or paused):
 		return
 	
 #	if states[new_state_key].init_state(data):
