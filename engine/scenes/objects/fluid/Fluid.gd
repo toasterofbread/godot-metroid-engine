@@ -112,7 +112,7 @@ func _process(delta):
 			entity.damage(damage_data[0], damage_data[1])
 
 
-func _on_Area2D_body_entered(body):
+func _on_Area2D_body_entered_safe(body):
 	if body.has_method("fluid_entered"):
 		body.fluid_entered(self)
 	
@@ -122,16 +122,17 @@ func _on_Area2D_body_entered(body):
 	if body.has_method("damage") and not body in entered_damageable_entities:
 		entered_damageable_entities.append(body)
 
-func _on_Area2D_body_exited(body):
+func _on_Area2D_body_exited_safe(body):
 	if body.has_method("fluid_exited"):
 		body.fluid_exited(self)
 	
 	if body == Loader.Samus:
 		show()
 	
+	create_splash(body)
 	entered_damageable_entities.erase(body)
 
-func _on_SurfaceArea2D_body_entered(body):
+func _on_SurfaceArea2D_body_entered_safe(body):
 	create_splash(body)
 
 func create_splash(body):

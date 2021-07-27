@@ -91,8 +91,8 @@ func set_text_colour(value: Color):
 	text_colour = value
 
 func settings_changed(path=null, value=null):
-	if path == ["other", "joypad_button_icon_style"] or path == null:
-		frames = load(icon_type_paths[Settings.get("other/joypad_button_icon_style")])
+	if path == ["visuals", "joypad_button_icon_style"] or path == null:
+		frames = load(icon_type_paths[Settings.get("visuals/joypad_button_icon_style")])
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

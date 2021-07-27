@@ -4,6 +4,8 @@ const separation: float = 10.0
 const slide_time: float = 0.35
 const reorder_time: float = 0.1
 
+var allow_new_notifications: bool = true
+
 onready var container: Control = $Container/Notifications
 const moving_interaction_button: String = "pad_up"
 
@@ -24,6 +26,11 @@ func _ready():
 	$LayoutPresets.visible = false
 
 func add(node: Control, clear):
+	
+	if not allow_new_notifications:
+		node.queue_free()
+		return
+	
 	var tween: Tween = Tween.new()
 	tween.pause_mode = Node.PAUSE_MODE_PROCESS
 	node.add_child(tween)

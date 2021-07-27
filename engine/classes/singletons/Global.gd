@@ -22,7 +22,7 @@ func _ready():
 	
 	yield(Settings, "loaded")
 #	Settings.connect("settings_changed", self, "settings_changed")
-	OS.window_fullscreen = Settings.get("display/fullscreen")
+	OS.window_fullscreen = Settings.get("visuals/fullscreen")
 
 func _process(delta):
 	emit_signal("process_frame", delta)

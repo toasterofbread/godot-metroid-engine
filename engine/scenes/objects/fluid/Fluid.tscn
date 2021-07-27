@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://engine/scenes/objects/fluid/Fluid.gd" type="Script" id=1]
 [ext_resource path="res://engine/sprites/objects/fluid/water/bgWater2.png" type="Texture" id=2]
@@ -34,6 +34,7 @@
 [ext_resource path="res://engine/sprites/objects/fluid/lava/sLavaSplashSM_2.png" type="Texture" id=32]
 [ext_resource path="res://engine/sprites/objects/fluid/lava/sLavaSplashSM_4.png" type="Texture" id=33]
 [ext_resource path="res://engine/sprites/objects/fluid/lava/sLavaSplashSM_0.png" type="Texture" id=34]
+[ext_resource path="res://engine/classes/nodes/ExArea2D.gd" type="Script" id=35]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 254, 157 )
@@ -43,9 +44,9 @@ b = Vector2( 508, 0 )
 
 [sub_resource type="SpriteFrames" id=3]
 animations = [ {
-"frames": [ ExtResource( 29 ), ExtResource( 31 ), ExtResource( 21 ), ExtResource( 25 ), ExtResource( 28 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 24 ), ExtResource( 23 ) ],
+"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 3 ), ExtResource( 14 ), ExtResource( 8 ) ],
 "loop": false,
-"name": "lava_large",
+"name": "water_small",
 "speed": 30.0
 }, {
 "frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 15 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 4 ), ExtResource( 7 ) ],
@@ -53,22 +54,22 @@ animations = [ {
 "name": "water_large",
 "speed": 30.0
 }, {
-"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 3 ), ExtResource( 14 ), ExtResource( 8 ) ],
-"loop": false,
-"name": "water_small",
-"speed": 30.0
-}, {
 "frames": [ ExtResource( 34 ), ExtResource( 30 ), ExtResource( 32 ), ExtResource( 22 ), ExtResource( 33 ) ],
 "loop": false,
 "name": "lava_small",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 31 ), ExtResource( 21 ), ExtResource( 25 ), ExtResource( 28 ), ExtResource( 26 ), ExtResource( 27 ), ExtResource( 24 ), ExtResource( 23 ) ],
+"loop": false,
+"name": "lava_large",
 "speed": 30.0
 } ]
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 18 ) ],
+"frames": [ ExtResource( 17 ) ],
 "loop": false,
-"name": "lava_large",
+"name": "water_small",
 "speed": 1.0
 }, {
 "frames": [ ExtResource( 20 ) ],
@@ -76,14 +77,14 @@ animations = [ {
 "name": "water_large",
 "speed": 1.0
 }, {
-"frames": [ ExtResource( 17 ) ],
-"loop": false,
-"name": "water_small",
-"speed": 1.0
-}, {
 "frames": [ ExtResource( 19 ) ],
 "loop": false,
 "name": "lava_small",
+"speed": 1.0
+}, {
+"frames": [ ExtResource( 18 ) ],
+"loop": false,
+"name": "lava_large",
 "speed": 1.0
 } ]
 
@@ -127,6 +128,8 @@ gravity = 70.0
 linear_damp = 3.0
 collision_layer = 524288
 collision_mask = 15
+script = ExtResource( 35 )
+safe_wait_time = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 254, 157 )
@@ -135,6 +138,8 @@ shape = SubResource( 1 )
 [node name="SurfaceArea2D" type="Area2D" parent="."]
 collision_layer = 524288
 collision_mask = 15
+script = ExtResource( 35 )
+safe_wait_time = 0.05
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SurfaceArea2D"]
 shape = SubResource( 2 )
@@ -156,6 +161,6 @@ shape = SubResource( 5 )
 
 [node name="ShowTween" type="Tween" parent="."]
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
-[connection signal="body_entered" from="SurfaceArea2D" to="." method="_on_SurfaceArea2D_body_entered"]
+[connection signal="body_entered_safe" from="Area2D" to="." method="_on_Area2D_body_entered_safe"]
+[connection signal="body_exited_safe" from="Area2D" to="." method="_on_Area2D_body_exited_safe"]
+[connection signal="body_entered_safe" from="SurfaceArea2D" to="." method="_on_SurfaceArea2D_body_entered_safe"]

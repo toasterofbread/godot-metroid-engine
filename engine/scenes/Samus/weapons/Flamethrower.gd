@@ -32,7 +32,7 @@ func _process(delta):
 	projectile.visible = true
 	
 	var lerp_weight = 0.75
-	projectile.global_position = projectile.global_position.linear_interpolate(Weapons.fire_pos.position, lerp_weight)
+	projectile.global_position = projectile.global_position.linear_interpolate(Weapons.fire_pos.global_position, lerp_weight)
 #	projectile.rotation = Weapons.fire_pos.rotation
 	projectile.rotation = lerp_angle(projectile.rotation, Weapons.fire_pos.rotation, lerp_weight)
 	

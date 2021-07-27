@@ -23,8 +23,8 @@ func _ready():
 		update_icon()
 
 func settings_changed(path, value):
-	if path == "other/joypad_button_icon_style" or path == null:
-		frames = load(icon_type_paths[value if value != null else Settings.get("other/joypad_button_icon_style")])
+	if path == "visuals/joypad_button_icon_style" or path == null:
+		frames = load(icon_type_paths[value if value != null else Settings.get("visuals/joypad_button_icon_style")])
 
 func keyboard_mode_changed(_mode: bool):
 	pass

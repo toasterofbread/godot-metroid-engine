@@ -91,7 +91,7 @@ func process(_delta: float):
 	if not Animator.transitioning(false, true):
 		
 		var anim_speed: float
-		if Settings.get("other/morphball_always_spin"):
+		if Settings.get("visuals/morphball_always_spin"):
 			anim_speed = 1.0
 		else:
 			anim_speed = 0.0 if (abs(Physics.vel.x) < 1 or Samus.is_on_wall()) and "roll" in Animator.current[false].id else 1

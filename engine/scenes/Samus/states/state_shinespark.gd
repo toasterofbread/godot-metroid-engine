@@ -107,7 +107,7 @@ func process(_delta: float):
 		else:
 			change_state("run", {"boost": true})
 		return
-	elif Input.is_action_just_pressed("airspark"):
+	elif Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
 		if maintain_shinespark_when_airsparking["created"] > 0:
 			if physics_data["airspark_into_shinespark"]:
 				change_state(id, {"from_airspark": true, "ballspark": ballspark})

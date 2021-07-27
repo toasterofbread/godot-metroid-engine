@@ -17,9 +17,9 @@ var disable_floor_snap: bool = false
 var on_slope: bool = false
 
 onready var profiles: Dictionary = {}
-const physics_profiles_path = Data.data_path + "static/samus_physics_profiles/"
+const physics_profiles_path = Data.data_path + "static/samus/physics_profiles/"
 var data: = {}
-onready var mode: int = Settings.get("other/physics_mode")
+onready var mode: int = Settings.get("controls/physics_mode")
 var profile: = "STANDARD"
 
 # Keeping this around for the memories
@@ -47,12 +47,14 @@ func shortcut_reload_data():
 
 func _physics_process(delta: float):
 	
-	if get_tree().paused or Samus.paused:
+	if get_tree().paused:# or Samus.paused:
 		return
 	
 	if not Samus.was_on_floor and Samus.is_on_floor():
 		Samus.was_on_floor = true
 		emit_signal("landed")
+	else:
+		Samus.was_on_floor = Samus.is_on_floor()
 	
 	if Samus.current_fluid != Fluid.TYPES.NONE:
 		fluid_process(delta)

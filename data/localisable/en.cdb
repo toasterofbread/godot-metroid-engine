@@ -532,13 +532,28 @@
 			],
 			"lines": [
 				{
-					"key": "display",
-					"description": "Graphics and window settings",
+					"key": "visuals",
+					"description": "Window and graphics settings",
 					"options": [
 						{
 							"key": "fullscreen",
-							"title": "Fullscreen",
-							"description": "Sets the game window to fullscreen on startup"
+							"title": "Fullscreen by default",
+							"description": "Sets the game window to fullscreen on startup."
+						},
+						{
+							"key": "main_menu_scene_preview",
+							"title": "Savefile level preview",
+							"description": "When selecting a save file in the main menu, the previous room explored in that file will be loaded and displayed as a preview. Disabling this option displays a screenshot instead."
+						},
+						{
+							"key": "morphball_always_spin",
+							"title": "Always spinning morphball",
+							"description": "If enabled, the morphball will always spin regardless of momentum."
+						},
+						{
+							"key": "joypad_button_icon_style",
+							"title": "Controller buton icon style",
+							"description": "Changes the style of controller icons used in button prompts. Does not apply to keyboard icons."
 						}
 					]
 				},
@@ -586,6 +601,11 @@
 							"key": "reset_weapon_on_door_enter",
 							"title": "Reset weapon selection on room entry",
 							"description": "When entering a room, Samus's weapon selection will be reset"
+						},
+						{
+							"key": "physics_mode",
+							"title": "Samus physics profile",
+							"description": "Changes Samus's physics parameters. Non-default values may lead to gameplay issues."
 						}
 					]
 				},
@@ -597,21 +617,6 @@
 							"key": "language",
 							"title": "Language",
 							"description": "Pretty self-explanatory"
-						},
-						{
-							"key": "joypad_button_icon_style",
-							"title": "Controller buton icon style",
-							"description": "Changes the style of controller icons used in button prompts (does not apply to keyboard icons)"
-						},
-						{
-							"key": "physics_mode",
-							"title": "Samus physics mode",
-							"description": "Changes Samus's physics parameters. Non-default values may lead to gameplay issues."
-						},
-						{
-							"key": "morphball_always_spin",
-							"title": "Always spinning morphball",
-							"description": "If enabled, the morphball will always spin regardless of momentum"
 						}
 					]
 				}

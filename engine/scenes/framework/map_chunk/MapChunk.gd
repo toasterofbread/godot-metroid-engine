@@ -42,8 +42,8 @@ func _ready():
 		upgradePickup.connect("acquired", self, "set_upgrade_icon", [false])
 	
 	area.set_collision_layer_bit(0, false)
-	area.set_collision_layer_bit(15, false)
-	area.set_collision_mask_bit(18, true)
+	area.set_collision_layer_bit(15, true)
+	area.set_collision_mask_bit(0, false)
 	
 	yield(get_parent(), "ready")
 	get_parent().add_child(area)

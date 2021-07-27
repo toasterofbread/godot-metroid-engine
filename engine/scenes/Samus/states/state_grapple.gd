@@ -25,7 +25,7 @@ var angle
 var beampos: Vector2
 var jump_current_time = 125
 
-onready var jump_state = Samus.states["jump"]
+var jump_state: SamusState
 
 var aim_thresholds: = {}
 
@@ -40,6 +40,8 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	}
 	speedboost_charge_time = Samus.states["run"].speedboost_charge_time*1.25
 	swing_animations = Animator.load_from_json("jump")
+	
+	jump_state = Samus.states["jump"]
 
 # Called every frame while this state is active
 func process(_delta: float):
@@ -113,9 +115,9 @@ func process(_delta: float):
 		set_aiming(angle)
 		
 		if Samus.aiming == Samus.aim.SKY:
-			if angular_velocity > 0.01 and Samus.facing == Enums.dir.LEFT:
+			if angular_velocity > 0.01:
 				Samus.facing = Enums.dir.RIGHT
-			elif angular_velocity < -0.01 and Samus.facing == Enums.dir.RIGHT:
+			elif angular_velocity < -0.01:
 				Samus.facing = Enums.dir.LEFT
 		
 		if Samus.facing != original_facing:

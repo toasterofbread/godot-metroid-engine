@@ -82,7 +82,7 @@ shape = SubResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectiles/Rigid"]
 frames = SubResource( 3 )
-frame = 7
+frame = 4
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectiles/Rigid"]
@@ -91,11 +91,13 @@ frames = SubResource( 4 )
 animation = "start"
 
 [node name="Area2D" type="Area2D" parent="Projectiles/Rigid"]
-collision_layer = 2
-collision_mask = 524293
+collision_layer = 524290
+collision_mask = 524292
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectiles/Rigid/Area2D"]
 shape = SubResource( 5 )
+
+[node name="ImpactPosition" type="Position2D" parent="Projectiles/Rigid"]
 
 [node name="Kinematic" type="KinematicBody2D" parent="Projectiles"]
 position = Vector2( 43, 2 )
@@ -107,7 +109,7 @@ shape = SubResource( 2 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Projectiles/Kinematic"]
 frames = SubResource( 3 )
-frame = 6
+frame = 3
 playing = true
 
 [node name="Burst" type="AnimatedSprite" parent="Projectiles/Kinematic"]
@@ -116,8 +118,8 @@ frames = SubResource( 4 )
 animation = "start"
 
 [node name="Area2D" type="Area2D" parent="Projectiles/Kinematic"]
-collision_layer = 2
-collision_mask = 524293
+collision_layer = 524290
+collision_mask = 524292
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Projectiles/Kinematic/Area2D"]
 shape = SubResource( 5 )
@@ -128,3 +130,5 @@ collision_mask = 4
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Projectiles/Kinematic/CollisionArea"]
 shape = SubResource( 2 )
+
+[node name="ImpactPosition" type="Position2D" parent="Projectiles/Kinematic"]

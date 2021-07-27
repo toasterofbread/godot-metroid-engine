@@ -8,17 +8,13 @@ func on_projectile_screen_exited(projectile: Area2D):
 		projectile.kill()
 
 func get_fire_pos():
-	var pos: Position2D = Samus.Weapons.CannonPositions.get_node_or_null(Samus.Animator.current[false].position_node_path)
+	var pos = Samus.Weapons.CannonPositions.get_node_or_null(Samus.Animator.current[false].position_node_path)
 	if pos == null:
 		return null
-	var ret = pos.duplicate()
-	
-	Samus.add_child(ret)
-	ret.global_position = Samus.global_position + ret.position
+	var ret: SamusCannonPosition = pos.duplicate()
+	ret.reset()
+	pos.get_parent().add_child(ret)
 	ret.position = pos.position
-	if Samus.facing == Enums.dir.RIGHT:
-		ret.position.x += (pos.position.x * -1 + 8) - pos.position.x
-	
 	return ret
 
 func fire(_chargebeam_damage_multiplier):
@@ -34,7 +30,7 @@ func fire(_chargebeam_damage_multiplier):
 	self.add_child(projectile)
 	projectile.visible = true
 	
-	projectile.global_position = pos.position
+	projectile.global_position = pos.global_position
 	projectile.rotation = pos.rotation
 	
 	if cooldown > 0:

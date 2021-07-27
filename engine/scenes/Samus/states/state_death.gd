@@ -40,7 +40,6 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	Samus.get_tree().paused = true
 	
 	var death_sound: AudioPlayer = sounds["death_real" if Samus.real else "death"]
-	print(death_sound)
 	death_sound.play()
 	if not Samus.real:
 		yield(death_sound, "finished")

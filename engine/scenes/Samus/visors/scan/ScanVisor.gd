@@ -67,7 +67,7 @@ func _on_Area2D_area_entered(area):
 
 func set_pulse():
 	Icon.get_node("AnimationPlayer").play("reset")
-	for scanNode in Loader.current_room.scanNodes:
+	for scanNode in Loader.current_room.scan_nodes:
 		if not scanNode.scanned:
 			Icon.get_node("AnimationPlayer").play("pulse")
 			break

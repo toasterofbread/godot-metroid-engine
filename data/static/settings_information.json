@@ -1,6 +1,9 @@
 {
-	"display": {
-		"fullscreen": {"type": null, "default": false}
+	"visuals": {
+		"fullscreen": {"type": null, "default": false},
+		"main_menu_scene_preview": {"type": null, "default": true},
+		"joypad_button_icon_style": {"type": ["PlayStation", "Xbox", "Nintendo"], "default": 0},
+		"morphball_always_spin": {"type": null, "default": false}
 	},
 	"audio": {
 		"master_volume": {"type": [0, 100], "default": 50}
@@ -11,12 +14,11 @@
 		"spiderball_relative_controls": {"type": null, "default": true},
 		"spiderball_style": {"type": ["Hold", "Toggle", "Classic"], "default": 0},
 		"visor_combo": {"type": null, "default": true},
-		"reset_weapon_on_door_enter": {"type": null, "default": false}
+		"reset_weapon_on_door_enter": {"type": null, "default": false},
+		"physics_mode": {"type": ["Default", "Super Metroid style"], "default": 0},
 	},
 	"other": {
 		"language": {"type": {"English": "en", "日本語": "ja"}, "default": 0},
-		"joypad_button_icon_style": {"type": ["PlayStation", "Xbox", "Nintendo"], "default": 0},
-		"physics_mode": {"type": ["Default", "Super Metroid style"], "default": 0},
-		"morphball_always_spin": {"type": null, "default": false}
+
 	}
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://engine/sprites/objects/door/blue/sBlueDoor_0.png" type="Texture" id=1]
 [ext_resource path="res://engine/scenes/objects/door/Door.gd" type="Script" id=2]
@@ -22,9 +22,9 @@
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 12 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 13 ) ],
 "loop": false,
-"name": "green_close",
+"name": "red_close",
 "speed": 20.0
 }, {
 "frames": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ],
@@ -32,19 +32,9 @@ animations = [ {
 "name": "green_open",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 18 ), ExtResource( 15 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
 "loop": false,
-"name": "red_open",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 7 ) ],
-"loop": false,
-"name": "yellow_open",
-"speed": 20.0
-}, {
-"frames": [ ExtResource( 15 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 13 ) ],
-"loop": false,
-"name": "red_close",
+"name": "blue_close",
 "speed": 20.0
 }, {
 "frames": [ ExtResource( 7 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 16 ) ],
@@ -52,30 +42,41 @@ animations = [ {
 "name": "yellow_close",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
-"loop": false,
-"name": "blue_close",
-"speed": 20.0
-}, {
 "frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "blue_open",
 "speed": 20.0
+}, {
+"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 7 ) ],
+"loop": false,
+"name": "yellow_open",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 18 ), ExtResource( 15 ) ],
+"loop": false,
+"name": "red_open",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 12 ) ],
+"loop": false,
+"name": "green_close",
+"speed": 20.0
 } ]
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 3, 32 )
+
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 3 )
 region = Rect2( 8, 0, 48, 64 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 28, 32 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 3, 28 )
 
-[node name="Door" type="StaticBody2D" groups=[
-"Door",
-]]
+[node name="Door" type="StaticBody2D"]
 collision_layer = 524288
 collision_mask = 15
 script = ExtResource( 2 )
@@ -90,12 +91,13 @@ position = Vector2( 12, 0 )
 frames = SubResource( 1 )
 animation = "blue_open"
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Cover"]
-polygon = PoolVector2Array( 9, 32, 13, 23, 16, 13, 16, -13, 13, -23, 9, -32, 8, -32, 8, 32 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Cover"]
+position = Vector2( 12, 0 )
+shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -16, 0 )
-texture = SubResource( 2 )
+texture = SubResource( 3 )
 
 [node name="FullDoorArea" type="Area2D" parent="."]
 monitorable = false
@@ -104,14 +106,16 @@ collision_layer = 524288
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FullDoorArea"]
 visible = false
 position = Vector2( -12, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="TransitionTriggerArea" type="Area2D" parent="."]
+collision_layer = 524288
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TransitionTriggerArea"]
 modulate = Color( 0.921569, 0, 1, 1 )
 position = Vector2( -33, 0 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="TargetSpawnPosition" type="Position2D" parent="."]
 position = Vector2( -32, 0 )

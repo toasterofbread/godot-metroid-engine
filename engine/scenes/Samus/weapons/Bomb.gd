@@ -3,13 +3,21 @@ extends SamusWeapon
 onready var time_to_detonation: float = damage_values["time_to_detonation"]
 onready var bomb_bounce_timer: Timer = Global.get_timer()
 var bomb_bounce_limit: float
-const bomb_bounce_amount: float = 350.0
-const bomb_horiz_bounce_amount: float = 200.0
-const samus_aerial_damage: int = 10
+
+var morphball_physics_data: Dictionary
+#onready var bomb_jump_speed: float = morphball_physics_data["bomb_jump_speed"]
+#onready var bomb_jump_horiz_speed: float = morphball_physics_data["bomb_jump_horiz_speed"]
+#onready var bomb_jump_time: float = morphball_physics_data["bomb_jump_time"]
+#const samus_aerial_damage: int = 10
 
 onready var bomb_amount_mini_upgrade: Array = [Samus.get_mini_upgrade("bomb_placement_cap_increase", 0), Samus.get_mini_upgrade("bomb_placement_cap_increase", 1)["data"]["increase_amount"]]
 onready var max_bomb_amount: int = damage_values["max_bomb_amount"]
 var projectiles: = []
+
+func _ready():
+	while Samus.Physics == null:
+		yield(get_tree(), "idle_frame")
+	morphball_physics_data = Samus.Physics.data["morphball"]
 
 func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
 	if not Weapons.fire_pos or Cooldown.time_left > 0 or len(projectiles) >= max_bomb_amount + (bomb_amount_mini_upgrade[0]["created"] * bomb_amount_mini_upgrade[1]) or chargebeam_damage_multiplier == 1.0:
@@ -124,18 +132,18 @@ func explode(projectile: PhysicsBody2D):
 					var offset: float = projectile.global_position.x - Samus.global_position.x - (2 if Samus.facing == Enums.dir.LEFT else 6)
 					if abs(offset) > 2.5: 
 #						morphball_horiz_bounce(offset)
-						bomb_bounce_timer.start(0.2)
-						bomb_bounce_limit = bomb_horiz_bounce_amount * -sign(offset)
+						bomb_bounce_timer.start(morphball_physics_data["bomb_jump_time"])
+						bomb_bounce_limit = morphball_physics_data["bomb_jump_horiz_speed"] * -sign(offset)
 					
 					if not Samus.is_on_floor():
 						if Samus.current_fluid == Fluid.TYPES.NONE:
-							Samus.current_state.bounce(bomb_bounce_amount)
+							Samus.current_state.bounce(morphball_physics_data["bomb_jump_speed"])
 							
 							# TODO | Should this be a thing? Probably not.
 #							Samus.damage(Enums.DamageType.BOMB, samus_aerial_damage, projectile.global_position)
 					else:
-						Samus.current_state.bounce(bomb_bounce_amount)
-			else:
+						Samus.current_state.bounce(morphball_physics_data["bomb_jump_speed"])
+			elif not body.name == "Samus":
 				if body.has_method("damage"):
 					body.damage(damage_type, damage_amount, projectile.global_position)
 		yield(get_tree(), "idle_frame")
@@ -145,7 +153,7 @@ func explode(projectile: PhysicsBody2D):
 
 func _process(delta):
 	if bomb_bounce_timer.time_left > 0.0:
-		Samus.Physics.move_x(bomb_bounce_limit, bomb_horiz_bounce_amount*30*delta)
+		Samus.Physics.move_x(bomb_bounce_limit, morphball_physics_data["bomb_jump_horiz_speed"]*30*delta)
 
 #func morphball_horiz_bounce(offset: float):
 ##	var tween: Tween = Tween.new()

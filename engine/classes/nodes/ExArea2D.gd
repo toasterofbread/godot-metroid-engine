@@ -4,7 +4,7 @@ class_name ExArea2D
 signal body_entered_safe
 signal body_exited_safe
 
-export var safe_wait_time: float = 0.1
+export var safe_wait_time: float = 0.2
 var body_enter_record: Dictionary = {}
 var body_exit_record: Dictionary = {}
 

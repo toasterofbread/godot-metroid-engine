@@ -3,6 +3,7 @@ class_name SamusState
 
 var id: String
 var Samus: KinematicBody2D
+var can_fire_chargebeam: bool = true
 
 func _init(_Samus: KinematicBody2D, _id: String) -> void:
 	id = _id

@@ -67,9 +67,7 @@ extents = Vector2( 42, 32 )
 [sub_resource type="Animation" id=4]
 resource_name = "breathe"
 
-[node name="ScanNode" type="Area2D" groups=[
-"ScanNode",
-]]
+[node name="ScanNode" type="Area2D"]
 material = SubResource( 2 )
 scale = Vector2( 0.5, 0.5 )
 collision_layer = 65536

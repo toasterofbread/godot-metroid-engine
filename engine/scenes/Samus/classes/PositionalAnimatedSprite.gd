@@ -2,7 +2,7 @@ tool
 extends AnimatedSprite
 class_name PositionalAnimatedSprite
 
-const data_json_path = "res://engine/scenes/Samus/animations/data.json"
+const data_json_path = "res://data/static/samus/animation_data.json"
 
 enum FACING {LEFT, RIGHT}
 

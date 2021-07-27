@@ -8,9 +8,12 @@ export(Enums.DamageType) var type = Enums.DamageType.BEAM setget set_type
 export var reappear_time: float = 2.5
 export(Array, Array) var on_shot_connections: = []
 export var use_on_shot_connections_of: NodePath
+export var hidden_on_startup: bool = false
 onready var default_collision_layer = self.collision_layer
 onready var destructive_damage_types: Array = Enums.DamageType.values()
 onready var sprite_name: String = Enums.DamageType.keys()[type].to_lower()
+
+onready var scanNode: ScanNode = $ScanNode
 
 var samus_hitbox_damage_applies = false
 
@@ -24,6 +27,7 @@ func set_type(value: int):
 
 func remove_overlay():
 	Global.call_connection_array(self, on_shot_connections)
+	scanNode.hidden = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,11 +52,14 @@ func _ready():
 	$WeaponCollisionArea.connect("body_entered", self, "body_entered_area")
 	$AnimatedSprite.play(sprite_name)
 	
-	$ScanNode.data_key = "block_" + sprite_name
+	scanNode.hidden = hidden_on_startup
+	scanNode.data_key = "block_" + sprite_name
 	
 	var otherPickup = get_node_or_null(use_on_shot_connections_of)
-	if otherPickup != null and otherPickup is UpgradePickup:
-		on_shot_connections += otherPickup.on_shot_connections
+	if otherPickup != null:
+		# DEBUG
+		assert("on_shot_connections" in otherPickup)
+		on_shot_connections = otherPickup.on_shot_connections
 	
 #	z_index = Enums.Layers.BLOCK
 #	z_as_relative = false
