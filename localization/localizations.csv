@@ -6,3 +6,5 @@ savestation_notification_saveprompt,Save progress,eee
 savestation_notification_savecomplete,Game saved,fff
 settings_save_successful,Changes saved,ccc
 settings_save_nochanges,No changes made,ddd
+titlescreen_playtime_text,Time:,sgdas
+titlescreen_completion_text,Completion:,dsdasdas

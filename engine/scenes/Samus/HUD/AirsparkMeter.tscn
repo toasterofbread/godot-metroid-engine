@@ -57,10 +57,10 @@ __meta__ = {
 }
 
 [node name="SplitterTemplate" type="ColorRect" parent="ProgressBar/HBoxContainer"]
-margin_left = 45.0
-margin_right = 46.0
+margin_left = 44.0
+margin_right = 49.0
 margin_bottom = 12.0
-rect_min_size = Vector2( 1, 0 )
+rect_min_size = Vector2( 5, 0 )
 size_flags_vertical = 3
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
@@ -68,8 +68,8 @@ __meta__ = {
 }
 
 [node name="SplitterTemplate2" type="ColorRect" parent="ProgressBar/HBoxContainer"]
-margin_left = 91.0
-margin_right = 92.0
+margin_left = 92.0
+margin_right = 93.0
 margin_bottom = 12.0
 rect_min_size = Vector2( 1, 0 )
 size_flags_vertical = 3
@@ -79,8 +79,8 @@ __meta__ = {
 }
 
 [node name="SplitterTemplate3" type="ColorRect" parent="ProgressBar/HBoxContainer"]
-margin_left = 137.0
-margin_right = 138.0
+margin_left = 138.0
+margin_right = 139.0
 margin_bottom = 12.0
 rect_min_size = Vector2( 1, 0 )
 size_flags_vertical = 3
@@ -90,8 +90,8 @@ __meta__ = {
 }
 
 [node name="SplitterTemplate4" type="ColorRect" parent="ProgressBar/HBoxContainer"]
-margin_left = 183.0
-margin_right = 184.0
+margin_left = 184.0
+margin_right = 185.0
 margin_bottom = 12.0
 rect_min_size = Vector2( 1, 0 )
 size_flags_vertical = 3
@@ -101,8 +101,8 @@ __meta__ = {
 }
 
 [node name="SplitterTemplate5" type="ColorRect" parent="ProgressBar/HBoxContainer"]
-margin_left = 229.0
-margin_right = 230.0
+margin_left = 230.0
+margin_right = 231.0
 margin_bottom = 12.0
 rect_min_size = Vector2( 1, 0 )
 size_flags_vertical = 3

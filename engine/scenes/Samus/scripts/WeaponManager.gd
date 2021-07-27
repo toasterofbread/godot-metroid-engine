@@ -300,14 +300,22 @@ func update_fire_pos():
 	var position_node_path = Samus.Animator.current[false].position_node_path
 	if not position_node_path in fire_pos_nodes:
 		if fire_pos != null:
+			fire_pos.is_current = false
 			fire_pos.reset()
 		fire_pos = null
 		return null
 	var pos: SamusCannonPosition = fire_pos_nodes[position_node_path]
 	
 	if fire_pos != null:
+		fire_pos.is_current = false
 		fire_pos.reset()
+	
+	if not Samus.facing in pos.allowed_facing_directions:
+		fire_pos = null
+		return
+	
 	fire_pos = pos
+	fire_pos.is_current = true
 		
 	if Samus.facing == Enums.dir.RIGHT:
 		fire_pos.position.x += (pos.position.x * -1 + 8) - pos.position.x

@@ -72,6 +72,9 @@
 				"damage": 20,
 				"earthquake_strength": 0.5,
 				"earthquake_duration": 0.3
+			},
+			"airspark": {
+				"damage": 15
 			}
 		}
 	},

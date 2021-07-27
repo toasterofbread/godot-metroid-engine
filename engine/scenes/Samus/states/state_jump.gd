@@ -91,7 +91,7 @@ func process(_delta: float):
 	var play_transition = false
 	var original_spinning = spinning
 	
-	Samus.set_hurtbox_damage(damage_type, damage_amount if (Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning) else null)
+	Samus.set_hurtbox_damage(id, damage_type, damage_amount if (Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning) else null)
 	
 	if Settings.get("controls/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
@@ -227,7 +227,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	grip_below_raycast.enabled = false
 	set_walljump_raycasts_state(false)
 	set_spinning(false)
-	Samus.set_hurtbox_damage(damage_type, null)
+	Samus.set_hurtbox_damage(id, damage_type, null)
 	.change_state(new_state_key, data)
 
 func physics_process(delta: float):

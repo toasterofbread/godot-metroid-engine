@@ -58,31 +58,41 @@ var upgrades: Dictionary
 var paused = null
 var real: = false
 
-#var functions_to_process: Array = []
-
 func set_boosting(value: bool):
 	boosting = value
-	set_hurtbox_damage(states["shinespark"].damage_type, states["shinespark"].damage_amount if boosting else null)
+	set_hurtbox_damage("boosting", states["shinespark"].damage_type, states["shinespark"].damage_amount if boosting else null)
 
-func set_hurtbox_damage(type: int, amount):
-	if amount != null:
-		hurtbox_damage[type] = amount
-	elif type in hurtbox_damage:
-		hurtbox_damage.erase(type)
+func set_hurtbox_damage(id: String, type: int, amount):
+	if amount == null:
+		if type in hurtbox_damage and id in hurtbox_damage[type]:
+			hurtbox_damage[type].erase(id)
+	else:
+		if not type in hurtbox_damage:
+			hurtbox_damage[type] = {id: amount}
+		else:
+			hurtbox_damage[type][id] = amount
  
 func check_hurtbox_damage(damage_types):
 	
 	if hurtbox_damage.empty():
 		return null
 	
-	var highest = null
-	for type in hurtbox_damage:
-		if (damage_types == null or type in damage_types) and (highest == null or hurtbox_damage[type] > hurtbox_damage[highest]):
-			highest = type
-	if highest != null:
-		highest = [highest, hurtbox_damage[highest], Animator.current[false].sprites[facing].global_position]
+	if damage_types == null:
+		damage_types = hurtbox_damage.keys()
 	
-	return highest
+	var highest_amount: int = 0
+	var highest_type: int
+	for type in damage_types:
+		if type in hurtbox_damage:
+			for amount in hurtbox_damage[type].values():
+				if amount > highest_amount:
+					highest_amount = amount
+					highest_type = type
+	
+	if highest_amount > 0:
+		return [highest_type, highest_amount, Animator.current[false].sprites[facing].global_position]
+	else:
+		return null
 
 func get_hurtbox_damage():
 	return [states["shinespark"].damage_type, states["shinespark"].damage_amount]

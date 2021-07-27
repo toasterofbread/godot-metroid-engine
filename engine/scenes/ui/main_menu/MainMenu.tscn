@@ -1,6 +1,138 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://engine/scenes/ui/main_menu/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://engine/fonts/SerpentineDBol.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://engine/sprites/ui/main_menu/logo_orange.png" type="Texture" id=3]
+[ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://engine/sprites/ui/main_menu/bg_planet.png" type="Texture" id=5]
+[ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=6]
+[ext_resource path="res://engine/sprites/ui/main_menu/background.png" type="Texture" id=7]
+[ext_resource path="res://engine/scenes/ui/main_menu/SaveGameInfoDisplay.tscn" type="PackedScene" id=8]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float size_x = 32.0; // blocks by x direction
+uniform float size_y = 32.0; // blocks by y direction
+
+void fragment() {
+    COLOR = texture(TEXTURE, vec2(floor(UV.x * size_x) / (size_x - 1.0), floor(UV.y * size_y) / (size_y - 1.0)));
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/size_x = 640.0
+shader_param/size_y = 640.0
+
+[sub_resource type="DynamicFont" id=3]
+size = 122
+use_filter = true
+extra_spacing_char = 100
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 51
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=5]
+resource_name = "reset"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Title/Options:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 645.003, 256 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Title/Options:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Title/Options:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Title/TitleLogo:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Title/TitleLogo:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Title/TitleLogo:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 734.88, 116.143 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("SaveSelection:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Title:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -9,3 +141,227 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color( 0.792157, 0.792157, 0.792157, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bg_planet" type="Sprite" parent="Background"]
+material = SubResource( 2 )
+position = Vector2( -936.414, 544.821 )
+rotation = 4.48724
+scale = Vector2( 4, 4 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Title" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleLogo" type="TextureRect" parent="Title"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -225.12
+margin_top = -423.857
+margin_right = 931.88
+margin_bottom = -137.857
+rect_scale = Vector2( 0.9, 0.9 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Title/TitleLogo"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -5.25598
+margin_top = -4.87756
+margin_right = -2.25598
+margin_bottom = 299.122
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.972549, 0.313726, 0.0313726, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0.188235, 0.0941176, 0.376471, 1 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
+text = "ENGINE"
+align = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="VBoxContainer" parent="Title"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 810.222
+margin_top = -480.883
+margin_right = -464.775
+margin_bottom = -224.883
+rect_scale = Vector2( 1.5, 1.5 )
+custom_constants/separation = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectSave" type="Label" parent="Title/Options"]
+margin_left = 373.0
+margin_right = 645.0
+margin_bottom = 49.0
+mouse_filter = 1
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 4 )
+text = "Save selection"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Title/Options/SelectSave"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Settings" type="Label" parent="Title/Options"]
+margin_left = 496.0
+margin_top = 69.0
+margin_right = 645.0
+margin_bottom = 118.0
+mouse_filter = 1
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 4 )
+text = "Settings"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Title/Options/Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Docs" type="Label" parent="Title/Options"]
+margin_left = 443.0
+margin_top = 138.0
+margin_right = 645.0
+margin_bottom = 187.0
+mouse_filter = 1
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 4 )
+text = "Resources"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Title/Options/Docs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Quit" type="Label" parent="Title/Options"]
+margin_left = 575.0
+margin_top = 207.0
+margin_right = 645.0
+margin_bottom = 256.0
+mouse_filter = 1
+size_flags_horizontal = 8
+custom_fonts/font = SubResource( 4 )
+text = "Quit"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="Title/Options/Quit"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AcceptButtonPrompt" parent="Title" instance=ExtResource( 6 )]
+position = Vector2( -213.624, 1035.66 )
+scale = Vector2( 0.7, 0.7 )
+action_keys = [ "ui_accept" ]
+text = [ "Select option" ]
+
+[node name="SaveSelection" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveContainer" type="VBoxContainer" parent="SaveSelection"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1154.0
+custom_constants/separation = 119
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveGameInfoDisplay" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 173.0
+margin_right = 1154.0
+margin_bottom = 338.0
+
+[node name="SaveGameInfoDisplay2" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 457.0
+margin_right = 1154.0
+margin_bottom = 622.0
+
+[node name="SaveGameInfoDisplay3" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 741.0
+margin_right = 1154.0
+margin_bottom = 906.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/reset = SubResource( 5 )
+
+[node name="Tween" type="Tween" parent="."]
