@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://engine/scenes/ui/main_menu/SaveGameInfoDisplay.gd" type="Script" id=1]
+[ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://engine/sprites/ui/main_menu/percent_symbol.png" type="Texture" id=3]
+[ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=2]
+size = 128
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[node name="SaveGameInfoDisplay" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -920.0
+margin_bottom = -915.0
+rect_min_size = Vector2( 1000, 165 )
+color = Color( 1, 1, 1, 0.101961 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Number" type="ColorRect" parent="."]
+margin_right = 98.0
+margin_bottom = 165.0
+color = Color( 0.807843, 0.223529, 0.223529, 0.498039 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Number"]
+margin_right = 106.0
+margin_bottom = 177.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 5
+custom_constants/shadow_offset_y = 5
+text = "0"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayTime" type="Label" parent="."]
+margin_left = 118.244
+margin_top = -7.70992
+margin_right = 483.244
+margin_bottom = 83.2901
+custom_fonts/font = SubResource( 1 )
+text = "time: 00:00:00"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Completion" type="Label" parent="."]
+margin_left = 117.872
+margin_top = 60.6727
+margin_right = 520.872
+margin_bottom = 151.673
+custom_fonts/font = SubResource( 1 )
+text = "Completion: 46"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Completion"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.497101
+margin_top = 32.0
+margin_right = 39.5029
+margin_bottom = -19.0
+rect_min_size = Vector2( 40, 40 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}

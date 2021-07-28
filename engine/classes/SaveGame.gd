@@ -73,9 +73,12 @@ const default_data: Dictionary = {
 	"logbook": {
 		"recorded_entries": ["POWERSUIT", "POWERBEAM"]
 	},
-#	"difficulty": {
-#		"level": 1
-#	}
+	"difficulty": {
+		"level": 1
+	},
+	"statistics": {
+		"playtime": (5*60*60) + (43*60) + 27,
+	}
 }
 
 func _init(_filename: String = ""):
@@ -150,3 +153,16 @@ func set_data_key(keys: Array, value):
 
 func add_save_function(function: FuncRef):
 	save_functions.append(function)
+
+func get_scan_percentage() -> float:
+	return float(len(get_data_key(["logbook", "recorded_entries"]))) / float(len(Data.data["logbook"]))
+
+func get_total_acquired_upgrades() -> int:
+	var ret: int = 0
+	for upgrade in get_data_key(["samus", "upgrades"]).values():
+		if upgrade["amount"] > 0:
+			ret += upgrade["amount"]
+	return ret
+
+func get_upgrade_percentage() -> float:
+	return float(Map.total_upgrade_amount) / float(get_total_acquired_upgrades())

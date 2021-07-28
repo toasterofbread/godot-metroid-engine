@@ -96,10 +96,20 @@ func load_data(data: Dictionary, x: String, y: String):
 		
 		wall_rotation += 90
 	
+	print(data["u"])
+	
 	if data["i"]:
 		set_icon(int(data["i"]))
-	elif data["u"] != null:
-		set_icon(icons.obtained_item if data["u"] in Loader.Save.get_data_key(["rooms", Loader.current_room.id, "acquired_upgradepickups"]) else icons.unobtained_item)
+	elif len(data["u"]) > 0:
+		var set: bool = false
+		for upgradePickup_id in data["u"]:
+			print(upgradePickup_id)
+			if not upgradePickup_id in Loader.Save.get_data_key(["rooms", Loader.current_room.id, "acquired_upgradepickups"]):
+				set_icon(icons.unobtained_item)
+				set = true
+				break
+		if not set:
+			set_icon(icons.obtained_item)
 	else:
 		set_icon(icons.none)
 	

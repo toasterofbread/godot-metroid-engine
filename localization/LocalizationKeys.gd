@@ -10,6 +10,8 @@ const savestation_notification_saveprompt = "savestation_notification_saveprompt
 const savestation_notification_savecomplete = "savestation_notification_savecomplete"
 const settings_save_successful = "settings_save_successful"
 const settings_save_nochanges = "settings_save_nochanges"
+const titlescreen_playtime_text = "titlescreen_playtime_text"
+const titlescreen_completion_text = "titlescreen_completion_text"
 
 const KEYS = [
  "VALIDITY_TEST",
@@ -18,5 +20,7 @@ const KEYS = [
  "savestation_notification_saveprompt",
  "savestation_notification_savecomplete",
  "settings_save_successful",
- "settings_save_nochanges"
+ "settings_save_nochanges",
+ "titlescreen_playtime_text",
+ "titlescreen_completion_text"
 ]

@@ -130,7 +130,7 @@ func _on_Area2D_body_entered(body):
 	if body.name == "Samus":
 		var damage = Samus.check_hurtbox_damage(null)
 		if damage != null:
-			damage(damage[0], damage[1], damage[2])
+			callv("damage", damage)
 			return
 	
 	if body.has_method("damage"):

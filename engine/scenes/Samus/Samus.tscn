@@ -379,11 +379,6 @@ tracks/0/keys = {
 
 [sub_resource type="SpriteFrames" id=11]
 animations = [ {
-"frames": [ ExtResource( 23 ), ExtResource( 31 ), ExtResource( 52 ), ExtResource( 32 ) ],
-"loop": false,
-"name": "PLASMABEAM 2 start",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 25 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "CHARGEBEAM 2",
@@ -458,6 +453,11 @@ animations = [ {
 "loop": true,
 "name": "WAVEBEAM 2",
 "speed": 5.0
+}, {
+"frames": [ ExtResource( 23 ), ExtResource( 31 ), ExtResource( 52 ), ExtResource( 32 ) ],
+"loop": false,
+"name": "PLASMABEAM 2 start",
+"speed": 15.0
 } ]
 
 [sub_resource type="CircleShape2D" id=12]
@@ -935,12 +935,10 @@ z_as_relative = false
 [node name="horiz" type="Position2D" parent="Weapons/CannonPositions/shinespark"]
 position = Vector2( -6, -8 )
 script = ExtResource( 58 )
-can_fire_chargebeam = false
 
 [node name="vert" type="Position2D" parent="Weapons/CannonPositions/shinespark"]
 position = Vector2( 4, 3 )
 script = ExtResource( 58 )
-can_fire_chargebeam = false
 left = false
 
 [node name="powergrip" type="Node2D" parent="Weapons/CannonPositions"]

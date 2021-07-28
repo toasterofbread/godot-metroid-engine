@@ -17,7 +17,15 @@ var current_chunk: MapChunk
 var previous_chunk = null
 var current_tile: MapTile
 
+var total_upgrade_amount: int
+
 func _ready():
+	tile_data = Global.load_json(tile_data_path)
+	
+	# Set total upgrade amount
+	for x in tile_data:
+		for y in tile_data[x]:
+			total_upgrade_amount += len(tile_data[x][y]["u"])
 	
 	yield(Loader.Samus, "ready")
 	Marker.load_data()
@@ -66,7 +74,6 @@ func samus_exited_chunk(body, chunk: MapChunk):
 
 func load_tiles():
 	
-	tile_data = Global.load_json(tile_data_path)
 	tiles.clear()
 	tiles_by_area.clear()
 	

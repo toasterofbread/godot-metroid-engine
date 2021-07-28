@@ -160,8 +160,8 @@ func play_idle_animation():
 	if not Samus.paused:
 		# Play a random idle animation and wait for it to finish
 		var anim = Global.random_array_item(idle_animations)
-		anim.play()
-		yield(anim, "finished")
+		yield(anim.play(), "completed")
+		animations["aim_front"].play()
 	
 	if Samus.current_state == self:
 		# Restart the timer with a random time

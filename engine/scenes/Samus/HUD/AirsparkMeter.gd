@@ -1,6 +1,6 @@
 extends Node2D
 
-const segment_size: float = 35.0
+var SplitterTemplate: ColorRect
 
 var total_segments: int = 1.0 setget set_total_segments
 var full_segments: int = 1.0 setget set_full_segments
@@ -8,10 +8,8 @@ var full_segments: int = 1.0 setget set_full_segments
 # Amount of time the node reveals itself for when a value changes
 const visible_time: float = 1.0
 var visible_time_remaining: float = 0.0
-
-var SplitterTemplate: ColorRect
-
 var shown: bool = false setget set_shown
+var position_set: bool = false
 
 func _ready():
 	visible = false
@@ -22,7 +20,7 @@ func _ready():
 	for splitter in $ProgressBar/HBoxContainer.get_children():
 		splitter.queue_free()
 	
-	position = Vector2(15, 20)
+	position.y = 20
 
 func _process(delta: float):
 	if not shown:
@@ -31,11 +29,16 @@ func _process(delta: float):
 		else:
 			return
 	
-#	var animation = Loader.Samus.Animator.current[false]
-#	if animation != null:
-#		var sprite: AnimatedSprite = animation.sprites[Loader.Samus.facing]
-#		var frame: Texture = sprite.frames.get_frame(sprite.animation, sprite.frame)
-#		global_position = sprite.global_position + (frame.get_size() / 2)
+	var animation = Loader.Samus.Animator.current[false]
+	if animation != null:
+		var sprite: AnimatedSprite = animation.sprites[Loader.Samus.facing]
+		var frame: Texture = sprite.frames.get_frame(sprite.animation, sprite.frame)
+		
+		if not position_set:
+			position_set = true
+			global_position.x = sprite.global_position.x + (frame.get_width())
+		else:
+			global_position.x = lerp(global_position.x, sprite.global_position.x + (frame.get_width() * 0.75), delta*5)
 	
 	visible_time_remaining -= delta
 	
@@ -72,13 +75,14 @@ func set_total_segments(value: int, animate: bool = false):
 		for splitter in $ProgressBar/HBoxContainer.get_children():
 			splitter.queue_free()
 	
-	$ProgressBar/HBoxContainer.set("custom_constants/separation", $ProgressBar/HBoxContainer.rect_size.x / (total_segments + 1))
-	for i in range(total_segments):
+	$ProgressBar/HBoxContainer.set("custom_constants/separation", 0)
+	for i in range(total_segments - 1):
 		var splitter: ColorRect = SplitterTemplate.duplicate()
 		$ProgressBar/HBoxContainer.add_child(splitter)
 		if animate:
 			splitter.modulate.a = 0.0
 		splitter.visible = true
+	$ProgressBar/HBoxContainer.set("custom_constants/separation", $ProgressBar/HBoxContainer.rect_size.x / (total_segments))
 	
 	if animate:
 		for splitter in $ProgressBar/HBoxContainer.get_children():

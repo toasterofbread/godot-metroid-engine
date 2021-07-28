@@ -6,6 +6,10 @@ var Weapons: Node2D
 var animations: Dictionary
 var physics_data: Dictionary
 
+const damage_type: int = Enums.DamageType.BEAM
+var damage_values: Dictionary = Data.data["damage_values"]["samus"]["weapons"]["airspark"]
+var damage_amount: float = damage_values["damage"]
+
 var direction: Vector2 = Vector2.ZERO
 var velocity: Vector2
 var time_remaining: float
@@ -47,6 +51,8 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	
 	if direction.x != 0:
 		Samus.facing = Enums.dir.LEFT if direction.x == -1 else Enums.dir.RIGHT
+	
+	Samus.set_hurtbox_damage(id, damage_type, damage_amount)
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -57,6 +63,8 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	Physics.apply_gravity = true
 	Samus.aiming = Samus.aim.NONE
 	.change_state(new_state_key, data)
+	
+	Samus.set_hurtbox_damage(id, damage_type, null)
 
 # Called every frame while this state is active
 func process(delta: float):
