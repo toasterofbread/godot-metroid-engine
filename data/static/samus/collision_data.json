@@ -14,6 +14,24 @@
 		"pos": [4, 0],
 		"shape": "capsule"
 	},
+	"jump/spin": {
+		"size": [7.5, 18],
+		"pos": [4, 0],
+		"shape": "capsule"
+	},
+	"jump/spin_space": {
+		"size": [7.5, 18],
+		"pos": [4, 0],
+		"shape": "capsule"
+	},
+	"jump/spin_space_screw": {
+		"size": [7.5, 18],
+		"pos": [4, 0],
+		"shape": "capsule"
+	},
+	"jump/screw_spark": {
+		"ignore": true
+	},
 	"crouch": {
 		"size": [7.5, 13],
 		"pos": [4, 5],
@@ -30,24 +48,6 @@
 	"morphball/morph": {
 		"size": [7.5, 10],
 		"shape": "capsule"
-	},
-	"jump/spin": {
-		"size": [7.5, 13.5],
-		"pos": [4, 5.5],
-		"shape": "circle"
-	},
-	"jump/spin_space": {
-		"size": [7.5, 13.5],
-		"pos": [4, 5.5],
-		"shape": "circle"
-	},
-	"jump/spin_space_screw": {
-		"size": [7.5, 13.5],
-		"pos": [4, 5.5],
-		"shape": "circle"
-	},
-	"jump/screw_spark": {
-		"ignore": true
 	},
 	"shinespark/horiz": {
 		"size": [17, 7],
@@ -68,6 +68,6 @@
 	"powergrip": {
 		"size": [7.5, 15],
 		"leftPos": [3, 0],
-		"rightPos": [7, 5.5]
+		"rightPos": [7, 0]
 	},
 }

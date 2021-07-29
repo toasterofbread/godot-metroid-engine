@@ -1,6 +1,6 @@
 [gd_scene load_steps=77 format=2]
 
-[ext_resource path="res://engine/classes/singletons/Audio.gd" type="Script" id=1]
+[ext_resource path="res://engine/classes/autoload/Audio.gd" type="Script" id=1]
 [ext_resource path="res://engine/scenes/Samus/animations/power.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://engine/scenes/Samus/Samus.gd" type="Script" id=3]
 [ext_resource path="res://engine/scenes/Samus/classes/PositionalAnimatedSprite.gd" type="Script" id=4]
@@ -384,31 +384,6 @@ animations = [ {
 "name": "CHARGEBEAM 2",
 "speed": 30.0
 }, {
-"frames": [ ExtResource( 29 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ) ],
-"loop": false,
-"name": "CHARGEBEAM 2 start",
-"speed": 30.0
-}, {
-"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
-"loop": true,
-"name": "PLASMABEAM 0",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 50 ), ExtResource( 43 ) ],
-"loop": true,
-"name": "WAVEBEAM 1",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 40 ), ExtResource( 41 ) ],
-"loop": true,
-"name": "CHARGEBEAM 1",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 13 ), ExtResource( 51 ) ],
-"loop": true,
-"name": "ICEBEAM 0",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 55 ), ExtResource( 44 ), ExtResource( 12 ), ExtResource( 30 ) ],
 "loop": false,
 "name": "WAVEBEAM 2 start",
@@ -457,6 +432,31 @@ animations = [ {
 "frames": [ ExtResource( 23 ), ExtResource( 31 ), ExtResource( 52 ), ExtResource( 32 ) ],
 "loop": false,
 "name": "PLASMABEAM 2 start",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 29 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ) ],
+"loop": false,
+"name": "CHARGEBEAM 2 start",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "PLASMABEAM 0",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 50 ), ExtResource( 43 ) ],
+"loop": true,
+"name": "WAVEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 40 ), ExtResource( 41 ) ],
+"loop": true,
+"name": "CHARGEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 51 ) ],
+"loop": true,
+"name": "ICEBEAM 0",
 "speed": 15.0
 } ]
 

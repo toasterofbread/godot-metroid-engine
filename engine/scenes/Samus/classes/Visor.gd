@@ -25,7 +25,7 @@ func visor_mode_changed(visor: SamusVisor):
 
 func _ready():
 	assert(id in Enums.UpgradeTypes["visor"], "Must be a valid visor ID")
-	Loader.Save.connect("value_set", self, "save_value_set")
+	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	
 	for child in get_children():
 		if child is SamusHUDIcon:

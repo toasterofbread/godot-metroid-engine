@@ -1,10 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://engine/scenes/ui/button_icon/ButtonIcon.gd" type="Script" id=1]
+[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/cross.png" type="Texture" id=2]
 
 [node name="ButtonIcon" type="TextureRect"]
 margin_right = 16.0
 margin_bottom = 16.0
+rect_min_size = Vector2( 16, 16 )
+texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 script = ExtResource( 1 )

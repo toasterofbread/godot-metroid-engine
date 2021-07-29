@@ -54,15 +54,17 @@ func _ready():
 	
 	# DEBUG | Handles launching current scene with F6
 	if Loader.current_room == null:
+		Loader.loaded_save = SaveGame.new(Loader.get_savefile_path(0))
+		Loader.emit_signal("save_loaded")
 		Loader.load_room(id)
 		queue_free()
 		return
 	
 	pause_mode = Node.PAUSE_MODE_STOP
-	Loader.Save.add_save_function(funcref(self, "save"))
+	Loader.loaded_save.add_save_function(funcref(self, "save"))
 	vOverlay.SET("Room ID", id)
 	
-	var room_data: Dictionary = Loader.Save.get_data_key(["rooms"])
+	var room_data: Dictionary = Loader.loaded_save.get_data_key(["rooms"])
 	if not id in room_data:
 		room_data[id] = {
 			"acquired_upgradepickups": []
@@ -121,7 +123,7 @@ func generate_maptiles():
 		i += 1
 
 func save():
-	Loader.Save.set_data_key(["current_room_id"], id)
+	Loader.loaded_save.set_data_key(["current_room_id"], id)
 
 signal earthquake
 func earthquake(center: Vector2, strength: float, duration):

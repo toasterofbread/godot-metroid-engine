@@ -6,5 +6,17 @@ savestation_notification_saveprompt,Save progress,eee
 savestation_notification_savecomplete,Game saved,fff
 settings_save_successful,Changes saved,ccc
 settings_save_nochanges,No changes made,ddd
+settings_button_save,Save changes,JP Save changes
+settings_button_reset,Reset all to default,JP Reset all to default
+settings_value_bool_off,Off,JP OFF
+settings_value_bool_on,On,JP ON
+setings_value_current,Current value: ,JP Current value: 
+settings_value_new,New value: ,JP New value: 
 titlescreen_playtime_text,Time:,sgdas
 titlescreen_completion_text,Completion:,dsdasdas
+titlescreen_savefile_empty,Empty,JPEmpty
+titlescreen_button_load_file,Load file,JP Load file
+titlescreen_button_copy_file,Copy file,JP Copy file
+titlescreen_button_delete_file,Erase file,JP Erase file
+titlescreen_button_accept_option,Select,JPSelect
+titlescreen_button_back_option,Back,JP Back

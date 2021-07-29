@@ -5,7 +5,7 @@ onready var sprite: AnimatedSprite = ProjectileNode.get_node("Sprite")
 onready var sprite_chargebeam: AnimatedSprite = ProjectileNode.get_node("SpriteChargebeam")
 
 func _ready():
-	Loader.Save.connect("value_set", self, "save_value_set")
+	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	set_types()
 
 func set_types():

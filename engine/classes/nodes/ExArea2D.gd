@@ -16,17 +16,18 @@ func _body_entered(body):
 	var time: float = OS.get_ticks_msec()
 	body_enter_record[body] = time
 	
-	if body in body_exit_record and time - body_exit_record[body] < safe_wait_time * 1000:
-			return
+	if body in body_exit_record and (time - body_exit_record[body]) < (safe_wait_time * 1000):
+		return
 	
 	emit_signal("body_entered_safe", body)
 
 func _body_exited(body):
 	body_enter_record.erase(body)
-	body_exit_record[body] = OS.get_ticks_msec()
+	var time: float = OS.get_ticks_msec()
+	body_exit_record[body] = time
 	
-	Global.wait(safe_wait_time, false, [self, "_body_exited_waited", [body]])
+	Global.wait(safe_wait_time, false, [self, "_body_exited_waited", [body, time]])
 
-func _body_exited_waited(body):
-	if not body in body_enter_record and is_instance_valid(body):
+func _body_exited_waited(body, time: float):
+	if not body in body_enter_record and is_instance_valid(body) and body in body_exit_record and body_exit_record[body] == time:
 		emit_signal("body_exited_safe", body)

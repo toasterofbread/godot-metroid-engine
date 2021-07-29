@@ -51,9 +51,9 @@ func set_moving(value: bool):
 
 func save_data():
 	if grid_position != null:
-		Loader.Save.set_data_key(["map", "marker"], {"position": Global.vector2array(grid_position), "name": $CustomName.text})
+		Loader.loaded_save.set_data_key(["map", "marker"], {"position": Global.vector2array(grid_position), "name": $CustomName.text})
 	else:
-		Loader.Save.set_data_key(["map", "marker"], null)
+		Loader.loaded_save.set_data_key(["map", "marker"], null)
 
 func load_data():
 	var data = Map.savedata["marker"]

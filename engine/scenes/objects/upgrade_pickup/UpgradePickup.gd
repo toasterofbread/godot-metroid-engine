@@ -22,7 +22,7 @@ func set_upgrade_type(value: int):
 func acquire():
 #	mapChunk.set_upgrade_icon(false)
 	emit_signal("acquired")
-	Loader.Save.get_data_key(save_path_acquired).append(id)
+	Loader.loaded_save.get_data_key(save_path_acquired).append(id)
 	queue_free()
 
 func _ready():
@@ -35,10 +35,10 @@ func _ready():
 		yield(Loader, "room_loaded")
 	
 	save_path_acquired = ["rooms", Loader.current_room.id, "acquired_upgradepickups"]
-	var acquired_upgradepickups = Loader.Save.get_data_key(save_path_acquired)
+	var acquired_upgradepickups = Loader.loaded_save.get_data_key(save_path_acquired)
 	if acquired_upgradepickups == null:
 		yield(Loader.current_room, "ready")
-		acquired_upgradepickups = Loader.Save.get_data_key(save_path_acquired)
+		acquired_upgradepickups = Loader.loaded_save.get_data_key(save_path_acquired)
 	if id in acquired_upgradepickups:
 		queue_free()
 	
@@ -58,8 +58,8 @@ func _on_UpgradePickup_body_entered(body):
 	if body != Loader.Samus:
 		return
 	
-	var current_amount: int = Loader.Save.get_data_key(["samus", "upgrades", upgrade_type, "amount"])
-	Loader.Save.set_data_key(["samus", "upgrades", upgrade_type, "amount"], current_amount + gain_amount)
+	var current_amount: int = Loader.loaded_save.get_data_key(["samus", "upgrades", upgrade_type, "amount"])
+	Loader.loaded_save.set_data_key(["samus", "upgrades", upgrade_type, "amount"], current_amount + gain_amount)
 	
 	if upgrade_type in Samus.Weapons.all_weapons:
 		Samus.Weapons.all_weapons[upgrade_type].ammo += gain_amount

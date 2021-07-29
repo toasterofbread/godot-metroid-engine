@@ -54,7 +54,7 @@ func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _data:=
 #	if Weapon.Samus.Physics.apply_velocity:
 #		var velocity_modifier = Weapon.Samus.Physics.vel
 #
-#		# Comparing velocity against 0.01 instead of 0 to account for earlier rotated() function innacuracy
+#		# Comparing velocity against 0.01 instead of 0 to account for earlier rotated() function inaccuracy
 #		if self.velocity.x > 0.01 and velocity_modifier.x > 0:
 #			self.velocity.x += velocity_modifier.x
 #		elif self.velocity.x < -0.01 and velocity_modifier.x < 0:

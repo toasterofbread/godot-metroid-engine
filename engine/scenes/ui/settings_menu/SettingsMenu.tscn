@@ -1,0 +1,118 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenu.gd" type="Script" id=1]
+[ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenuItem.tscn" type="PackedScene" id=2]
+[ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 3 )
+
+[node name="SettingsMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="."]
+margin_left = 716.0
+margin_top = 61.0
+margin_right = 2069.0
+margin_bottom = 826.0
+rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+margin_left = 160.0
+margin_right = 409.0
+margin_bottom = 152.0
+rect_scale = Vector2( 5, 5 )
+rect_clip_content = false
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemContainer" type="VBoxContainer" parent="Control/ScrollContainer"]
+margin_right = 237.0
+margin_bottom = 275.0
+size_flags_horizontal = 3
+custom_constants/separation = 12
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsMenuItem" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_right = 237.0
+
+[node name="SettingsMenuItem2" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_top = 41.0
+margin_right = 237.0
+margin_bottom = 70.0
+
+[node name="SettingsMenuItem3" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_top = 82.0
+margin_right = 237.0
+margin_bottom = 111.0
+
+[node name="SettingsMenuItem4" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_top = 123.0
+margin_right = 237.0
+margin_bottom = 152.0
+
+[node name="SettingsMenuItem5" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_top = 164.0
+margin_right = 237.0
+margin_bottom = 193.0
+
+[node name="SettingsMenuItem6" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_top = 205.0
+margin_right = 237.0
+margin_bottom = 234.0
+
+[node name="SettingsMenuItem7" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_top = 246.0
+margin_right = 237.0
+margin_bottom = 275.0
+
+[node name="ValuePanelTemplate" type="ColorRect" parent="."]
+visible = false
+margin_left = 56.1091
+margin_top = 453.109
+margin_right = 378.109
+margin_bottom = 633.109
+rect_scale = Vector2( 2, 2 )
+color = Color( 1, 1, 1, 0.101961 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="CurrentLabel" type="Label" parent="ValuePanelTemplate"]
+margin_left = 17.0
+margin_top = 15.054
+margin_right = 303.0
+margin_bottom = 85.054
+custom_fonts/font = SubResource( 1 )
+text = "Current value: "
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NewLabel" type="Label" parent="ValuePanelTemplate"]
+margin_left = 17.0
+margin_top = 98.2984
+margin_right = 303.0
+margin_bottom = 168.298
+custom_fonts/font = SubResource( 1 )
+text = "New value: "
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

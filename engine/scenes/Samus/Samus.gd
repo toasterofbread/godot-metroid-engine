@@ -105,7 +105,7 @@ func _ready():
 	z_as_relative = false
 	$Animator/Sprites.trail_z_index = Enums.Layers.SAMUS
 	
-	var data = Loader.Save.data["samus"]
+	var data = Loader.loaded_save.data["samus"]
 	upgrades = data["upgrades"]
 	
 	etanks = upgrades[Enums.Upgrade.ETANK]["amount"]
@@ -128,7 +128,7 @@ func _ready():
 #			functions_to_process.append(funcref(state, "persistent_process"))
 	
 	change_state("neutral")
-	Loader.Save.connect("value_set", self, "save_value_set")
+	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	
 	# DEBUG
 	$Animator/TestSprites.queue_free()
@@ -199,19 +199,19 @@ func change_state(new_state_key: String, data: Dictionary = {}, ignore_paused: b
 var upgrade_cache: = {}
 func is_upgrade_active(upgrade_key: int):
 	if not upgrade_key in upgrade_cache:
-		var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
+		var upgrade = Loader.loaded_save.get_data_key(["samus", "upgrades", upgrade_key])
 		upgrade_cache[upgrade_key] = upgrade["amount"] > 0 and upgrade["active"]
 	return upgrade_cache[upgrade_key]
 
 func is_upgrade_acquired(upgrade_key: int):
-	var upgrade = Loader.Save.get_data_key(["samus", "upgrades", upgrade_key])
+	var upgrade = Loader.loaded_save.get_data_key(["samus", "upgrades", upgrade_key])
 	return upgrade["amount"] > 0
 
 func get_mini_upgrade(upgrade_key: String, side=null):
 	if side == null:
-		return [Loader.Save.get_data_key(["samus", "mini_upgrades", upgrade_key]), Data.data["mini_upgrades"][upgrade_key]]
+		return [Loader.loaded_save.get_data_key(["samus", "mini_upgrades", upgrade_key]), Data.data["mini_upgrades"][upgrade_key]]
 	elif side == 0:
-		return Loader.Save.get_data_key(["samus", "mini_upgrades", upgrade_key])
+		return Loader.loaded_save.get_data_key(["samus", "mini_upgrades", upgrade_key])
 	else:
 		return Data.data["mini_upgrades"][upgrade_key]
 
@@ -291,14 +291,17 @@ func get_current_limits() -> Dictionary:
 
 var current_camerachunk = null
 var previous_camerachunk = null
-func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration:=0.5):
+func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration: float = 0.5):
 	if chunk == current_camerachunk:
 		return
 	
 	previous_camerachunk = current_camerachunk
 	current_camerachunk = chunk
-	if get_tree().paused and paused == null or paused and not room_transition:
-		return
+#	if get_tree().paused and paused == null or paused and not room_transition:
+#		return
+	
+	if (get_tree().paused or paused) and not room_transition:
+		duration = 0.0
 	
 	if not camera.is_inside_tree():
 		yield(camera, "tree_entered")
@@ -376,12 +379,12 @@ func set_collider(animation: SamusAnimation):
 
 func fluid_entered(fluid: Fluid):
 	current_fluid = fluid.type
-	Physics.set_profile(Fluid.TYPES.keys()[fluid.type])
+	Physics.set_mode(Fluid.samus_physics_mode[fluid.type])
 
 func fluid_exited(fluid: Fluid):
 	if current_fluid == fluid.type:
 		current_fluid = Fluid.TYPES.NONE
-		Physics.set_profile(null)
+		Physics.set_mode(Enums.SAMUS_PHYSICS_MODES.STANDARD)
 
 func fluid_splash(type: int) -> bool:
 	return abs(Physics.vel.y) > 50

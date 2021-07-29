@@ -95,8 +95,6 @@ func process(_delta: float):
 		return
 	
 	Physics.vel = velocity
-#	Samus.boosting = true
-	vOverlay.SET("Slope", Physics.on_slope)
 	if Physics.on_slope and direction.x != 0:
 		moving = false
 		Physics.apply_gravity = true

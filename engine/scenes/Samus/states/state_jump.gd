@@ -56,7 +56,7 @@ func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	}
 	
 	set_jump_values()
-	Loader.Save.connect("value_set", self, "save_value_set")
+	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	Physics.connect("physics_data_set", self, "set_jump_values")
 
 # Called when Samus's state is changed to this one
@@ -244,13 +244,10 @@ func physics_process(delta: float):
 			grip_above_raycast.rotation_degrees = 0
 			grip_below_raycast.rotation_degrees = 0
 			grip_raycast_container.position.x = -2
-		vOverlay.SET("ang", null)
-#		ledgeRaycastVert.force_raycast_update()
 		if PowergripCooldownTimer.time_left == 0 and grip_below_raycast.is_colliding():
 			var angle = 0
 			if grip_above_raycast.is_colliding():
 				angle = abs(rad2deg(grip_above_raycast.get_collision_normal().angle()) + 90)
-			vOverlay.SET("ang", angle)
 			
 			if angle <= ledge_max_angle:
 				
@@ -366,4 +363,5 @@ func set_spinning(value: bool):
 		for sound in sounds_spin.values():
 			sound.stop()
 	
-	grip_raycast_container.position.y = -1 if spinning else -14
+	grip_raycast_container.position.y = -14
+#	grip_raycast_container.position.y = -1 if spinning else -14

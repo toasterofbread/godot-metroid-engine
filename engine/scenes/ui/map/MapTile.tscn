@@ -17,9 +17,9 @@ animations = [ {
 "name": "save",
 "speed": 0.0
 }, {
-"frames": [ ExtResource( 8 ) ],
+"frames": [ ExtResource( 7 ) ],
 "loop": false,
-"name": "obtained_item",
+"name": "mapstation",
 "speed": 0.0
 }, {
 "frames": [ ExtResource( 3 ) ],
@@ -27,9 +27,9 @@ animations = [ {
 "name": "unobtained_item",
 "speed": 0.0
 }, {
-"frames": [ ExtResource( 7 ) ],
+"frames": [ ExtResource( 8 ) ],
 "loop": false,
-"name": "mapstation",
+"name": "obtained_item",
 "speed": 0.0
 }, {
 "frames": [ ExtResource( 9 ) ],

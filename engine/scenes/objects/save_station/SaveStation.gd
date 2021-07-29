@@ -41,7 +41,7 @@ func _process(_delta: float):
 	if save_prompt != null and is_instance_valid(save_prompt):
 		if save_prompt.just_pressed():
 			save_prompt = null
-			Loader.Save.save_file()
+			Loader.loaded_save.save_file()
 			
 			Samus.change_state("facefront")
 			Samus.paused = true

@@ -1,16 +1,21 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://engine/scenes/ui/main_menu/SaveGameInfoDisplay.gd" type="Script" id=1]
 [ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://engine/sprites/ui/main_menu/percent_symbol.png" type="Texture" id=3]
 [ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=4]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 128
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 32
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 64
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
@@ -26,7 +31,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Number" type="ColorRect" parent="."]
+[node name="Button" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Container" type="Node2D" parent="."]
+
+[node name="Number" type="ColorRect" parent="Container"]
 margin_right = 98.0
 margin_bottom = 165.0
 color = Color( 0.807843, 0.223529, 0.223529, 0.498039 )
@@ -34,10 +52,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Number"]
+[node name="Label" type="Label" parent="Container/Number"]
 margin_right = 106.0
 margin_bottom = 177.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 5
 custom_constants/shadow_offset_y = 5
@@ -48,31 +66,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayTime" type="Label" parent="."]
+[node name="PlayTime" type="Label" parent="Container"]
+visible = false
 margin_left = 118.244
 margin_top = -7.70992
 margin_right = 483.244
 margin_bottom = 83.2901
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "time: 00:00:00"
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Completion" type="Label" parent="."]
+[node name="Completion" type="Label" parent="Container"]
+visible = false
 margin_left = 117.872
 margin_top = 60.6727
 margin_right = 520.872
 margin_bottom = 151.673
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "Completion: 46"
 uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="Completion"]
+[node name="TextureRect" type="TextureRect" parent="Container/Completion"]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -84,6 +104,22 @@ rect_min_size = Vector2( 40, 40 )
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Empty" type="Label" parent="Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 139.9
+margin_top = 20.6187
+margin_right = 993.9
+margin_bottom = 200.619
+rect_scale = Vector2( 0.6, 0.6 )
+custom_fonts/font = SubResource( 3 )
+text = "EMPTY"
+valign = 1
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

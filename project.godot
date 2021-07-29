@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "ButtonPrompt",
 "language": "GDScript",
-"path": "res://engine/scenes/ui/button_prompt/ButtonPrompt.gd"
+"path": "res://engine/scenes/ui/button_prompt_old_2/ButtonPrompt.gd"
 }, {
 "base": "CollisionShape2D",
 "class": "CameraChunk",
@@ -247,14 +247,14 @@ driver=""
 
 vOverlay="*res://addons/Var_Overlay/overlay.gd"
 Notification="*res://engine/scenes/ui/notification_display/NotificationDisplay.tscn"
-Global="*res://engine/classes/singletons/Global.tscn"
-Enums="*res://engine/classes/singletons/Enums.gd"
-Settings="*res://engine/classes/singletons/Settings.gd"
-Data="*res://engine/classes/singletons/Data.gd"
-Audio="*res://engine/classes/singletons/Audio.gd"
-Loader="*res://engine/classes/singletons/Loader.gd"
-Map="*res://engine/classes/singletons/Map.gd"
-Shortcut="*res://engine/classes/singletons/Shortcut.gd"
+Global="*res://engine/classes/autoload/Global.tscn"
+Enums="*res://engine/classes/autoload/Enums.gd"
+Settings="*res://engine/classes/autoload/Settings.gd"
+Data="*res://engine/classes/autoload/Data.gd"
+Audio="*res://engine/classes/autoload/Audio.gd"
+Loader="*res://engine/classes/autoload/Loader.gd"
+Map="*res://engine/classes/autoload/Map.gd"
+Shortcut="*res://engine/classes/autoload/Shortcut.gd"
 Console="*res://addons/quentincaffeino/console/src/Console.tscn"
 
 [debug]

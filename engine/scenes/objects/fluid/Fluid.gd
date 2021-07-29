@@ -34,6 +34,10 @@ const viscosities = {
 	TYPES.WATER: 1.0,
 	TYPES.LAVA: 0.75,
 }
+const samus_physics_mode = {
+	TYPES.WATER: Enums.SAMUS_PHYSICS_MODES.WATER,
+	TYPES.LAVA: Enums.SAMUS_PHYSICS_MODES.WATER
+}
 const damage = {
 	TYPES.LAVA: [Enums.DamageType.FIRE, 1]
 }

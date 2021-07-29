@@ -16,12 +16,14 @@ export var hidden: bool = false
 
 var upgrade_pickups: Dictionary = {}
 var upgrade_pickup_ids: Array = []
-#onready var upgradePickup = get_node_or_null(upgrade_pickup)
 
-onready var area: Area2D = Area2D.new()
+onready var area: ExArea2D = ExArea2D.new()
 var tile: MapTile
 
 func _ready():
+	
+	# DEBUG
+	assert(icon == MapTile.icons.none or icon in MapTile.valid_export_icons)
 	
 	if not Loader.is_a_parent_of(self):
 		return
@@ -33,9 +35,11 @@ func _ready():
 			shape = RectangleShape2D.new()
 		return
 	
-	if icon in [MapTile.icons.obtained_item, MapTile.icons.unobtained_item]:
-		assert(false)
-		icon = MapTile.icons.none
+	for path in upgrade_pickups_paths:
+		var upgradePickup = get_node_or_null(path)
+		if upgradePickup != null:
+			upgrade_pickups[upgradePickup] = false
+			upgradePickup.connect("acquired", self, "upgradePickup_acquired", [upgradePickup])
 	
 	if not grid_position_adjusted:
 		grid_position += get_parent().get_parent().grid_position
@@ -48,8 +52,8 @@ func _ready():
 	yield(get_parent(), "ready")
 	get_parent().add_child(area)
 	Global.reparent_child(self, area)
-	area.connect("body_entered", Map, "samus_entered_chunk", [self])
-	area.connect("body_exited", Map, "samus_exited_chunk", [self])
+	area.connect("body_entered_safe", Map, "samus_entered_chunk", [self])
+	area.connect("body_exited_safe", Map, "samus_exited_chunk", [self])
 	yield(Map, "samus_entered_chunk")
 	
 	if len(Map.tiles) == 0:
@@ -59,7 +63,6 @@ func _ready():
 	emit_signal("tile_set")
 
 func generate_tile_data():
-	
 	
 	var data: Dictionary = Global.load_json(Map.tile_data_path)
 	
@@ -78,8 +81,8 @@ func generate_tile_data():
 	for path in upgrade_pickups_paths:
 		var upgradePickup = get_node_or_null(path)
 		if upgradePickup != null:
-			upgrade_pickups[upgradePickup] = false
-			upgradePickup.connect("acquired", self, "upgradePickup_acquired", [upgradePickup])
+#			upgrade_pickups[upgradePickup] = false
+#			upgradePickup.connect("acquired", self, "upgradePickup_acquired", [upgradePickup])
 			upgrade_pickup_ids.append(upgradePickup.id)
 	
 	data[x][y] = {

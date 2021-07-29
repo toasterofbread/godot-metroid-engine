@@ -32,14 +32,14 @@ func set_unobtained(value: bool):
 func toggle():
 	value = !value
 	$TextureRect.texture = sprites[value]
-	Loader.Save.set_data_key(["samus", "upgrades", id, "active"], value)
+	Loader.loaded_save.set_data_key(["samus", "upgrades", id, "active"], value)
 
 func init(upgrade_id: int, upgrade_data: Dictionary, sprites):
 	id = upgrade_id
 	data = upgrade_data
 	self.sprites = sprites
 	
-	value = Loader.Save.get_data_key(["samus", "upgrades", id, "active"])
+	value = Loader.loaded_save.get_data_key(["samus", "upgrades", id, "active"])
 	$Label.text = Data.data["logbook"][Enums.Upgrade.keys()[id]]["name"]
 	$TextureRect.texture = sprites[value]
 	set_selected(selected)
