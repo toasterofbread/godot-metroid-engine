@@ -147,20 +147,14 @@ func attached_physics_process(delta: float):
 	var floor_collision = Samus.move_and_collide(FLOOR*physics_data["speed"]*delta, true, true, true)
 	if floor_collision == null:
 		floor_collision = Samus.move_and_collide(FLOOR*physics_data["speed"]*delta)
-	vOverlay.SET("FLOOR", FLOOR)
-	vOverlay.SET("FloorRaycastD", FloorRaycastD.is_colliding())
-	vOverlay.SET("floor_collision", floor_collision)
 	if direction == 0:
 		return
 	
-	var set = false
 	if floor_collision == null:
 		if FloorRaycastL.is_colliding():
 			set_floor(-FloorRaycastL.get_collision_normal())
-			set = true
 		elif FloorRaycastR.is_colliding():
 			set_floor(-FloorRaycastR.get_collision_normal())
-			set = true
 		else:
 			set_floor(Vector2.ZERO)
 			return

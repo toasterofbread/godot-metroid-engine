@@ -1,24 +1,24 @@
 {
 	"visuals": {
-		"fullscreen": {"type": null, "default": false},
-		"main_menu_scene_preview": {"type": null, "default": true},
-		"joypad_button_icon_style": {"type": ["PlayStation", "Xbox", "Nintendo"], "default": 0},
-		"morphball_always_spin": {"type": null, "default": false}
+		"fullscreen": {"type": "bool", "default": false},
+		"main_menu_scene_preview": {"type": "bool", "default": true},
+		"joypad_button_icon_style": {"type": "enum", "default": 0},
+		"morphball_always_spin": {"type": "bool", "default": false}
 	},
 	"audio": {
-		"master_volume": {"type": [0, 100], "default": 50}
+		"master_volume": {"type": "int", "default": 50}
 	},
 	"controls": {
-		"aiming_style": {"type": ["Fusion / Zero Mission", "Super Metroid"], "default": 0},
-		"spin_from_jump": {"type": null, "default": true},
-		"spiderball_relative_controls": {"type": null, "default": true},
-		"spiderball_style": {"type": ["Hold", "Toggle", "Classic"], "default": 0},
-		"visor_combo": {"type": null, "default": true},
-		"reset_weapon_on_door_enter": {"type": null, "default": false},
-		"physics_mode": {"type": ["Default", "Super Metroid style"], "default": 0},
+		"aiming_style": {"type": "enum", "default": 0},
+		"spin_from_jump": {"type": "bool", "default": true},
+		"spiderball_relative_controls": {"type": "bool", "default": true},
+		"spiderball_style": {"type": "enum", "default": 0},
+		"visor_combo": {"type": "bool", "default": true},
+		"reset_weapon_on_door_enter": {"type": "bool", "default": false},
+		"samus_physics_profile": {"type": "dynamic", "default": 0},
 	},
 	"other": {
-		"language": {"type": {"English": "en", "日本語": "ja"}, "default": 0},
+		"language": {"type": "string", "default": 0},
 
 	}
 }

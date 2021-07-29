@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://engine/classes/singletons/Notification/Notification.gd" type="Script" id=1]
+[ext_resource path="res://engine/classes/autoload/Notification/Notification.gd" type="Script" id=1]
 
 [node name="Notification" type="Node2D"]
 pause_mode = 2

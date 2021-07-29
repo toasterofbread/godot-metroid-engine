@@ -553,7 +553,18 @@
 						{
 							"key": "joypad_button_icon_style",
 							"title": "Controller buton icon style",
-							"description": "Changes the style of controller icons used in button prompts. Does not apply to keyboard icons."
+							"description": "Changes the style of controller icons used in button prompts. Does not apply to keyboard icons.",
+							"data": [
+								{
+									"key": "PlayStation"
+								},
+								{
+									"key": "Xbox"
+								},
+								{
+									"key": "Nintendo"
+								}
+							]
 						}
 					]
 				},
@@ -564,7 +575,15 @@
 						{
 							"key": "master_volume",
 							"title": "Master volume",
-							"description": ""
+							"description": "",
+							"data": [
+								{
+									"key": "0"
+								},
+								{
+									"key": "100"
+								}
+							]
 						}
 					]
 				},
@@ -575,7 +594,15 @@
 						{
 							"key": "aiming_style",
 							"title": "Aiming control scheme style",
-							"description": "Changes the style of aiming used between one inspired by Metroid: Fusion and Zero Mission and one inspired by Super Metroid"
+							"description": "Changes the style of aiming used between one inspired by Metroid: Fusion and Zero Mission and one inspired by Super Metroid",
+							"data": [
+								{
+									"key": "Fusion / Zero Mission"
+								},
+								{
+									"key": "Super Metroid"
+								}
+							]
 						},
 						{
 							"key": "spin_from_jump",
@@ -590,7 +617,18 @@
 						{
 							"key": "spiderball_style",
 							"title": "Spider Ball control scheme style",
-							"description": "Changes the control scheme for enabling the Spider Ball between toggle, hold, and a classic style similar to Metroid II: Return of Samus"
+							"description": "Changes the control scheme for enabling the Spider Ball between toggle, hold, and a classic style similar to Metroid II: Return of Samus",
+							"data": [
+								{
+									"key": "Hold"
+								},
+								{
+									"key": "Toggle"
+								},
+								{
+									"key": "Classic"
+								}
+							]
 						},
 						{
 							"key": "visor_combo",
@@ -603,7 +641,7 @@
 							"description": "When entering a room, Samus's weapon selection will be reset"
 						},
 						{
-							"key": "physics_mode",
+							"key": "samus_physics_profile",
 							"title": "Samus physics profile",
 							"description": "Changes Samus's physics parameters. Non-default values may lead to gameplay issues."
 						}
@@ -616,7 +654,15 @@
 						{
 							"key": "language",
 							"title": "Language",
-							"description": "Pretty self-explanatory"
+							"description": "Pretty self-explanatory",
+							"data": [
+								{
+									"key": "en"
+								},
+								{
+									"key": "ja"
+								}
+							]
 						}
 					]
 				}
@@ -646,6 +692,26 @@
 					"typeStr": "1",
 					"name": "description",
 					"display": null
+				},
+				{
+					"typeStr": "8",
+					"name": "data",
+					"opt": true
+				}
+			]
+		},
+		{
+			"name": "settings_information@options@data",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "key",
+					"opt": true
 				}
 			]
 		},

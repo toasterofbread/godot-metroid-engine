@@ -1,5 +1,7 @@
 extends Node
 
+signal loaded
+
 const data_path = "res://data/"
 const logbook_images_path = "res://engine/sprites/ui/map/logbook_images/"
 
@@ -25,6 +27,14 @@ func _ready():
 	var settings_text_information = get_cdb_sheet("settings_information")
 	for group in settings_text_information:
 		settings_text_information[group]["options"] = format_cdb_dict(settings_text_information[group]["options"])
+		
+		# Format the data section of each option if it exists
+		for option in settings_text_information[group]["options"]:
+			var option_data: Dictionary = settings_text_information[group]["options"][option]
+			if "data" in option_data:
+				for i in range(len(option_data["data"])):
+					option_data["data"][i] = option_data["data"][i]["key"]
+		
 	for group in settings_text_information:
 		for setting in settings_text_information[group]["options"]:
 			for key in settings_information[group][setting]:
@@ -48,6 +58,8 @@ func _ready():
 		"settings_information": settings_text_information,
 		"map_areas": get_cdb_sheet("map_areas")
 	}
+	
+	emit_signal("loaded")
 
 func get_cdb_sheet(sheet_key: String):
 	

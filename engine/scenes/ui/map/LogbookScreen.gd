@@ -85,7 +85,7 @@ func set_data(data_value=null):
 	if data_value != null:
 		recorded_entries = data_value
 	else:
-		recorded_entries = Loader.Save.get_data_key(["logbook", "recorded_entries"])
+		recorded_entries = Loader.loaded_save.get_data_key(["logbook", "recorded_entries"])
 	
 	# TODO | Add starting entries to the default savegame
 	for key in recorded_entries:
@@ -100,7 +100,7 @@ func set_data(data_value=null):
 	update_info()
 
 func _ready():
-	Loader.Save.connect("value_set", self, "save_value_set")
+	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	template_key.set_focus_mode(Control.FOCUS_ALL)
 	$List.remove_child(template_key)
 	set_data()

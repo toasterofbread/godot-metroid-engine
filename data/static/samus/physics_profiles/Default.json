@@ -1,6 +1,12 @@
 {
+	"profile_info": {
+		"name": {
+			"en": "Default",
+			"ja": "JP Default"
+		}
+	},
 	"general": {
-		"gravity": [1200],
+		"gravity": [1750],
 		"fall_speed_cap": [325]
 	},
 	"run": {
@@ -12,9 +18,9 @@
 		"speedboost_acceleration": [900]
 	},
 	"jump": {
-		"speed": [200],
+		"speed": [250],
 		"acceleration": [999999],
-		"time": [0.32],
+		"time": [0.3],
 
 		"speed_high": [400],
 		"acceleration_high": [7500],
@@ -42,7 +48,11 @@
 
 		"springball_speed_high": [300],
 		"springball_acceleration_high": [24000],
-		"springball_time_high": [0.2]
+		"springball_time_high": [0.2],
+
+		"bomb_jump_speed": [350],
+		"bomb_jump_horiz_speed": [200],
+		"bomb_jump_time": [0.2]
 	},
 	"spiderball": {
 		"speed": [50],
@@ -69,8 +79,9 @@
 		"invincibility_duration": [2]
 	},
 	"airspark": {
-		"can_respin_after_boost": [false],
-		"vert_spin_sprite": [true],
+		"can_airspark_while_grounded": [false],
+		"base_total_energy_segments": [5],
+		"vert_spin_sprite": [false],
 		"speed": [300],
 		"duration": [0.175]
 	}

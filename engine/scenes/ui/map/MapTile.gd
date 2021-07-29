@@ -3,7 +3,7 @@ class_name MapTile
 
 enum wall_types {none, door, wall}
 enum icons {none, save, mapstation, obtained_item, unobtained_item}
-#enum colours {default, blue, green, red}
+const valid_export_icons = [icons.save, icons.mapstation]
 
 var flash: bool = true setget set_flash
 
@@ -29,7 +29,7 @@ var walls: Dictionary = {
 
 func _ready():
 	$AnimationPlayer.play("reset")
-	Loader.Save.add_save_function(funcref(self, "save"))
+	Loader.loaded_save.add_save_function(funcref(self, "save"))
 
 var is_current_tile: bool = false setget set_is_current_tile
 func set_is_current_tile(value: bool):
@@ -96,15 +96,12 @@ func load_data(data: Dictionary, x: String, y: String):
 		
 		wall_rotation += 90
 	
-	print(data["u"])
-	
-	if data["i"]:
+	if data["i"] in valid_export_icons:
 		set_icon(int(data["i"]))
 	elif len(data["u"]) > 0:
 		var set: bool = false
 		for upgradePickup_id in data["u"]:
-			print(upgradePickup_id)
-			if not upgradePickup_id in Loader.Save.get_data_key(["rooms", Loader.current_room.id, "acquired_upgradepickups"]):
+			if not upgradePickup_id in Loader.loaded_save.get_data_key(["rooms", Loader.current_room.id, "acquired_upgradepickups"]):
 				set_icon(icons.unobtained_item)
 				set = true
 				break

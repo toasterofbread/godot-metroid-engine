@@ -126,8 +126,8 @@ func process_menu():
 			$Menu/Items/VBoxContainer.get_child(selected_item).selected = true
 			
 			$Menu/Data/CostLabel.text = "Cost: " + str(item.data["cost"])
-			$Menu/Data/CostLabel/OwnedLabel.text = "Owned: " + str(Loader.Save.get_data_key(["samus", "upgrades", Enums.Upgrade.SCRAPMETAL, "amount"]))
-			$Menu/Data/CreatedLabel.text = "Created: " + str(Loader.Save.get_data_key(["samus", "mini_upgrades", item.data["key"], "created"]))
+			$Menu/Data/CostLabel/OwnedLabel.text = "Owned: " + str(Loader.loaded_save.get_data_key(["samus", "upgrades", Enums.Upgrade.SCRAPMETAL, "amount"]))
+			$Menu/Data/CreatedLabel.text = "Created: " + str(Loader.loaded_save.get_data_key(["samus", "mini_upgrades", item.data["key"], "created"]))
 			$Menu/Data/CreatedLabel/MaximumLabel.text = "Maximum: " + str(item.data["maximum"])
 			
 			$Menu/Data/Description.text = item.data["description"]
@@ -164,7 +164,7 @@ func open_menu():
 	yield(Global.wait(0.1), "completed")
 	
 	get_tree().paused = true
-	upgrades = Loader.Save.get_data_key(["samus", "mini_upgrades"])
+	upgrades = Loader.loaded_save.get_data_key(["samus", "mini_upgrades"])
 	groups = []
 	for upgrade_key in upgrades:
 		if not data[upgrade_key]["group"] in groups:
@@ -182,8 +182,8 @@ func open_menu():
 	$Menu/Data/Tween.interpolate_property($Menu/Data/Description, "percent_visible", 0, 1, 0.25, Tween.TRANS_EXPO, Tween.EASE_OUT)
 	$Menu/Data/Tween.start()
 	$Menu/Data/CostLabel.text = "Cost: " + str(item.data["cost"])
-	$Menu/Data/CostLabel/OwnedLabel.text = "Owned: " + str(Loader.Save.get_data_key(["samus", "upgrades", Enums.Upgrade.SCRAPMETAL, "amount"]))
-	$Menu/Data/CreatedLabel.text = "Created: " + str(Loader.Save.get_data_key(["samus", "mini_upgrades", item.data["key"], "created"]))
+	$Menu/Data/CostLabel/OwnedLabel.text = "Owned: " + str(Loader.loaded_save.get_data_key(["samus", "upgrades", Enums.Upgrade.SCRAPMETAL, "amount"]))
+	$Menu/Data/CreatedLabel.text = "Created: " + str(Loader.loaded_save.get_data_key(["samus", "mini_upgrades", item.data["key"], "created"]))
 	$Menu/Data/CreatedLabel/MaximumLabel.text = "Maximum: " + str(item.data["maximum"])
 	
 	yield($MenuTween, "tween_completed")

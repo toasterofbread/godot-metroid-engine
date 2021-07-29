@@ -59,6 +59,7 @@
 				"damage": 5,
 				"cooldown": 0,
 				"time_to_detonation": 0.6,
+				"charge_bomb_max_linger_time": 3.0,
 				"max_bomb_amount": 3,
 			},
 			"flamethrower": {

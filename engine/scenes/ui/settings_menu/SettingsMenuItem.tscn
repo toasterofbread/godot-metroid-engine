@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://engine/fonts/Pixel-Life.tres" type="DynamicFont" id=1]
+[ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenuItem.gd" type="Script" id=2]
+
+[node name="SettingsMenuItem" type="Control"]
+margin_right = 284.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 55, 29 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 55, 29 )
+focus_mode = 2
+color = Color( 1, 1, 1, 0.101961 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Background/HBoxContainer"]
+margin_top = 7.0
+margin_right = 41.0
+margin_bottom = 22.0
+custom_fonts/font = ExtResource( 1 )
+text = "Display"
+
+[node name="Button" type="Button" parent="Background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus_mode = 0
+mouse_filter = 1
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="SlideTween" type="Tween" parent="."]
+
+[connection signal="mouse_entered" from="Background/Button" to="." method="_on_Button_mouse_entered"]
+[connection signal="pressed" from="Background/Button" to="." method="_on_Button_pressed"]

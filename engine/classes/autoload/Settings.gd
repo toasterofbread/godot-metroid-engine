@@ -10,6 +10,7 @@ func _ready():
 	yield(Data, "ready")
 	settings_file_path = Data.get_from_user_dir("settings.cfg")
 	load_file()
+	apply_custom_settings()
 
 func save_file():
 	_config.save(settings_file_path)
@@ -30,3 +31,16 @@ func get_split(category: String, option: String):
 func set_split(category: String, option: String, value):
 	emit_signal("settings_changed", category + "/" + option, value)
 	_config.set_value(category, option, value)
+
+# Writes data to settings_information that can only be known at runtime
+func apply_custom_settings():
+	
+	# Samus physics profiles
+	var data: Dictionary = Data.data["settings_information"]["controls"]["options"]["samus_physics_profile"]
+	data["type"] = "string"
+	data["data"] = []
+	for dir in Data.data["engine_config"]["samus_physics_profiles_directories"]:
+		var profiles: Dictionary = Global.dir2dict(dir, false, null, ["json"])
+		for profile in profiles:
+			var profile_info: Dictionary = Global.load_json(profiles[profile])["profile_info"]
+			data["data"].append(profile_info["name"][Data.language_code])

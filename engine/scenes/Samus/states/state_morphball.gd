@@ -29,7 +29,7 @@ func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	particles = Samus.get_node("Particles/morphball")
 	particles.emitting = false
 	
-	Loader.Save.connect("value_set", self, "save_value_set")
+	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	set_jump_values()
 
 # Called when Samus's state is changed to this one

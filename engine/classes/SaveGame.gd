@@ -4,6 +4,7 @@ signal value_set
 
 var filename: String
 var data: Dictionary
+var file_exists: bool = false
 
 # These functions are called before saving the game
 var save_functions: Array = []
@@ -81,7 +82,7 @@ const default_data: Dictionary = {
 	}
 }
 
-func _init(_filename: String = ""):
+func _init(_filename: String):
 	filename = _filename
 	load_file()
 
@@ -101,11 +102,12 @@ func save_file():
 
 func load_file():
 	var file = Global.load_json(filename)
+	file_exists = file != null
 	
 	# DEBUG | This is set to always use the default data
-	if file == null or true:
+	if not file_exists or true:
 		data = default_data
-		save_file()
+#		save_file()
 	else:
 		data = file
 	
@@ -154,15 +156,20 @@ func set_data_key(keys: Array, value):
 func add_save_function(function: FuncRef):
 	save_functions.append(function)
 
+func get_overall_percentage() -> float:
+	var acquired: int = len(get_data_key(["logbook", "recorded_entries"])) + get_total_acquired_upgrades()
+	var total: int = len(Data.data["logbook"]) + Map.total_upgrade_amount
+	return float(acquired) / float(total)
+
 func get_scan_percentage() -> float:
 	return float(len(get_data_key(["logbook", "recorded_entries"]))) / float(len(Data.data["logbook"]))
 
+func get_upgrade_percentage() -> float:
+	return float(get_total_acquired_upgrades()) / float(Map.total_upgrade_amount)
+
 func get_total_acquired_upgrades() -> int:
-	var ret: int = 0
+	var acquired_upgrades: int = 0
 	for upgrade in get_data_key(["samus", "upgrades"]).values():
 		if upgrade["amount"] > 0:
-			ret += upgrade["amount"]
-	return ret
-
-func get_upgrade_percentage() -> float:
-	return float(Map.total_upgrade_amount) / float(get_total_acquired_upgrades())
+			acquired_upgrades += upgrade["amount"]
+	return acquired_upgrades

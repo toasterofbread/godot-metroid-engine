@@ -1,5 +1,6 @@
 extends Node2D
 
+signal save_loaded
 signal room_loaded
 signal room_transitioning
 
@@ -8,7 +9,7 @@ var room_is_loaded: bool = false
 var current_room: Room
 var Samus: KinematicBody2D = preload("res://engine/scenes/Samus/Samus.tscn").instance()
 var room_container: Node2D = self
-onready var Save: SaveGame = SaveGame.new(Data.get_from_user_dir("/saves/0.json"))
+var loaded_save: SaveGame
 var transitioning: bool = false
 
 var rooms: Dictionary = {}
@@ -20,13 +21,14 @@ func _ready():
 	
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
-	# Register all rooms to the room variable
+	# Register all rooms to the dictionary by ID
 	var room_dirs: Array = []
 	for dir in Data.data["engine_config"]["room_directories"]:
 		room_dirs.append(Global.dir2dict(dir, true, ["room.tscn"]))
 	rooms = Global.combine_dicts(room_dirs)
 	
 	register_commands()
+#	regenerate_all_map_data()
 
 # DEBUG
 func regenerate_all_map_data():
@@ -34,11 +36,24 @@ func regenerate_all_map_data():
 	for room in rooms.values():
 		load(room).instance().generate_maptiles()
 
-func load_room(room_id: String, set_samus_position: bool = true, data: Dictionary = {}):
+func load_savegame(saveGame: SaveGame):
 	
-	# DEBUG
-	if not map_data_regenerated:
-		regenerate_all_map_data()
+	loaded_save = saveGame
+	emit_signal("save_loaded")
+	
+	var save_point: Dictionary = loaded_save.get_data_key(["save_point"])
+	current_room = load(rooms[save_point["room_id"]]).instance()
+	current_room.init({})
+	room_container.add_child(current_room)
+	room_container.add_child(Samus)
+	
+	current_room.save_stations[save_point["save_station_id"]].spawn_samus()
+	
+	emit_signal("room_loaded")
+	if not loaded_save.file_exists:
+		loaded_save.save_file()
+
+func load_room(room_id: String, set_samus_position: bool = true, data: Dictionary = {}):
 	
 	assert("/" in room_id and len(room_id.split("/")) == 2)
 	var room: Room = load(rooms[room_id]).instance()
@@ -71,9 +86,11 @@ func door_transition(origin_door: Door):
 	Samus.paused = true
 	
 	var previous_room = current_room
-	current_room = origin_door.target_room_scene.instance()
 	
-#	yield(previous_room.transitioning() "completed")
+	if not origin_door.target_room_instance:
+		yield(origin_door, "target_room_loaded")
+	
+	current_room = origin_door.target_room_instance
 	
 	# DEBUG | Map tiles don't need to be reloaded on room change normally
 	current_room.init({})
@@ -120,8 +137,6 @@ func door_transition(origin_door: Door):
 		
 		var tween: Tween = Global.get_tween(true)
 		tween.interpolate_property(origin_door, "modulate:a", origin_door.modulate.a, 0, 0.25)
-#		yield(Global.dim_screen(0.25, 1.0, 0, Enums.Layers.WORLD + 1), "completed")
-#		tween.interpolate_method(Samus.Animator, "set_dim", Color(0, 0, 0, 0), Color(0, 0, 0, 1), 0.25)
 		Samus.camera.dim_colour = Color(0, 0, 0, 0)
 		Samus.camera.set_dim_layer(-1)
 		tween.interpolate_property(Samus.camera, "dim_colour:a", 0, 1, 0.25)
@@ -135,13 +150,10 @@ func door_transition(origin_door: Door):
 		yield(Samus.camerachunk_entered(destination_cameraChunk, true, 0.45), "completed")
 		
 		tween.interpolate_property(destination_door, "modulate:a", destination_door.modulate.a, 1, 0.25)
-#		tween.interpolate_method(Samus.Animator, "set_dim", Color(0, 0, 0, 1), Color(0, 0, 0, 0), 0.25)
 		tween.interpolate_property(Samus.camera, "dim_colour:a", 1, 0, 0.25)
 		tween.start()
 		destination_door.visible = true
 		yield(tween, "tween_all_completed")
-#		destination_door.fade_in(0.25)
-#		yield(Global.undim_screen(0.25), "completed")
 		
 		tween.queue_free()
 		
@@ -208,3 +220,6 @@ func command_reset_samus_position():
 
 func kill_game():
 	get_tree().quit()
+
+func get_savefile_path(index: int) -> String:
+	return Data.get_from_user_dir("/saves/save_" + str(index + 1) + ".json")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://engine/scenes/ui/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://engine/fonts/SerpentineDBol.ttf" type="DynamicFontData" id=2]
@@ -8,6 +8,11 @@
 [ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=6]
 [ext_resource path="res://engine/sprites/ui/main_menu/background.png" type="Texture" id=7]
 [ext_resource path="res://engine/scenes/ui/main_menu/SaveGameInfoDisplay.tscn" type="PackedScene" id=8]
+[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/square.png" type="Texture" id=9]
+[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/triangle.png" type="Texture" id=10]
+[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/cross.png" type="Texture" id=11]
+[ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenu.tscn" type="PackedScene" id=12]
+[ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=13]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -33,6 +38,12 @@ font_data = ExtResource( 2 )
 [sub_resource type="DynamicFont" id=4]
 size = 51
 font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = -15
+extra_spacing_bottom = -9
+font_data = ExtResource( 13 )
 
 [sub_resource type="Animation" id=5]
 resource_name = "reset"
@@ -110,7 +121,7 @@ tracks/5/keys = {
 "values": [ Vector2( 734.88, 116.143 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("SaveSelection:visible")
+tracks/6/path = NodePath("Title:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -119,10 +130,10 @@ tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true ]
 }
 tracks/7/type = "value"
-tracks/7/path = NodePath("Title:visible")
+tracks/7/path = NodePath("Overlay/ColorRect:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
@@ -131,7 +142,31 @@ tracks/7/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("SaveSelection:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0.001 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Settings:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [node name="MainMenu" type="Control"]
@@ -147,6 +182,7 @@ modulate = Color( 0.792157, 0.792157, 0.792157, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
+mouse_filter = 2
 texture = ExtResource( 7 )
 expand = true
 stretch_mode = 7
@@ -169,6 +205,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -316,15 +353,11 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="AcceptButtonPrompt" parent="Title" instance=ExtResource( 6 )]
-position = Vector2( -213.624, 1035.66 )
-scale = Vector2( 0.7, 0.7 )
-action_keys = [ "ui_accept" ]
-text = [ "Select option" ]
-
 [node name="SaveSelection" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -333,7 +366,8 @@ __meta__ = {
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -1154.0
+margin_left = -1000.0
+margin_bottom = -119.0
 custom_constants/separation = 119
 alignment = 1
 __meta__ = {
@@ -343,25 +377,194 @@ __meta__ = {
 [node name="SaveGameInfoDisplay" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 173.0
-margin_right = 1154.0
-margin_bottom = 338.0
+margin_top = 114.0
+margin_right = 1000.0
+margin_bottom = 279.0
 
 [node name="SaveGameInfoDisplay2" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 457.0
-margin_right = 1154.0
-margin_bottom = 622.0
+margin_top = 398.0
+margin_right = 1000.0
+margin_bottom = 563.0
 
 [node name="SaveGameInfoDisplay3" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 741.0
-margin_right = 1154.0
-margin_bottom = 906.0
+margin_top = 682.0
+margin_right = 1000.0
+margin_bottom = 847.0
+
+[node name="ButtonPrompts" type="HBoxContainer" parent="SaveSelection"]
+margin_left = 791.0
+margin_top = 1005.0
+margin_right = 1340.0
+margin_bottom = 1021.0
+rect_scale = Vector2( 2, 2 )
+custom_constants/separation = 14
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CopyButtonPrompt" parent="SaveSelection/ButtonPrompts" instance=ExtResource( 6 )]
+margin_left = 387.0
+margin_right = 458.0
+preview_text = "Copy file"
+preview_texture = ExtResource( 9 )
+default_text = "titlescreen_button_copy_file"
+default_action_key = "ui_special_1"
+
+[node name="DeleteButtonPrompt" parent="SaveSelection/ButtonPrompts" instance=ExtResource( 6 )]
+margin_left = 472.0
+margin_right = 549.0
+preview_text = "Erase file"
+preview_texture = ExtResource( 10 )
+default_text = "titlescreen_button_delete_file"
+default_action_key = "ui_special_2"
+
+[node name="Settings" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsMenu" parent="Settings" instance=ExtResource( 12 )]
+description_label_path = NodePath("../SettingsDescription/Label")
+value_label_path = NodePath("../SettingsValue/Label")
+
+[node name="SettingsDescription" type="ColorRect" parent="Settings"]
+margin_left = 56.0
+margin_top = 61.0
+margin_right = 378.0
+margin_bottom = 333.0
+rect_scale = Vector2( 2, 2 )
+color = Color( 1, 1, 1, 0.101961 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="Settings/SettingsDescription"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -154.0
+margin_top = -130.5
+margin_right = 154.0
+margin_bottom = 130.5
+custom_fonts/font = SubResource( 6 )
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsValue" type="ColorRect" parent="Settings"]
+margin_left = 56.0
+margin_top = 674.0
+margin_right = 378.0
+margin_bottom = 745.0
+rect_scale = Vector2( 2, 2 )
+color = Color( 1, 1, 1, 0.101961 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="Settings/SettingsValue"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -154.0
+margin_top = -27.5
+margin_right = 154.0
+margin_bottom = 27.5
+custom_fonts/font = SubResource( 6 )
+text = "Current value"
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonPrompts" type="HBoxContainer" parent="Settings"]
+margin_left = 791.0
+margin_top = 1005.0
+margin_right = 1340.0
+margin_bottom = 1021.0
+rect_scale = Vector2( 2, 2 )
+custom_constants/separation = 14
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveButtonPrompt" parent="Settings/ButtonPrompts" instance=ExtResource( 6 )]
+margin_left = 300.0
+margin_right = 405.0
+preview_text = "Save changes"
+preview_texture = ExtResource( 9 )
+default_text = "settings_button_save"
+default_action_key = "ui_special_1"
+hold_time = 1
+
+[node name="ResetButtonPrompt" parent="Settings/ButtonPrompts" instance=ExtResource( 6 )]
+margin_left = 419.0
+margin_right = 549.0
+preview_text = "Reset all to default"
+preview_texture = ExtResource( 10 )
+default_text = "settings_button_reset"
+default_action_key = "ui_special_2"
+hold_time = 2
+
+[node name="MainButtonPrompts" type="HBoxContainer" parent="."]
+margin_left = 34.9831
+margin_top = 1015.78
+margin_right = 291.983
+margin_bottom = 1031.78
+rect_scale = Vector2( 2, 2 )
+custom_constants/separation = 14
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AcceptButtonPrompt" parent="MainButtonPrompts" instance=ExtResource( 6 )]
+margin_right = 56.0
+preview_text = "Select"
+default_text = "titlescreen_button_accept_option"
+default_action_key = "ui_accept"
+
+[node name="CancelButtonPrompt" parent="MainButtonPrompts" instance=ExtResource( 6 )]
+margin_left = 70.0
+margin_right = 119.0
+preview_text = "Back"
+preview_texture = ExtResource( 11 )
+default_text = "titlescreen_button_back_option"
+default_action_key = "ui_cancel"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/reset = SubResource( 5 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Overlay" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="ColorRect" type="ColorRect" parent="Overlay"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

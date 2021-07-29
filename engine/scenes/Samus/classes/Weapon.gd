@@ -66,7 +66,7 @@ func _ready():
 	self.Cooldown.one_shot = true 
 	self.add_child(Cooldown)
 	
-	Loader.Save.connect("value_set", self, "_save_value_set")
+	Loader.loaded_save.connect("value_set", self, "_save_value_set")
 	
 	yield(Samus, "ready")
 	Weapons = Samus.Weapons

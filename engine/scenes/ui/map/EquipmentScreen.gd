@@ -47,7 +47,7 @@ func _ready():
 #	$AnimationPlayer.play("open", -1, 1.0, true)
 	
 	var i = 0
-	var save_data = Loader.Save.get_data_key(["samus", "upgrades"])
+	var save_data = Loader.loaded_save.get_data_key(["samus", "upgrades"])
 	for upgrade in upgrade_data:
 		
 		var node = EquipmentItem.instance()

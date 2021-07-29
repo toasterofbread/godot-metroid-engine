@@ -1,5 +1,7 @@
 {
 	"room_directories": ["res://engine/scenes/rooms/"],
 	"audio_directories": ["res://engine/audio/"],
+	"samus_physics_profiles_directories": ["res://data/static/samus/physics_profiles/"],
 	"user_dir_override": "res://debug_user_dir/",
+	"max_savefile_amount": 3
 }

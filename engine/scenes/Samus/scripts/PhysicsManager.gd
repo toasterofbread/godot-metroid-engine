@@ -17,10 +17,11 @@ var disable_floor_snap: bool = false
 var on_slope: bool = false
 
 onready var profiles: Dictionary = {}
-const physics_profiles_path = Data.data_path + "static/samus/physics_profiles/"
+#const physics_profiles_path = Data.data_path + "static/samus/physics_profiles/"
 var data: = {}
-onready var mode: int = Settings.get("controls/physics_mode")
-var profile: = "STANDARD"
+
+onready var profile_key: String = Settings.get("controls/samus_physics_profile")
+var mode: int = Enums.SAMUS_PHYSICS_MODES.STANDARD
 
 # Keeping this around for the memories
 #var time = -1
@@ -33,13 +34,14 @@ func _ready():
 	Shortcut.register_debug_shortcut("DEBUG_reload_samus_physics_data", "Reload Samus physics data", {"just_pressed": funcref(self, "shortcut_reload_data")})
 
 func reload_data():
-	var dir = Directory.new()
-	assert(dir.open(physics_profiles_path) == OK, "Profiles directory couldn't be opened")
 	profiles.clear()
-	for file in Global.iterate_directory(dir):
-		if not dir.dir_exists(file) and file.ends_with(".json"):
-			profiles[file.replace(".json", "")] = Global.load_json(physics_profiles_path + file)
-
+	
+	var profile_dirs: Array = []
+	for dir in Data.data["engine_config"]["samus_physics_profiles_directories"]:
+		var dir_profiles: Dictionary = Global.dir2dict(dir, false, null, ["json"])
+		for profile in dir_profiles:
+			profiles[profile] = Global.load_json(dir_profiles[profile])
+	
 func shortcut_reload_data():
 	reload_data()
 	set_data()
@@ -97,19 +99,24 @@ func fluid_process(delta):
 	pass
 
 func settings_changed(path: String, value):
-	if path == "other/physics_mode":
+	if path == "other/physics_profile":
 		mode = value
 		set_data()
 
 func set_data():
-	var profile_data: Dictionary = profiles[profile]
+	var profile_data: Dictionary = profiles[profile_key]
 	for group in profile_data:
+		if group == "profile_info":
+			continue
+		
 		if not group in data:
 			data[group] = {}
 		for key in profile_data[group]:
-			data[group][key] = profile_data[group][key][mode]
+			# DEBUG
+			data[group][key] = profile_data[group][key][mode if mode < len(profile_data[group][key]) else 0]
+#			data[group][key] = profile_data[group][key][mode]
 	emit_signal("physics_data_set")
 
-func set_profile(key):
-	profile = key if key != null else "STANDARD"
+func set_mode(_mode: int):
+	mode = _mode
 	set_data()

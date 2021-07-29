@@ -2,6 +2,8 @@ tool
 extends StaticBody2D
 class_name Door
 
+signal target_room_loaded
+
 export var target_room_id: String
 export var target_door_id: String
 enum DOOR_COLOURS {blue, red, green, yellow}
@@ -31,7 +33,7 @@ onready var coverSprite: AnimatedSprite = $Cover/Sprite
 onready var coverCollider: CollisionShape2D = $Cover/CollisionShape2D
 const cover_animation_frames: int = 4
 
-onready var target_room_scene: PackedScene = load(Loader.rooms[target_room_id])
+var target_room_instance: Room
 onready var targetSpawnPosition: Position2D = $TargetSpawnPosition
 
 func set_visual(value: bool):
@@ -46,6 +48,31 @@ func set_colour(value: int):
 func _ready():
 	Enums.add_node_to_group(self, Enums.Groups.DOOR)
 	set_open(open, false)
+	
+	# DEBUG
+	assert(target_room_id in Loader.rooms)
+	
+	# Load target room in background
+	var loader = ResourceLoader.load_interactive(Loader.rooms[target_room_id])
+	if loader == null: # Check for errors.
+		push_error("Room could not be loaded: " + Loader.rooms[target_room_id])
+		return
+	
+	while true:
+		var err = loader.poll()
+		
+		if err == ERR_FILE_EOF: # Finished loading.
+			var resource = loader.get_resource()
+			target_room_instance = resource.instance()
+			emit_signal("target_room_loaded")
+			break
+#		elif err == OK:
+#			var progress = float(loader.get_stage()) / loader.get_stage_count()
+#			print("Loading room '" + target_room_id + "': " + str(progress*100) + "%")
+		elif err != OK:
+			push_error("Error occured while loading room '" + target_room_id + "': " + err)
+			break
+	loader = null
 
 func set_open(value: bool, animate: bool = true):
 	open = value

@@ -26,7 +26,7 @@ func set_data_key(value: String):
 		return
 	
 	data_key = value
-	scanned = data_key in Loader.Save.get_data_key(["logbook", "recorded_entries"])
+	scanned = data_key in Loader.loaded_save.get_data_key(["logbook", "recorded_entries"])
 
 #func get_global_position():
 #	return $CollisionShape2D.global_position
@@ -51,9 +51,9 @@ func _ready():
 
 func scanned():
 	scanned = true
-	var data = Loader.Save.get_data_key(["logbook", "recorded_entries"])
+	var data = Loader.loaded_save.get_data_key(["logbook", "recorded_entries"])
 	data.append(data_key)
-	Loader.Save.set_data_key(["logbook", "recorded_entries"], data)
+	Loader.loaded_save.set_data_key(["logbook", "recorded_entries"], data)
 
 func start_scan():
 	set_scan_beam(true, false)

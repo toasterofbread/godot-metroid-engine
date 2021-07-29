@@ -6,3 +6,5 @@ build/
 export.cfg
 export_presets.cfg
 *.translation
+localization/localizations.en.translation
+localization/localizations.ja.translation

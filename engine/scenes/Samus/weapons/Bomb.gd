@@ -1,6 +1,5 @@
 extends SamusWeapon
 
-onready var time_to_detonation: float = damage_values["time_to_detonation"]
 onready var bomb_bounce_timer: Timer = Global.get_timer()
 var bomb_bounce_limit: float
 
@@ -104,15 +103,24 @@ func fired(projectile: PhysicsBody2D):
 	if "charge_profile" in projectile.data:
 		var profile = projectile.data["charge_profile"]
 		if profile == "scatter":
-			yield(projectile, "body_entered")
-			yield(Global.wait(time_to_detonation), "completed")
+			projectile.data["explosion_triggered"] = false
+			projectile.connect("body_entered", self, "scatter_projectile_explosion_handler", [projectile])
+			Global.wait(damage_values["charge_bomb_max_linger_time"] - damage_values["time_to_detonation"], false, [self, "scatter_projectile_explosion_handler", [null, projectile]])
 	else:
-		yield(Global.wait(time_to_detonation), "completed")
-	
-	if is_instance_valid(projectile) and projectile.visible:
-		explode(projectile)
+		Global.wait(damage_values["time_to_detonation"], false, [self, "explode", [projectile]])
+
+func scatter_projectile_explosion_handler(_body, projectile):
+	if not is_instance_valid(projectile) or projectile.data["explosion_triggered"]:
+		return
+	projectile.data["explosion_triggered"] = true
+	yield(Global.wait(damage_values["time_to_detonation"]), "completed")
+	explode(projectile)
 
 func explode(projectile: PhysicsBody2D):
+	
+	if not is_instance_valid(projectile) or not projectile.visible:
+		return
+	
 	projectile.visible = false
 	var processed_bodies = []
 	var burst: AnimatedSprite = projectile.burst_end(false)

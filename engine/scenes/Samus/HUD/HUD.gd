@@ -73,3 +73,8 @@ func set_energy(energy: int):
 
 func display_death_screen(real: bool):
 	$DeathScreen/AnimationPlayer.play("open")
+
+func set_visibility(value: bool):
+	for child in $CanvasLayer.get_children():
+		child.visible = value
+	
