@@ -2,13 +2,13 @@
 	"visuals": {
 		"fullscreen": {"type": "bool", "default": false},
 		"main_menu_scene_preview": {"type": "bool", "default": true},
-		"joypad_button_icon_style": {"type": "enum", "default": 0},
+		"joypad_button_icon_style": {"type": "dynamic", "default": 0},
 		"morphball_always_spin": {"type": "bool", "default": false}
 	},
 	"audio": {
 		"master_volume": {"type": "int", "default": 50}
 	},
-	"controls": {
+	"control_options": {
 		"aiming_style": {"type": "enum", "default": 0},
 		"spin_from_jump": {"type": "bool", "default": true},
 		"spiderball_relative_controls": {"type": "bool", "default": true},
@@ -17,8 +17,39 @@
 		"reset_weapon_on_door_enter": {"type": "bool", "default": false},
 		"samus_physics_profile": {"type": "dynamic", "default": 0},
 	},
+	"control_mappings": {
+		"ui_accept": {"type": "input", "default": null},
+		"ui_cancel": {"type": "input", "default": null},
+		"ui_special_1": {"type": "input", "default": null},
+		"ui_special_2": {"type": "input", "default": null},
+		"ui_special_3": {"type": "input", "default": null},
+		"ui_special_4": {"type": "input", "default": null},
+		"pad_left": {"type": "input", "default": null},
+		"pad_right": {"type": "input", "default": null},
+		"pad_up": {"type": "input", "default": null},
+		"pad_down": {"type": "input", "default": null},
+		"secondary_pad_left": {"type": "input", "default": null},
+		"secondary_pad_right": {"type": "input", "default": null},
+		"secondary_pad_up": {"type": "input", "default": null},
+		"secondary_pad_down": {"type": "input", "default": null},
+		"fire_weapon": {"type": "input", "default": null},
+		"arm_weapon": {"type": "input", "default": null},
+		"select_weapon": {"type": "input", "default": null},
+		"cancel_weapon_selection": {"type": "input", "default": null},
+		"jump": {"type": "input", "default": null},
+		"aim_weapon": {"type": "input", "default": null},
+		"aim_weapon_up": {"type": "input", "default": null},
+		"aim_weapon_down": {"type": "input", "default": null},
+		"morph_shortcut": {"type": "input", "default": null},
+		"spiderball": {"type": "input", "default": null},
+		"toggle_fullscreen": {"type": "input", "default": null},
+		"take_screenshot": {"type": "input", "default": null},
+		"pause": {"type": "input", "default": null},
+		"select_visor": {"type": "input", "default": null},
+		"map_zoom_in": {"type": "input", "default": null},
+		"map_zoom_out": {"type": "input", "default": null},
+	},
 	"other": {
 		"language": {"type": "string", "default": 0},
-
-	}
+	},
 }

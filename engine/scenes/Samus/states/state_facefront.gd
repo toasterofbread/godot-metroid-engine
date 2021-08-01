@@ -19,7 +19,7 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	animations[prefix + "turn"].play(false, 1.0, true)
 
 func paused_process(_delta: float):
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(false)
 	if not Animator.transitioning(false, true):
 		animations[prefix + "idle"].play(false, 1.0, true)
@@ -31,7 +31,7 @@ func set_face_back(value: bool):
 # Called every frame while this state is active
 func process(_delta: float):
 	
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(false)
 	
 	if Input.is_action_pressed("pad_left"):

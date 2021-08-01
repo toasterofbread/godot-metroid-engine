@@ -38,10 +38,10 @@ func process(_delta: float):
 	
 	var original_facing = Samus.facing
 
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
-	if (Settings.get("controls/spiderball_style") == 0 and not Input.is_action_pressed("spiderball")) or (Settings.get("controls/spiderball_style") == 1 and Input.is_action_just_pressed("spiderball")):
+	if (Settings.get("control_options/spiderball_style") == 0 and not Input.is_action_pressed("spiderball")) or (Settings.get("control_options/spiderball_style") == 1 and Input.is_action_just_pressed("spiderball")):
 		change_state("morphball", {"options": []})
 		return
 	
@@ -98,7 +98,7 @@ var trigger_action
 func get_direction() -> int:
 	
 	var pad_vector = Shortcut.get_pad_vector("pressed")
-	if not Settings.get("controls/spiderball_relative_controls"):
+	if not Settings.get("control_options/spiderball_relative_controls"):
 		return pad_vector.x * -1
 	
 	var ret: int = 0

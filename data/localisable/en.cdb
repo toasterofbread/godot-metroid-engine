@@ -554,17 +554,7 @@
 							"key": "joypad_button_icon_style",
 							"title": "Controller buton icon style",
 							"description": "Changes the style of controller icons used in button prompts. Does not apply to keyboard icons.",
-							"data": [
-								{
-									"key": "PlayStation"
-								},
-								{
-									"key": "Xbox"
-								},
-								{
-									"key": "Nintendo"
-								}
-							]
+							"data": []
 						}
 					]
 				},
@@ -588,7 +578,7 @@
 					]
 				},
 				{
-					"key": "controls",
+					"key": "control_options",
 					"description": "Control schemes and preferences",
 					"options": [
 						{
@@ -597,10 +587,10 @@
 							"description": "Changes the style of aiming used between one inspired by Metroid: Fusion and Zero Mission and one inspired by Super Metroid",
 							"data": [
 								{
-									"key": "Fusion / Zero Mission"
+									"key": "One button"
 								},
 								{
-									"key": "Super Metroid"
+									"key": "Two buttons"
 								}
 							]
 						},
@@ -644,6 +634,162 @@
 							"key": "samus_physics_profile",
 							"title": "Samus physics profile",
 							"description": "Changes Samus's physics parameters. Non-default values may lead to gameplay issues."
+						}
+					]
+				},
+				{
+					"key": "control_mappings",
+					"description": "Mapping options for controller and keyboard / mouse controls",
+					"options": [
+						{
+							"key": "ui_accept",
+							"title": "UI confirm",
+							"description": "Used to confirm or select within menus"
+						},
+						{
+							"key": "ui_cancel",
+							"title": "UI cancel",
+							"description": "Used to cancel or close within menus"
+						},
+						{
+							"key": "ui_special_1",
+							"title": "UI action A",
+							"description": ""
+						},
+						{
+							"key": "ui_special_2",
+							"title": "UI action B",
+							"description": ""
+						},
+						{
+							"key": "ui_special_3",
+							"title": "UI action C",
+							"description": ""
+						},
+						{
+							"key": "ui_special_4",
+							"title": "UI action D",
+							"description": ""
+						},
+						{
+							"key": "pad_left",
+							"title": "Pad left",
+							"description": "Used to navigate interfaces. Also used for movement in-game."
+						},
+						{
+							"key": "pad_right",
+							"title": "Pad right",
+							"description": "Used to navigate interfaces. Also used for movement in-game."
+						},
+						{
+							"key": "pad_up",
+							"title": "Pad up",
+							"description": "Used to navigate interfaces. Also used for movement in-game."
+						},
+						{
+							"key": "pad_down",
+							"title": "Pad down",
+							"description": "Used to navigate interfaces. Also used for movement in-game."
+						},
+						{
+							"key": "secondary_pad_left",
+							"title": "Secondary pad left",
+							"description": "Optional input used that can be used for aiming Samus's arm cannon and visor. Should not be the same as the main pad."
+						},
+						{
+							"key": "secondary_pad_right",
+							"title": "Secondary pad right",
+							"description": "Optional input used that can be used for aiming Samus's arm cannon and visor. Should not be the same as the main pad."
+						},
+						{
+							"key": "secondary_pad_up",
+							"title": "Secondary pad up",
+							"description": "Optional input used that can be used for aiming Samus's arm cannon and visor. Should not be the same as the main pad."
+						},
+						{
+							"key": "secondary_pad_down",
+							"title": "Secondary pad down",
+							"description": "Optional input used that can be used for aiming Samus's arm cannon and visor. Should not be the same as the main pad."
+						},
+						{
+							"key": "fire_weapon",
+							"title": "Fire weapon",
+							"description": "Fires Samus's beam, or the selected weapon if it is armed."
+						},
+						{
+							"key": "arm_weapon",
+							"title": "Arm weapon",
+							"description": "Used to arm Samus's selected weapon. Only used if the Zero Mission aiming style is enabled."
+						},
+						{
+							"key": "select_weapon",
+							"title": "Select weapon",
+							"description": "Cycles through Samus's equipped weapons."
+						},
+						{
+							"key": "cancel_weapon_selection",
+							"title": "Cancel weapon selection",
+							"description": "Resets Samus's weapon selection"
+						},
+						{
+							"key": "jump",
+							"title": "Jump",
+							"description": ""
+						},
+						{
+							"key": "aim_weapon",
+							"title": "Aim weapon",
+							"description": "When pressed, Samus's aim will be locked at an angle, which can be controlled by pad inputs."
+						},
+						{
+							"key": "aim_weapon_up",
+							"title": "Aim weapon up",
+							"description": "Aims Samus's weapon upward at an angle. If 'aim weapon down' is also pressed, Samus will aim directly upward. "
+						},
+						{
+							"key": "aim_weapon_down",
+							"title": "Aim weapon down",
+							"description": "Aims Samus's weapon downward at an angle. If 'aim weapon up' is also pressed, Samus will aim directly upward. "
+						},
+						{
+							"key": "morph_shortcut",
+							"title": "Instant morph shortcut",
+							"description": "Can be used in-game to directly transition into or from morph ball form."
+						},
+						{
+							"key": "spiderball",
+							"title": "Activate spider ball",
+							"description": "Activates the spider ball upgrade when in morph ball form. Control behaviour can be configured by setting the spider ball style in control options."
+						},
+						{
+							"key": "toggle_fullscreen",
+							"title": "Toggle fullscreen",
+							"description": ""
+						},
+						{
+							"key": "take_screenshot",
+							"title": "Take screenshot",
+							"description": "Takes a screenshot of the game window and stores in the game's user folder as a PNG."
+						},
+						{
+							"key": "pause",
+							"title": "Pause game",
+							"description": "Opens and closes the pause menu / map screen while in-game."
+						},
+						{
+							"key": "select_visor",
+							"title": "Select visor",
+							"description": "Similarly to the 'select weapon' action, this cycles between Samus's equipped visors."
+						},
+						{
+							"key": "map_zoom_in",
+							"title": "Map - zoom in",
+							"description": "Zooms into the map while it is displayed in the pause menu."
+						},
+						{
+							"key": "map_zoom_out",
+							"title": "Map - zoom out",
+							"description": "Zooms out from the map while it is displayed in the pause menu."
 						}
 					]
 				},

@@ -12,15 +12,19 @@ var option
 var option_data: Dictionary
 var value_label: Label
 var types: Dictionary = {
-	"bool": ["option_process_bool", []], # Boolean
-	"int": ["option_process_int", []], # An integer, which can have a custom range or none
-	"enum": ["option_process_enum", []], # One item from a list of strings, stored as an int
-	"string": ["option_process_enum", []] # One item from a list of strings, stores as is
+	"bool": "option_process_bool", # Boolean
+	"int": "option_process_int", # An integer, which can have a custom range or none
+	"enum": "option_process_enum", # One item from a list of strings, stored as an int
+	"string": "option_process_enum", # One item from a list of strings, stores as is
+	"input": "option_process_input"
 }
 var current_value
 var new_value
 
 var label: Label
+var top_buttonicon: ButtonIcon
+var bottom_buttonicon: ButtonIcon
+var buttonGetter: ButtonGetter
 var current: bool = false setget set_current
 const current_offset_value: float = -25.0
 
@@ -40,9 +44,17 @@ func slide(slide_in: bool, wait_time: float):
 	$SlideTween.start()
 	yield($SlideTween, "tween_completed")
 
-func init(data: Dictionary, _category: String, _option, _value_label: Label):
+func init(data: Dictionary, _category: String, _option, 
+	_value_label: Label, 
+	_top_buttonicon: ButtonIcon, 
+	_bottom_buttonicon: ButtonIcon,
+	_buttonGetter: ButtonGetter
+	):
 	
 	label = $Background/HBoxContainer/Label
+	top_buttonicon = _top_buttonicon
+	bottom_buttonicon = _bottom_buttonicon
+	buttonGetter = _buttonGetter
 	category = _category
 	option = _option
 	value_label = _value_label
@@ -81,15 +93,22 @@ func set_current(value: bool, emit: bool = true, set_by_mouse: bool = false):
 	if option != null:
 		update_value_label()
 
-func option_process(delta: float, pad: Vector2, confirm_button_just_pressed: bool):
-	var pressed = confirm_button_just_pressed or button_just_pressed
+func option_process(delta: float, pad: Vector2, confirm_button: ButtonPrompt):
+	var pressed = confirm_button.just_pressed() or button_just_pressed
 	button_just_pressed = false
 	
-	var changes_made: bool = callv(types[option_data["type"]][0], [delta, pad, pressed] + types[option_data["type"]][1])
+	var changes_made = call(types[option_data["type"]], delta, pad, pressed)
+	while changes_made is GDScriptFunctionState:
+		changes_made = yield(changes_made, "completed")
 	if changes_made:
 		update_value_label()
-		$Background.color = background_colour if current_value == load_value() else background_colour_changes_made
-	
+		$Background.color = background_colour if not changes_made() else background_colour_changes_made
+
+func changes_made():
+	if current_value is Dictionary:
+		return current_value.hash() != load_value().hash()
+	else:
+		return current_value != load_value()
 
 func option_process_bool(_delta: float, pad: Vector2, pressed: bool):
 	if pad.x != 0 or pressed:
@@ -121,21 +140,53 @@ func option_process_enum(_delta: float, pad: Vector2, pressed: bool):
 	current_value = wrapi(current_value + pad.x, 0, len(option_data["data"]))
 	return true
 
+func option_process_input(_delta: float, pad: Vector2, pressed: bool):
+	
+	if pressed:
+		var button = yield(buttonGetter.get_button(option_data["title"]), "completed")
+		if button == null:
+			return false
+		
+		for input_method in button:
+			current_value[input_method] = button[input_method]
+		
+		return true
+		
+	return false
+
 func load_value():
 	var ret = Settings.get_split(category, option)
+	if ret is Dictionary:
+		ret = ret.duplicate()
 	if option_data["type"] == "string":
 		ret = option_data["data"].find(ret)
 	return ret
 
 func save_value():
 	match option_data["type"]:
-		"enum", "bool", "int":
-			Settings.set_split(category, option, current_value)
 		"string":
 			Settings.set_split(category, option, option_data["data"][current_value])
+		_:
+			Settings.set_split(category, option, current_value)
+	$Background.color = background_colour
 
 func reset_value():
-	current_value = load_value()
+	if option_data["type"] == "input":
+		current_value.clear()
+		for event in InputMap.get_action_list(option):
+			if event.get_class() in ["InputEventKey", "InputEventMouseButton"] and not "keyboard" in current_value:
+				current_value["keyboard"] = {"type": event.get_class()}
+				if event is InputEventKey:
+					current_value["keyboard"]["scancode"] = event.scancode
+				else:
+					current_value["keyboard"]["button_index"] = event.button_index
+			elif event is InputEventJoypadButton and not "joypad" in current_value:
+				current_value["joypad"] = {"type": event.get_class(), "button_index": event.button_index}
+			if len(current_value) == 2:
+				break
+		print(current_value)
+	else:
+		current_value = option_data["default"]
 	$Background.color = background_colour
 	if current:
 		update_value_label()
@@ -148,10 +199,21 @@ func update_value_label():
 			value_label.text = str(current_value)
 		"enum", "string":
 			value_label.text = option_data["data"][current_value]
-
-func reset_to_default():
-	current_value = option_data["default"]
-	update_value_label()
+		"input":
+			value_label.align = Label.ALIGN_LEFT
+			value_label.text = tr("settings_value_input_joypad") + "\n" + tr("settings_value_input_keyboard")
+			
+			top_buttonicon.event_override = current_value["joypad"] if "joypad" in current_value else null
+			top_buttonicon.update_icon()
+			top_buttonicon.visible = true
+			bottom_buttonicon.event_override = current_value["keyboard"] if "keyboard" in current_value else null
+			bottom_buttonicon.update_icon()
+			bottom_buttonicon.visible = true
+	
+	if option_data["type"] != "input":
+		value_label.align = Label.ALIGN_CENTER
+		top_buttonicon.visible = false
+		bottom_buttonicon.visible = false
 
 func _on_Button_mouse_entered():
 	set_current(true, true, true)

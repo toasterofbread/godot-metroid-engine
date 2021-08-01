@@ -15,7 +15,7 @@ expand_margin_right = 50.0
 [node name="LargeTextNotification" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1760.0
+margin_right = -1710.0
 margin_bottom = -1061.0
 rect_scale = Vector2( 3, 3 )
 custom_styles/panel = SubResource( 1 )

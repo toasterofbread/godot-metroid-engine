@@ -3,7 +3,7 @@
 [ext_resource path="res://engine/fonts/Pixel-Life.tres" type="DynamicFont" id=1]
 [ext_resource path="res://engine/scenes/ui/button_icon/ButtonIcon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.gd" type="Script" id=3]
-[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/circle.png" type="Texture" id=4]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/1.png" type="Texture" id=5]
 
 [node name="ButtonPrompt" type="HBoxContainer"]
 margin_right = 102.0
@@ -12,9 +12,10 @@ script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-preview_texture = ExtResource( 4 )
+preview_texture = ExtResource( 5 )
 
 [node name="ProgressBarContainer" type="Node2D" parent="."]
+visible = false
 position = Vector2( -2, 0 )
 
 [node name="ColorRect" type="ColorRect" parent="ProgressBarContainer"]
@@ -39,7 +40,7 @@ margin_right = 0.0
 margin_bottom = 0.0
 mouse_filter = 2
 size_flags_vertical = 3
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Label" type="Label" parent="."]
 margin_left = 20.0

@@ -48,7 +48,7 @@ func process(_delta: float):
 	var play_transition = false
 	var original_facing = Samus.facing
 	
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if Samus.Weapons.cycle_visor() and not CeilingRaycast.is_colliding():

@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://engine/scenes/ui/button_getter/ButtonGetter.gd" type="Script" id=1]
+[ext_resource path="res://engine/fonts/Pixeled.tres" type="DynamicFont" id=2]
+
+[node name="ButtonGetter" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.941176 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -558.0
+margin_top = -89.5
+margin_right = 558.0
+margin_bottom = 1.5
+custom_fonts/font = ExtResource( 2 )
+text = "Press a key to assign to action: UI Accept"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -558.0
+margin_top = -11.5
+margin_right = 558.0
+margin_bottom = 79.5
+custom_fonts/font = ExtResource( 2 )
+text = "Time remaining: 4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeoutTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="status_changed" from="." to="." method="_on_ButtonGetter_status_changed"]
+[connection signal="timeout" from="TimeoutTimer" to="." method="_on_TimeoutTimer_timeout"]

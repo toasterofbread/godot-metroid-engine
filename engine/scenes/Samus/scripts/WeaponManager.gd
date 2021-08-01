@@ -89,7 +89,7 @@ func _process(delta: float):
 		process_chargebeam(delta)
 	weapon_fired = false
 	
-	aiming_style = Settings.get("controls/aiming_style")
+	aiming_style = Settings.get("control_options/aiming_style")
 	morphball = Samus.current_state.id in ["morphball", "spiderball"]
 	var morphball_changed = false
 	if current_weapon:
@@ -180,7 +180,7 @@ func process_chargebeam(delta: float):
 func cycle_visor():
 	if len(equipped_visors) == 0:
 		return false
-	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/visor_combo") or Input.is_action_pressed("shortcut")):
+	if Input.is_action_just_pressed("select_visor") and (not Settings.get("control_options/visor_combo") or Input.is_action_pressed("shortcut")):
 		if current_visor == null:
 			current_visor = equipped_visors[0]
 		elif current_visor == equipped_visors[len(equipped_visors) - 1]:
@@ -354,6 +354,6 @@ func sort_visors():
 			Samus.HUD.add_visor(visor.Icon)
 
 func room_transitioning():
-	if Settings.get("controls/reset_weapon_on_door_enter"):
+	if Settings.get("control_options/reset_weapon_on_door_enter"):
 		reset_weapon_selection(morphball, aiming_style)
 		update_weapon_icons()

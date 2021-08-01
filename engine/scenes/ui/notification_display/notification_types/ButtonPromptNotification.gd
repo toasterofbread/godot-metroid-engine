@@ -10,6 +10,12 @@ func init(text: String, action_key: String, clear):
 	$HBoxContainer/Label.text = text
 	$HBoxContainer/ButtonIcon.action_key = action_key
 	self.action_key = action_key
+	
+	if Notification.left_to_right:
+		var style: StyleBoxFlat = get("custom_styles/panel")
+		style.expand_margin_left = style.expand_margin_right
+		style.expand_margin_right = 0
+	
 	Notification.add(self, clear)
 	return self
 

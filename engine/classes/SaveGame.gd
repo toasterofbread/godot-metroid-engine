@@ -173,3 +173,11 @@ func get_total_acquired_upgrades() -> int:
 		if upgrade["amount"] > 0:
 			acquired_upgrades += upgrade["amount"]
 	return acquired_upgrades
+
+func copy_file(path: String) -> int:
+	var dir: Directory = Directory.new()
+	return dir.copy(filename, path)
+
+func delete_file() -> int:
+	var dir: Directory = Directory.new()
+	return dir.remove(filename)

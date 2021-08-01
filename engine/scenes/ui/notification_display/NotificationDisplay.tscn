@@ -37,4 +37,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="TitleScreen" type="Control" parent="LayoutPresets"]
+margin_top = 123.471
+margin_right = 566.0
+margin_bottom = 655.471
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Tween" type="Tween" parent="LayoutPresets"]

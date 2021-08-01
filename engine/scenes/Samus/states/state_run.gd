@@ -31,7 +31,7 @@ func process(_delta: float):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		if Input.is_action_pressed("arm_weapon"):
 			Animator.set_armed(true)
 		else:

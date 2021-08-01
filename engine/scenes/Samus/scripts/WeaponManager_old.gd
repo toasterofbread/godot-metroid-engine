@@ -85,10 +85,10 @@ func _process(delta: float):
 		current_weapon[0] = 0
 	
 	if Input.is_action_just_pressed("cancel_weapon_selection"):
-		current_weapon[0] = 0 if Settings.get("controls/aiming_style") == 0 else -1
+		current_weapon[0] = 0 if Settings.get("control_options/aiming_style") == 0 else -1
 	elif Input.is_action_just_pressed("select_weapon"):
 		current_weapon[0] += 1
-		if Settings.get("controls/aiming_style") == 0:
+		if Settings.get("control_options/aiming_style") == 0:
 			if current_weapon[0] >= len(added_weapons[current_weapon[1]]):
 				current_weapon[0] = 0
 		else:
@@ -142,7 +142,7 @@ func process_chargebeam(delta: float):
 func cycle_visor():
 	if len(equipped_visors) == 0:
 		return false
-	if Input.is_action_just_pressed("select_visor") and (not Settings.get("controls/visor_combo") or Input.is_action_pressed("shortcut")):
+	if Input.is_action_just_pressed("select_visor") and (not Settings.get("control_options/visor_combo") or Input.is_action_pressed("shortcut")):
 		if current_visor == null:
 			current_visor = equipped_visors[0]
 		elif current_visor == equipped_visors[len(equipped_visors) - 1]:
@@ -168,7 +168,7 @@ func update_weapon_icons():
 # (OLD) TODO | Yeah this defintely needs an overhaul
 func fire(chargebeam_damage_multiplier=null):
 	var weapon: SamusWeapon
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		if Samus.armed:
 			if len(added_weapons[current_weapon[1]]) > current_weapon[0]:
 				weapon = added_weapons[current_weapon[1]][current_weapon[0]]
@@ -243,7 +243,7 @@ func remove_weapon(weapon: SamusWeapon):
 	else:
 		added_weapons[weapon.is_morph_weapon].erase(weapon)
 	
-	current_weapon[0] = 0 if Settings.get("controls/aiming_style") == 0 else -1
+	current_weapon[0] = 0 if Settings.get("control_options/aiming_style") == 0 else -1
 	
 	Samus.HUD.remove_weapon(weapon.Icon)
 

@@ -101,7 +101,7 @@ func process(delta: float):
 		fire_pos.queue_free()
 	fire_pos = get_emit_pos()
 	
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(false)
 	
 	if Input.is_action_just_pressed("morph_shortcut") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):

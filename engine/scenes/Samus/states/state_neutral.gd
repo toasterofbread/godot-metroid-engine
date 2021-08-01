@@ -26,7 +26,7 @@ func process(_delta: float):
 	var play_transition = false
 	var reset_idle_timer = false
 	
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 		reset_idle_timer = Input.is_action_pressed("arm_weapon")
 	
