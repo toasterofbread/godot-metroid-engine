@@ -17,7 +17,6 @@ func _ready():
 	user_dir_path = "user://" if user_dir_override == null else user_dir_override
 	
 	yield(Settings, "loaded")
-	
 	language_code = Settings.get("other/language")
 	Settings.connect("settings_changed", self, "settings_changed")
 	update_language()

@@ -93,7 +93,7 @@ func process(_delta: float):
 	
 	Samus.set_hurtbox_damage(id, damage_type, damage_amount if (Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning) else null)
 	
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if Input.is_action_just_pressed("fire_weapon") and Samus.Weapons.current_visor == null:
@@ -118,7 +118,7 @@ func process(_delta: float):
 	elif Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
 		change_state("airspark")
 		return
-	elif Input.is_action_just_pressed("jump") and Settings.get("controls/spin_from_jump"):
+	elif Input.is_action_just_pressed("jump") and Settings.get("control_options/spin_from_jump"):
 		set_spinning(true)
 	
 	if Input.is_action_pressed("aim_weapon"):

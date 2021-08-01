@@ -1,5 +1,6 @@
 tool
 extends Control
+class_name ButtonPrompt
 
 export var preview_text: String setget set_preview_text
 export var preview_texture: Texture setget set_preview_texture
@@ -14,7 +15,7 @@ const hold_times_data: Dictionary = {
 	HOLD_TIMES.MEDIUM: 1.0,
 	HOLD_TIMES.LONG: 1.5
 }
-export(HOLD_TIMES) var hold_time: int = HOLD_TIMES.NONE
+export(HOLD_TIMES) var hold_time: int = HOLD_TIMES.NONE setget set_hold_time
 var current_hold_time: float = 0.0
 var hold_completed: bool = false
 
@@ -33,12 +34,7 @@ func _ready():
 	if start_invisible:
 		visible = false
 	
-	if hold_time == HOLD_TIMES.NONE:
-		current_hold_time = -1
-		hold_completed = true
-		set_process(false)
-	else:
-		set_process(not start_invisible)
+	set_hold_time(hold_time)
 	
 	$ProgressBarContainer.visible = false
 
@@ -47,7 +43,7 @@ func _process(delta: float):
 	if Engine.editor_hint:
 		return
 	
-	if Input.is_action_pressed(_action_key) and current_hold_time != -1:
+	if hold_time != HOLD_TIMES.NONE and Input.is_action_pressed(_action_key) and current_hold_time != -1:
 		$ProgressBarContainer.visible = true
 		current_hold_time += delta
 		$ProgressBarContainer/ColorRect.rect_size.x = (rect_size.x + 4) * (current_hold_time / hold_times_data[hold_time])
@@ -62,6 +58,15 @@ func _process(delta: float):
 		if not Input.is_action_pressed(_action_key):
 			current_hold_time = 0.0
 			hold_completed = false
+
+func set_hold_time(value: int):
+	hold_time = value
+	if hold_time == HOLD_TIMES.NONE:
+		current_hold_time = -1
+		hold_completed = true
+#		set_process(false)
+#	else:
+#		set_process(not start_invisible)
 
 func set_preview_texture(value: Texture):
 	preview_texture = value
@@ -105,7 +110,7 @@ func set_text(text_key: String, animate: bool):
 		
 		$TweenLabel.stop_all()
 		$TweenLabel.interpolate_property($Label, "modulate:a", $Label.modulate.a, 0.0, 0.2, Tween.TRANS_EXPO, Tween.EASE_OUT)
-		$TweenIcon.start()
+		$TweenLabel.start()
 		yield($TweenLabel, "tween_completed")
 		if current_text_tween != time:
 			return
@@ -140,22 +145,16 @@ func set_visibility(visibility: bool, animate: bool):
 		modulate.a = 1.0
 
 func pressed():
-	if hold_time != HOLD_TIMES.NONE:
-		return _held()
-	else:
-		return Input.is_action_pressed(_action_key)
+	return Input.is_action_pressed(_action_key)
 func just_pressed():
-	if hold_time != HOLD_TIMES.NONE:
-		return _held()
-	else:
-		return Input.is_action_just_pressed(_action_key)
+	return Input.is_action_just_pressed(_action_key)
 func just_released():
-	if hold_time != HOLD_TIMES.NONE:
-		return _held()
-	else:
-		return Input.is_action_just_released(_action_key)
-func _held():
+	return Input.is_action_just_released(_action_key)
+func hold_completed():
 	if hold_completed:
 		hold_completed = false
 		return Input.is_action_pressed(_action_key)
 	return false
+
+func cancel_hold():
+	current_hold_time = -1

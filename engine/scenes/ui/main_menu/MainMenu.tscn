@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://engine/scenes/ui/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://engine/fonts/SerpentineDBol.ttf" type="DynamicFontData" id=2]
@@ -8,11 +8,13 @@
 [ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=6]
 [ext_resource path="res://engine/sprites/ui/main_menu/background.png" type="Texture" id=7]
 [ext_resource path="res://engine/scenes/ui/main_menu/SaveGameInfoDisplay.tscn" type="PackedScene" id=8]
-[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/square.png" type="Texture" id=9]
-[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/triangle.png" type="Texture" id=10]
-[ext_resource path="res://engine/sprites/ui/button_prompt/playstation/face_buttons/cross.png" type="Texture" id=11]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/2.png" type="Texture" id=9]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/3.png" type="Texture" id=10]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/0.png" type="Texture" id=11]
 [ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenu.tscn" type="PackedScene" id=12]
 [ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://engine/scenes/ui/button_icon/ButtonIcon.tscn" type="PackedScene" id=14]
+[ext_resource path="res://engine/sprites/ui/button_prompt/keyboard/keys/BACKSPACE.png" type="Texture" id=15]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -39,14 +41,19 @@ font_data = ExtResource( 2 )
 size = 51
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=5]
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_top = -15
 extra_spacing_bottom = -9
 font_data = ExtResource( 13 )
 
-[sub_resource type="Animation" id=5]
-resource_name = "reset"
+[sub_resource type="DynamicFont" id=7]
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = -15
+extra_spacing_bottom = -7
+font_data = ExtResource( 13 )
+
+[sub_resource type="Animation" id=6]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Title/Options:rect_size")
@@ -170,6 +177,7 @@ tracks/9/keys = {
 }
 
 [node name="MainMenu" type="Control"]
+pause_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -422,6 +430,7 @@ preview_text = "Erase file"
 preview_texture = ExtResource( 10 )
 default_text = "titlescreen_button_delete_file"
 default_action_key = "ui_special_2"
+hold_time = 3
 
 [node name="Settings" type="Control" parent="."]
 anchor_right = 1.0
@@ -431,10 +440,6 @@ mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="SettingsMenu" parent="Settings" instance=ExtResource( 12 )]
-description_label_path = NodePath("../SettingsDescription/Label")
-value_label_path = NodePath("../SettingsValue/Label")
 
 [node name="SettingsDescription" type="ColorRect" parent="Settings"]
 margin_left = 56.0
@@ -457,7 +462,7 @@ margin_left = -154.0
 margin_top = -130.5
 margin_right = 154.0
 margin_bottom = 130.5
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 5 )
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 autowrap = true
 clip_text = true
@@ -486,8 +491,9 @@ margin_left = -154.0
 margin_top = -27.5
 margin_right = 154.0
 margin_bottom = 27.5
-custom_fonts/font = SubResource( 6 )
-text = "Current value"
+custom_fonts/font = SubResource( 7 )
+text = "Joypad:
+Keyboard:"
 align = 1
 valign = 1
 autowrap = true
@@ -495,6 +501,33 @@ clip_text = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TopButtonIcon" parent="Settings/SettingsValue" instance=ExtResource( 14 )]
+margin_left = 282.315
+margin_top = 10.9293
+margin_right = 298.315
+margin_bottom = 26.9293
+rect_scale = Vector2( 1.5, 1.5 )
+action_key = "ui_accept"
+
+[node name="BottomButtonIcon" parent="Settings/SettingsValue" instance=ExtResource( 14 )]
+margin_left = 282.315
+margin_top = 37.9057
+margin_right = 298.315
+margin_bottom = 53.9057
+rect_scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 15 )
+action_key = "ui_accept"
+
+[node name="SettingsMenu" parent="Settings" instance=ExtResource( 12 )]
+description_label_path = NodePath("../SettingsDescription/Label")
+value_label_path = NodePath("../SettingsValue/Label")
+top_buttonicon_path = NodePath("../SettingsValue/TopButtonIcon")
+bottom_buttonicon_path = NodePath("../SettingsValue/BottomButtonIcon")
+confirm_button_path = NodePath("../../MainButtonPrompts/AcceptButtonPrompt")
+cancel_button_path = NodePath("../../MainButtonPrompts/CancelButtonPrompt")
+save_button_path = NodePath("../ButtonPrompts/SaveButtonPrompt")
+reset_button_path = NodePath("../ButtonPrompts/ResetButtonPrompt")
 
 [node name="ButtonPrompts" type="HBoxContainer" parent="Settings"]
 margin_left = 791.0
@@ -515,7 +548,7 @@ preview_text = "Save changes"
 preview_texture = ExtResource( 9 )
 default_text = "settings_button_save"
 default_action_key = "ui_special_1"
-hold_time = 1
+start_invisible = true
 
 [node name="ResetButtonPrompt" parent="Settings/ButtonPrompts" instance=ExtResource( 6 )]
 margin_left = 419.0
@@ -525,6 +558,7 @@ preview_texture = ExtResource( 10 )
 default_text = "settings_button_reset"
 default_action_key = "ui_special_2"
 hold_time = 2
+start_invisible = true
 
 [node name="MainButtonPrompts" type="HBoxContainer" parent="."]
 margin_left = 34.9831
@@ -552,7 +586,7 @@ default_text = "titlescreen_button_back_option"
 default_action_key = "ui_cancel"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/reset = SubResource( 5 )
+anims/reset = SubResource( 6 )
 
 [node name="Tween" type="Tween" parent="."]
 
@@ -568,3 +602,5 @@ color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="category_mode_changed" from="Settings/SettingsMenu" to="." method="_on_SettingsMenu_category_mode_changed"]

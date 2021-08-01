@@ -21,6 +21,8 @@ const lengths = {
 	"short": 1.0
 }
 
+var left_to_right: bool = false
+
 func _ready():
 	layer = Enums.CanvasLayers.NOTIFICATION
 	$LayoutPresets.visible = false
@@ -41,11 +43,16 @@ func add(node: Control, clear):
 	
 	var last_notification = get_last_notification()
 	container.add_child(node)
-	node.rect_position.x = container.rect_size.x
 	
 	node.rect_position.y = 0 if last_notification == null else last_notification.rect_position.y + last_notification.get_size().y + separation
 	
-	tween.interpolate_property(node, "rect_position:x", node.rect_position.x, node.rect_position.x - node.get_size().x, slide_time, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	if left_to_right:
+		node.rect_position.x = -node.get_size().x
+		tween.interpolate_property(node, "rect_position:x", node.rect_position.x, node.rect_position.x + node.get_size().x, slide_time, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	else:
+		node.rect_position.x = container.rect_size.x
+		tween.interpolate_property(node, "rect_position:x", node.rect_position.x, node.rect_position.x - node.get_size().x, slide_time, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	
 	tween.start()
 	
 	if clear is float:
@@ -91,7 +98,12 @@ func clear_single(node: Control):
 		clear[0].disconnect(clear[1], self, "clear_single")
 	
 	var tween: Tween = node_data[node]["tween"]
-	tween.interpolate_property(node, "rect_position:x", node.rect_position.x, container.rect_size.x, slide_time, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	
+	if left_to_right:
+		tween.interpolate_property(node, "rect_position:x", node.rect_position.x, node.rect_position.x - node.get_size().x, slide_time, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	else:
+		tween.interpolate_property(node, "rect_position:x", node.rect_position.x, container.rect_size.x, slide_time, Tween.TRANS_EXPO, Tween.EASE_OUT)
+	
 	tween.start()
 	yield(tween, "tween_completed")
 	node.queue_free()

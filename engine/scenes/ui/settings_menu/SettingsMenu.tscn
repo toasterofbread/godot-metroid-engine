@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenu.gd" type="Script" id=1]
 [ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenuItem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://engine/scenes/ui/button_getter/ButtonGetter.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -116,3 +117,7 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ButtonGetter" parent="." instance=ExtResource( 4 )]
+
+[connection signal="status_changed" from="ButtonGetter" to="." method="_on_ButtonGetter_status_changed"]

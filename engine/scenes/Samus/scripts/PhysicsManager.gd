@@ -20,7 +20,7 @@ onready var profiles: Dictionary = {}
 #const physics_profiles_path = Data.data_path + "static/samus/physics_profiles/"
 var data: = {}
 
-onready var profile_key: String = Settings.get("controls/samus_physics_profile")
+onready var profile_key: String = Settings.get("control_options/samus_physics_profile")
 var mode: int = Enums.SAMUS_PHYSICS_MODES.STANDARD
 
 # Keeping this around for the memories

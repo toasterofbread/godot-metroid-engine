@@ -50,14 +50,14 @@ func process(_delta: float):
 	
 	var original_facing = Samus.facing
 
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
 	if Input.is_action_just_pressed("fire_weapon"):
 		Samus.Weapons.fire()
 	
 	if Samus.is_upgrade_active(Enums.Upgrade.SPIDERBALL):
-		if (Settings.get("controls/spiderball_style") == 0 and Input.is_action_pressed("spiderball")) or (Settings.get("controls/spiderball_style") == 1 and Input.is_action_just_pressed("spiderball")):
+		if (Settings.get("control_options/spiderball_style") == 0 and Input.is_action_pressed("spiderball")) or (Settings.get("control_options/spiderball_style") == 1 and Input.is_action_just_pressed("spiderball")):
 			change_state("spiderball")
 			return
 	

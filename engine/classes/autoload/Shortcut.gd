@@ -1,20 +1,58 @@
 extends Node
 # TODO | Rename script to something like 'InputHandler'
 
+var joypad_icons: Dictionary = {}
+onready var keyboard_icons = Global.dir2dict(ButtonIcon.keyboard_icons_directory)
+
 signal keyboard_mode_changed
 var using_keyboard: bool = false
 
 var input_hold_monitors: Dictionary = {}
 
-func _process(delta):
+func _ready():
+	pause_mode = Node.PAUSE_MODE_PROCESS
+	
+	var dir: Directory = Directory.new()
+	var error: int = dir.open(ButtonIcon.icons_directory)
+	if error != OK:
+		# TODO | User error reporting
+		push_error("Error loading joypad icons: " + str(error))
+	else:
+		for file in Global.iterate_directory(dir):
+			if dir.dir_exists(file):
+				joypad_icons[file] = Global.dir2dict(ButtonIcon.icons_directory + file + "/", false, null, ["png"])
+
+	var settings_data: Dictionary = Data.data["settings_information"]["visuals"]["options"]["joypad_button_icon_style"]
+	settings_data["type"] = "string"
+	settings_data["data"] = joypad_icons.keys()
+	
+	for action in Settings.get_options_in_category("control_mappings"):
+		InputMap.action_erase_events(action)
+		
+		for event_data in Settings.get_split("control_mappings", action).values():
+			var event: InputEvent
+			match event_data["type"]:
+				"InputEventJoypadButton":
+					event = InputEventJoypadButton.new()
+				"InputEventMouseButton":
+					event = InputEventMouseButton.new()
+				"InputEventKey":
+					event = InputEventKey.new()
+			for property in event_data:
+				if property != "type":
+					event.set(property, event_data[property])
+			
+			InputMap.action_add_event(action, event)
+
+func _process(delta: float):
 	process_input_hold_monitors(delta)
 	process_debug_shortcuts()
 
 func _input(event: InputEvent):
-	if event is InputEventJoypadButton and using_keyboard:
+	if using_keyboard and event is InputEventJoypadButton:
 		using_keyboard = false
 		emit_signal("keyboard_mode_changed", false)
-	elif event is InputEventKey and not using_keyboard:
+	elif not using_keyboard and event.get_class() in ["InputEventKey", "InputEventMouseButton"]:
 		using_keyboard = true
 		emit_signal("keyboard_mode_changed", true)
 
@@ -90,9 +128,6 @@ func remove_input_hold_monitor(input_key: String, monitor_id: String):
 		input_hold_monitors.erase(input_key)
 	else:
 		input_hold_monitors["monitors"].erase(monitor_id)
-
-func _ready():
-	pause_mode = Node.PAUSE_MODE_PROCESS
 
 signal hide_shortcut_info
 var debug_shortcuts: Dictionary = {"DEBUG_display_shortcut_info": {"name": "Display shortcut info", "triggers": {}}}

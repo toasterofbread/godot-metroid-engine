@@ -13,7 +13,7 @@ func _ready():
 	apply_custom_settings()
 
 func save_file():
-	_config.save(settings_file_path)
+	return _config.save(settings_file_path)
 
 func load_file():
 	_config.load(settings_file_path)
@@ -34,9 +34,8 @@ func set_split(category: String, option: String, value):
 
 # Writes data to settings_information that can only be known at runtime
 func apply_custom_settings():
-	
 	# Samus physics profiles
-	var data: Dictionary = Data.data["settings_information"]["controls"]["options"]["samus_physics_profile"]
+	var data: Dictionary = Data.data["settings_information"]["control_options"]["options"]["samus_physics_profile"]
 	data["type"] = "string"
 	data["data"] = []
 	for dir in Data.data["engine_config"]["samus_physics_profiles_directories"]:
@@ -44,3 +43,6 @@ func apply_custom_settings():
 		for profile in profiles:
 			var profile_info: Dictionary = Global.load_json(profiles[profile])["profile_info"]
 			data["data"].append(profile_info["name"][Data.language_code])
+
+func get_options_in_category(category: String) -> PoolStringArray:
+	return _config.get_section_keys(category)

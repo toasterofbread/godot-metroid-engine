@@ -49,7 +49,7 @@ func process(_delta: float):
 	var original_facing = Samus.facing
 	var play_transition = false
 	
-	if Settings.get("controls/aiming_style") == 0:
+	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 	
 	if not Input.is_action_pressed("fire_weapon"):

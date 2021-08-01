@@ -1,5 +1,6 @@
 keys,en,ja
 VALIDITY_TEST,en,ja
+error_code,An error has occurred. Error code: ,JP An error has occurred. Error code: 
 mapstation_notification_start,Downloading area map data...,aaa
 mapstation_notification_end,Download completed,bbb
 savestation_notification_saveprompt,Save progress,eee
@@ -8,15 +9,23 @@ settings_save_successful,Changes saved,ccc
 settings_save_nochanges,No changes made,ddd
 settings_button_save,Save changes,JP Save changes
 settings_button_reset,Reset all to default,JP Reset all to default
+settings_reset_completed,All options in this group have been reset,JP All options in this group have been reset
 settings_value_bool_off,Off,JP OFF
 settings_value_bool_on,On,JP ON
-setings_value_current,Current value: ,JP Current value: 
-settings_value_new,New value: ,JP New value: 
+settings_value_input_joypad,Joypad:,JP Joypad:
+settings_value_input_keyboard,Keyboard:,JP Keyboard:
+buttongetter_main_text,Press a key to assign to action:,JP Press a key to assign to action: UI Accept
+buttongetter_time_remaining,Time remaining:,JP Time remaining:
 titlescreen_playtime_text,Time:,sgdas
 titlescreen_completion_text,Completion:,dsdasdas
 titlescreen_savefile_empty,Empty,JPEmpty
 titlescreen_button_load_file,Load file,JP Load file
 titlescreen_button_copy_file,Copy file,JP Copy file
+titlescreen_button_copy_confirm,Copy here,JP Copy here
+titlescreen_button_copy_cancel,Cancel copy,JP Cancel copy
+titlescreen_button_copy_empty,Cannot copy an empty file,JP Cannot copy an empty file
+titlescreen_button_copy_sameslot,Cannot copy a file onto itself,JP Cannot copy a file onto itself
 titlescreen_button_delete_file,Erase file,JP Erase file
+titlescreen_button_delete_empty,Cannot erase an empty file,JP Cannot erase an empty file
 titlescreen_button_accept_option,Select,JPSelect
 titlescreen_button_back_option,Back,JP Back

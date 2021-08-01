@@ -1,6 +1,5 @@
 tool
 extends Node2D
-class_name ButtonPrompt
 
 export(Array, String) var action_keys: Array = [""]
 export(Array, String) var text: Array = [""] setget set_text

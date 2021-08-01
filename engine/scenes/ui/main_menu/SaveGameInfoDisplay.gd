@@ -3,6 +3,12 @@ extends ColorRect
 var saveGame: SaveGame
 var current: bool = false setget set_current
 
+var preparing_to_copy: bool = false setget set_preparing_to_copy
+
+func set_preparing_to_copy(value: bool):
+	preparing_to_copy = value
+	# TODO
+
 func set_current(value: bool):
 	if current == value:
 		return
