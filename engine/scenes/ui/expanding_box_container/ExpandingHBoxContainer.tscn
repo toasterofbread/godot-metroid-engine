@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://engine/scenes/ui/expanding_box_container/ExpandingBoxContainer.gd" type="Script" id=1]
+
+[node name="ExpandingHBoxContainer" type="HBoxContainer"]
+margin_left = 22.0
+margin_top = 25.0
+margin_right = 22.0
+margin_bottom = 25.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_constants/separation = 18
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+background_expand_margin = Vector2( 15, 15 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Background" type="Node2D" parent="."]
+show_behind_parent = true
+
+[node name="ColorRect" type="ColorRect" parent="Background"]
+margin_left = -6.5
+margin_top = -6.5
+margin_right = 8.5
+margin_bottom = 8.5
+color = Color( 0, 0, 0, 0.764706 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

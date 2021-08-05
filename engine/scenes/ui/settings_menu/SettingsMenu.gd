@@ -42,6 +42,8 @@ func _ready():
 	bottom_buttonicon.keyboard_mode_override = true
 	value_label.align = Label.ALIGN_CENTER
 	
+	connect("category_mode_changed", self, "category_mode_changed")
+	
 	# DEBUG
 	$ValuePanelTemplate.queue_free()
 
@@ -52,6 +54,7 @@ func init(animate: bool):
 		yield(menuItem, "tree_exited")
 	
 	selected_item = 0
+	current_category = null
 	
 	var i: int = 0
 	for category in data:
@@ -131,7 +134,7 @@ func process(delta: float, pad: Vector2):
 				else:
 					menuItem.slide(false, visible_items*0.05)
 				
-			yield(Global.wait(visible_items*0.05), "completed")
+			yield(Global.wait(visible_items*0.05, true), "completed")
 			yield(init(true), "completed")
 			transitioning = false
 	elif current_category != null:
@@ -187,7 +190,7 @@ func category_item_selected(index: int):
 	for menuItem in ItemContainer.get_children():
 		i += 1
 		menuItem.slide(false, i*0.1)
-	yield(Global.wait((i*0.1) + 0.2), "completed")
+	yield(Global.wait((i*0.1) + 0.2, true), "completed")
 	for menuItem in ItemContainer.get_children():
 		menuItem.queue_free()
 	
@@ -208,7 +211,7 @@ func category_item_selected(index: int):
 			menuItem.slide(true, 4*0.1)
 	
 	emit_signal("category_mode_changed", true)
-	yield(Global.wait(visible_items*0.1), "completed")
+	yield(Global.wait(visible_items*0.1, true), "completed")
 	transitioning = false
 
 
@@ -216,3 +219,7 @@ func _on_ButtonGetter_status_changed(shown: bool):
 	for buttonPrompt in [confirm_button, cancel_button, save_button, reset_button]:
 		buttonPrompt.pause_mode = PAUSE_MODE_PROCESS
 		buttonPrompt.set_visibility(!shown, true)
+
+func category_mode_changed(category_mode: bool):
+	save_button.set_visibility(category_mode, true)
+	reset_button.set_visibility(category_mode, true)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://engine/sprites/ui/map/logbook_images/block_grapple.png" type="Texture" id=8]
 [ext_resource path="res://engine/sprites/samus/visors/mask_inverted.png" type="Texture" id=9]
 [ext_resource path="res://engine/sprites/ui/mainhud/visor/icons/scan_0.png" type="Texture" id=10]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/0.png" type="Texture" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -380,7 +381,8 @@ anims/reset = SubResource( 3 )
 [node name="ScanInfo" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="ScanInfo"]
-modulate = Color( 1, 1, 1, 0 )
+visible = false
+modulate = Color( 1, 1, 1, 0.823529 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 1 )
@@ -389,16 +391,17 @@ __meta__ = {
 }
 
 [node name="Info" type="Node2D" parent="ScanInfo"]
+visible = false
 
 [node name="Position2D" type="Position2D" parent="ScanInfo/Info"]
 position = Vector2( 1310.95, 278 )
 scale = Vector2( 5, 5 )
 
 [node name="Image" type="Panel" parent="ScanInfo/Info"]
-margin_left = 462.0
-margin_top = 278.0
-margin_right = 462.0
-margin_bottom = 778.0
+margin_left = 211.383
+margin_top = 277.899
+margin_right = 711.383
+margin_bottom = 777.899
 custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_group_": true,
@@ -420,9 +423,9 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="ScanInfo/Info"]
-margin_left = 1249.0
+margin_left = 759.81
 margin_top = 278.0
-margin_right = 1249.0
+margin_right = 1737.81
 margin_bottom = 778.0
 rect_pivot_offset = Vector2( 2160.41, 175.415 )
 rect_clip_content = true
@@ -489,10 +492,11 @@ __meta__ = {
 }
 
 [node name="ColorRect2" type="ColorRect" parent="ScanInfo"]
+visible = false
 show_behind_parent = true
-margin_left = 1585.0
+margin_left = 1432.0
 margin_top = 801.0
-margin_right = 1585.0
+margin_right = 1738.0
 margin_bottom = 867.0
 rect_clip_content = true
 color = Color( 0.027451, 0.156863, 0.270588, 0.74902 )
@@ -501,6 +505,19 @@ __meta__ = {
 }
 
 [node name="ButtonPrompt" parent="ScanInfo/ColorRect2" instance=ExtResource( 6 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -137.646
+margin_top = -20.193
+margin_right = -35.6464
+margin_bottom = -4.19296
+rect_scale = Vector2( 2.5, 2.5 )
+preview_text = "Close"
+preview_texture = ExtResource( 11 )
+default_text = "scanvisor_close_info"
+default_action_key = "ui_cancel"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ScanInfo"]
 anims/hide = SubResource( 11 )

@@ -4,8 +4,8 @@ var Animator: Node
 var Physics: Node
 var animations: Dictionary
 var sounds: Dictionary = {
-	"death": Audio.get_player("/samus/death/death", Audio.TYPE.SAMUS).set_volume(20.0),
-	"death_real": Audio.get_player("/samus/death/death_real", Audio.TYPE.SAMUS).set_volume(20.0),
+	"death": Audio.get_player("/samus/death/death", Audio.TYPE.SAMUS).set_volume(20.0).set_ignore_paused(true),
+	"death_real": Audio.get_player("/samus/death/death_real", Audio.TYPE.SAMUS).set_volume(20.0).set_ignore_paused(true),
 }
 
 var tween: Tween = Global.get_tween(true)
@@ -16,7 +16,6 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 # Called when Samus' state is changed to this one
 func init_state(data: Dictionary, _previous_state_id: String):
 	Samus.paused = true
-	
 	var material: ShaderMaterial = Animator.get_node("Sprites").material
 	material.set("shader_param/whitening_value", 0)
 	

@@ -119,13 +119,14 @@ func set_text(text_key: String, animate: bool):
 	
 	if animate:
 		$TweenLabel.interpolate_property($Label, "modulate:a", $Label.modulate.a, 1.0, 0.2, Tween.TRANS_EXPO, Tween.EASE_OUT)
+		yield($TweenLabel, "tween_completed")
 
 var current_visibility_tween: float
 func set_visibility(visibility: bool, animate: bool):
 	
 	set_process(hold_time != HOLD_TIMES.NONE and visibility)
 	if visibility:
-		modulate.a = 0.0
+		modulate.a = float(!animate)
 		visible = true
 	
 	if animate:
@@ -158,3 +159,11 @@ func hold_completed():
 
 func cancel_hold():
 	current_hold_time = -1
+
+func reset():
+	if visible == start_invisible:
+		set_visibility(!start_invisible, false)
+	if $Label.text != default_text:
+		set_text(default_text, false)
+	if _action_key != default_action_key:
+		set_action_key(default_action_key, false)

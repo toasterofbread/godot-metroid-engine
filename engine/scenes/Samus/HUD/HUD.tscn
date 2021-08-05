@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://engine/sprites/ui/mainhud/numerals/numerals.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=2]
 [ext_resource path="res://engine/scenes/Samus/HUD/HUD.gd" type="Script" id=3]
 [ext_resource path="res://engine/fonts/aquarius.regular-mono.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://engine/scenes/ui/map/MapGrid.tscn" type="PackedScene" id=5]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/0.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "visor_fade_in"
@@ -298,22 +299,33 @@ __meta__ = {
 
 [node name="Buttons" type="Control" parent="DeathScreen"]
 margin_left = 454.0
-margin_top = 535.859
+margin_top = 536.0
 margin_right = 922.0
-margin_bottom = 555.859
+margin_bottom = 552.0
 rect_scale = Vector2( 2.2, 2.2 )
 rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ButtonPrompt" parent="DeathScreen/Buttons" instance=ExtResource( 2 )]
-position = Vector2( 11.4913, 9.79462 )
-action_keys = [ "ui_accept" ]
-text = [ "Return to save point" ]
-background_colour = Color( 0, 0, 0, 0 )
+[node name="RespawnButton" parent="DeathScreen/Buttons" instance=ExtResource( 2 )]
+preview_text = "Return to save point"
+default_text = "deathscreen_reloadsave"
+default_action_key = "ui_accept"
 
-[node name="ButtonPrompt2" parent="DeathScreen/Buttons" instance=ExtResource( 2 )]
-position = Vector2( 324.302, 9.79462 )
-action_keys = [ "ui_cancel" ]
-text = [ "Quit to title screen" ]
+[node name="HBoxContainer" type="HBoxContainer" parent="DeathScreen/Buttons"]
+margin_left = 192.0
+margin_right = 468.0
+margin_bottom = 16.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" parent="DeathScreen/Buttons/HBoxContainer" instance=ExtResource( 2 )]
+margin_left = 147.0
+margin_right = 276.0
+preview_text = "Exit to title screen"
+preview_texture = ExtResource( 6 )
+default_text = "deathscreen_exit"
+default_action_key = "ui_cancel"

@@ -47,13 +47,13 @@ extra_spacing_top = -15
 extra_spacing_bottom = -9
 font_data = ExtResource( 13 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_top = -15
 extra_spacing_bottom = -7
 font_data = ExtResource( 13 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Title/Options:rect_size")
@@ -491,7 +491,7 @@ margin_left = -154.0
 margin_top = -27.5
 margin_right = 154.0
 margin_bottom = 27.5
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 6 )
 text = "Joypad:
 Keyboard:"
 align = 1
@@ -586,7 +586,7 @@ default_text = "titlescreen_button_back_option"
 default_action_key = "ui_cancel"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/reset = SubResource( 6 )
+anims/reset = SubResource( 7 )
 
 [node name="Tween" type="Tween" parent="."]
 

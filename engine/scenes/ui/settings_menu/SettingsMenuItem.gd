@@ -94,7 +94,7 @@ func set_current(value: bool, emit: bool = true, set_by_mouse: bool = false):
 		update_value_label()
 
 func option_process(delta: float, pad: Vector2, confirm_button: ButtonPrompt):
-	var pressed = confirm_button.just_pressed() or button_just_pressed
+	var pressed = (confirm_button.just_pressed() if confirm_button != null else Input.is_action_just_pressed("ui_accept")) or button_just_pressed
 	button_just_pressed = false
 	
 	var changes_made = call(types[option_data["type"]], delta, pad, pressed)
@@ -163,17 +163,21 @@ func load_value():
 	return ret
 
 func save_value():
-	match option_data["type"]:
-		"string":
-			Settings.set_split(category, option, option_data["data"][current_value])
-		_:
-			Settings.set_split(category, option, current_value)
+	if option_data["type"] == "string":
+		Settings.set_split(category, option, option_data["data"][current_value])
+	else:
+		Settings.set_split(category, option, current_value)
+		if option_data["type"] == "input":
+			Shortcut.update_control_mappings(option)
+	
 	$Background.color = background_colour
 
 func reset_value():
 	if option_data["type"] == "input":
 		current_value.clear()
-		for event in InputMap.get_action_list(option):
+#		for event in InputMap.get_action_list(option):
+		for event in ProjectSettings.get_setting("input/" + option)["events"]:
+			
 			if event.get_class() in ["InputEventKey", "InputEventMouseButton"] and not "keyboard" in current_value:
 				current_value["keyboard"] = {"type": event.get_class()}
 				if event is InputEventKey:
@@ -184,7 +188,6 @@ func reset_value():
 				current_value["joypad"] = {"type": event.get_class(), "button_index": event.button_index}
 			if len(current_value) == 2:
 				break
-		print(current_value)
 	else:
 		current_value = option_data["default"]
 	$Background.color = background_colour

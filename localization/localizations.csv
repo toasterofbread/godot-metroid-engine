@@ -9,7 +9,7 @@ settings_save_successful,Changes saved,ccc
 settings_save_nochanges,No changes made,ddd
 settings_button_save,Save changes,JP Save changes
 settings_button_reset,Reset all to default,JP Reset all to default
-settings_reset_completed,All options in this group have been reset,JP All options in this group have been reset
+settings_reset_completed,All options in this group have been reset and saved,JP All options in this group have been reset
 settings_value_bool_off,Off,JP OFF
 settings_value_bool_on,On,JP ON
 settings_value_input_joypad,Joypad:,JP Joypad:
@@ -29,3 +29,24 @@ titlescreen_button_delete_file,Erase file,JP Erase file
 titlescreen_button_delete_empty,Cannot erase an empty file,JP Cannot erase an empty file
 titlescreen_button_accept_option,Select,JPSelect
 titlescreen_button_back_option,Back,JP Back
+pausemenu_button_close_menu,Close menu,JP Close menu
+pausemenu_button_equipmentlogbook,Equipment & logbook,JP Equipment & logbook
+pausemenu_button_equipment,Equipment,JP Equipment
+pausemenu_button_logbook,Logbook,JP Logbook
+pausemenu_button_settings,Settings,JP Settings
+pausemenu_button_edit_marker,Edit marker,JP Edit marker
+pausemenu_button_delete_marker,Delete marker,JP Delete marker
+pausemenu_button_rename_marker,Rename marker,JP Rename marker
+pausemenu_button_confirm_rename_marker,Confirm rename,JP Confirm rename
+pausemenu_button_place_marker,Place marker,JP Place marker
+pausemenu_button_mapzoomin,Zoom in,JP Zoom in
+pausemenu_button_mapzoomout,Zoom out,JP Zoom out
+pausemenu_button_accept,Select,JP Select
+pausemenu_button_cancel,Back,JP Back
+pausemenu_title_equipment,Equipment,JP Equipment
+pausemenu_title_map,Map display,JP Map
+scanvisor_close_info,Close,JP Close
+upgradestation_create,Create,JP Create
+upgradestation_cancel,Cancel,JP Cancel
+deathscreen_reloadsave,Return to save point,JP Return to save point
+deathscreen_exit,Exit to title screen,JP Exit to title screen

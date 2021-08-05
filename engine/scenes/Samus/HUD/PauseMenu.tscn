@@ -1,125 +1,80 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=1]
-[ext_resource path="res://engine/scenes/ui/ExpandingButtonPrompt.gd" type="Script" id=2]
+[ext_resource path="res://engine/scenes/ui/expanding_box_container/ExpandingVBoxContainer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://engine/scenes/Samus/HUD/PauseMenu.gd" type="Script" id=3]
-[ext_resource path="res://engine/scenes/ui/settings/OptionDisplay.tscn" type="PackedScene" id=4]
+[ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenu.tscn" type="PackedScene" id=4]
 [ext_resource path="res://engine/scenes/ui/map/EquipmentScreen.tscn" type="PackedScene" id=5]
-[ext_resource path="res://engine/scenes/ui/settings/CategoryDisplay.tscn" type="PackedScene" id=6]
+[ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://engine/scenes/ui/FancyLabel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://engine/scenes/ui/map/LogbookScreen.tscn" type="PackedScene" id=8]
+[ext_resource path="res://engine/sprites/ui/button_prompt/keyboard/keys/ESCAPE.png" type="Texture" id=9]
+[ext_resource path="res://engine/scenes/ui/expanding_box_container/ExpandingHBoxContainer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://engine/scenes/ui/button_icon/ButtonIcon.tscn" type="PackedScene" id=11]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/0.png" type="Texture" id=12]
+[ext_resource path="res://engine/sprites/ui/button_prompt/keyboard/keys/BACKSPACE.png" type="Texture" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "close_equipment"
 length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
+step = 0.05
+tracks/0/type = "method"
+tracks/0/path = NodePath("CanvasLayer2/MainLabel")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 3.24901, 3.24901, 1.10957 ),
-"update": 0,
-"values": [ Vector2( -489.412, -122.353 ), Vector2( -489.412, -122.353 ), Vector2( 9.41177, -122.353 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "pausemenu_title_map" ],
+"method": "set_text"
+} ]
 }
-tracks/1/type = "method"
-tracks/1/path = NodePath("CanvasLayer2/MainLabel")
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ "Map display" ],
-"method": "set_text"
-} ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
 "values": [ Vector2( 0, 1088 ), Vector2( -2.91038e-11, 0.00012207 ) ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/Background:rect_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer/Background:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, -896 ) ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer/Background:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/3/type = "value"
+tracks/3/path = NodePath("CanvasLayer/Background:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 0.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
 }
-tracks/6/type = "method"
-tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.25, true ],
-"method": "switch_to_index"
-} ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 489.412, 0 ), Vector2( 489.412, 0 ), Vector2( 809.412, 0 ) ]
-}
-tracks/8/type = "method"
-tracks/8/path = NodePath("CanvasLayer2/EquipmentScreen")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
+tracks/4/type = "method"
+tracks/4/path = NodePath("CanvasLayer2/EquipmentScreen")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -127,82 +82,128 @@ tracks/8/keys = {
 "method": "close"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 576, 928 ), Vector2( 0, 896 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 384, 256 ), Vector2( 384, 180 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 960, 944 ), Vector2( 960, 800 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.11, 0.25 ),
+"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"update": 0,
+"values": [ Vector2( 376.471, 0.00012207 ), Vector2( 376.471, 0.00012207 ), Vector2( 9.41177, 0.00012207 ) ]
+}
 tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/9/path = NodePath("CanvasLayer2/Background:rect_size")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
 "times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 0.366023 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 576, 928 ), Vector2( 0, 896 ) ]
+"values": [ Vector2( 768, 160 ), Vector2( 1920, 192 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/10/path = NodePath("CanvasLayer2/Background:color")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 384, 256 ), Vector2( 384, 180 ) ]
+"values": [ Color( 0, 0, 0, 0.890196 ), Color( 0, 0, 0, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/11/path = NodePath("CanvasLayer2/MainLabel:background_colour")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
 "times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 960, 944 ), Vector2( 960, 800 ) ]
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.764706 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer:rect_position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 376.471, 0.00012207 ), Vector2( 376.471, 0.00012207 ), Vector2( 9.41177, 0.00012207 ) ]
+"values": [ Vector2( 320, -9 ), Vector2( -19.128, -9 ) ]
 }
-tracks/13/type = "method"
-tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
+tracks/13/type = "value"
+tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/RightBoxContainer:rect_position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.25, true ],
-"method": "switch_to_index"
-} ]
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 259.154, -9 ), Vector2( 600, -9 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
+tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer:rect_position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 592.941, 0 ), Vector2( 592.941, 0 ), Vector2( 912.941, 0 ) ]
+"values": [ Vector2( 1143.62, -163.665 ), Vector2( 967.731, -163.665 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("CanvasLayer2/Background:rect_size")
+tracks/15/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer:rect_position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -211,31 +212,7 @@ tracks/15/keys = {
 "times": PoolRealArray( 0, 0.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 768, 160 ), Vector2( 1920, 192 ) ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("CanvasLayer2/Background:color")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0.890196 ), Color( 0, 0, 0, 1 ) ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("CanvasLayer2/MainLabel:background_colour")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.764706 ) ]
+"values": [ Vector2( -163.541, -131.365 ), Vector2( -2.933, -131.365 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -266,7 +243,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ "Map display" ],
+"args": [ "pausemenu_title_map" ],
 "method": "set_text"
 } ]
 }
@@ -305,34 +282,6 @@ tracks/4/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
-}
-tracks/5/type = "method"
-tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.25, true ],
-"method": "switch_to_index"
-} ]
-}
-tracks/6/type = "method"
-tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.25, true ],
-"method": "switch_to_index"
-} ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -375,7 +324,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 896 ), Vector2( 0, 896 ), Vector2( 0, 1088 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/3/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -387,84 +336,24 @@ tracks/3/keys = {
 "values": [ Vector2( 9.41177, 0.00012207 ), Vector2( 9.41177, 0.00012207 ), Vector2( 9.41177, 112.941 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
+tracks/4/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:enabled")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
-"update": 0,
-"values": [ Vector2( 875.294, 0 ), Vector2( 875.294, 0 ), Vector2( 875.294, 112.941 ) ]
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
-"update": 0,
-"values": [ Vector2( 981.961, 0 ), Vector2( 981.961, 0 ), Vector2( 981.961, 112.941 ) ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0, 0.1, 0.25 ),
-"transitions": PoolRealArray( 1.10957, 1.10957, 3.24901 ),
-"update": 0,
-"values": [ Vector2( 9.41177, -122.353 ), Vector2( 9.41177, -122.353 ), Vector2( -489.412, -122.353 ) ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:enabled")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:enabled")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/ButtonPrompts/Close:enabled")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray(  ),
-"transitions": PoolRealArray(  ),
-"update": 1,
-"values": [  ]
-}
-tracks/10/type = "method"
-tracks/10/path = NodePath(".")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -472,13 +361,13 @@ tracks/10/keys = {
 "method": "reset_minimap"
 } ]
 }
-tracks/11/type = "method"
-tracks/11/path = NodePath("CanvasLayer2/MainLabel")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/imported = false
-tracks/11/enabled = false
-tracks/11/keys = {
+tracks/6/type = "method"
+tracks/6/path = NodePath("CanvasLayer2/MainLabel")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = false
+tracks/6/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -486,232 +375,204 @@ tracks/11/keys = {
 "method": "set_text"
 } ]
 }
-tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/keys = {
-"times": PoolRealArray( 0, 0.1, 0.25 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 955.294, -121.765 ), Vector2( 955.294, -121.765 ), Vector2( 1449.41, -121.765 ) ]
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts:visible")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0.75 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/Background:visible")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0.75 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/15/type = "value"
-tracks/15/path = NodePath("CanvasLayer2/MainLabel:visible")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
-"times": PoolRealArray( 0.75 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ false ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("CanvasLayer2/MainLabel:position")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 960, 800 ), Vector2( 960, 1152 ) ]
-}
-
-[sub_resource type="Animation" id=4]
-length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 3.24901, 1.10957 ),
-"update": 0,
-"values": [ Vector2( -489.412, -122.353 ), Vector2( 9.41177, -122.353 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath("CanvasLayer2/MainLabel")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ "Map display" ],
-"method": "set_text"
-} ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:enabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.19 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.11, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023, 0.366023 ),
-"update": 0,
-"values": [ Vector2( 0, 896 ), Vector2( 0, 896 ), Vector2( 0, 3.8147e-06 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer/Background:rect_position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.11, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023, 0.366023 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -896 ) ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("CanvasLayer/Background:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/7/type = "method"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
+tracks/7/type = "value"
+tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.25, true ],
-"method": "switch_to_index"
-} ]
+"times": PoolRealArray( 0, 0.75 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
+tracks/8/path = NodePath("CanvasLayer2/Background:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 0.11, 0.5 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 809.412, 0 ), Vector2( 981.961, 0 ), Vector2( 809.412, 0 ) ]
+"times": PoolRealArray( 0, 0.75 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/Settings/CategoryDisplay:position")
+tracks/9/path = NodePath("CanvasLayer2/MainLabel:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 0.11, 0.5 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( -800, 16 ), Vector2( -800, 16 ), Vector2( -1856, 16 ) ]
+"times": PoolRealArray( 0, 0.75 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
-tracks/10/type = "method"
-tracks/10/path = NodePath("CanvasLayer2/Settings/CategoryDisplay")
+tracks/10/type = "value"
+tracks/10/path = NodePath("CanvasLayer2/MainLabel:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 960, 800 ), Vector2( 960, 1152 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer:rect_position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 0.1, 0.75 ),
+"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
+"update": 0,
+"values": [ Vector2( -2.933, -131.365 ), Vector2( -2.933, -131.365 ), Vector2( -163.541, -131.365 ) ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer:rect_position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.1, 0.75 ),
+"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
+"update": 0,
+"values": [ Vector2( 967.731, -163.665 ), Vector2( 967.731, -163.665 ), Vector2( 1143.62, -163.665 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer:rect_position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 0.1, 0.75 ),
+"transitions": PoolRealArray( 0.108094, 0.108094, 0.108094 ),
+"update": 0,
+"values": [ Vector2( -19.1278, -9 ), Vector2( -19.1278, -9 ), Vector2( -19.128, 111.837 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/RightBoxContainer:rect_position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 0.1, 0.75 ),
+"transitions": PoolRealArray( 0.108094, 0.108094, 0.108094 ),
+"update": 0,
+"values": [ Vector2( 600, -9 ), Vector2( 600, -9 ), Vector2( 600, 111.837 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.5
+step = 0.01
+tracks/0/type = "method"
+tracks/0/path = NodePath("CanvasLayer2/MainLabel")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [  ],
-"method": "end"
+"args": [ "pausemenu_title_map" ],
+"method": "set_text"
 } ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.11, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 0, 896 ), Vector2( 0, 896 ), Vector2( 0, 3.8147e-06 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer/Background:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.11, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -896 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CanvasLayer/Background:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
+"update": 0,
+"values": [ Vector2( -181.113, -131.365 ), Vector2( -181.113, -131.365 ), Vector2( -2.933, -131.365 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
+"update": 0,
+"values": [ Vector2( 1143.62, -163.665 ), Vector2( 1143.62, -163.665 ), Vector2( 967.731, -163.665 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("CanvasLayer2/Settings:rect_position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.11, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 0, -896 ) ]
 }
 
 [sub_resource type="Animation" id=5]
 resource_name = "equipment_to_logbook"
 length = 0.5
 step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
+tracks/0/type = "method"
+tracks/0/path = NodePath("CanvasLayer2/MainLabel")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 3.24901, 3.24901, 1.10957 ),
-"update": 0,
-"values": [ Vector2( -489.412, -122.353 ), Vector2( -489.412, -122.353 ), Vector2( 9.41177, -122.353 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath("CanvasLayer2/MainLabel")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -719,87 +580,49 @@ tracks/1/keys = {
 "method": "set_text"
 } ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = false
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = false
-tracks/3/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
 "values": [ Vector2( 0, 1088 ), Vector2( -2.91038e-11, 0.00012207 ) ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/Background:rect_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = false
-tracks/4/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer/Background:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, -896 ) ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer/Background:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = false
-tracks/5/keys = {
+tracks/3/type = "value"
+tracks/3/path = NodePath("CanvasLayer/Background:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
 "times": PoolRealArray( 0.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
 }
-tracks/6/type = "method"
-tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 1, 0.25, true ],
-"method": "switch_to_index"
-} ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 489.412, 0 ), Vector2( 489.412, 0 ), Vector2( 875.294, 0 ) ]
-}
-tracks/8/type = "method"
-tracks/8/path = NodePath("CanvasLayer2/EquipmentScreen")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
+tracks/4/type = "method"
+tracks/4/path = NodePath("CanvasLayer2/EquipmentScreen")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -807,129 +630,127 @@ tracks/8/keys = {
 "method": "close"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 576, 928 ), Vector2( 0, 896 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = false
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 384, 256 ), Vector2( 384, 180 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = false
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 960, 944 ), Vector2( 960, 800 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.11, 0.25 ),
+"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"update": 0,
+"values": [ Vector2( 376.471, 0.00012207 ), Vector2( 376.471, 0.00012207 ), Vector2( 9.41177, 0.00012207 ) ]
+}
 tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/9/path = NodePath("CanvasLayer2/Background:rect_size")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
 "times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 0.366023 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 576, 928 ), Vector2( 0, 896 ) ]
+"values": [ Vector2( 768, 160 ), Vector2( 1920, 192 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/10/path = NodePath("CanvasLayer2/Background:color")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
-tracks/10/enabled = false
+tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 384, 256 ), Vector2( 384, 180 ) ]
+"values": [ Color( 0, 0, 0, 0.890196 ), Color( 0, 0, 0, 1 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/11/path = NodePath("CanvasLayer2/MainLabel:background_colour")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = false
 tracks/11/keys = {
 "times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 960, 944 ), Vector2( 960, 800 ) ]
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.764706 ) ]
 }
-tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/12/type = "method"
+tracks/12/path = NodePath("CanvasLayer2/LogbookScreen")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 376.471, 0.00012207 ), Vector2( 376.471, 0.00012207 ), Vector2( 9.41177, 0.00012207 ) ]
-}
-tracks/13/type = "method"
-tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 2, 0.25, true ],
-"method": "switch_to_index"
-} ]
-}
-tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 592.941, 0 ), Vector2( 592.941, 0 ), Vector2( 981.961, 0 ) ]
-}
-tracks/15/type = "value"
-tracks/15/path = NodePath("CanvasLayer2/Background:rect_size")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 768, 160 ), Vector2( 1920, 192 ) ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("CanvasLayer2/Background:color")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0.890196 ), Color( 0, 0, 0, 1 ) ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("CanvasLayer2/MainLabel:background_colour")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = false
-tracks/17/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.764706 ) ]
-}
-tracks/18/type = "method"
-tracks/18/path = NodePath("CanvasLayer2/LogbookScreen")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "open"
 } ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer:rect_position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 320, -9 ), Vector2( -19.128, -9 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/RightBoxContainer:rect_position")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 259.154, -9 ), Vector2( 600, -9 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -960,117 +781,81 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "reset_minimap"
+} ]
+}
 
 [sub_resource type="Animation" id=7]
 length = 0.5
 step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
+tracks/0/type = "method"
+tracks/0/path = NodePath("CanvasLayer2/MainLabel")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 3.24901, 3.24901, 1.10957 ),
-"update": 0,
-"values": [ Vector2( -489.412, -122.353 ), Vector2( -489.412, -122.353 ), Vector2( 9.41177, -122.353 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath("CanvasLayer2/MainLabel")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ "Samus" ],
+"args": [ "pausemenu_title_equipment" ],
 "method": "set_text"
 } ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = false
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = false
-tracks/3/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
 "values": [ Vector2( 0, 1088 ), Vector2( -2.91038e-11, 0.00012207 ) ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/Background:rect_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = false
-tracks/4/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer/Background:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, -896 ) ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer/Background:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = false
-tracks/5/keys = {
+tracks/3/type = "value"
+tracks/3/path = NodePath("CanvasLayer/Background:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = false
+tracks/3/keys = {
 "times": PoolRealArray( 0.5 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
 }
-tracks/6/type = "method"
-tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 1, 0.25, true ],
-"method": "switch_to_index"
-} ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 875.294, 0 ), Vector2( 875.294, 0 ), Vector2( 489.412, 0 ) ]
-}
-tracks/8/type = "method"
-tracks/8/path = NodePath("CanvasLayer2/EquipmentScreen")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
+tracks/4/type = "method"
+tracks/4/path = NodePath("CanvasLayer2/EquipmentScreen")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0.3 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -1078,123 +863,97 @@ tracks/8/keys = {
 "method": "open"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.366023, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 896 ), Vector2( 576, 928 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = false
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 384, 256 ), Vector2( 384, 180 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = false
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 960, 944 ), Vector2( 960, 800 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.11, 0.25 ),
+"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"update": 0,
+"values": [ Vector2( 9.41177, 0.00012207 ), Vector2( 9.41177, 0.00012207 ), Vector2( 376.471, 0.00012207 ) ]
+}
 tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/9/path = NodePath("CanvasLayer2/Background:rect_size")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
 "times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 0.366023, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 896 ), Vector2( 576, 928 ) ]
+"values": [ Vector2( 1920, 192 ), Vector2( 768, 160 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/10/path = NodePath("CanvasLayer2/Background:color")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
-tracks/10/enabled = false
+tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 384, 256 ), Vector2( 384, 180 ) ]
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0.890196 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/11/path = NodePath("CanvasLayer2/MainLabel:background_colour")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = false
 tracks/11/keys = {
 "times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 960, 944 ), Vector2( 960, 800 ) ]
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.764706 ) ]
 }
-tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/12/type = "method"
+tracks/12/path = NodePath("CanvasLayer2/LogbookScreen")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 9.41177, 0.00012207 ), Vector2( 9.41177, 0.00012207 ), Vector2( 376.471, 0.00012207 ) ]
-}
-tracks/13/type = "method"
-tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 1, 0.25, true ],
-"method": "switch_to_index"
-} ]
-}
-tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
-"update": 0,
-"values": [ Vector2( 981.961, 0 ), Vector2( 981.961, 0 ), Vector2( 592.941, 0 ) ]
-}
-tracks/15/type = "value"
-tracks/15/path = NodePath("CanvasLayer2/Background:rect_size")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1920, 192 ), Vector2( 768, 160 ) ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("CanvasLayer2/Background:color")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0.890196 ) ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("CanvasLayer2/MainLabel:background_colour")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = false
-tracks/17/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0.764706 ) ]
-}
-tracks/18/type = "method"
-tracks/18/path = NodePath("CanvasLayer2/LogbookScreen")
-tracks/18/interp = 1
-tracks/18/loop_wrap = true
-tracks/18/imported = false
-tracks/18/enabled = true
-tracks/18/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -1241,117 +1000,79 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true, false ]
 }
-
-[sub_resource type="Animation" id=9]
-length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 1.10957, 1.10957, 3.24901 ),
-"update": 0,
-"values": [ Vector2( 9.41177, -122.353 ), Vector2( 9.41177, -122.353 ), Vector2( -489.412, -122.353 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath("CanvasLayer2/MainLabel")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ "Equipment" ],
-"method": "set_text"
-} ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 955.294, -121.765 ), Vector2( 955.294, -121.765 ), Vector2( 1449.41, -121.765 ) ]
-}
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
+tracks/3/path = NodePath("CanvasLayer/MapRevealContainer:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
-"update": 0,
-"values": [ Vector2( -2.91038e-11, 0.00012207 ), Vector2( 0, 1088 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/Background:rect_position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
-"update": 0,
-"values": [ Vector2( 0, -896 ), Vector2( 0, 0 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer/Background:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
 }
-tracks/6/type = "method"
-tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
+
+[sub_resource type="Animation" id=9]
+length = 0.5
+step = 0.05
+tracks/0/type = "method"
+tracks/0/path = NodePath("CanvasLayer2/MainLabel")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ 1, 0.25, true ],
-"method": "switch_to_index"
+"args": [ "pausemenu_title_equipment" ],
+"method": "set_text"
 } ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 875.294, 0 ), Vector2( 875.294, 0 ), Vector2( 489.412, 0 ) ]
+"values": [ Vector2( -2.91038e-11, 0.00012207 ), Vector2( 0, 1088 ) ]
 }
-tracks/8/type = "method"
-tracks/8/path = NodePath("CanvasLayer2/EquipmentScreen")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("CanvasLayer/Background:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 0, -896 ), Vector2( 0, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("CanvasLayer/Background:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("CanvasLayer2/EquipmentScreen")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0.11 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -1359,119 +1080,141 @@ tracks/8/keys = {
 "method": "open"
 } ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 0, 896 ), Vector2( 576, 928 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 384, 180 ), Vector2( 384, 256 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 960, 800 ), Vector2( 960, 944 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.11, 0.25 ),
+"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"update": 0,
+"values": [ Vector2( 9.41177, 0.00012207 ), Vector2( 9.41177, 0.00012207 ), Vector2( 376.471, 0.00012207 ) ]
+}
 tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/Background:rect_position")
+tracks/9/path = NodePath("CanvasLayer2/Background:rect_size")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
 "times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 0.366023, 1 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 0, 896 ), Vector2( 576, 928 ) ]
+"values": [ Vector2( 1920, 192 ), Vector2( 768, 160 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("CanvasLayer/Background:rect_size")
+tracks/10/path = NodePath("CanvasLayer2/Background:color")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 384, 180 ), Vector2( 384, 256 ) ]
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0.890196 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/11/path = NodePath("CanvasLayer2/MainLabel:background_colour")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
 "times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 960, 800 ), Vector2( 960, 944 ) ]
+"values": [ Color( 0, 0, 0, 0.764706 ), Color( 0, 0, 0, 0 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer:rect_position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 9.41177, 0.00012207 ), Vector2( 9.41177, 0.00012207 ), Vector2( 376.471, 0.00012207 ) ]
+"values": [ Vector2( -19.1278, -9 ), Vector2( 320, -9 ) ]
 }
-tracks/13/type = "method"
-tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
+tracks/13/type = "value"
+tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/RightBoxContainer:rect_position")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 1, 0.25, true ],
-"method": "switch_to_index"
-} ]
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( 600, -9 ), Vector2( 259.154, -9 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
+tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer:rect_position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 0, 0.11, 0.25 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 981.961, 0 ), Vector2( 981.961, 0 ), Vector2( 592.941, 0 ) ]
+"values": [ Vector2( -2.933, -131.365 ), Vector2( -163.541, -131.365 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("CanvasLayer2/Background:rect_size")
+tracks/15/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer:rect_position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
 "times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 1920, 192 ), Vector2( 768, 160 ) ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("CanvasLayer2/Background:color")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0, 0.25 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0.890196 ) ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("CanvasLayer2/MainLabel:background_colour")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0.764706 ), Color( 0, 0, 0, 0 ) ]
+"values": [ Vector2( 967.731, -163.665 ), Vector2( 1143.62, -163.665 ) ]
 }
 
 [sub_resource type="Animation" id=10]
-step = 0.01
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
 tracks/0/interp = 1
@@ -1545,7 +1288,7 @@ tracks/5/keys = {
 "values": [ Vector2( 0, 1088 ), Vector2( 0, 1088 ), Vector2( 0, 896 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/6/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1556,70 +1299,70 @@ tracks/6/keys = {
 "update": 0,
 "values": [ Vector2( 9.41177, 112.941 ), Vector2( 9.41177, 112.941 ), Vector2( 9.41177, 0.00012207 ) ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
+tracks/7/type = "method"
+tracks/7/path = NodePath("CanvasLayer2/MainLabel")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
-tracks/7/enabled = true
+tracks/7/enabled = false
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
-"update": 0,
-"values": [ Vector2( 809.412, 112.941 ), Vector2( 809.412, 112.941 ), Vector2( 809.412, 0 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "pausemenu_title_map" ],
+"method": "set_text"
+} ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
+tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts:visible")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
-"update": 0,
-"values": [ Vector2( 912.941, 112.941 ), Vector2( 912.941, 112.941 ), Vector2( 912.941, 0 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
+tracks/9/path = NodePath("CanvasLayer2/Background:visible")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.116629, 0.116629, 0.116629 ),
-"update": 0,
-"values": [ Vector2( -489.412, -122.353 ), Vector2( -489.412, -122.353 ), Vector2( 9.41177, -122.353 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
-tracks/10/type = "method"
-tracks/10/path = NodePath("CanvasLayer2/MainLabel")
+tracks/10/type = "value"
+tracks/10/path = NodePath("CanvasLayer2/MainLabel:visible")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
-tracks/10/enabled = false
+tracks/10/enabled = true
 tracks/10/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ "Map Display" ],
-"method": "set_text"
-} ]
+"update": 1,
+"values": [ true ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
+tracks/11/path = NodePath("CanvasLayer2/MainLabel:position")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
 "times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.116629, 0.116629, 0.116629 ),
+"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
 "update": 0,
-"values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 955.294, -121.765 ) ]
+"values": [ Vector2( 960, 1152 ), Vector2( 960, 1152 ), Vector2( 960, 800 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts:visible")
+tracks/12/path = NodePath("CanvasLayer/CanvasModulate:color")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -1627,11 +1370,11 @@ tracks/12/enabled = true
 tracks/12/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("CanvasLayer2/Background:visible")
+tracks/13/path = NodePath("CanvasLayer2/CanvasModulate:color")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -1639,80 +1382,44 @@ tracks/13/enabled = true
 tracks/13/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/MainLabel:visible")
+tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer:rect_position")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"times": PoolRealArray( 0, 0.75 ),
+"transitions": PoolRealArray( 0.225312, 0.225312 ),
+"update": 0,
+"values": [ Vector2( -163.541, -131.365 ), Vector2( -2.933, -131.365 ) ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("CanvasLayer2/MainLabel:position")
+tracks/15/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer:rect_position")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0, 0.1, 0.75 ),
-"transitions": PoolRealArray( 0.217637, 0.217637, 0.217637 ),
+"times": PoolRealArray( 0, 0.75 ),
+"transitions": PoolRealArray( 0.225312, 0.225312 ),
 "update": 0,
-"values": [ Vector2( 960, 1152 ), Vector2( 960, 1152 ), Vector2( 960, 800 ) ]
-}
-tracks/16/type = "value"
-tracks/16/path = NodePath("CanvasLayer/CanvasModulate:color")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/17/type = "value"
-tracks/17/path = NodePath("CanvasLayer2/CanvasModulate:color")
-tracks/17/interp = 1
-tracks/17/loop_wrap = true
-tracks/17/imported = false
-tracks/17/enabled = true
-tracks/17/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Vector2( 1143.62, -163.665 ), Vector2( 967.731, -163.665 ) ]
 }
 
 [sub_resource type="Animation" id=11]
 length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
+step = 0.05
+tracks/0/type = "method"
+tracks/0/path = NodePath("CanvasLayer2/MainLabel")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 1.10957, 1.10957, 3.24901 ),
-"update": 0,
-"values": [ Vector2( 9.41177, -122.353 ), Vector2( 9.41177, -122.353 ), Vector2( -489.412, -122.353 ) ]
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath("CanvasLayer2/MainLabel")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
@@ -1720,20 +1427,32 @@ tracks/1/keys = {
 "method": "set_text"
 } ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
+"update": 0,
+"values": [ Vector2( -2.91038e-11, 0.00012207 ), Vector2( 0, 896 ) ]
+}
 tracks/2/type = "value"
-tracks/2/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
+tracks/2/path = NodePath("CanvasLayer/Background:rect_position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.11, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 955.294, -121.765 ), Vector2( 955.294, -121.765 ), Vector2( 1449.41, -121.765 ) ]
+"values": [ Vector2( 0, -896 ), Vector2( 0, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:enabled")
+tracks/3/path = NodePath("CanvasLayer/Background:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -1742,10 +1461,10 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer/MapGridContainer:rect_position")
+tracks/4/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer:rect_position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -1754,10 +1473,10 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( -2.91038e-11, 0.00012207 ), Vector2( 0, 896 ) ]
+"values": [ Vector2( -2.9333, -131.365 ), Vector2( -181.113, -131.365 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer/Background:rect_position")
+tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer:rect_position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1766,10 +1485,10 @@ tracks/5/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 0, -896 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 967.731, -163.665 ), Vector2( 1143.62, -163.665 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("CanvasLayer/Background:visible")
+tracks/6/path = NodePath("CanvasLayer2/Settings:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -1780,138 +1499,22 @@ tracks/6/keys = {
 "update": 1,
 "values": [ true ]
 }
-tracks/7/type = "method"
-tracks/7/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
+tracks/7/type = "value"
+tracks/7/path = NodePath("CanvasLayer2/Settings:rect_position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 1, 0.25, true ],
-"method": "switch_to_index"
-} ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 0, 0.11, 0.5 ),
-"transitions": PoolRealArray( 0.189465, 0.189465, 0.189465 ),
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.366023, 0.366023 ),
 "update": 0,
-"values": [ Vector2( 875.294, 0 ), Vector2( 875.294, 0 ), Vector2( 981.961, 0 ) ]
-}
-tracks/9/type = "value"
-tracks/9/path = NodePath("CanvasLayer2/Settings/CategoryDisplay:position")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
-"times": PoolRealArray( 0, 0.11, 0.5 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( -1856, 16 ), Vector2( -1856, 16 ), Vector2( -800, 16 ) ]
-}
-tracks/10/type = "method"
-tracks/10/path = NodePath("CanvasLayer2/Settings/CategoryDisplay")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
-"times": PoolRealArray( 0.35 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "start"
-} ]
+"values": [ Vector2( -2.47192, -896 ), Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=12]
 length = 0.69
 step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/Settings/CategoryDisplay:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.69 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( -1856, 16 ), Vector2( -1856, 16 ), Vector2( -800, 16 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("CanvasLayer2/Settings/OptionDisplay:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.44 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( -800, 16 ), Vector2( -800, 16 ), Vector2( -1856, 16 ) ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath("CanvasLayer2/Settings/CategoryDisplay")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.55 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "start"
-} ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath("CanvasLayer2/Settings/OptionDisplay")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "end"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.39 ),
-"transitions": PoolRealArray( 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( 9.412, -122.353 ), Vector2( -489.412, -122.353 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.39 ),
-"transitions": PoolRealArray( 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( 922.353, -121.765 ), Vector2( 1449.41, -121.765 ) ]
-}
 
 [sub_resource type="Animation" id=13]
 resource_name = "reset"
@@ -2034,12 +1637,12 @@ tracks/9/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ "Map Display", 0.0 ],
+"args": [ "pausemenu_title_map", 0.0 ],
 "method": "set_text"
 } ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("CanvasLayer2/ButtonPrompts/Close:position")
+tracks/10/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -2051,31 +1654,31 @@ tracks/10/keys = {
 "values": [ Vector2( 9.41177, 112.941 ) ]
 }
 tracks/11/type = "value"
-tracks/11/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:position")
+tracks/11/path = NodePath("CanvasLayer/CanvasModulate:color")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 875.294, 112.941 ) ]
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:position")
+tracks/12/path = NodePath("CanvasLayer2/CanvasModulate:color")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 981.961, 112.941 ) ]
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
-tracks/13/type = "value"
-tracks/13/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
+tracks/13/type = "method"
+tracks/13/path = NodePath("CanvasLayer2/EquipmentScreen")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -2083,11 +1686,13 @@ tracks/13/enabled = true
 tracks/13/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -489.412, -122.353 ) ]
+"values": [ {
+"args": [ true ],
+"method": "close"
+} ]
 }
-tracks/14/type = "value"
-tracks/14/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
+tracks/14/type = "method"
+tracks/14/path = NodePath("CanvasLayer2/LogbookScreen")
 tracks/14/interp = 1
 tracks/14/loop_wrap = true
 tracks/14/imported = false
@@ -2095,11 +1700,13 @@ tracks/14/enabled = true
 tracks/14/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1449.41, -121.765 ) ]
+"values": [ {
+"args": [ true ],
+"method": "close"
+} ]
 }
-tracks/15/type = "method"
-tracks/15/path = NodePath("CanvasLayer2/ButtonPrompts/Close")
+tracks/15/type = "value"
+tracks/15/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu:visible")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -2107,13 +1714,11 @@ tracks/15/enabled = true
 tracks/15/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.0, true ],
-"method": "switch_to_index"
-} ]
+"update": 1,
+"values": [ true ]
 }
-tracks/16/type = "method"
-tracks/16/path = NodePath("CanvasLayer2/ButtonPrompts/Settings")
+tracks/16/type = "value"
+tracks/16/path = NodePath("CanvasLayer/MapRevealContainer:rect_size")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/imported = false
@@ -2121,13 +1726,11 @@ tracks/16/enabled = true
 tracks/16/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, 0.0, true ],
-"method": "switch_to_index"
-} ]
+"update": 0,
+"values": [ Vector2( 0, 896 ) ]
 }
-tracks/17/type = "method"
-tracks/17/path = NodePath("CanvasLayer2/ButtonPrompts/Marker")
+tracks/17/type = "value"
+tracks/17/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer:rect_position")
 tracks/17/interp = 1
 tracks/17/loop_wrap = true
 tracks/17/imported = false
@@ -2135,37 +1738,35 @@ tracks/17/enabled = true
 tracks/17/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 0, true ],
-"method": "expand_to_point"
-} ]
+"update": 0,
+"values": [ Vector2( -163.541, -131.365 ) ]
 }
 tracks/18/type = "value"
-tracks/18/path = NodePath("CanvasLayer/CanvasModulate:color")
+tracks/18/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer:rect_position")
 tracks/18/interp = 1
 tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1143.62, -163.665 ) ]
 }
 tracks/19/type = "value"
-tracks/19/path = NodePath("CanvasLayer2/CanvasModulate:color")
+tracks/19/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer:rect_position")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -19.1278, -9 ) ]
 }
-tracks/20/type = "method"
-tracks/20/path = NodePath("CanvasLayer2/EquipmentScreen")
+tracks/20/type = "value"
+tracks/20/path = NodePath("CanvasLayer2/ButtonPrompts/RightBoxContainer:rect_position")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
@@ -2173,13 +1774,11 @@ tracks/20/enabled = true
 tracks/20/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ true ],
-"method": "close"
-} ]
+"update": 0,
+"values": [ Vector2( 600, -9 ) ]
 }
-tracks/21/type = "method"
-tracks/21/path = NodePath("CanvasLayer2/LogbookScreen")
+tracks/21/type = "value"
+tracks/21/path = NodePath("CanvasLayer2/Settings:visible")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
@@ -2187,13 +1786,11 @@ tracks/21/enabled = true
 tracks/21/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ true ],
-"method": "close"
-} ]
+"update": 1,
+"values": [ false ]
 }
 tracks/22/type = "method"
-tracks/22/path = NodePath("CanvasLayer2/Settings/CategoryDisplay")
+tracks/22/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/CloseMenu")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
@@ -2203,11 +1800,11 @@ tracks/22/keys = {
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
-"method": "end"
+"method": "reset"
 } ]
 }
 tracks/23/type = "method"
-tracks/23/path = NodePath("CanvasLayer2/Settings/OptionDisplay")
+tracks/23/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/Accept")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
@@ -2216,12 +1813,12 @@ tracks/23/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ true ],
-"method": "end"
+"args": [  ],
+"method": "reset"
 } ]
 }
-tracks/24/type = "value"
-tracks/24/path = NodePath("CanvasLayer2/Settings/CategoryDisplay:position")
+tracks/24/type = "method"
+tracks/24/path = NodePath("CanvasLayer2/ButtonPrompts/LeftBoxContainer/Cancel")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
@@ -2229,11 +1826,13 @@ tracks/24/enabled = true
 tracks/24/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -1856, 16 ) ]
+"values": [ {
+"args": [  ],
+"method": "reset"
+} ]
 }
-tracks/25/type = "value"
-tracks/25/path = NodePath("CanvasLayer2/Settings/OptionDisplay:position")
+tracks/25/type = "method"
+tracks/25/path = NodePath("CanvasLayer2/ButtonPrompts/RightBoxContainer/Settings")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
@@ -2241,11 +1840,13 @@ tracks/25/enabled = true
 tracks/25/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -1846.37, 16 ) ]
+"values": [ {
+"args": [  ],
+"method": "reset"
+} ]
 }
-tracks/26/type = "value"
-tracks/26/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:visible")
+tracks/26/type = "method"
+tracks/26/path = NodePath("CanvasLayer2/ButtonPrompts/RightBoxContainer/Equipment")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
@@ -2253,11 +1854,13 @@ tracks/26/enabled = true
 tracks/26/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"values": [ {
+"args": [  ],
+"method": "reset"
+} ]
 }
-tracks/27/type = "value"
-tracks/27/path = NodePath("CanvasLayer2/ButtonPrompts/Settings:visible")
+tracks/27/type = "method"
+tracks/27/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer/Main")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
@@ -2265,11 +1868,13 @@ tracks/27/enabled = true
 tracks/27/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"values": [ {
+"args": [  ],
+"method": "reset"
+} ]
 }
-tracks/28/type = "value"
-tracks/28/path = NodePath("CanvasLayer2/ButtonPrompts/Close:visible")
+tracks/28/type = "method"
+tracks/28/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer/Delete")
 tracks/28/interp = 1
 tracks/28/loop_wrap = true
 tracks/28/imported = false
@@ -2277,11 +1882,13 @@ tracks/28/enabled = true
 tracks/28/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"values": [ {
+"args": [  ],
+"method": "reset"
+} ]
 }
-tracks/29/type = "value"
-tracks/29/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:modulate")
+tracks/29/type = "method"
+tracks/29/path = NodePath("CanvasLayer2/ButtonPrompts/MarkerContainer/Rename")
 tracks/29/interp = 1
 tracks/29/loop_wrap = true
 tracks/29/imported = false
@@ -2289,11 +1896,13 @@ tracks/29/enabled = true
 tracks/29/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ {
+"args": [  ],
+"method": "reset"
+} ]
 }
 tracks/30/type = "method"
-tracks/30/path = NodePath("CanvasLayer2/ButtonPrompts/Marker/ButtonPrompts/Main")
+tracks/30/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer/ZoomIn")
 tracks/30/interp = 1
 tracks/30/loop_wrap = true
 tracks/30/imported = false
@@ -2302,12 +1911,12 @@ tracks/30/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ 0, 0.0, true ],
-"method": "switch_to_index"
+"args": [  ],
+"method": "reset"
 } ]
 }
 tracks/31/type = "method"
-tracks/31/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment")
+tracks/31/path = NodePath("CanvasLayer2/ButtonPrompts/ZoomContainer/ZoomOut")
 tracks/31/interp = 1
 tracks/31/loop_wrap = true
 tracks/31/imported = false
@@ -2316,12 +1925,12 @@ tracks/31/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
-"args": [ 0, 0.0, true ],
-"method": "switch_to_index"
+"args": [  ],
+"method": "reset"
 } ]
 }
 tracks/32/type = "value"
-tracks/32/path = NodePath("CanvasLayer2/ButtonPrompts/Equipment:enabled")
+tracks/32/path = NodePath("CanvasLayer/MapRevealCursor:visible")
 tracks/32/interp = 1
 tracks/32/loop_wrap = true
 tracks/32/imported = false
@@ -2330,10 +1939,10 @@ tracks/32/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false ]
 }
 tracks/33/type = "value"
-tracks/33/path = NodePath("CanvasLayer/MapRevealContainer:rect_size")
+tracks/33/path = NodePath("CanvasLayer/MapRevealCursor:position")
 tracks/33/interp = 1
 tracks/33/loop_wrap = true
 tracks/33/imported = false
@@ -2342,118 +1951,54 @@ tracks/33/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 0, 896 ) ]
+"values": [ Vector2( -48, 7.62939e-06 ) ]
+}
+tracks/34/type = "value"
+tracks/34/path = NodePath("CanvasLayer/MapRevealContainer:rect_position")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/35/type = "value"
+tracks/35/path = NodePath("CanvasLayer/MapRevealContainer:visible")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=14]
 length = 0.69
 step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("CanvasLayer2/Settings/CategoryDisplay:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.44 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( -800, 16 ), Vector2( -800, 16 ), Vector2( -1856, 16 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("CanvasLayer2/Settings/OptionDisplay:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 0.69 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( -1856, 16 ), Vector2( -1856, 16 ), Vector2( -800, 16 ) ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath("CanvasLayer2/Settings/CategoryDisplay")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "end"
-} ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath("CanvasLayer2/Settings/OptionDisplay")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0.55 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "start"
-} ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("CanvasLayer2/ButtonPrompts/Marker:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0, 0.3, 0.69 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( -489.412, -122.353 ), Vector2( -489.412, -122.353 ), Vector2( 9.412, -122.353 ) ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("CanvasLayer2/ButtonPrompts/Zoom:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 0, 0.3, 0.69 ),
-"transitions": PoolRealArray( 0.176777, 0.176777, 0.176777 ),
-"update": 0,
-"values": [ Vector2( 1449.41, -121.765 ), Vector2( 1449.41, -121.765 ), Vector2( 922.353, -122.353 ) ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("CanvasLayer2/Settings/OptionDisplay:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/7/type = "value"
-tracks/7/path = NodePath("CanvasLayer2/Settings/OptionDisplay:modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
 
 [sub_resource type="Gradient" id=15]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=16]
 gradient = SubResource( 15 )
+
+[sub_resource type="DynamicFont" id=17]
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = -15
+extra_spacing_bottom = -9
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=18]
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_top = -15
+extra_spacing_bottom = -7
+font_data = ExtResource( 6 )
 
 [node name="PauseMenu" type="Control"]
 pause_mode = 2
@@ -2490,9 +2035,9 @@ layer = 5
 [node name="MapGridContainer" type="Control" parent="CanvasLayer"]
 modulate = Color( 1, 1, 1, 0.921569 )
 margin_left = -2.91038e-11
-margin_top = 1280.0
-margin_right = 384.0
-margin_bottom = 1460.0
+margin_top = 0.00012207
+margin_right = 768.0
+margin_bottom = 360.0
 rect_scale = Vector2( 2.5, 2.5 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -2517,9 +2062,9 @@ __meta__ = {
 }
 
 [node name="CanvasModulate" type="CanvasModulate" parent="CanvasLayer"]
-color = Color( 1, 1, 1, 0 )
 
 [node name="MapRevealCursor" type="Sprite" parent="CanvasLayer"]
+visible = false
 position = Vector2( -48, 7.62939e-06 )
 scale = Vector2( 0.0234376, 897 )
 texture = SubResource( 16 )
@@ -2527,7 +2072,8 @@ centered = false
 flip_h = true
 
 [node name="MapRevealContainer" type="Control" parent="CanvasLayer"]
-margin_bottom = 358.4
+visible = false
+margin_bottom = 896.0
 rect_scale = Vector2( 2.5, 2.5 )
 rect_clip_content = true
 __meta__ = {
@@ -2540,156 +2086,245 @@ __meta__ = {
 layer = 5
 
 [node name="EquipmentScreen" parent="CanvasLayer2" instance=ExtResource( 5 )]
+margin_left = -0.471924
+margin_top = 0.471924
+margin_right = 383.528
+margin_bottom = 216.472
 
 [node name="LogbookScreen" parent="CanvasLayer2" instance=ExtResource( 8 )]
 
 [node name="Background" type="ColorRect" parent="CanvasLayer2"]
-visible = false
-margin_top = 1088.0
+margin_top = 896.0
 margin_right = 1920.0
-margin_bottom = 1280.0
-color = Color( 0, 0, 0, 0.934118 )
+margin_bottom = 1088.0
+color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="MainLabel" parent="CanvasLayer2" instance=ExtResource( 7 )]
-visible = false
-position = Vector2( 960, 1152 )
+position = Vector2( 960, 800 )
 scale = Vector2( 2.25, 2 )
 animation_duration = 0.5
 all_caps = true
-background_colour = Color( 0, 0, 0, 0.152941 )
+background_colour = Color( 0, 0, 0, 0.382353 )
 
 [node name="ButtonPrompts" type="Node2D" parent="CanvasLayer2"]
 position = Vector2( 64, 1040 )
 scale = Vector2( 1.7, 1.7 )
 
-[node name="Close" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( 9.41177, 112.941 )
-action_keys = [ "pause" ]
-text = [ "Close" ]
+[node name="LeftBoxContainer" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 10 )]
+margin_left = -19.1278
+margin_top = -9.0
+margin_right = 398.873
+margin_bottom = 7.0
+rect_min_size = Vector2( 418, 16 )
+background_colour = Color( 0, 0, 0, 0 )
 
-[node name="Settings" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( 875.294, 112.941 )
-action_keys = [ "ui_cancel", "#ui_cancel" ]
-text = [ "Settings", "Back" ]
+[node name="CloseMenu" parent="CanvasLayer2/ButtonPrompts/LeftBoxContainer" instance=ExtResource( 1 )]
+margin_right = 88.0
+preview_text = "Close menu"
+preview_texture = ExtResource( 9 )
+default_text = "pausemenu_button_close_menu"
+default_action_key = "pause"
 
-[node name="Equipment" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( 981.961, 112.941 )
-action_keys = [ "ui_accept", "ui_special_2", "ui_special_2" ]
-text = [ "Equipment & Logbook", "Logbook", "Equipment" ]
+[node name="Accept" parent="CanvasLayer2/ButtonPrompts/LeftBoxContainer" instance=ExtResource( 1 )]
+margin_left = 106.0
+margin_right = 162.0
+preview_text = "Select"
+default_text = "pausemenu_button_accept"
+default_action_key = "ui_accept"
+start_invisible = true
 
-[node name="Marker" type="Node2D" parent="CanvasLayer2/ButtonPrompts"]
-position = Vector2( -489.412, -122.353 )
-script = ExtResource( 2 )
-duration = 0.35
-transition_type = 1
-ease_type = 1
+[node name="Cancel" parent="CanvasLayer2/ButtonPrompts/LeftBoxContainer" instance=ExtResource( 1 )]
+margin_left = 180.0
+margin_right = 229.0
+preview_text = "Back"
+preview_texture = ExtResource( 12 )
+default_text = "pausemenu_button_cancel"
+default_action_key = "ui_cancel"
+start_invisible = true
 
-[node name="Background" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Marker"]
-margin_left = -19.0
-margin_top = -19.0
-margin_right = 108.0
-margin_bottom = 19.0
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="RightBoxContainer" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 10 )]
+margin_left = 600.0
+margin_top = -9.0
+margin_right = 1081.0
+margin_bottom = 7.00002
+rect_min_size = Vector2( 481, 16 )
+alignment = 2
+background_colour = Color( 0, 0, 0, 0 )
 
-[node name="BackgroundStates" type="Node2D" parent="CanvasLayer2/ButtonPrompts/Marker"]
+[node name="Settings" parent="CanvasLayer2/ButtonPrompts/RightBoxContainer" instance=ExtResource( 1 )]
+margin_left = 255.0
+margin_right = 322.0
+preview_text = "Settings"
+preview_texture = ExtResource( 9 )
+default_text = "pausemenu_button_settings"
+default_action_key = "ui_special_1"
+
+[node name="Equipment" parent="CanvasLayer2/ButtonPrompts/RightBoxContainer" instance=ExtResource( 1 )]
+margin_left = 340.0
+margin_right = 481.0
+preview_text = "Equipment & logbook"
+preview_texture = ExtResource( 9 )
+default_text = "pausemenu_button_equipmentlogbook"
+default_action_key = "ui_special_2"
+
+[node name="MarkerContainer" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 10 )]
+margin_left = -2.933
+margin_top = -131.365
+margin_right = 86.067
+margin_bottom = -115.365
+background_expand_margin = Vector2( 15, 22 )
+
+[node name="Main" parent="CanvasLayer2/ButtonPrompts/MarkerContainer" instance=ExtResource( 1 )]
+margin_right = 89.0
+preview_text = "Edit marker"
+default_text = "pausemenu_button_edit_marker"
+default_action_key = "ui_accept"
+
+[node name="Delete" parent="CanvasLayer2/ButtonPrompts/MarkerContainer" instance=ExtResource( 1 )]
 visible = false
+margin_left = 107.0
+margin_right = 210.0
+preview_text = "Delete marker"
+default_text = "pausemenu_button_delete_marker"
+default_action_key = "ui_cancel"
+start_invisible = true
 
-[node name="Closed" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Marker/BackgroundStates"]
+[node name="Rename" parent="CanvasLayer2/ButtonPrompts/MarkerContainer" instance=ExtResource( 1 )]
 visible = false
-margin_left = -19.0
-margin_top = -19.0
-margin_right = 108.0
-margin_bottom = 19.0
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = 228.0
+margin_right = 336.0
+preview_text = "Rename maker"
+default_text = "pausemenu_button_rename_marker"
+default_action_key = "ui_special_1"
+start_invisible = true
 
-[node name="Opened" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Marker/BackgroundStates"]
-visible = false
-margin_left = -19.0
-margin_top = -19.0
-margin_right = 424.0
-margin_bottom = 19.0
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ZoomContainer" parent="CanvasLayer2/ButtonPrompts" instance=ExtResource( 2 )]
+margin_left = 967.731
+margin_top = -163.665
+margin_right = 1044.73
+margin_bottom = -113.665
 
-[node name="Options" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Marker/BackgroundStates"]
-visible = false
-margin_left = -19.0
-margin_top = -19.0
-margin_right = 132.0
-margin_bottom = 19.0
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="ZoomIn" parent="CanvasLayer2/ButtonPrompts/ZoomContainer" instance=ExtResource( 1 )]
+margin_right = 77.0
+preview_text = "Zoom in"
+default_text = "pausemenu_button_mapzoomin"
+default_action_key = "map_zoom_in"
 
-[node name="ButtonPrompts" type="Node2D" parent="CanvasLayer2/ButtonPrompts/Marker"]
-
-[node name="Main" parent="CanvasLayer2/ButtonPrompts/Marker/ButtonPrompts" instance=ExtResource( 1 )]
-action_keys = [ "ui_special_1", "ui_accept", "#ui_special_1" ]
-text = [ "Edit marker", "Place marker", "Save changes" ]
-
-[node name="Delete" parent="CanvasLayer2/ButtonPrompts/Marker/ButtonPrompts" instance=ExtResource( 1 )]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 141.176, 0 )
-action_keys = [ "ui_cancel" ]
-text = [ "Delete marker" ]
-
-[node name="Rename" parent="CanvasLayer2/ButtonPrompts/Marker/ButtonPrompts" instance=ExtResource( 1 )]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 286.118, 0 )
-action_keys = [ "ui_special_1", "#ui_special_1" ]
-text = [ "Rename marker", "Confirm rename" ]
-
-[node name="Tween" type="Tween" parent="CanvasLayer2/ButtonPrompts/Marker"]
-
-[node name="Zoom" type="Node2D" parent="CanvasLayer2/ButtonPrompts"]
-position = Vector2( 1449.41, -121.765 )
-
-[node name="Background" type="ColorRect" parent="CanvasLayer2/ButtonPrompts/Zoom"]
-margin_left = -19.0
-margin_top = -53.0
-margin_right = 109.0
-margin_bottom = 19.0
-rect_pivot_offset = Vector2( 0, 38 )
-color = Color( 0, 0, 0, 0.764706 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ButtonPrompts" type="Node2D" parent="CanvasLayer2/ButtonPrompts/Zoom"]
-
-[node name="ZoomIn" parent="CanvasLayer2/ButtonPrompts/Zoom/ButtonPrompts" instance=ExtResource( 1 )]
-action_keys = [ "map_zoom_in" ]
-text = [ "Zoom in" ]
-
-[node name="ZoomOut" parent="CanvasLayer2/ButtonPrompts/Zoom/ButtonPrompts" instance=ExtResource( 1 )]
-position = Vector2( 0, -32.7178 )
-action_keys = [ "map_zoom_out" ]
-text = [ "Zoom out" ]
-
-[node name="Settings" type="Node2D" parent="CanvasLayer2"]
-position = Vector2( 960, 208 )
-
-[node name="CategoryDisplay" parent="CanvasLayer2/Settings" instance=ExtResource( 6 )]
-position = Vector2( -1856, 16 )
-
-[node name="OptionDisplay" parent="CanvasLayer2/Settings" instance=ExtResource( 4 )]
-position = Vector2( -1846.37, 16 )
+[node name="ZoomOut" parent="CanvasLayer2/ButtonPrompts/ZoomContainer" instance=ExtResource( 1 )]
+margin_top = 34.0
+margin_right = 77.0
+margin_bottom = 50.0
+preview_text = "Zoom out"
+default_text = "pausemenu_button_mapzoomout"
+default_action_key = "map_zoom_out"
 
 [node name="CanvasModulate" type="CanvasModulate" parent="CanvasLayer2"]
-color = Color( 1, 1, 1, 0 )
+
+[node name="Settings" type="Control" parent="CanvasLayer2"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -600.053
+margin_bottom = -784.053
+rect_clip_content = true
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsDescription" type="ColorRect" parent="CanvasLayer2/Settings"]
+margin_left = 56.0
+margin_top = 61.0
+margin_right = 378.0
+margin_bottom = 333.0
+rect_scale = Vector2( 2, 2 )
+color = Color( 1, 1, 1, 0.101961 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="CanvasLayer2/Settings/SettingsDescription"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -154.0
+margin_top = -130.5
+margin_right = 154.0
+margin_bottom = 130.5
+custom_fonts/font = SubResource( 17 )
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsValue" type="ColorRect" parent="CanvasLayer2/Settings"]
+margin_left = 56.0
+margin_top = 674.0
+margin_right = 378.0
+margin_bottom = 745.0
+rect_scale = Vector2( 2, 2 )
+color = Color( 1, 1, 1, 0.101961 )
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Label" type="Label" parent="CanvasLayer2/Settings/SettingsValue"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -154.0
+margin_top = -27.5
+margin_right = 154.0
+margin_bottom = 27.5
+custom_fonts/font = SubResource( 18 )
+text = "Joypad:
+Keyboard:"
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopButtonIcon" parent="CanvasLayer2/Settings/SettingsValue" instance=ExtResource( 11 )]
+margin_left = 282.315
+margin_top = 10.9293
+margin_right = 298.315
+margin_bottom = 26.9293
+rect_scale = Vector2( 1.5, 1.5 )
+action_key = "ui_accept"
+
+[node name="BottomButtonIcon" parent="CanvasLayer2/Settings/SettingsValue" instance=ExtResource( 11 )]
+margin_left = 282.315
+margin_top = 37.9057
+margin_right = 298.315
+margin_bottom = 53.9057
+rect_scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 14 )
+action_key = "ui_accept"
+
+[node name="SettingsMenu" parent="CanvasLayer2/Settings" instance=ExtResource( 4 )]
+margin_left = 0.390869
+margin_top = -1.33484
+margin_right = 0.390869
+margin_bottom = -1.33484
+description_label_path = NodePath("../SettingsDescription/Label")
+value_label_path = NodePath("../SettingsValue/Label")
+top_buttonicon_path = NodePath("../SettingsValue/TopButtonIcon")
+bottom_buttonicon_path = NodePath("../SettingsValue/BottomButtonIcon")
+confirm_button_path = NodePath("../../ButtonPrompts/LeftBoxContainer/Accept")
+cancel_button_path = NodePath("../../ButtonPrompts/LeftBoxContainer/Cancel")
+save_button_path = NodePath("../../ButtonPrompts/RightBoxContainer/Settings")
+reset_button_path = NodePath("../../ButtonPrompts/RightBoxContainer/Equipment")
 
 [editable path="CanvasLayer2/EquipmentScreen"]

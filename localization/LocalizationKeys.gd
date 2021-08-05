@@ -33,6 +33,27 @@ const titlescreen_button_delete_file = "titlescreen_button_delete_file"
 const titlescreen_button_delete_empty = "titlescreen_button_delete_empty"
 const titlescreen_button_accept_option = "titlescreen_button_accept_option"
 const titlescreen_button_back_option = "titlescreen_button_back_option"
+const pausemenu_button_close_menu = "pausemenu_button_close_menu"
+const pausemenu_button_equipmentlogbook = "pausemenu_button_equipmentlogbook"
+const pausemenu_button_equipment = "pausemenu_button_equipment"
+const pausemenu_button_logbook = "pausemenu_button_logbook"
+const pausemenu_button_settings = "pausemenu_button_settings"
+const pausemenu_button_edit_marker = "pausemenu_button_edit_marker"
+const pausemenu_button_delete_marker = "pausemenu_button_delete_marker"
+const pausemenu_button_rename_marker = "pausemenu_button_rename_marker"
+const pausemenu_button_confirm_rename_marker = "pausemenu_button_confirm_rename_marker"
+const pausemenu_button_place_marker = "pausemenu_button_place_marker"
+const pausemenu_button_mapzoomin = "pausemenu_button_mapzoomin"
+const pausemenu_button_mapzoomout = "pausemenu_button_mapzoomout"
+const pausemenu_button_accept = "pausemenu_button_accept"
+const pausemenu_button_cancel = "pausemenu_button_cancel"
+const pausemenu_title_equipment = "pausemenu_title_equipment"
+const pausemenu_title_map = "pausemenu_title_map"
+const scanvisor_close_info = "scanvisor_close_info"
+const upgradestation_create = "upgradestation_create"
+const upgradestation_cancel = "upgradestation_cancel"
+const deathscreen_reloadsave = "deathscreen_reloadsave"
+const deathscreen_exit = "deathscreen_exit"
 
 const KEYS = [
  "VALIDITY_TEST",
@@ -64,5 +85,26 @@ const KEYS = [
  "titlescreen_button_delete_file",
  "titlescreen_button_delete_empty",
  "titlescreen_button_accept_option",
- "titlescreen_button_back_option"
+ "titlescreen_button_back_option",
+ "pausemenu_button_close_menu",
+ "pausemenu_button_equipmentlogbook",
+ "pausemenu_button_equipment",
+ "pausemenu_button_logbook",
+ "pausemenu_button_settings",
+ "pausemenu_button_edit_marker",
+ "pausemenu_button_delete_marker",
+ "pausemenu_button_rename_marker",
+ "pausemenu_button_confirm_rename_marker",
+ "pausemenu_button_place_marker",
+ "pausemenu_button_mapzoomin",
+ "pausemenu_button_mapzoomout",
+ "pausemenu_button_accept",
+ "pausemenu_button_cancel",
+ "pausemenu_title_equipment",
+ "pausemenu_title_map",
+ "scanvisor_close_info",
+ "upgradestation_create",
+ "upgradestation_cancel",
+ "deathscreen_reloadsave",
+ "deathscreen_exit"
 ]

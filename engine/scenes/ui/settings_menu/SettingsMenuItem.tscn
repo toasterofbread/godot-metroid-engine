@@ -4,6 +4,7 @@
 [ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenuItem.gd" type="Script" id=2]
 
 [node name="SettingsMenuItem" type="Control"]
+pause_mode = 2
 margin_right = 284.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 55, 29 )

@@ -44,12 +44,12 @@ func update_group():
 		node.text = data.values()[current_group][key]["name"]
 
 func process():
-	var pad_y = Shortcut.get_pad_vector("just_pressed").y
+	var pad_y: int = Shortcut.get_pad_vector("just_pressed").y
 	
-	var pad_x = 0
-	if $List/ButtonPrompts/PreviousGroup.just_pressed():
+	var pad_x: int = 0
+	if Input.is_action_just_pressed($List/ButtonIcons/Previous.action_key):
 		pad_x = -1
-	elif $List/ButtonPrompts/NextGroup.just_pressed():
+	elif Input.is_action_just_pressed($List/ButtonIcons/Next.action_key):
 		pad_x = 1
 	
 	if pad_y != 0:
@@ -89,9 +89,10 @@ func set_data(data_value=null):
 	
 	# TODO | Add starting entries to the default savegame
 	for key in recorded_entries:
-		if not logbook_data[key]["group"] in data:
-			data[logbook_data[key]["group"]] = {}
-		data[logbook_data[key]["group"]][key] = logbook_data[key]
+		var group_index: String = logbook_data[key]["group"]["name"]
+		if not group_index in data:
+			data[group_index] = {}
+		data[group_index][key] = logbook_data[key]
 	
 	visible = false
 	current_group = 0

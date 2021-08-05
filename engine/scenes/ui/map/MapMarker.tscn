@@ -38,13 +38,14 @@ anti_aliasing = false
 [node name="MapMarker" type="AnimatedSprite"]
 z_index = 5
 frames = SubResource( 1 )
-frame = 2
+frame = 1
 playing = true
 script = ExtResource( 7 )
 
 [node name="MovementOverlay" type="AnimatedSprite" parent="."]
 visible = false
 frames = SubResource( 2 )
+frame = 3
 playing = true
 
 [node name="CustomName" type="Label" parent="."]
@@ -90,5 +91,3 @@ caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Tween" type="Tween" parent="."]

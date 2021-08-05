@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://engine/sprites/objects/upgrade_station/console.png" type="Texture" id=1]
 [ext_resource path="res://engine/sprites/objects/upgrade_station/screen_mask.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://engine/scenes/ui/upgrade_station_menu/UpgradeInfo.tscn" type="PackedScene" id=6]
 [ext_resource path="res://engine/scenes/ui/button_prompt/ButtonPrompt.tscn" type="PackedScene" id=7]
 [ext_resource path="res://engine/scenes/ui/FancyLabel.tscn" type="PackedScene" id=8]
+[ext_resource path="res://engine/sprites/ui/button_prompt/joypad_icons/ps4/0.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 8 )
@@ -372,23 +373,33 @@ __meta__ = {
 
 [node name="Tween" type="Tween" parent="Menu/Data"]
 
-[node name="Buttons" type="Node2D" parent="Menu"]
+[node name="Buttons" type="HBoxContainer" parent="Menu"]
 material = SubResource( 4 )
-position = Vector2( 308.358, -420 )
+margin_left = 247.0
+margin_top = 409.0
+margin_right = 464.0
+margin_bottom = 425.0
+rect_scale = Vector2( 3, 3 )
+custom_constants/separation = 25
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Create" parent="Menu/Buttons" instance=ExtResource( 7 )]
-use_parent_material = true
-position = Vector2( 36.19, 826.666 )
-scale = Vector2( 1.1, 1.1 )
-action_keys = [ "ui_accept" ]
-text = [ "Create" ]
+margin_left = 36.0
+margin_right = 96.0
+preview_text = "Create"
+default_text = "upgradestation_create"
+default_action_key = "ui_accept"
 
 [node name="Cancel" parent="Menu/Buttons" instance=ExtResource( 7 )]
-use_parent_material = true
-position = Vector2( 386.666, 826.666 )
-scale = Vector2( 1.1, 1.1 )
-action_keys = [ "ui_cancel" ]
-text = [ "Close" ]
+margin_left = 121.0
+margin_right = 180.0
+preview_text = "Cancel"
+preview_texture = ExtResource( 9 )
+default_text = "upgradestation_cancel"
+default_action_key = "ui_cancel"
 
 [node name="ConfirmationWindow" type="Control" parent="Menu"]
 margin_left = 899.0
@@ -449,23 +460,31 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Buttons" type="Node2D" parent="Menu/ConfirmationWindow"]
+[node name="Buttons" type="HBoxContainer" parent="Menu/ConfirmationWindow"]
 material = SubResource( 4 )
-position = Vector2( 54.4771, -445.967 )
+margin_left = 58.0
+margin_top = 311.0
+margin_right = 265.0
+margin_bottom = 327.0
+rect_scale = Vector2( 3, 3 )
+custom_constants/separation = 25
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Create" parent="Menu/ConfirmationWindow/Buttons" instance=ExtResource( 7 )]
-use_parent_material = true
-position = Vector2( 36.19, 826.666 )
-scale = Vector2( 1.1, 1.1 )
-action_keys = [ "ui_accept" ]
-text = [ "Confirm" ]
+margin_right = 60.0
+preview_text = "Create"
+default_text = "upgradestation_create"
+default_action_key = "ui_accept"
 
 [node name="Cancel" parent="Menu/ConfirmationWindow/Buttons" instance=ExtResource( 7 )]
-use_parent_material = true
-position = Vector2( 386.666, 826.666 )
-scale = Vector2( 1.1, 1.1 )
-action_keys = [ "ui_cancel" ]
-text = [ "Cancel" ]
+margin_left = 85.0
+margin_right = 144.0
+preview_text = "Cancel"
+preview_texture = ExtResource( 9 )
+default_text = "upgradestation_cancel"
+default_action_key = "ui_cancel"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Menu"]
 playback_speed = 1.5

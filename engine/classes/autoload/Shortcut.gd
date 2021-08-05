@@ -4,8 +4,9 @@ extends Node
 var joypad_icons: Dictionary = {}
 onready var keyboard_icons = Global.dir2dict(ButtonIcon.keyboard_icons_directory)
 
-signal keyboard_mode_changed
+signal update_button_icons
 var using_keyboard: bool = false
+var text_input_active: bool = false
 
 var input_hold_monitors: Dictionary = {}
 
@@ -26,7 +27,12 @@ func _ready():
 	settings_data["type"] = "string"
 	settings_data["data"] = joypad_icons.keys()
 	
-	for action in Settings.get_options_in_category("control_mappings"):
+	update_control_mappings()
+
+func update_control_mappings(action_key=null):
+	
+	var actions: Array = Settings.get_options_in_category("control_mappings") if action_key == null else [action_key]
+	for action in actions:
 		InputMap.action_erase_events(action)
 		
 		for event_data in Settings.get_split("control_mappings", action).values():
@@ -43,6 +49,7 @@ func _ready():
 					event.set(property, event_data[property])
 			
 			InputMap.action_add_event(action, event)
+	emit_signal("update_button_icons", actions)
 
 func _process(delta: float):
 	process_input_hold_monitors(delta)
@@ -51,10 +58,10 @@ func _process(delta: float):
 func _input(event: InputEvent):
 	if using_keyboard and event is InputEventJoypadButton:
 		using_keyboard = false
-		emit_signal("keyboard_mode_changed", false)
-	elif not using_keyboard and event.get_class() in ["InputEventKey", "InputEventMouseButton"]:
+		emit_signal("update_button_icons", null)
+	elif not using_keyboard and not text_input_active and event.get_class() in ["InputEventKey", "InputEventMouseButton"]:
 		using_keyboard = true
-		emit_signal("keyboard_mode_changed", true)
+		emit_signal("update_button_icons", null)
 
 func get_facing(pad_name: String = "secondary_pad"):
 	if Input.is_action_just_pressed(pad_name + "_left"):
@@ -151,3 +158,5 @@ func process_debug_shortcuts():
 				data["triggers"][trigger].call_func()
 				print("Debug shortcut triggered: " + shortcut)
 
+func update_button_icons():
+	emit_signal("update_button_icons")
