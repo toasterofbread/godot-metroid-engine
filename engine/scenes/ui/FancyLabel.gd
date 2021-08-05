@@ -42,6 +42,10 @@ func align():
 
 var current_i: int
 func set_text(text: String, duration: float = animation_duration):
+	
+	duration *= 0.25
+	text = tr(text)
+	
 	if all_caps:
 		text = text.to_upper()
 	current_i += 1

@@ -1,6 +1,7 @@
 extends Control
 
 signal map_reveal_completed
+signal menu_closed
 
 onready var Samus: KinematicBody2D = Loader.Samus
 
@@ -17,8 +18,6 @@ var transitioning: bool = false
 onready var Buttons: Node2D = $CanvasLayer2/ButtonPrompts
 enum MODES {CLOSED, MAP, MAPMARKER, SETTINGS, SETTINGSOPTION, EQUIPMENT, LOGBOOK, MAPREVEAL}
 var mode: int = MODES.CLOSED
-
-signal menu_closed
 
 func _ready():
 	
@@ -82,6 +81,9 @@ func resume():
 	emit_signal("menu_closed")
 	
 	$AnimationPlayer.play("reset")
+	Map.Marker.moving = false
+	Map.Marker.editable_name = false
+	Shortcut.text_input_active = false
 	yield($AnimationPlayer, "animation_finished")
 	mapGrid.reset_minimap_properties()
 #	transitioning = false
@@ -102,34 +104,46 @@ func _process(delta: float):
 	elif mode == MODES.CLOSED or mode == MODES.MAPREVEAL:
 		return
 	
-	var resuming = false
-	if Buttons.get_node("Close").just_pressed():
-		resuming = true
+	var resuming: bool = Buttons.get_node("LeftBoxContainer/CloseMenu").just_pressed() or (mode == MODES.MAP and Input.is_action_just_pressed("ui_cancel"))
 	
 	if mode == MODES.MAP:
-		if Buttons.get_node("Marker/ButtonPrompts/Main").just_pressed():
-			if Buttons.get_node("Marker").expand_to_point(1):
-				mode = MODES.MAPMARKER
-				for button in Buttons.get_node("Marker/ButtonPrompts").get_children():
-					button.set_enabled(true, 0.5)
-				Buttons.get_node("Marker/ButtonPrompts/Rename").switch_to_index(0, 0)
-				Buttons.get_node("Marker/ButtonPrompts/Main").switch_to_index(1, 0.25)
-				
-				Buttons.get_node("Settings").enabled = false
-				Buttons.get_node("Equipment").enabled = false
-				
-				process_marker(true, resuming)
-				return
+		if Buttons.get_node("MarkerContainer/Main").just_pressed():
+#			if Buttons.get_node("Marker").expand_to_point(1):
+			mode = MODES.MAPMARKER
+			for button in Buttons.get_node("MarkerContainer").get_children():
+				if button is ButtonPrompt:
+					button.set_visibility(true, true)
+			Buttons.get_node("MarkerContainer/Main").set_text("pausemenu_button_place_marker", false)
+			Buttons.get_node("MarkerContainer/Rename").set_text("pausemenu_button_rename_marker", false)
 			
-		elif Buttons.get_node("Settings").just_pressed() and $AnimationPlayer.current_animation == "":
+			Buttons.get_node("RightBoxContainer/Settings").set_visibility(false, true)
+			Buttons.get_node("RightBoxContainer/Equipment").set_visibility(false, true)
+			
+			process_marker(true, resuming)
+			return
+			
+		elif Buttons.get_node("RightBoxContainer/Settings").just_pressed() and $AnimationPlayer.current_animation == "":
 			$AnimationPlayer.play("open_settings")
+			Buttons.get_node("RightBoxContainer/Settings").set_text("settings_button_save", true)
+			Buttons.get_node("RightBoxContainer/Settings").set_visibility(false, true)
+			Buttons.get_node("RightBoxContainer/Equipment").set_text("settings_button_reset", true)
+			Buttons.get_node("RightBoxContainer/Equipment").set_hold_time(ButtonPrompt.HOLD_TIMES.MEDIUM)
+			Buttons.get_node("RightBoxContainer/Equipment").set_visibility(false, true)
+			Buttons.get_node("LeftBoxContainer/Accept").set_visibility(true, true)
+			Buttons.get_node("LeftBoxContainer/Cancel").set_visibility(true, true)
+			$CanvasLayer2/Settings/SettingsMenu.init(false)
+			yield($AnimationPlayer, "animation_finished")
 			mode = MODES.SETTINGS
-		elif Buttons.get_node("Equipment").just_pressed() and $AnimationPlayer.current_animation == "":
+		elif Buttons.get_node("RightBoxContainer/Equipment").just_pressed() and $AnimationPlayer.current_animation == "":
 			$AnimationPlayer.play("open_equipment")
+			Buttons.get_node("RightBoxContainer/Equipment").set_text("pausemenu_button_logbook", false)
+			Buttons.get_node("RightBoxContainer/Settings").set_visibility(false, true)
+			Buttons.get_node("LeftBoxContainer/Accept").set_visibility(true, true)
+			Buttons.get_node("LeftBoxContainer/Cancel").set_visibility(true, true)
 			mode = MODES.EQUIPMENT
 		else:
 			var update: bool = false
-			var pad_vector = -Shortcut.get_pad_vector("pressed")
+			var pad_vector: Vector2 = -Shortcut.get_pad_vector("pressed")
 			map_move_velocity.x = move_toward(map_move_velocity.x, map_move_speed*pad_vector.x, map_move_acceleration*delta)
 			map_move_velocity.y = move_toward(map_move_velocity.y, map_move_speed*pad_vector.y, map_move_acceleration*delta)
 			if map_move_velocity != Vector2.ZERO:
@@ -137,10 +151,10 @@ func _process(delta: float):
 				update = true
 			
 			
-			if Buttons.get_node("Zoom/ButtonPrompts/ZoomIn").pressed():
+			if Buttons.get_node("ZoomContainer/ZoomIn").pressed():
 				mapGrid.map_scale += Vector2.ONE*map_zoom_speed*delta
 				update = true
-			elif Buttons.get_node("Zoom/ButtonPrompts/ZoomOut").pressed():
+			elif Buttons.get_node("ZoomContainer/ZoomOut").pressed():
 				mapGrid.map_scale -= Vector2.ONE*map_zoom_speed*delta
 				update = true
 			
@@ -149,8 +163,8 @@ func _process(delta: float):
 	else:
 		match mode:
 			MODES.MAPMARKER: process_marker(false, resuming)
-			MODES.SETTINGS: process_settings(resuming)
-			MODES.SETTINGSOPTION: process_settings_option(resuming)
+			MODES.SETTINGS: process_settings(resuming, delta)
+#			MODES.SETTINGSOPTION: process_settings_option(resuming)
 			MODES.EQUIPMENT: process_equipment(resuming)
 			MODES.LOGBOOK: process_logbook(resuming)
 	
@@ -159,10 +173,14 @@ func _process(delta: float):
 
 func process_logbook(last_frame: bool):
 	
-	if Buttons.get_node("Settings").just_pressed():
+	if Buttons.get_node("LeftBoxContainer/Cancel").just_pressed():
 		$AnimationPlayer.play("close_logbook")
+		Buttons.get_node("LeftBoxContainer/Accept").set_visibility(false, true)
+		Buttons.get_node("LeftBoxContainer/Cancel").set_visibility(false, true)
+		Buttons.get_node("RightBoxContainer/Settings").set_visibility(true, true)
+		Buttons.get_node("RightBoxContainer/Equipment").set_text("pausemenu_button_equipmentlogbook", false)
 		mode = MODES.MAP
-	elif Buttons.get_node("Equipment").just_pressed():
+	elif Buttons.get_node("RightBoxContainer/Equipment").just_pressed():
 		$AnimationPlayer.play("logbook_to_equipment")
 		mode = MODES.EQUIPMENT
 	else:
@@ -170,10 +188,14 @@ func process_logbook(last_frame: bool):
 
 func process_equipment(last_frame: bool):
 	
-	if Buttons.get_node("Settings").just_pressed():
+	if Buttons.get_node("LeftBoxContainer/Cancel").just_pressed():
 		$AnimationPlayer.play("close_equipment")
+		Buttons.get_node("RightBoxContainer/Equipment").set_text("pausemenu_button_equipmentlogbook", false)
+		Buttons.get_node("RightBoxContainer/Settings").set_visibility(true, true)
+		Buttons.get_node("LeftBoxContainer/Accept").set_visibility(false, true)
+		Buttons.get_node("LeftBoxContainer/Cancel").set_visibility(false, true)
 		mode = MODES.MAP
-	elif Buttons.get_node("Equipment").just_pressed():
+	elif Buttons.get_node("RightBoxContainer/Equipment").just_pressed():
 		$AnimationPlayer.play("equipment_to_logbook")
 		mode = MODES.LOGBOOK
 	else:
@@ -191,18 +213,22 @@ func process_marker(first_frame: bool, last_frame: bool):
 		Map.Marker.grid_position += Shortcut.get_pad_vector("just_pressed")
 		mapGrid.set_focus_position(Map.Marker.position, false)
 	
-	if Buttons.get_node("Marker").transitioning:
-		return
+#	if Buttons.get_node("Marker").transitioning:
+#		return
 	
-	if Buttons.get_node("Marker/ButtonPrompts/Main").just_pressed():
+	if Buttons.get_node("MarkerContainer/Main").just_pressed():
 		mode = MODES.MAP
-	elif Buttons.get_node("Marker/ButtonPrompts/Delete").just_pressed():
+	elif Buttons.get_node("MarkerContainer/Delete").just_pressed():
 		Map.Marker.grid_position = null
 		mode = MODES.MAP
-	elif Buttons.get_node("Marker/ButtonPrompts/Rename").just_pressed():
-		if Buttons.get_node("Marker/ButtonPrompts/Rename").switch_to_index(!Map.Marker.editable_name, 0.25):
-			Map.Marker.editable_name = !Map.Marker.editable_name
-			Map.Marker.moving = !Map.Marker.editable_name
+	elif Buttons.get_node("MarkerContainer/Rename").just_pressed():
+		Map.Marker.editable_name = !Map.Marker.editable_name
+		if Map.Marker.editable_name:
+			Buttons.get_node("MarkerContainer/Rename").set_text("pausemenu_button_confirm_rename_marker", true)
+		else:
+			Buttons.get_node("MarkerContainer/Rename").set_text("pausemenu_button_rename_marker", true)
+		Map.Marker.moving = !Map.Marker.editable_name
+		Shortcut.text_input_active = Map.Marker.editable_name
 	
 	if mode != MODES.MAPMARKER or last_frame:
 		
@@ -211,52 +237,29 @@ func process_marker(first_frame: bool, last_frame: bool):
 		Map.Marker.save_data()
 		Map.Marker.load_data()
 		
-		Buttons.get_node("Marker").expand_to_point(0)
-		Buttons.get_node("Marker/ButtonPrompts/Main").switch_to_index(0, 0.25)
+#		Buttons.get_node("Marker").expand_to_point(0)
+		Buttons.get_node("MarkerContainer/Main").set_text("pausemenu_button_edit_marker", true)
 		
-		Buttons.get_node("Settings").enabled = true
-		Buttons.get_node("Equipment").enabled = true
+		Buttons.get_node("RightBoxContainer/Settings").set_visibility(true, true)
+		Buttons.get_node("RightBoxContainer/Equipment").set_visibility(true, true)
 		
-		Buttons.get_node("Marker/ButtonPrompts/Delete").set_enabled(false, 0.1)
-		Buttons.get_node("Marker/ButtonPrompts/Rename").set_enabled(false, 0.1)
+		Buttons.get_node("MarkerContainer/Delete").set_visibility(false, true)
+		Buttons.get_node("MarkerContainer/Rename").set_visibility(false, true)
 
-func process_settings(last_frame: bool):
-	
-	if Buttons.get_node("Settings").just_pressed() and $AnimationPlayer.current_animation == "":
+func process_settings(last_frame: bool, delta: float):
+	var close_menu = $CanvasLayer2/Settings/SettingsMenu.process(delta, Shortcut.get_pad_vector("just_pressed"))
+	while close_menu is GDScriptFunctionState:
+		close_menu = yield(close_menu, "completed")
+	if close_menu:
 		mode = MODES.MAP
+		Buttons.get_node("RightBoxContainer/Equipment").set_hold_time(ButtonPrompt.HOLD_TIMES.NONE)
+		Buttons.get_node("RightBoxContainer/Equipment").set_text("pausemenu_button_equipmentlogbook", false)
+		Buttons.get_node("RightBoxContainer/Equipment").set_visibility(true, true)
+		Buttons.get_node("RightBoxContainer/Settings").set_text("pausemenu_button_settings", false)
+		Buttons.get_node("RightBoxContainer/Settings").set_visibility(true, true)
+		Buttons.get_node("LeftBoxContainer/Accept").set_visibility(false, true)
+		Buttons.get_node("LeftBoxContainer/Cancel").set_visibility(false, true)
 		$AnimationPlayer.play("close_settings")
-	elif Input.is_action_just_pressed("ui_accept") and $AnimationPlayer.current_animation == "":
-		mode = MODES.SETTINGSOPTION
-		Buttons.get_node("Marker").expand_to_point(2, true)
-		Buttons.get_node("Areas").expand_to_point(2, true)
-		Buttons.get_node("Marker/ButtonPrompts/Main").switch_to_index(2, 0)
-		Buttons.get_node("Areas/ButtonPrompts/Open").switch_to_index(2, 0)
-		$AnimationPlayer.play("settings_to_options")
-		var category: String = $CanvasLayer2/Settings/CategoryDisplay.current_category()
-		$CanvasLayer2/MainLabel.set_text("Settings" + " - " + category)
-		$CanvasLayer2/Settings/OptionDisplay.load_category(category)
-	else:
-		$CanvasLayer2/Settings/CategoryDisplay.process()
-	
-#	if mode != MODES.SETTINGS or last_frame:
-#		$AnimationPlayer2.play("close_settings")
-
-func process_settings_option(last_frame: float):
-	
-	if Buttons.get_node("Settings").just_pressed() and $AnimationPlayer.current_animation == "":
-		mode = MODES.SETTINGS
-		$CanvasLayer2/MainLabel.set_text("Settings")
-		$AnimationPlayer.play("options_to_settings")
-		Buttons.get_node("Marker").expand_to_point(0)
-		Buttons.get_node("Areas").expand_to_point(0)
-		Buttons.get_node("Marker/ButtonPrompts/Main").switch_to_index(0)
-		Buttons.get_node("Areas/ButtonPrompts/Open").switch_to_index(0)
-	elif Buttons.get_node("Marker/ButtonPrompts/Main").just_pressed():
-		$CanvasLayer2/Settings/OptionDisplay.save()
-	elif Buttons.get_node("Areas/ButtonPrompts/Open").just_pressed():
-		$CanvasLayer2/Settings/OptionDisplay.reset()
-	else:
-		$CanvasLayer2/Settings/OptionDisplay.process()
 
 func map_station_activated(area_index: int):
 	Map.current_chunk.tile.flash = false

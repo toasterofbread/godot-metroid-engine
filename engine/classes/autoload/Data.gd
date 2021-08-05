@@ -72,8 +72,13 @@ func get_cdb_sheet(sheet_key: String):
 	if not base_sheet:
 		return false
 	
-	var ret_data = []
+	var columns: Dictionary = {}
+	for column in base_sheet["columns"]:
+		columns[column["name"]] = column 
+	for line in base_sheet["lines"]:
+		line = format_cdb_line(line, columns)
 	
+	var ret_data = []
 	for line in base_sheet["lines"]:
 		
 		if "key" in line:
@@ -93,6 +98,12 @@ func format_cdb_dict(dict: Array) -> Dictionary:
 		ret[line["key"]] = line
 		ret[line["key"]].erase("key")
 	return ret
+
+func format_cdb_line(line: Dictionary, columns: Dictionary):
+	for column in line:
+		if columns[column]["typeStr"].begins_with("5:"):
+			line[column] = {"index": line[column], "name": columns[column]["typeStr"].trim_prefix("5:").split(",")[line[column]]}
+	return line
 
 func update_language():
 	TranslationServer.set_locale(language_code)

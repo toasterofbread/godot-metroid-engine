@@ -7,6 +7,8 @@ var global_timers: Dictionary = {}
 onready var Timers = Node2D.new()
 onready var AnchorContainer = Node2D.new()
 
+onready var tween_container: Node2D = get_anchor("GlobalTweens")
+
 var rng = RandomNumberGenerator.new()
 var current_camera: ExCamera2D
 
@@ -98,8 +100,8 @@ func wait(seconds: float, ignore_pause: bool = false, function_call=null):
 #	timers[timer_id][0].queue_free()
 #	timers.erase(timer_id)
 
-func get_tween(ignore_paused:bool=false, parent:Node=self) -> Tween:
-	var tween = Tween.new()
+func get_tween(ignore_paused:bool=false, parent:Node=tween_container) -> Tween:
+	var tween: Tween = Tween.new()
 	tween.pause_mode = Node.PAUSE_MODE_PROCESS if ignore_paused else Node.PAUSE_MODE_STOP
 	parent.add_child(tween)
 	return tween

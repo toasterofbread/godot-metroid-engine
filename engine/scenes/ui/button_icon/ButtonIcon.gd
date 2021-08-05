@@ -10,12 +10,11 @@ export var set_icon_on_ready: bool = false
 var keyboard_mode_override = null
 var event_override = null
 
-var keyboard_mode: bool = false
 onready var joypad_icons_key: String = Settings.get("visuals/joypad_button_icon_style")
 
 func _ready():
 	Settings.connect("settings_changed", self, "settings_changed")
-	Shortcut.connect("keyboard_mode_changed", self, "keyboard_mode_changed")
+	Shortcut.connect("update_button_icons", self, "update_icon")
 	
 	if set_icon_on_ready:
 		update_icon()
@@ -25,20 +24,16 @@ func settings_changed(path, value):
 		joypad_icons_key = value
 		update_icon()
 
-func keyboard_mode_changed(mode: bool):
-	keyboard_mode = mode
-	update_icon()
-
 func set_action_key(value: String):
 	action_key = value
 	update_icon()
 
-func update_icon():
+func update_icon(icons_to_update=null):
 	if not InputMap.has_action(action_key):
 		assert(false, "Action '" + action_key + "' doesn't seem to exist")
 		return
 	
-	if joypad_icons_key == null:
+	if joypad_icons_key == null or not (icons_to_update == null or action_key in icons_to_update):
 		return
 	
 	var events: Array
@@ -59,7 +54,7 @@ func update_icon():
 	else:
 		events = InputMap.get_action_list(action_key)
 	
-	if (keyboard_mode and keyboard_mode_override == null) or keyboard_mode_override:
+	if (Shortcut.using_keyboard and keyboard_mode_override == null) or keyboard_mode_override:
 		for event in events:
 			var image_key: String
 			var folder_key: String

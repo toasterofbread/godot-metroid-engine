@@ -6,13 +6,10 @@ var moving: bool = false setget set_moving
 var editable_name: bool = false setget set_editable_name
 var transitioning = false
 
-onready var tween: Tween = $Tween
-
-func _ready():
-	Global.reparent_child(tween, Global)
+onready var tween: Tween = Global.get_tween(true)
 
 func set_editable_name(value: bool, instant: bool = false):
-	if transitioning:
+	if transitioning or not tween:
 		return
 	transitioning = true
 	if value:

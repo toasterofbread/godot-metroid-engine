@@ -4,7 +4,6 @@ extends Control
 var ETank: Control = preload("res://engine/scenes/Samus/HUD/ETank.tscn").instance()
 onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
 onready var Modulate: CanvasModulate = $CanvasLayer/CanvasModulate
-
 var current_visor = null
 
 func _ready():
@@ -18,7 +17,8 @@ func _ready():
 	Map.Grid = $CanvasLayer/MapGrid
 	rows.invert()
 	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
-
+	
+	set_process(false)
 	Notification.set_preset("SamusHUD", false)
 
 func add_weapon(weapon_icon: SamusHUDIcon):
@@ -71,8 +71,20 @@ func set_energy(energy: int):
 	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(str_energy[0])
 	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(str_energy[1])
 
-func display_death_screen(real: bool):
+func _process(_delta: float):
+	if $DeathScreen/Buttons/RespawnButton.just_pressed():
+		pass
+	elif $DeathScreen/Buttons/HBoxContainer/ExitButton.just_pressed():
+		pass
+
+func display_death_screen(_real: bool):
 	$DeathScreen/AnimationPlayer.play("open")
+	set_process(true)
+
+func death_screen_reload():
+	pass
+func death_screen_exit():
+	pass
 
 func set_visibility(value: bool):
 	for child in $CanvasLayer.get_children():
