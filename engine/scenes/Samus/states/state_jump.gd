@@ -204,18 +204,13 @@ func play_animation(play_transition):
 				animations["legs"].play(true)
 		elif not Animator.transitioning(false, true):
 			
-			var spin_animation = "spin"
-			
-			if Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP):
-				spin_animation = spin_animation + "_space"
-			if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK):
-				spin_animation = spin_animation + "_screw"
-				animations["screw_spark"].play()
-			
+			var spin_animation = "spin_space" if Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP) else "spin"
 			animations[spin_animation].play(true)
-			
 			if sounds_spin[spin_animation].status != AudioPlayer.STATE.PLAYING:
 				sounds_spin[spin_animation].play()
+			
+			if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK):
+				animations["spin_screw_overlay"].play(true)
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):

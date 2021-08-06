@@ -77,8 +77,10 @@ func spawn_samus():
 	Samus.change_state("facefront", {}, true)
 	Samus.paused = true
 	
-	var sprite: AnimatedSprite = Samus.Animator.current[false].sprites[Samus.facing]
-	var offset = $Position2D.global_position.x - sprite.global_position.x
+	var samusAnimation: SamusAnimation = Samus.Animator.current[false]
+	Samus.set_collider(samusAnimation, true)
+	var sprite: AnimatedSprite = samusAnimation.sprites[Samus.facing]
+	var offset: float = $Position2D.global_position.x - sprite.global_position.x
 	Samus.global_position.x += offset
 	yield(Global.wait(0.2), "completed")
 	

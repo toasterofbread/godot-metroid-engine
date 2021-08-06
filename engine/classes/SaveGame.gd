@@ -41,8 +41,8 @@ const default_data: Dictionary = {
 			Enums.Upgrade.SPEEDBOOSTER: {"amount": 1, "active": true},
 			Enums.Upgrade.POWERGRIP: {"amount": 1, "active": true},
 			Enums.Upgrade.HIGHJUMP: {"amount": 1, "active": false},
-			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": false},
-			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": false},
+			Enums.Upgrade.SPACEJUMP: {"amount": 1, "active": true},
+			Enums.Upgrade.SCREWATTACK: {"amount": 1, "active": true},
 			Enums.Upgrade.SPIDERBALL: {"amount": 1, "active": true},
 			
 			Enums.Upgrade.SCANVISOR: {"amount": 1, "active": true},

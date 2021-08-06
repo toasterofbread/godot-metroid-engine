@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/screwattack_edited5.png-fc44c5c0552802b6c6d823773ced3104.stex"
+path="res://.import/sScrewAttack_1.png-a03a88d255dd04a44653eacdafee181e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/sprites/samus/power/jump/spin/screw/screwattack_edited5.png"
-dest_files=[ "res://.import/screwattack_edited5.png-fc44c5c0552802b6c6d823773ced3104.stex" ]
+source_file="res://engine/sprites/samus/power/jump/spin/screw_overlay/sScrewAttack_1.png"
+dest_files=[ "res://.import/sScrewAttack_1.png-a03a88d255dd04a44653eacdafee181e.stex" ]
 
 [params]
 

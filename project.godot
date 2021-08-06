@@ -310,7 +310,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "json" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/SingletonScriptsShortcut/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/localization_editor/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/SingletonScriptsShortcut/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg" )
 
 [gdnative]
 

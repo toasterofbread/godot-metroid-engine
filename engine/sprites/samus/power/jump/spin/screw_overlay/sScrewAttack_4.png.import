@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/left_1.png-6adaaba2cc90d8f2fac158d2e1e9450b.stex"
+path="res://.import/sScrewAttack_4.png-25265489cf7e1e009c83aacc06bf56d4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/sprites/samus/power/crouch/aim_up/left_1.png"
-dest_files=[ "res://.import/left_1.png-6adaaba2cc90d8f2fac158d2e1e9450b.stex" ]
+source_file="res://engine/sprites/samus/power/jump/spin/screw_overlay/sScrewAttack_4.png"
+dest_files=[ "res://.import/sScrewAttack_4.png-25265489cf7e1e009c83aacc06bf56d4.stex" ]
 
 [params]
 

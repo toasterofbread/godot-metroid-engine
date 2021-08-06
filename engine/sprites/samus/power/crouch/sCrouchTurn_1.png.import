@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/left_3.png-51d5822f7c657e45cd80c959a8f34b67.stex"
+path="res://.import/sCrouchTurn_1.png-1c59ba4c1d98e1990f616e9e45f48338.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/sprites/samus/power/crouch/aim_down/left_3.png"
-dest_files=[ "res://.import/left_3.png-51d5822f7c657e45cd80c959a8f34b67.stex" ]
+source_file="res://engine/sprites/samus/power/crouch/sCrouchTurn_1.png"
+dest_files=[ "res://.import/sCrouchTurn_1.png-1c59ba4c1d98e1990f616e9e45f48338.stex" ]
 
 [params]
 
