@@ -787,37 +787,43 @@ collision_mask = 524288
 [node name="TestSprites" type="Node2D" parent="Animator"]
 position = Vector2( -478, -56 )
 
-[node name="horiz" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 0, -2 )
+[node name="roll" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 5, 10 )
 frames = ExtResource( 2 )
-animation = "shinespark_horiz_left"
-frame = 2
+animation = "morphball_roll"
+frame = 5
 playing = true
-flip_h = true
 script = ExtResource( 4 )
 state_key = "shinespark"
-animation_key = "horiz"
+animation_key = "roll"
+facing = 1
 data = {
-"leftPos": [ 0.0, -2.0 ],
-"rightPos": [ 8.0, -2.0 ]
+"directional": false,
+"leftPos": [ 2.0, 10.0 ],
+"rightPos": [ 5.0, 10.0 ],
+"state_id": "morphball"
 }
 
-[node name="boost_fx_horiz" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( -5, -6 )
+[node name="ball_boost_fx_vert_down" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 5, 6 )
+rotation = 1.5708
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
+frame = 2
 playing = true
-flip_h = true
 script = ExtResource( 4 )
 state_key = "shinespark"
-animation_key = "boost_fx_horiz"
+animation_key = "ball_boost_fx_vert_down"
+facing = 1
 data = {
 "directional": false,
 "id": "boost_fx",
-"leftPos": [ -5.0, -6.0 ],
+"leftPos": [ 2.0, 6.0 ],
+"no_trail": true,
 "overlay": true,
 "overlay_above": true,
-"rightPos": [ 13.0, -6.0 ]
+"rightPos": [ 5.0, 6.0 ],
+"rotation_degrees": 90.0
 }
 
 [node name="turn_aim_down" type="AnimatedSprite" parent="Animator/TestSprites"]
@@ -852,6 +858,7 @@ use_parent_material = true
 position = Vector2( -300, 7 )
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
+frame = 2
 playing = true
 flip_h = true
 
@@ -871,6 +878,7 @@ use_parent_material = true
 position = Vector2( -394, -43 )
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
+frame = 2
 playing = true
 flip_h = true
 

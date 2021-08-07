@@ -30,6 +30,10 @@ func set_unobtained(value: bool):
 	pass
 
 func toggle():
+	
+	if data["locked"]:
+		return
+	
 	value = !value
 	$TextureRect.texture = sprites[value]
 	Loader.loaded_save.set_data_key(["samus", "upgrades", id, "active"], value)

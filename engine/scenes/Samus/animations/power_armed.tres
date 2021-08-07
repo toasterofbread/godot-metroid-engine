@@ -1,470 +1,1009 @@
-[gd_resource type="SpriteFrames" load_steps=7 format=2]
+[gd_resource type="SpriteFrames" load_steps=546 format=2]
 
-[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_1.png" type="Texture" id=1]
-[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouchTurn_0.png" type="Texture" id=2]
+[ext_resource path="res://engine/sprites/samus/power/morphball/morph/sMorph_1.png" type="Texture" id=1]
+[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_0.png" type="Texture" id=2]
 [ext_resource path="res://engine/sprites/samus/power/crouch/sCrouchTurn_1.png" type="Texture" id=3]
-[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_0.png" type="Texture" id=4]
-[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_2.png" type="Texture" id=5]
-[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_3.png" type="Texture" id=6]
+[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_2.png" type="Texture" id=4]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_0.png" type="Texture" id=5]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUpL_1.png" type="Texture" id=6]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUp_0.png" type="Texture" id=7]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandLeft_2.png" type="Texture" id=8]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_down/sTAimDL_0.png" type="Texture" id=9]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandLeft_0.png" type="Texture" id=10]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/legs/sTurn_0.png" type="Texture" id=11]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_up/sTAimUR_0.png" type="Texture" id=12]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_4.png" type="Texture" id=13]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUp_2.png" type="Texture" id=14]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandLeft_3.png" type="Texture" id=15]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandRight_2.png" type="Texture" id=16]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_2.png" type="Texture" id=17]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandRight_3.png" type="Texture" id=18]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_5.png" type="Texture" id=19]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_2.png" type="Texture" id=20]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandLeft_1.png" type="Texture" id=21]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_3.png" type="Texture" id=22]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUpL_0.png" type="Texture" id=23]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDL_0.png" type="Texture" id=24]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_7.png" type="Texture" id=25]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_0.png" type="Texture" id=26]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDL_2.png" type="Texture" id=27]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDR_0.png" type="Texture" id=28]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDL_3.png" type="Texture" id=29]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDR_2.png" type="Texture" id=30]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDR_1.png" type="Texture" id=31]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_0.png" type="Texture" id=32]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_1.png" type="Texture" id=33]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDL_1.png" type="Texture" id=34]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleRight_2.png" type="Texture" id=35]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_6.png" type="Texture" id=36]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUL_2.png" type="Texture" id=37]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_5.png" type="Texture" id=38]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_sky/sTAimUpL_0.png" type="Texture" id=39]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_4.png" type="Texture" id=40]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleLeft_3.png" type="Texture" id=41]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleLeft_2.png" type="Texture" id=42]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleLeft_1.png" type="Texture" id=43]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUR_0.png" type="Texture" id=44]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_down/sStandAimDR_3.png" type="Texture" id=45]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_0.png" type="Texture" id=46]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUpL_2.png" type="Texture" id=47]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUp_1.png" type="Texture" id=48]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUpL_3.png" type="Texture" id=49]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_3.png" type="Texture" id=50]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_sky/sStandAimUp_3.png" type="Texture" id=51]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUL_3.png" type="Texture" id=52]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUR_1.png" type="Texture" id=53]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUR_2.png" type="Texture" id=54]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUR_3.png" type="Texture" id=55]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleLeft_1.png" type="Texture" id=56]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_6.png" type="Texture" id=57]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_4.png" type="Texture" id=58]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_1.png" type="Texture" id=59]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_5.png" type="Texture" id=60]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_2.png" type="Texture" id=61]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_6.png" type="Texture" id=62]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_3.png" type="Texture" id=63]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_1/sIdleRight_7.png" type="Texture" id=64]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleRight_0.png" type="Texture" id=65]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleRight_1.png" type="Texture" id=66]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_2.png" type="Texture" id=67]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_down/sTAimDR_0.png" type="Texture" id=68]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_0.png" type="Texture" id=69]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_3.png" type="Texture" id=70]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_4.png" type="Texture" id=71]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_7.png" type="Texture" id=72]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_9.png" type="Texture" id=73]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDL_8.png" type="Texture" id=74]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_2.png" type="Texture" id=75]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_1.png" type="Texture" id=76]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_2.png" type="Texture" id=77]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_7.png" type="Texture" id=78]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_3.png" type="Texture" id=79]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_1.png" type="Texture" id=80]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_4.png" type="Texture" id=81]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_6.png" type="Texture" id=82]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_7.png" type="Texture" id=83]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_5.png" type="Texture" id=84]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_8.png" type="Texture" id=85]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_down/sRunAimDR_9.png" type="Texture" id=86]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_1.png" type="Texture" id=87]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_2.png" type="Texture" id=88]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_5.png" type="Texture" id=89]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_8.png" type="Texture" id=90]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_6.png" type="Texture" id=91]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_9.png" type="Texture" id=92]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_3.png" type="Texture" id=93]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_5.png" type="Texture" id=94]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_4.png" type="Texture" id=95]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_6.png" type="Texture" id=96]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_7.png" type="Texture" id=97]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_8.png" type="Texture" id=98]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_9.png" type="Texture" id=99]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_2.png" type="Texture" id=100]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_1.png" type="Texture" id=101]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_2.png" type="Texture" id=102]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_3.png" type="Texture" id=103]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_5.png" type="Texture" id=104]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_4.png" type="Texture" id=105]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_6.png" type="Texture" id=106]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_7.png" type="Texture" id=107]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_8.png" type="Texture" id=108]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunLeft_9.png" type="Texture" id=109]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_2.png" type="Texture" id=110]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_3.png" type="Texture" id=111]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_4.png" type="Texture" id=112]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_6.png" type="Texture" id=113]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_5.png" type="Texture" id=114]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_8.png" type="Texture" id=115]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_7.png" type="Texture" id=116]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_9.png" type="Texture" id=117]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_up/sTAimUL_0.png" type="Texture" id=118]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_sky/sTAimUpR_1.png" type="Texture" id=119]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_1.png" type="Texture" id=120]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_down/sTAimDL_1.png" type="Texture" id=121]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front/sTAimL_0.png" type="Texture" id=122]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_3.png" type="Texture" id=123]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_up/sTAimUL_1.png" type="Texture" id=124]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_4.png" type="Texture" id=125]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_6.png" type="Texture" id=126]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_5.png" type="Texture" id=127]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_7.png" type="Texture" id=128]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_8.png" type="Texture" id=129]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_9.png" type="Texture" id=130]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front/sTAimR_0.png" type="Texture" id=131]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front_standing/sTAimRst_1.png" type="Texture" id=132]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front/sTAimR_1.png" type="Texture" id=133]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_3.png" type="Texture" id=134]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_5.png" type="Texture" id=135]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_4.png" type="Texture" id=136]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_6.png" type="Texture" id=137]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_8.png" type="Texture" id=138]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_9.png" type="Texture" id=139]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_7.png" type="Texture" id=140]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_sky/sTAimUpR_0.png" type="Texture" id=141]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_down/sTAimDR_1.png" type="Texture" id=142]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/legs/sTurn_1.png" type="Texture" id=143]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_up/sTAimUR_1.png" type="Texture" id=144]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_sky/sTAimUpL_1.png" type="Texture" id=145]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleLeft_0.png" type="Texture" id=146]
+[ext_resource path="res://engine/sprites/samus/power/neutral/idle_2/sIdleRight_3.png" type="Texture" id=147]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_1.png" type="Texture" id=148]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimL_0.png" type="Texture" id=149]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUL_1.png" type="Texture" id=150]
+[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouchTurn_0.png" type="Texture" id=151]
+[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_3.png" type="Texture" id=152]
+[ext_resource path="res://engine/sprites/samus/power/crouch/sCrouch_1.png" type="Texture" id=153]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/screw_overlay/sScrewAttack_1.png" type="Texture" id=154]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/screw_overlay/sScrewAttack_2.png" type="Texture" id=155]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/screw_overlay/sScrewAttack_4.png" type="Texture" id=156]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_1.png" type="Texture" id=157]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_7.png" type="Texture" id=158]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_6.png" type="Texture" id=159]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_5.png" type="Texture" id=160]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_2.png" type="Texture" id=161]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_4.png" type="Texture" id=162]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandRight_0.png" type="Texture" id=163]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_up/sStandAimUL_0.png" type="Texture" id=164]
+[ext_resource path="res://engine/sprites/samus/power/neutral/aim_front/sStandRight_1.png" type="Texture" id=165]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_1.png" type="Texture" id=166]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_1.png" type="Texture" id=167]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_front/sRunAimR_0.png" type="Texture" id=168]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUL_0.png" type="Texture" id=169]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_3.png" type="Texture" id=170]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/screw_overlay/sScrewAttack_0.png" type="Texture" id=171]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_0.png" type="Texture" id=172]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/screw_overlay/sScrewAttack_3.png" type="Texture" id=173]
+[ext_resource path="res://engine/sprites/samus/other/speedbooster_fx/sSuperJumpFX_0.png" type="Texture" id=174]
+[ext_resource path="res://engine/sprites/samus/other/speedbooster_fx/sSuperJumpFX_3.png" type="Texture" id=175]
+[ext_resource path="res://engine/sprites/samus/other/speedbooster_fx/sSuperJumpFX_2.png" type="Texture" id=176]
+[ext_resource path="res://engine/sprites/samus/other/speedbooster_fx/sSuperJumpFX_1.png" type="Texture" id=177]
+[ext_resource path="res://engine/sprites/samus/power/morphball/turn/sMorphBallTurn_6.png" type="Texture" id=191]
+[ext_resource path="res://engine/sprites/samus/power/morphball/turn/sMorphBallTurn_5.png" type="Texture" id=192]
+[ext_resource path="res://engine/sprites/samus/power/morphball/turn/sMorphBallTurn_4.png" type="Texture" id=193]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_2.png" type="Texture" id=194]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_2.png" type="Texture" id=195]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_5.png" type="Texture" id=196]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_6.png" type="Texture" id=197]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_1.png" type="Texture" id=198]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_0.png" type="Texture" id=199]
+[ext_resource path="res://engine/sprites/samus/power/morphball/turn/sMorphBallTurn_0.png" type="Texture" id=200]
+[ext_resource path="res://engine/sprites/samus/power/morphball/turn/sMorphBallTurn_3.png" type="Texture" id=201]
+[ext_resource path="res://engine/sprites/samus/power/morphball/turn/sMorphBallTurn_1.png" type="Texture" id=202]
+[ext_resource path="res://engine/sprites/samus/power/morphball/turn/sMorphBallTurn_2.png" type="Texture" id=203]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_3.png" type="Texture" id=204]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_0.png" type="Texture" id=205]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_1.png" type="Texture" id=206]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_2.png" type="Texture" id=207]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_1.png" type="Texture" id=208]
+[ext_resource path="res://engine/sprites/samus/power/morphball/unmorph/sUnmorph_0.png" type="Texture" id=209]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_4.png" type="Texture" id=210]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_0.png" type="Texture" id=211]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_7.png" type="Texture" id=212]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_4.png" type="Texture" id=213]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_3.png" type="Texture" id=214]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll/sMorphBall_3.png" type="Texture" id=215]
+[ext_resource path="res://engine/sprites/samus/power/morphball/unmorph/sUnmorph_1.png" type="Texture" id=216]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUR_1.png" type="Texture" id=217]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpL_3.png" type="Texture" id=218]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpL_2.png" type="Texture" id=219]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_start/sVjump_2.png" type="Texture" id=220]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_start/sVjump_3.png" type="Texture" id=221]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUL_2.png" type="Texture" id=222]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_start/sVjump_1.png" type="Texture" id=223]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUL_1.png" type="Texture" id=224]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_start/sVjump_4.png" type="Texture" id=225]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpR_3.png" type="Texture" id=226]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpR_2.png" type="Texture" id=227]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDR_2.png" type="Texture" id=228]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUR_2.png" type="Texture" id=229]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUR_3.png" type="Texture" id=230]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDR_0.png" type="Texture" id=231]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpL_1.png" type="Texture" id=232]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUL_3.png" type="Texture" id=233]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUR_0.png" type="Texture" id=234]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_turn/sAirTurn_0.png" type="Texture" id=235]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimR_1.png" type="Texture" id=236]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimR_3.png" type="Texture" id=237]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_turn/sAirTurn_1.png" type="Texture" id=238]
+[ext_resource path="res://engine/sprites/samus/power/jump/aim_floor/turn/sJAimDwnTR_1.png" type="Texture" id=239]
+[ext_resource path="res://engine/sprites/samus/power/jump/aim_floor/turn/sJAimDwnTL_1.png" type="Texture" id=240]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front_standing/sTAimLst_1.png" type="Texture" id=241]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front_standing/sTAimLst_0.png" type="Texture" id=242]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front/sTAimL_1.png" type="Texture" id=243]
+[ext_resource path="res://engine/sprites/samus/power/multiple/turn/aim_front_standing/sTAimRst_0.png" type="Texture" id=244]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDL_3.png" type="Texture" id=245]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/walljump/sWalljumpL_0.png" type="Texture" id=246]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDL_1.png" type="Texture" id=247]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpR_0.png" type="Texture" id=248]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDL_0.png" type="Texture" id=249]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpL_0.png" type="Texture" id=250]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_start/sVjump_0.png" type="Texture" id=251]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDR_1.png" type="Texture" id=252]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimR_2.png" type="Texture" id=253]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimR_0.png" type="Texture" id=254]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_up/sAimUL_0.png" type="Texture" id=255]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_sky/sAimUpR_1.png" type="Texture" id=256]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/walljump/sWalljumpL_1.png" type="Texture" id=257]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimL_1.png" type="Texture" id=258]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDR_3.png" type="Texture" id=259]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimL_2.png" type="Texture" id=260]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimL_3.png" type="Texture" id=261]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/walljump/sWalljumpL_2.png" type="Texture" id=262]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_down/sAimDL_2.png" type="Texture" id=263]
+[ext_resource path="res://engine/sprites/samus/power/multiple/aim_front/sAimL_0.png" type="Texture" id=264]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_4.png" type="Texture" id=265]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_5.png" type="Texture" id=266]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_1.png" type="Texture" id=267]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_5.png" type="Texture" id=268]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_6.png" type="Texture" id=269]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/5.png" type="Texture" id=270]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/2.png" type="Texture" id=271]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/7.png" type="Texture" id=272]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/1.png" type="Texture" id=273]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/6.png" type="Texture" id=274]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/4.png" type="Texture" id=275]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/3.png" type="Texture" id=276]
+[ext_resource path="res://engine/sprites/samus/power/neutral/open_map/0.png" type="Texture" id=277]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_0.png" type="Texture" id=278]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_5.png" type="Texture" id=279]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_3.png" type="Texture" id=280]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_2.png" type="Texture" id=281]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_6.png" type="Texture" id=282]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_1.png" type="Texture" id=283]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_0.png" type="Texture" id=284]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/walljump/sWalljump_1.png" type="Texture" id=293]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/walljump/sWalljump_2.png" type="Texture" id=294]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/walljump/sWalljump_0.png" type="Texture" id=295]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_spider/sSpiderMorphBall_7.png" type="Texture" id=296]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_6.png" type="Texture" id=297]
+[ext_resource path="res://engine/sprites/samus/power/morphball/morph/sMorph_0.png" type="Texture" id=298]
+[ext_resource path="res://engine/sprites/samus/power/morphball/roll_bounce/sMorphBall_7.png" type="Texture" id=299]
+[ext_resource path="res://engine/sprites/samus/power/jump/aim_floor/turn/sJAimDwnTL_0.png" type="Texture" id=300]
+[ext_resource path="res://engine/sprites/samus/power/jump/aim_floor/turn/sJAimDwnTR_0.png" type="Texture" id=301]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/horizontal/sSJumpR_1.png" type="Texture" id=302]
+[ext_resource path="res://engine/sprites/samus/power/jump/aim_floor/sJAimDwnL_0.png" type="Texture" id=303]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_4.png" type="Texture" id=304]
+[ext_resource path="res://engine/sprites/samus/power/jump/aim_floor/sJAimDwnR_0.png" type="Texture" id=305]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/horizontal/sSJumpL_2.png" type="Texture" id=306]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/horizontal/sSJumpL_0.png" type="Texture" id=307]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_5.png" type="Texture" id=308]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/horizontal/sSJumpR_2.png" type="Texture" id=309]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_4.png" type="Texture" id=310]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/horizontal/sSJumpL_1.png" type="Texture" id=311]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/horizontal/sSJumpR_0.png" type="Texture" id=312]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_1.png" type="Texture" id=313]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_up/sRunAimUR_0.png" type="Texture" id=314]
+[ext_resource path="res://engine/sprites/samus/power/run/aim_none/sRunRight_0.png" type="Texture" id=315]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_2.png" type="Texture" id=316]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_0.png" type="Texture" id=317]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_0.png" type="Texture" id=318]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_6.png" type="Texture" id=319]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_1.png" type="Texture" id=320]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_6.png" type="Texture" id=321]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_2.png" type="Texture" id=322]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_8.png" type="Texture" id=323]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_7.png" type="Texture" id=324]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_7.png" type="Texture" id=325]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_8.png" type="Texture" id=326]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_3.png" type="Texture" id=327]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpL_3.png" type="Texture" id=328]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/vertical/sSJumpUpR_5.png" type="Texture" id=329]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDL_0.png" type="Texture" id=330]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStartL_1.png" type="Texture" id=331]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStartL_2.png" type="Texture" id=332]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStartL_3.png" type="Texture" id=333]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStart_1.png" type="Texture" id=334]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStart_3.png" type="Texture" id=335]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStart_2.png" type="Texture" id=336]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStartL_0.png" type="Texture" id=337]
+[ext_resource path="res://engine/sprites/samus/power/shinespark/start/sSJumpStart_0.png" type="Texture" id=338]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDL_1.png" type="Texture" id=339]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDR_2.png" type="Texture" id=340]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDR_0.png" type="Texture" id=341]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDR_1.png" type="Texture" id=342]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDL_3.png" type="Texture" id=343]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/turn/sGripTurnL_0.png" type="Texture" id=344]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpL_0.png" type="Texture" id=345]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDL_2.png" type="Texture" id=346]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUL_2.png" type="Texture" id=347]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimL_1.png" type="Texture" id=348]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimR_3.png" type="Texture" id=349]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpR_1.png" type="Texture" id=350]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnR_2.png" type="Texture" id=351]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUL_1.png" type="Texture" id=352]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimL_2.png" type="Texture" id=353]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/turn/sGripTurnR_0.png" type="Texture" id=354]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGripL_0.png" type="Texture" id=355]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimR_0.png" type="Texture" id=356]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnL_1.png" type="Texture" id=357]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGrip_0.png" type="Texture" id=358]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpR_0.png" type="Texture" id=359]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpR_3.png" type="Texture" id=360]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnL_0.png" type="Texture" id=361]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUL_0.png" type="Texture" id=362]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimL_0.png" type="Texture" id=363]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUR_0.png" type="Texture" id=364]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimR_2.png" type="Texture" id=365]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpR_2.png" type="Texture" id=366]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnR_3.png" type="Texture" id=367]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnR_0.png" type="Texture" id=368]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_down/sGripAimDR_3.png" type="Texture" id=369]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnL_2.png" type="Texture" id=370]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnR_1.png" type="Texture" id=371]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_floor/sGripAimDwnL_3.png" type="Texture" id=372]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimR_1.png" type="Texture" id=373]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_front/sGripAimL_3.png" type="Texture" id=374]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUL_3.png" type="Texture" id=375]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGrip_2.png" type="Texture" id=376]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGripL_1.png" type="Texture" id=377]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGripL_3.png" type="Texture" id=378]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUR_1.png" type="Texture" id=379]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGripL_2.png" type="Texture" id=380]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGrip_1.png" type="Texture" id=381]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpL_1.png" type="Texture" id=382]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_none/sGrip_3.png" type="Texture" id=383]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpL_2.png" type="Texture" id=384]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_sky/sGripAimUpL_3.png" type="Texture" id=385]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUR_3.png" type="Texture" id=386]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/aim_up/sGripAimUR_2.png" type="Texture" id=387]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_1.png" type="Texture" id=388]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_12.png" type="Texture" id=389]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_2.png" type="Texture" id=390]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_11.png" type="Texture" id=391]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_8.png" type="Texture" id=392]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_9.png" type="Texture" id=393]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_7.png" type="Texture" id=394]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_10.png" type="Texture" id=395]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_5.png" type="Texture" id=396]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_4.png" type="Texture" id=397]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_5.png" type="Texture" id=398]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_3.png" type="Texture" id=399]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_6.png" type="Texture" id=400]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_8.png" type="Texture" id=401]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_13.png" type="Texture" id=402]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_2.png" type="Texture" id=403]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_3.png" type="Texture" id=404]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_6.png" type="Texture" id=405]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_9.png" type="Texture" id=406]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_4.png" type="Texture" id=407]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_13.png" type="Texture" id=408]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_12.png" type="Texture" id=409]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_11.png" type="Texture" id=410]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_1.png" type="Texture" id=411]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_0.png" type="Texture" id=412]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimbL_10.png" type="Texture" id=413]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_7.png" type="Texture" id=414]
+[ext_resource path="res://engine/sprites/samus/power/powergrip/climb/sClimb_0.png" type="Texture" id=415]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_4.png" type="Texture" id=416]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_1.png" type="Texture" id=417]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_3.png" type="Texture" id=418]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_6.png" type="Texture" id=419]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_5.png" type="Texture" id=420]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_0.png" type="Texture" id=421]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_1.png" type="Texture" id=422]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_2.png" type="Texture" id=423]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_7.png" type="Texture" id=424]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_5.png" type="Texture" id=425]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_7.png" type="Texture" id=426]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_6.png" type="Texture" id=427]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_2.png" type="Texture" id=428]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_3.png" type="Texture" id=429]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpRight_0.png" type="Texture" id=430]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_5.png" type="Texture" id=431]
+[ext_resource path="res://engine/sprites/samus/power/jump/spin/normal/sJumpLeft_4.png" type="Texture" id=432]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_5.png" type="Texture" id=433]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_1.png" type="Texture" id=434]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_4.png" type="Texture" id=435]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_3.png" type="Texture" id=436]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_0.png" type="Texture" id=437]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_6.png" type="Texture" id=438]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_5.png" type="Texture" id=439]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_1.png" type="Texture" id=440]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_3.png" type="Texture" id=441]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_4.png" type="Texture" id=442]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_4.png" type="Texture" id=443]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_2.png" type="Texture" id=444]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_1.png" type="Texture" id=445]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_2.png" type="Texture" id=446]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_4.png" type="Texture" id=447]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_2.png" type="Texture" id=448]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_7.png" type="Texture" id=449]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_4.png" type="Texture" id=450]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_8.png" type="Texture" id=451]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_9.png" type="Texture" id=452]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_2.png" type="Texture" id=453]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_6.png" type="Texture" id=454]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_2.png" type="Texture" id=455]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_3.png" type="Texture" id=456]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_2.png" type="Texture" id=457]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_3.png" type="Texture" id=458]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_5.png" type="Texture" id=459]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_1.png" type="Texture" id=460]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_6.png" type="Texture" id=461]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_4.png" type="Texture" id=462]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_7.png" type="Texture" id=463]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_8.png" type="Texture" id=464]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDL_9.png" type="Texture" id=465]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_7.png" type="Texture" id=466]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_8.png" type="Texture" id=467]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_2.png" type="Texture" id=468]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_9.png" type="Texture" id=469]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_0.png" type="Texture" id=470]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_3.png" type="Texture" id=471]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_5.png" type="Texture" id=472]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_6.png" type="Texture" id=473]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_7.png" type="Texture" id=474]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_8.png" type="Texture" id=475]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_9.png" type="Texture" id=476]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_4.png" type="Texture" id=477]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_6.png" type="Texture" id=478]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_5.png" type="Texture" id=479]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_7.png" type="Texture" id=480]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_8.png" type="Texture" id=481]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUp_9.png" type="Texture" id=482]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_1.png" type="Texture" id=483]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_7.png" type="Texture" id=484]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_9.png" type="Texture" id=485]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_8.png" type="Texture" id=486]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_0.png" type="Texture" id=487]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_7.png" type="Texture" id=488]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_8.png" type="Texture" id=489]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUL_9.png" type="Texture" id=490]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_6.png" type="Texture" id=491]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_7.png" type="Texture" id=492]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_9.png" type="Texture" id=493]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_8.png" type="Texture" id=494]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_6.png" type="Texture" id=495]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkRight_0.png" type="Texture" id=496]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_up/sWalkAimUR_4.png" type="Texture" id=497]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_down/sWalkAimDR_0.png" type="Texture" id=498]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_3.png" type="Texture" id=499]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_0.png" type="Texture" id=500]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_front/sWalkLeft_5.png" type="Texture" id=501]
+[ext_resource path="res://engine/sprites/samus/power/visor/aim_sky/sWalkAimUpL_3.png" type="Texture" id=502]
+[ext_resource path="res://engine/sprites/samus/power/front/sFront_1.png" type="Texture" id=513]
+[ext_resource path="res://engine/sprites/samus/power/front/sFront_0.png" type="Texture" id=515]
+[ext_resource path="res://engine/sprites/samus/power/front/sFront_3.png" type="Texture" id=516]
+[ext_resource path="res://engine/sprites/samus/power/front/sFront_2.png" type="Texture" id=517]
+[ext_resource path="res://engine/sprites/samus/power/front/sFrontL_0.png" type="Texture" id=518]
+[ext_resource path="res://engine/sprites/samus/power/front/sFrontR_0.png" type="Texture" id=519]
+[ext_resource path="res://engine/sprites/samus/power/back/turn_right.png" type="Texture" id=520]
+[ext_resource path="res://engine/sprites/samus/power/front/flipped_sFront_2.png" type="Texture" id=521]
+[ext_resource path="res://engine/sprites/samus/power/front/flipped_sFront_0.png" type="Texture" id=522]
+[ext_resource path="res://engine/sprites/samus/power/front/flipped_sFront_1.png" type="Texture" id=523]
+[ext_resource path="res://engine/sprites/samus/power/back/idle.png" type="Texture" id=524]
+[ext_resource path="res://engine/sprites/samus/power/front/flipped_sFront_3.png" type="Texture" id=525]
+[ext_resource path="res://engine/sprites/samus/power/back/turn_left.png" type="Texture" id=526]
+[ext_resource path="res://engine/sprites/samus/power/back/idle_flipped.png" type="Texture" id=527]
+[ext_resource path="res://engine/sprites/samus/power/hurt/sHurtL_1.png" type="Texture" id=528]
+[ext_resource path="res://engine/sprites/samus/power/hurt/sHurtL_2.png" type="Texture" id=529]
+[ext_resource path="res://engine/sprites/samus/power/hurt/sHurtR_1.png" type="Texture" id=530]
+[ext_resource path="res://engine/sprites/samus/power/hurt/sHurtL_0.png" type="Texture" id=531]
+[ext_resource path="res://engine/sprites/samus/power/hurt/sHurtR_2.png" type="Texture" id=532]
+[ext_resource path="res://engine/sprites/samus/power/hurt/sHurtR_0.png" type="Texture" id=533]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathR_3.png" type="Texture" id=534]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_2.png" type="Texture" id=535]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_5.png" type="Texture" id=536]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathR_1.png" type="Texture" id=537]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_12.png" type="Texture" id=538]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_9.png" type="Texture" id=539]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_6.png" type="Texture" id=540]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_0.png" type="Texture" id=541]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathR_2.png" type="Texture" id=542]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_3.png" type="Texture" id=543]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_7.png" type="Texture" id=544]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_8.png" type="Texture" id=545]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathL_4.png" type="Texture" id=546]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_10.png" type="Texture" id=547]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathR_4.png" type="Texture" id=548]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_4.png" type="Texture" id=549]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_1.png" type="Texture" id=550]
+[ext_resource path="res://engine/sprites/samus/power/death/sPlayerDeath_11.png" type="Texture" id=551]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathL_3.png" type="Texture" id=552]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathL_2.png" type="Texture" id=553]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathL_1.png" type="Texture" id=554]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathL_0.png" type="Texture" id=555]
+[ext_resource path="res://engine/sprites/samus/power/death/sDeathR_0.png" type="Texture" id=556]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_land/sLand_2.png" type="Texture" id=557]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_land/sLand_1.png" type="Texture" id=558]
+[ext_resource path="res://engine/sprites/samus/power/jump/legs_land/sLand_0.png" type="Texture" id=559]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_R_0.png" type="Texture" id=560]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_L_2.png" type="Texture" id=561]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_R_1.png" type="Texture" id=562]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_L_0.png" type="Texture" id=563]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_R_2.png" type="Texture" id=564]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_front/crouch_L_1.png" type="Texture" id=565]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_R_1.png" type="Texture" id=566]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_R_2.png" type="Texture" id=567]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_L_0.png" type="Texture" id=568]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_L_2.png" type="Texture" id=569]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_L_1.png" type="Texture" id=570]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_down/crouch_R_0.png" type="Texture" id=571]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_R_2.png" type="Texture" id=572]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_R_1.png" type="Texture" id=573]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_R_0.png" type="Texture" id=574]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_L_2.png" type="Texture" id=575]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_L_1.png" type="Texture" id=576]
+[ext_resource path="res://engine/sprites/samus/power/crouch/crouch/aim_up/crouch_L_0.png" type="Texture" id=577]
 
 [resource]
 animations = [ {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_up_left",
-"speed": 6.0
-}, {
-"frames": [ null ],
-"loop": true,
-"name": "jump_legs",
-"speed": 5.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "neutral_idle_1_left",
-"speed": 7.0
-}, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 151 ), ExtResource( 3 ), ExtResource( 3 ) ],
 "loop": false,
-"name": "multiple_turn_aim_down_left",
+"name": "crouch_legs_turn_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "morphball_morph",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "run_aim_up_left",
-"speed": 30.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "jump_spin_walljump_left",
-"speed": 20.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "jump_spin_walljump_right",
-"speed": 20.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_up_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_front_stand_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_up_left",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_sky_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_legs",
-"speed": 60.0
-}, {
-"frames": [ null ],
-"loop": true,
-"name": "jump_aim_floor_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "morphball_roll_bounce",
-"speed": 20.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_sky_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_front_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null, null ],
-"loop": false,
-"name": "jump_legs_start",
-"speed": 30.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_up_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_front_right",
-"speed": 6.0
-}, {
-"frames": [ null ],
-"loop": true,
-"name": "jump_aim_floor_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_front_stand_left",
-"speed": 60.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_front_left",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_front_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_sky_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_down_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_down_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "multiple_aim_down_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "jump_legs_turn",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
-"loop": false,
-"name": "neutral_idle_0_right",
-"speed": 7.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "morphball_unmorph",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "morphball_roll_spider_reverse",
-"speed": 20.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "jump_spin_space_screw",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_floor_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_none_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_front_left",
-"speed": 6.0
-}, {
-"frames": [ null, null ],
-"loop": false,
-"name": "powergrip_turn_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
-"loop": false,
-"name": "powergrip_climb_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_down_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
-"loop": false,
-"name": "powergrip_climb_left",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_none_right",
-"speed": 6.0
-}, {
-"frames": [ null, null ],
-"loop": false,
-"name": "powergrip_turn_left",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_floor_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_front_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "powergrip_aim_sky_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "shinespark_vert_left",
-"speed": 30.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": false,
-"name": "shinespark_start_right",
-"speed": 15.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null ],
-"loop": false,
-"name": "shinespark_end_right",
-"speed": 30.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "multiple_turn_aim_sky_left",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "neutral_aim_front_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "run_aim_up_right",
-"speed": 30.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "run_aim_front_right",
-"speed": 30.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "neutral_aim_up_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "neutral_aim_down_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "neutral_aim_sky_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "morphball_roll_spider",
-"speed": 20.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "run_aim_down_left",
-"speed": 30.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "neutral_aim_down_left",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
-"loop": false,
-"name": "neutral_idle_0_left",
-"speed": 7.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "neutral_aim_up_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "run_aim_none_right",
-"speed": 30.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "run_aim_down_right",
-"speed": 30.0
-}, {
-"frames": [ null, null, null, null ],
-"loop": true,
-"name": "neutral_aim_front_right",
-"speed": 6.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "morphball_roll",
-"speed": 20.0
-}, {
-"frames": [ null, null, null ],
-"loop": false,
-"name": "jump_turn_aim_floor_right",
-"speed": 60.0
-}, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
-"loop": true,
-"name": "neutral_idle_1_right",
-"speed": 7.0
-}, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 23 ), ExtResource( 6 ), ExtResource( 47 ), ExtResource( 49 ) ],
 "loop": true,
 "name": "neutral_aim_sky_left",
 "speed": 6.0
 }, {
-"frames": [ null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 255 ), ExtResource( 224 ), ExtResource( 222 ), ExtResource( 233 ) ],
+"loop": true,
+"name": "multiple_aim_up_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 225 ) ],
+"loop": true,
+"name": "jump_legs",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 43 ), ExtResource( 17 ), ExtResource( 146 ), ExtResource( 146 ), ExtResource( 146 ), ExtResource( 146 ), ExtResource( 146 ), ExtResource( 146 ), ExtResource( 146 ), ExtResource( 56 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 56 ), ExtResource( 146 ), ExtResource( 17 ), ExtResource( 43 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "neutral_idle_1_left",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 9 ), ExtResource( 121 ), ExtResource( 121 ) ],
+"loop": false,
+"name": "multiple_turn_aim_down_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 298 ), ExtResource( 1 ), ExtResource( 1 ) ],
+"loop": false,
+"name": "morphball_morph",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 169 ), ExtResource( 148 ), ExtResource( 110 ), ExtResource( 123 ), ExtResource( 125 ), ExtResource( 127 ), ExtResource( 126 ), ExtResource( 128 ), ExtResource( 129 ), ExtResource( 130 ) ],
+"loop": true,
+"name": "run_aim_up_left",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 246 ), ExtResource( 257 ), ExtResource( 262 ) ],
+"loop": false,
+"name": "jump_spin_walljump_left",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 295 ), ExtResource( 293 ), ExtResource( 294 ) ],
+"loop": false,
+"name": "jump_spin_walljump_right",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 234 ), ExtResource( 217 ), ExtResource( 229 ), ExtResource( 230 ) ],
+"loop": true,
+"name": "multiple_aim_up_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 244 ), ExtResource( 132 ), ExtResource( 132 ) ],
+"loop": false,
+"name": "multiple_turn_aim_front_stand_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 118 ), ExtResource( 124 ), ExtResource( 124 ) ],
+"loop": false,
+"name": "multiple_turn_aim_up_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 248 ), ExtResource( 256 ), ExtResource( 227 ), ExtResource( 226 ) ],
+"loop": true,
+"name": "multiple_aim_sky_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 143 ), ExtResource( 143 ) ],
+"loop": false,
+"name": "multiple_turn_legs",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 305 ) ],
+"loop": true,
+"name": "jump_aim_floor_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 199 ), ExtResource( 208 ), ExtResource( 207 ), ExtResource( 204 ), ExtResource( 265 ), ExtResource( 266 ), ExtResource( 297 ), ExtResource( 299 ) ],
+"loop": true,
+"name": "morphball_roll_bounce",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 250 ), ExtResource( 232 ), ExtResource( 219 ), ExtResource( 218 ) ],
+"loop": true,
+"name": "multiple_aim_sky_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 131 ), ExtResource( 133 ), ExtResource( 133 ) ],
+"loop": false,
+"name": "multiple_turn_aim_front_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 251 ), ExtResource( 223 ), ExtResource( 220 ), ExtResource( 221 ), ExtResource( 225 ) ],
+"loop": false,
+"name": "jump_legs_start",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 144 ), ExtResource( 144 ) ],
+"loop": false,
+"name": "multiple_turn_aim_up_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 254 ), ExtResource( 236 ), ExtResource( 253 ), ExtResource( 237 ) ],
+"loop": true,
+"name": "multiple_aim_front_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 303 ) ],
+"loop": true,
+"name": "jump_aim_floor_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 242 ), ExtResource( 241 ), ExtResource( 241 ) ],
+"loop": false,
+"name": "multiple_turn_aim_front_stand_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 122 ), ExtResource( 243 ), ExtResource( 243 ) ],
+"loop": false,
+"name": "multiple_turn_aim_front_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 264 ), ExtResource( 258 ), ExtResource( 260 ), ExtResource( 261 ) ],
+"loop": true,
+"name": "multiple_aim_front_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 141 ), ExtResource( 119 ), ExtResource( 119 ) ],
+"loop": false,
+"name": "multiple_turn_aim_sky_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 249 ), ExtResource( 247 ), ExtResource( 263 ), ExtResource( 245 ) ],
+"loop": true,
+"name": "multiple_aim_down_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 68 ), ExtResource( 142 ), ExtResource( 142 ) ],
+"loop": false,
+"name": "multiple_turn_aim_down_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 231 ), ExtResource( 252 ), ExtResource( 228 ), ExtResource( 259 ) ],
+"loop": true,
+"name": "multiple_aim_down_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 235 ), ExtResource( 238 ), ExtResource( 238 ) ],
+"loop": false,
+"name": "jump_legs_turn",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 32 ), ExtResource( 59 ), ExtResource( 61 ), ExtResource( 61 ), ExtResource( 61 ), ExtResource( 50 ), ExtResource( 58 ), ExtResource( 60 ), ExtResource( 60 ), ExtResource( 60 ), ExtResource( 50 ), ExtResource( 61 ), ExtResource( 62 ), ExtResource( 64 ), ExtResource( 64 ), ExtResource( 64 ), ExtResource( 62 ), ExtResource( 61 ), ExtResource( 59 ), ExtResource( 32 ) ],
+"loop": false,
+"name": "neutral_idle_0_right",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 209 ), ExtResource( 216 ), ExtResource( 216 ) ],
+"loop": false,
+"name": "morphball_unmorph",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 296 ), ExtResource( 269 ), ExtResource( 268 ), ExtResource( 213 ), ExtResource( 214 ), ExtResource( 194 ), ExtResource( 198 ), ExtResource( 211 ) ],
+"loop": true,
+"name": "morphball_roll_spider_reverse",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 361 ), ExtResource( 357 ), ExtResource( 370 ), ExtResource( 372 ) ],
+"loop": true,
+"name": "powergrip_aim_floor_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 355 ), ExtResource( 377 ), ExtResource( 380 ), ExtResource( 378 ) ],
+"loop": true,
+"name": "powergrip_aim_none_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 356 ), ExtResource( 373 ), ExtResource( 365 ), ExtResource( 349 ) ],
+"loop": true,
+"name": "powergrip_aim_front_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 354 ), ExtResource( 354 ) ],
+"loop": false,
+"name": "powergrip_turn_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 415 ), ExtResource( 388 ), ExtResource( 390 ), ExtResource( 404 ), ExtResource( 407 ), ExtResource( 396 ), ExtResource( 405 ), ExtResource( 414 ), ExtResource( 392 ), ExtResource( 393 ), ExtResource( 395 ), ExtResource( 391 ), ExtResource( 389 ), ExtResource( 402 ) ],
+"loop": false,
+"name": "powergrip_climb_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 330 ), ExtResource( 339 ), ExtResource( 346 ), ExtResource( 343 ) ],
+"loop": true,
+"name": "powergrip_aim_down_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 412 ), ExtResource( 411 ), ExtResource( 403 ), ExtResource( 399 ), ExtResource( 397 ), ExtResource( 398 ), ExtResource( 400 ), ExtResource( 394 ), ExtResource( 401 ), ExtResource( 406 ), ExtResource( 413 ), ExtResource( 410 ), ExtResource( 409 ), ExtResource( 408 ) ],
+"loop": false,
+"name": "powergrip_climb_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 358 ), ExtResource( 381 ), ExtResource( 376 ), ExtResource( 383 ) ],
+"loop": true,
+"name": "powergrip_aim_none_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 344 ), ExtResource( 344 ) ],
+"loop": false,
+"name": "powergrip_turn_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 368 ), ExtResource( 371 ), ExtResource( 351 ), ExtResource( 367 ) ],
+"loop": true,
+"name": "powergrip_aim_floor_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 363 ), ExtResource( 348 ), ExtResource( 353 ), ExtResource( 374 ) ],
+"loop": true,
+"name": "powergrip_aim_front_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 345 ), ExtResource( 382 ), ExtResource( 384 ), ExtResource( 385 ) ],
+"loop": true,
+"name": "powergrip_aim_sky_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 317 ), ExtResource( 313 ), ExtResource( 316 ), ExtResource( 328 ), ExtResource( 310 ), ExtResource( 308 ), ExtResource( 321 ), ExtResource( 324 ), ExtResource( 323 ) ],
+"loop": true,
+"name": "shinespark_vert_left",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 338 ), ExtResource( 334 ), ExtResource( 336 ), ExtResource( 335 ) ],
+"loop": false,
+"name": "shinespark_start_right",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 430 ), ExtResource( 422 ), ExtResource( 428 ), ExtResource( 418 ), ExtResource( 416 ), ExtResource( 425 ), ExtResource( 427 ), ExtResource( 426 ) ],
+"loop": false,
+"name": "shinespark_end_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 39 ), ExtResource( 145 ), ExtResource( 145 ) ],
+"loop": false,
+"name": "multiple_turn_aim_sky_left",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 10 ), ExtResource( 21 ), ExtResource( 8 ), ExtResource( 15 ) ],
+"loop": true,
+"name": "neutral_aim_front_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 314 ), ExtResource( 166 ), ExtResource( 100 ), ExtResource( 134 ), ExtResource( 136 ), ExtResource( 135 ), ExtResource( 137 ), ExtResource( 140 ), ExtResource( 138 ), ExtResource( 139 ) ],
+"loop": true,
+"name": "run_aim_up_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 168 ), ExtResource( 76 ), ExtResource( 67 ), ExtResource( 93 ), ExtResource( 95 ), ExtResource( 94 ), ExtResource( 96 ), ExtResource( 97 ), ExtResource( 98 ), ExtResource( 99 ) ],
+"loop": true,
+"name": "run_aim_front_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 164 ), ExtResource( 150 ), ExtResource( 37 ), ExtResource( 52 ) ],
+"loop": true,
+"name": "neutral_aim_up_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 28 ), ExtResource( 31 ), ExtResource( 30 ), ExtResource( 45 ) ],
+"loop": true,
+"name": "neutral_aim_down_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 48 ), ExtResource( 14 ), ExtResource( 51 ) ],
+"loop": true,
+"name": "neutral_aim_sky_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 211 ), ExtResource( 198 ), ExtResource( 194 ), ExtResource( 214 ), ExtResource( 213 ), ExtResource( 268 ), ExtResource( 269 ), ExtResource( 296 ) ],
+"loop": true,
+"name": "morphball_roll_spider",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 26 ), ExtResource( 33 ), ExtResource( 20 ), ExtResource( 63 ), ExtResource( 40 ), ExtResource( 38 ), ExtResource( 57 ), ExtResource( 72 ), ExtResource( 74 ), ExtResource( 73 ) ],
+"loop": true,
+"name": "run_aim_down_left",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 24 ), ExtResource( 34 ), ExtResource( 27 ), ExtResource( 29 ) ],
+"loop": true,
+"name": "neutral_aim_down_left",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 43 ), ExtResource( 17 ), ExtResource( 17 ), ExtResource( 17 ), ExtResource( 22 ), ExtResource( 13 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 19 ), ExtResource( 22 ), ExtResource( 17 ), ExtResource( 36 ), ExtResource( 25 ), ExtResource( 25 ), ExtResource( 25 ), ExtResource( 36 ), ExtResource( 17 ), ExtResource( 43 ), ExtResource( 5 ) ],
+"loop": false,
+"name": "neutral_idle_0_left",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 44 ), ExtResource( 53 ), ExtResource( 54 ), ExtResource( 55 ) ],
+"loop": true,
+"name": "neutral_aim_up_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 315 ), ExtResource( 167 ), ExtResource( 75 ), ExtResource( 111 ), ExtResource( 112 ), ExtResource( 114 ), ExtResource( 113 ), ExtResource( 116 ), ExtResource( 115 ), ExtResource( 117 ) ],
+"loop": true,
+"name": "run_aim_none_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 46 ), ExtResource( 80 ), ExtResource( 77 ), ExtResource( 79 ), ExtResource( 81 ), ExtResource( 84 ), ExtResource( 82 ), ExtResource( 83 ), ExtResource( 85 ), ExtResource( 86 ) ],
+"loop": true,
+"name": "run_aim_down_right",
+"speed": 30.0
+}, {
+"frames": [ ExtResource( 163 ), ExtResource( 165 ), ExtResource( 16 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "neutral_aim_front_right",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 205 ), ExtResource( 206 ), ExtResource( 195 ), ExtResource( 215 ), ExtResource( 210 ), ExtResource( 196 ), ExtResource( 197 ), ExtResource( 212 ) ],
+"loop": true,
+"name": "morphball_roll",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 301 ), ExtResource( 239 ), ExtResource( 239 ) ],
+"loop": false,
+"name": "jump_turn_aim_floor_right",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 32 ), ExtResource( 59 ), ExtResource( 61 ), ExtResource( 65 ), ExtResource( 65 ), ExtResource( 65 ), ExtResource( 65 ), ExtResource( 65 ), ExtResource( 65 ), ExtResource( 65 ), ExtResource( 66 ), ExtResource( 35 ), ExtResource( 147 ), ExtResource( 35 ), ExtResource( 147 ), ExtResource( 35 ), ExtResource( 66 ), ExtResource( 66 ), ExtResource( 66 ), ExtResource( 35 ), ExtResource( 147 ), ExtResource( 35 ), ExtResource( 147 ), ExtResource( 35 ), ExtResource( 66 ), ExtResource( 66 ), ExtResource( 66 ), ExtResource( 66 ), ExtResource( 65 ), ExtResource( 61 ), ExtResource( 59 ), ExtResource( 32 ) ],
+"loop": true,
+"name": "neutral_idle_1_right",
+"speed": 7.0
+}, {
+"frames": [ ExtResource( 200 ), ExtResource( 202 ), ExtResource( 203 ), ExtResource( 201 ), ExtResource( 193 ), ExtResource( 192 ), ExtResource( 191 ) ],
 "loop": false,
 "name": "morphball_turn",
 "speed": 60.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 69 ), ExtResource( 101 ), ExtResource( 102 ), ExtResource( 103 ), ExtResource( 105 ), ExtResource( 104 ), ExtResource( 106 ), ExtResource( 107 ), ExtResource( 108 ), ExtResource( 109 ) ],
 "loop": true,
 "name": "run_aim_none_left",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 149 ), ExtResource( 87 ), ExtResource( 88 ), ExtResource( 70 ), ExtResource( 71 ), ExtResource( 89 ), ExtResource( 91 ), ExtResource( 78 ), ExtResource( 90 ), ExtResource( 92 ) ],
 "loop": true,
 "name": "run_aim_front_left",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 421 ), ExtResource( 417 ), ExtResource( 423 ), ExtResource( 429 ), ExtResource( 432 ), ExtResource( 420 ), ExtResource( 419 ), ExtResource( 424 ) ],
 "loop": true,
 "name": "jump_spin_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 430 ), ExtResource( 422 ), ExtResource( 428 ), ExtResource( 418 ), ExtResource( 416 ), ExtResource( 425 ), ExtResource( 427 ), ExtResource( 426 ) ],
 "loop": true,
 "name": "jump_spin_right",
 "speed": 60.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 172 ), ExtResource( 157 ), ExtResource( 161 ), ExtResource( 170 ), ExtResource( 162 ), ExtResource( 160 ), ExtResource( 159 ), ExtResource( 158 ) ],
 "loop": true,
 "name": "jump_spin_space",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 300 ), ExtResource( 240 ), ExtResource( 240 ) ],
 "loop": false,
 "name": "jump_turn_aim_floor_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 307 ), ExtResource( 311 ), ExtResource( 306 ) ],
 "loop": false,
 "name": "shinespark_horiz_left",
 "speed": 30.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 312 ), ExtResource( 302 ), ExtResource( 309 ) ],
 "loop": false,
 "name": "shinespark_horiz_right",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 318 ), ExtResource( 320 ), ExtResource( 322 ), ExtResource( 327 ), ExtResource( 304 ), ExtResource( 329 ), ExtResource( 319 ), ExtResource( 325 ), ExtResource( 326 ) ],
 "loop": true,
 "name": "shinespark_vert_right",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 337 ), ExtResource( 331 ), ExtResource( 332 ), ExtResource( 333 ) ],
 "loop": false,
 "name": "shinespark_start_left",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 421 ), ExtResource( 417 ), ExtResource( 423 ), ExtResource( 429 ), ExtResource( 432 ), ExtResource( 420 ), ExtResource( 419 ), ExtResource( 424 ) ],
 "loop": false,
 "name": "shinespark_end_left",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 341 ), ExtResource( 342 ), ExtResource( 340 ), ExtResource( 369 ) ],
 "loop": true,
 "name": "powergrip_aim_down_left",
 "speed": 6.0
 }, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 362 ), ExtResource( 352 ), ExtResource( 347 ), ExtResource( 375 ) ],
 "loop": true,
 "name": "powergrip_aim_up_right",
 "speed": 6.0
 }, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 364 ), ExtResource( 379 ), ExtResource( 387 ), ExtResource( 386 ) ],
 "loop": true,
 "name": "powergrip_aim_up_left",
 "speed": 6.0
 }, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 359 ), ExtResource( 350 ), ExtResource( 366 ), ExtResource( 360 ) ],
 "loop": true,
 "name": "powergrip_aim_sky_right",
 "speed": 6.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 5 ), ExtResource( 43 ), ExtResource( 17 ), ExtResource( 146 ), ExtResource( 56 ), ExtResource( 42 ), ExtResource( 41 ), ExtResource( 277 ), ExtResource( 277 ), ExtResource( 277 ), ExtResource( 277 ), ExtResource( 273 ), ExtResource( 271 ), ExtResource( 276 ), ExtResource( 275 ), ExtResource( 270 ), ExtResource( 274 ), ExtResource( 272 ), ExtResource( 272 ), ExtResource( 272 ), ExtResource( 272 ), ExtResource( 272 ), ExtResource( 274 ), ExtResource( 270 ), ExtResource( 275 ), ExtResource( 276 ), ExtResource( 271 ), ExtResource( 273 ), ExtResource( 277 ), ExtResource( 41 ), ExtResource( 42 ), ExtResource( 56 ), ExtResource( 146 ), ExtResource( 17 ), ExtResource( 43 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "neutral_open_map_left",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 500 ), ExtResource( 283 ), ExtResource( 281 ), ExtResource( 499 ), ExtResource( 435 ), ExtResource( 501 ), ExtResource( 461 ), ExtResource( 484 ), ExtResource( 486 ), ExtResource( 485 ) ],
 "loop": true,
 "name": "walk_aim_front_left",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 470 ), ExtResource( 120 ), ExtResource( 468 ), ExtResource( 471 ), ExtResource( 477 ), ExtResource( 479 ), ExtResource( 478 ), ExtResource( 480 ), ExtResource( 481 ), ExtResource( 482 ) ],
 "loop": true,
 "name": "walk_aim_sky_right",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 487 ), ExtResource( 445 ), ExtResource( 453 ), ExtResource( 456 ), ExtResource( 462 ), ExtResource( 279 ), ExtResource( 454 ), ExtResource( 488 ), ExtResource( 489 ), ExtResource( 490 ) ],
 "loop": true,
 "name": "walk_aim_up_left",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 496 ), ExtResource( 440 ), ExtResource( 446 ), ExtResource( 436 ), ExtResource( 443 ), ExtResource( 433 ), ExtResource( 438 ), ExtResource( 466 ), ExtResource( 467 ), ExtResource( 469 ) ],
 "loop": true,
 "name": "walk_aim_front_right",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 498 ), ExtResource( 267 ), ExtResource( 448 ), ExtResource( 441 ), ExtResource( 447 ), ExtResource( 439 ), ExtResource( 495 ), ExtResource( 449 ), ExtResource( 451 ), ExtResource( 452 ) ],
 "loop": true,
 "name": "walk_aim_down_right",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 278 ), ExtResource( 434 ), ExtResource( 444 ), ExtResource( 280 ), ExtResource( 442 ), ExtResource( 431 ), ExtResource( 282 ), ExtResource( 463 ), ExtResource( 464 ), ExtResource( 465 ) ],
 "loop": true,
 "name": "walk_aim_down_left",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 284 ), ExtResource( 483 ), ExtResource( 455 ), ExtResource( 502 ), ExtResource( 450 ), ExtResource( 472 ), ExtResource( 473 ), ExtResource( 474 ), ExtResource( 475 ), ExtResource( 476 ) ],
 "loop": true,
 "name": "walk_aim_sky_left",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 437 ), ExtResource( 460 ), ExtResource( 457 ), ExtResource( 458 ), ExtResource( 497 ), ExtResource( 459 ), ExtResource( 491 ), ExtResource( 492 ), ExtResource( 494 ), ExtResource( 493 ) ],
 "loop": true,
 "name": "walk_aim_up_right",
 "speed": 15.0
@@ -474,148 +1013,153 @@ animations = [ {
 "name": "jump_screw_spark",
 "speed": 60.0
 }, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 515 ), ExtResource( 513 ), ExtResource( 517 ), ExtResource( 516 ) ],
 "loop": true,
 "name": "facefront_front_idle_right",
 "speed": 6.0
 }, {
-"frames": [ null, null ],
+"frames": [ ExtResource( 519 ), ExtResource( 519 ) ],
 "loop": false,
 "name": "facefront_front_turn_right",
 "speed": 60.0
 }, {
-"frames": [ null, null ],
+"frames": [ ExtResource( 518 ), ExtResource( 518 ) ],
 "loop": false,
 "name": "facefront_front_turn_left",
 "speed": 60.0
 }, {
-"frames": [ null ],
+"frames": [ ExtResource( 527 ) ],
 "loop": false,
 "name": "facefront_back_idle_left",
 "speed": 1.0
 }, {
-"frames": [ null, null ],
+"frames": [ ExtResource( 520 ), ExtResource( 520 ) ],
 "loop": false,
 "name": "facefront_back_turn_right",
 "speed": 60.0
 }, {
-"frames": [ null, null ],
+"frames": [ ExtResource( 526 ), ExtResource( 526 ) ],
 "loop": false,
 "name": "facefront_back_turn_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null, null ],
+"frames": [ ExtResource( 522 ), ExtResource( 523 ), ExtResource( 521 ), ExtResource( 525 ) ],
 "loop": true,
 "name": "facefront_front_idle_left",
 "speed": 6.0
 }, {
-"frames": [ null ],
+"frames": [ ExtResource( 524 ) ],
 "loop": false,
 "name": "facefront_back_idle_right",
 "speed": 1.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 533 ), ExtResource( 530 ), ExtResource( 532 ) ],
 "loop": false,
 "name": "hurt_knockback_right",
 "speed": 15.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 531 ), ExtResource( 528 ), ExtResource( 529 ) ],
 "loop": false,
 "name": "hurt_knockback_left",
 "speed": 15.0
 }, {
-"frames": [ null, null, null, null, null ],
+"frames": [ ExtResource( 556 ), ExtResource( 537 ), ExtResource( 542 ), ExtResource( 534 ), ExtResource( 548 ) ],
 "loop": true,
 "name": "death_suit_right",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null, null ],
+"frames": [ ExtResource( 555 ), ExtResource( 554 ), ExtResource( 553 ), ExtResource( 552 ), ExtResource( 546 ) ],
 "loop": true,
 "name": "death_suit_left",
 "speed": 30.0
 }, {
-"frames": [ null, null, null, null, null, null, null, null, null, null, null, null, null ],
+"frames": [ ExtResource( 541 ), ExtResource( 550 ), ExtResource( 535 ), ExtResource( 543 ), ExtResource( 549 ), ExtResource( 536 ), ExtResource( 540 ), ExtResource( 544 ), ExtResource( 545 ), ExtResource( 539 ), ExtResource( 547 ), ExtResource( 551 ), ExtResource( 538 ) ],
 "loop": false,
 "name": "death_samus",
 "speed": 15.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 569 ), ExtResource( 570 ), ExtResource( 568 ) ],
 "loop": false,
 "name": "crouch_crouch_aim_down_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 575 ), ExtResource( 576 ), ExtResource( 577 ) ],
 "loop": false,
 "name": "crouch_crouch_aim_up_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 563 ), ExtResource( 565 ), ExtResource( 561 ) ],
 "loop": false,
 "name": "crouch_uncrouch_aim_front_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 560 ), ExtResource( 562 ), ExtResource( 564 ) ],
 "loop": false,
 "name": "crouch_uncrouch_aim_front_right",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 559 ), ExtResource( 558 ), ExtResource( 557 ) ],
 "loop": true,
 "name": "jump_legs_land",
 "speed": 30.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 567 ), ExtResource( 566 ), ExtResource( 571 ) ],
 "loop": false,
 "name": "crouch_crouch_aim_down_right",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 572 ), ExtResource( 573 ), ExtResource( 574 ) ],
 "loop": false,
 "name": "crouch_crouch_aim_up_right",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 561 ), ExtResource( 565 ), ExtResource( 563 ) ],
 "loop": false,
 "name": "crouch_crouch_aim_front_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 577 ), ExtResource( 576 ), ExtResource( 575 ) ],
 "loop": false,
 "name": "crouch_uncrouch_aim_up_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 571 ), ExtResource( 566 ), ExtResource( 567 ) ],
 "loop": false,
 "name": "crouch_uncrouch_aim_down_right",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 574 ), ExtResource( 573 ), ExtResource( 572 ) ],
 "loop": false,
 "name": "crouch_uncrouch_aim_up_right",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 568 ), ExtResource( 570 ), ExtResource( 569 ) ],
 "loop": false,
 "name": "crouch_uncrouch_aim_down_left",
 "speed": 60.0
 }, {
-"frames": [ null, null, null ],
+"frames": [ ExtResource( 564 ), ExtResource( 562 ), ExtResource( 560 ) ],
 "loop": false,
 "name": "crouch_crouch_aim_front_right",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
-"loop": true,
+"frames": [ ExtResource( 151 ), ExtResource( 3 ), ExtResource( 3 ) ],
+"loop": false,
 "name": "crouch_legs_turn_right",
-"speed": 5.0
+"speed": 60.0
 }, {
-"frames": [ ExtResource( 2 ), ExtResource( 3 ) ],
-"loop": true,
-"name": "crouch_legs_turn_left",
-"speed": 5.0
-}, {
-"frames": [ ExtResource( 4 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"frames": [ ExtResource( 2 ), ExtResource( 153 ), ExtResource( 4 ), ExtResource( 152 ) ],
 "loop": true,
 "name": "crouch_legs",
 "speed": 6.0
+}, {
+"frames": [ ExtResource( 171 ), ExtResource( 154 ), ExtResource( 155 ), ExtResource( 173 ), ExtResource( 156 ) ],
+"loop": true,
+"name": "jump_spin_screw_overlay",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 174 ), ExtResource( 177 ), ExtResource( 176 ), ExtResource( 175 ) ],
+"loop": true,
+"name": "shinespark_boost_fx",
+"speed": 30.0
 } ]
