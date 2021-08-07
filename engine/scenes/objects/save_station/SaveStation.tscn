@@ -28,10 +28,10 @@ extents = Vector2( 21, 16 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 21, 3 )
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 42, 32 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 2.0
 step = 0.05
 tracks/0/type = "value"
@@ -98,7 +98,7 @@ data_key = "save_station"
 
 [node name="CollisionShape2D" parent="ScanNode" index="0"]
 position = Vector2( 0, 6 )
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="Effect" type="Control" parent="."]
 modulate = Color( 0, 0.529412, 1, 0.537255 )
@@ -122,7 +122,7 @@ visible = false
 position = Vector2( -1, -16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/save = SubResource( 6 )
+anims/save = SubResource( 5 )
 
 [connection signal="body_entered_safe" from="TriggerArea" to="." method="_on_TriggerArea_body_entered_safe"]
 [connection signal="body_exited_safe" from="TriggerArea" to="." method="_on_TriggerArea_body_exited_safe"]

@@ -317,7 +317,7 @@ func camerachunk_exited(chunk: CameraChunk):
 		camerachunk_entered(previous_camerachunk)
 
 var collider_cache = []
-func set_collider(animation: SamusAnimation):
+func set_collider(animation: SamusAnimation, force: bool = false):
 	
 	var main_key: String
 	if animation.position_node_path in collision_data:
@@ -331,7 +331,7 @@ func set_collider(animation: SamusAnimation):
 		return
 	
 	var data = [main_key, facing]
-	if collider_cache == data:
+	if collider_cache == data and not force:
 		return
 	collider_cache = data
 

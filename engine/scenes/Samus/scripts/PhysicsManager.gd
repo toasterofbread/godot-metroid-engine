@@ -49,7 +49,7 @@ func shortcut_reload_data():
 
 func _physics_process(delta: float):
 	
-	if get_tree().paused or Samus.paused:
+	if get_tree().paused:# or Samus.paused:
 		return
 	
 	if not Samus.was_on_floor and Samus.is_on_floor():

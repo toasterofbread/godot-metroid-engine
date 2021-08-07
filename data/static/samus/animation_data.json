@@ -223,26 +223,16 @@
 				-2
 			]
 		},
-		"spin_space_screw": {
-			"leftPos": [
-				3.5,
-				-4
-			],
-			"rightPos": [
-				3.5,
-				-4
-			],
-			"directional": false
-		},
-		"screw_spark": {
+		"spin_screw_overlay": {
 			"directional": false,
+			"overlay": true,
+			"overlay_above": true,
 			"leftPos": [
-				0,
+				3.5,
 				-4
 			],
-			"overlay": true,
 			"rightPos": [
-				7,
+				3.5,
 				-4
 			]
 		},
@@ -408,68 +398,101 @@
 		}
 	},
 	"crouch": {
+		"legs": {
+			"leftPos": [
+				4,
+				11
+			],
+			"rightPos": [
+				4,
+				11
+			],
+			"directional": false,
+			"overlay": true
+		},
+		"legs_turn": {
+			"leftPos": [
+				4,
+				11
+			],
+			"rightPos": [
+				4,
+				11
+			],
+			"overlay": true
+		},
 		"aim_down": {
 			"leftPos": [
-				1,
-				0
+				0,
+				2
 			],
 			"rightPos": [
 				7,
-				0
-			]
+				2
+			],
+			"state_id": "multiple"
 		},
 		"aim_front": {
 			"leftPos": [
-				1,
-				0
+				0,
+				-1
 			],
 			"rightPos": [
-				7,
-				0
-			]
+				8,
+				-1
+			],
+			"state_id": "multiple"
 		},
 		"aim_up": {
 			"leftPos": [
 				1,
-				0
+				-4
 			],
 			"rightPos": [
 				7,
-				0
-			]
+				-4
+			],
+			"state_id": "multiple"
 		},
 		"turn_aim_down": {
-			"transition": true,
 			"leftPos": [
-				1,
-				0
+				4,
+				3
 			],
 			"rightPos": [
-				7,
-				0
-			]
+				4,
+				3
+			],
+			"state_id": "multiple",
+			"step_frames": [
+				0,
+				3
+			],
+			"transition": true
 		},
 		"turn_aim_front": {
 			"transition": true,
 			"leftPos": [
-				1,
-				0
+				4,
+				-1
 			],
 			"rightPos": [
-				7,
-				0
-			]
+				5,
+				-1
+			],
+			"state_id": "multiple"
 		},
 		"turn_aim_up": {
 			"transition": true,
 			"leftPos": [
-				1,
-				0
+				4,
+				-4
 			],
 			"rightPos": [
-				7,
-				0
-			]
+				3,
+				-4
+			],
+			"state_id": "multiple"
 		},
 		"crouch_aim_front": {
 			"leftPos": [
@@ -674,6 +697,85 @@
 				10
 			],
 			"state_id": "morphball"
+		},
+		"boost_fx_horiz": {
+			"leftPos": [
+				-5,
+				-6
+			],
+			"overlay": true,
+			"rightPos": [
+				13,
+				-6
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true
+		},
+		"boost_fx_vert_up": {
+			"leftPos": [
+				4,
+				-9
+			],
+			"overlay": true,
+			"rightPos": [
+				4,
+				-9
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": -90
+		},
+		"boost_fx_vert_down": {
+			"leftPos": [
+				4,
+				9
+			],
+			"overlay": true,
+			"rightPos": [
+				4,
+				9
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": 90
+		},
+		"boost_fx_horiz_up": {
+			"leftPos": [
+				-7,
+				-7
+			],
+			"overlay": true,
+			"rightPos": [
+				16,
+				-7
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": -45
+		},
+		"boost_fx_horiz_down": {
+			"leftPos": [
+				-5,
+				-4
+			],
+			"overlay": true,
+			"rightPos": [
+				13,
+				-4
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": 45
 		}
 	},
 	"powergrip": {

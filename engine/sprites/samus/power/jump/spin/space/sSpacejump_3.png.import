@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/left_2.png-9cdd0054d4eab7bdd910f6b38cdac766.stex"
+path="res://.import/sSpacejump_3.png-cd3ef32c4f5769a528e641baf38a6d19.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://engine/sprites/samus/power/crouch/aim_down/left_2.png"
-dest_files=[ "res://.import/left_2.png-9cdd0054d4eab7bdd910f6b38cdac766.stex" ]
+source_file="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_3.png"
+dest_files=[ "res://.import/sSpacejump_3.png-cd3ef32c4f5769a528e641baf38a6d19.stex" ]
 
 [params]
 

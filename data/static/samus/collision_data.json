@@ -4,6 +4,11 @@
 		"pos": [4, 2.25],
 		"shape": "capsule"
 	},
+	"facefront": {
+		"size": [7.5, 15.5],
+		"pos": [4, 2.25],
+		"shape": "capsule"
+	},
 	"run": {
 		"size": [7.5, 15.5],
 		"pos": [4, 2.25],
@@ -33,7 +38,7 @@
 		"ignore": true
 	},
 	"crouch": {
-		"size": [7.5, 13],
+		"size": [7.5, 10],
 		"pos": [4, 5],
 		"shape": "capsule"
 	},

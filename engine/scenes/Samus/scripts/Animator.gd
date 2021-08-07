@@ -4,14 +4,16 @@ onready var Samus: Node2D = get_parent()
 onready var Player: AnimationPlayer = $AnimationPlayer
 onready var SpriteContainer: SpriteTrailEmitter = $Sprites
 
+var overlay_above: bool = false setget set_overlay_above
+
 onready var sprites = {
 	false: { # Main
-		Enums.dir.LEFT: $Sprites/sMainLeft,
-		Enums.dir.RIGHT: $Sprites/sMainRight
+		Enums.dir.LEFT: $Sprites/Default/left,
+		Enums.dir.RIGHT: $Sprites/Default/right
 	},
 	true: { # Overlay
-		Enums.dir.LEFT: $Sprites/sOverlayLeft,
-		Enums.dir.RIGHT: $Sprites/sOverlayRight
+		Enums.dir.LEFT: $Sprites/Overlay/left,
+		Enums.dir.RIGHT: $Sprites/Overlay/right
 	}
 }
 
@@ -136,3 +138,9 @@ func load_from_json(state_id: String, json_key = null) -> Dictionary:
 		
 		data[animation] = SamusAnimation.new(self, id, data[animation])
 	return data
+
+func set_overlay_above(value: bool):
+	if overlay_above == value:
+		return
+	overlay_above = value
+	$Sprites.move_child($Sprites/Overlay, $Sprites/Default.get_position_in_parent() + int(overlay_above))

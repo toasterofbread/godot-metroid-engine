@@ -203,9 +203,10 @@ func save_option_pressed(option: int):
 	
 	Loader.load_savegame($SaveSelection/SaveContainer.get_child(option).saveGame)
 	
-	for child in get_children():
-		if "visible" in child:
-			child.visible = false
+	visible = false
+#	for child in get_children():
+#		if "visible" in child:
+#			child.visible = false
 	
 	yield(Global.wait(0.2, true), "completed")
 	$Tween.interpolate_property($Overlay/ColorRect, "color:a", $Overlay/ColorRect.color.a, 0.0, 0.3)

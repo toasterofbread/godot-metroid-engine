@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sBlockBomb_0 (copy).png-013540e01d0306ee4a0d1982e44b0efb.stex"
+path="res://.import/sSpacejump_7.png-4e3774837c1c19d28e38d7ca50dbd32d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/destroyable_block/sBlockBomb_0 (copy).png"
-dest_files=[ "res://.import/sBlockBomb_0 (copy).png-013540e01d0306ee4a0d1982e44b0efb.stex" ]
+source_file="res://engine/sprites/samus/power/jump/spin/space/sSpacejump_7.png"
+dest_files=[ "res://.import/sSpacejump_7.png-4e3774837c1c19d28e38d7ca50dbd32d.stex" ]
 
 [params]
 

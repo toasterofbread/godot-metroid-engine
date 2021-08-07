@@ -69,9 +69,9 @@ func load_data(_value: bool):
 	
 	var animation_id: String
 	if "state_id" in data:
-		animation_id = data["state_id"] + "_" + animation_key
+		animation_id = data["state_id"] + "_" + (animation_key if not "id" in data else data["id"])
 	else:
-		animation_id = state_key + "_" + animation_key
+		animation_id = state_key + "_" + (animation_key if not "id" in data else data["id"])
 	
 	var directional = true
 	if "directional" in data:

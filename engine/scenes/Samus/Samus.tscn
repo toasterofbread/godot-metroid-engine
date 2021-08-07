@@ -480,7 +480,7 @@ tracks/0/keys = {
 } ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites/sMainLeft:frame")
+tracks/1/path = NodePath("Sprites/Default/left:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -492,7 +492,7 @@ tracks/1/keys = {
 "values": [ 0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites/sMainLeft:animation")
+tracks/2/path = NodePath("Sprites/Default/left:animation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -504,7 +504,7 @@ tracks/2/keys = {
 "values": [ "neutral_open_map_left" ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprites/sMainLeft:playing")
+tracks/3/path = NodePath("Sprites/Default/left:playing")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -520,7 +520,7 @@ tracks/3/keys = {
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites/sMainLeft:frame")
+tracks/0/path = NodePath("Sprites/Default/left:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -532,7 +532,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites/sMainLeft:animation")
+tracks/1/path = NodePath("Sprites/Default/left:animation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -544,7 +544,7 @@ tracks/1/keys = {
 "values": [ "powergrip_climb_left" ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites/sMainLeft:visible")
+tracks/2/path = NodePath("Sprites/Default/left:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -601,7 +601,7 @@ tracks/3/keys = {
 length = 0.233333
 step = 0.0166667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprites/sMainRight:animation")
+tracks/0/path = NodePath("Sprites/Default/right:animation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -613,7 +613,7 @@ tracks/0/keys = {
 "values": [ "powergrip_climb_right" ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprites/sMainRight:visible")
+tracks/1/path = NodePath("Sprites/Default/right:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -625,7 +625,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprites/sMainRight:frame")
+tracks/2/path = NodePath("Sprites/Default/right:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -785,93 +785,101 @@ cast_to = Vector2( 0, 2 )
 collision_mask = 524288
 
 [node name="TestSprites" type="Node2D" parent="Animator"]
-position = Vector2( -350, -50 )
+position = Vector2( -478, -56 )
 
-[node name="vert" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 4, 0 )
+[node name="horiz" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( 0, -2 )
 frames = ExtResource( 2 )
-animation = "shinespark_vert_left"
+animation = "shinespark_horiz_left"
+frame = 2
+playing = true
 flip_h = true
 script = ExtResource( 4 )
 state_key = "shinespark"
-animation_key = "vert"
+animation_key = "horiz"
 data = {
-"leftPos": [ 4.0, 0.0 ],
-"rightPos": [ 4.0, 0.0 ]
+"leftPos": [ 0.0, -2.0 ],
+"rightPos": [ 8.0, -2.0 ]
 }
 
-[node name="crouch_aim_up" type="AnimatedSprite" parent="Animator/TestSprites"]
-visible = false
-position = Vector2( 1, -1 )
+[node name="boost_fx_horiz" type="AnimatedSprite" parent="Animator/TestSprites"]
+position = Vector2( -5, -6 )
 frames = ExtResource( 2 )
-animation = "crouch_crouch_aim_up_left"
+animation = "shinespark_boost_fx"
+playing = true
+flip_h = true
+script = ExtResource( 4 )
+state_key = "shinespark"
+animation_key = "boost_fx_horiz"
+data = {
+"directional": false,
+"id": "boost_fx",
+"leftPos": [ -5.0, -6.0 ],
+"overlay": true,
+"overlay_above": true,
+"rightPos": [ 13.0, -6.0 ]
+}
+
+[node name="turn_aim_down" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 4, 3 )
+frames = ExtResource( 2 )
+animation = "multiple_turn_aim_down_left"
 frame = 2
 playing = true
 flip_h = true
 script = ExtResource( 4 )
 state_key = "crouch"
-animation_key = "crouch_aim_up"
+animation_key = "turn_aim_down"
 data = {
-"leftPos": [ 1.0, -1.0 ],
-"rightPos": [ 6.0, -1.0 ],
+"leftPos": [ 4.0, 3.0 ],
+"rightPos": [ 4.0, 3.0 ],
+"state_id": "multiple",
 "step_frames": [ 0, 3 ],
 "transition": true
 }
 step_frames = [ 0, 3 ]
 
-[node name="aim_sky" type="AnimatedSprite" parent="Animator/TestSprites"]
-visible = false
-position = Vector2( 4, -17 )
-frames = ExtResource( 2 )
-animation = "crouch_uncrouch_aim_down_right"
-frame = 2
-playing = true
-script = ExtResource( 4 )
-state_key = "grapple"
-animation_key = "aim_sky"
-facing = 1
-data = {
-"full": false,
-"leftPos": [ 4.0, -17.0 ],
-"rightPos": [ 4.0, -17.0 ],
-"state_id": "multiple",
-"step_frames": [  ]
-}
-
 [node name="Sprites" parent="Animator" instance=ExtResource( 49 )]
 material = ExtResource( 57 )
-sprites = [ NodePath("sOverlayLeft"), NodePath("sOverlayRight"), NodePath("sMainLeft"), NodePath("sMainRight") ]
+sprites = [ NodePath("Overlay/left"), NodePath("Overlay/right"), NodePath("Default/left"), NodePath("Default/right") ]
 
-[node name="sOverlayLeft" type="AnimatedSprite" parent="Animator/Sprites"]
+[node name="Overlay" type="Node2D" parent="Animator/Sprites"]
+use_parent_material = true
+
+[node name="left" type="AnimatedSprite" parent="Animator/Sprites/Overlay"]
 use_parent_material = true
 position = Vector2( -300, 7 )
 frames = ExtResource( 2 )
-animation = "crouch_uncrouch_aim_down_right"
+animation = "shinespark_boost_fx"
+playing = true
 flip_h = true
 
-[node name="sOverlayRight" type="AnimatedSprite" parent="Animator/Sprites"]
+[node name="right" type="AnimatedSprite" parent="Animator/Sprites/Overlay"]
 visible = false
 use_parent_material = true
 position = Vector2( 7, 0 )
 frames = ExtResource( 2 )
-animation = "crouch_uncrouch_aim_down_right"
+animation = "shinespark_boost_fx"
 
-[node name="sMainLeft" type="AnimatedSprite" parent="Animator/Sprites"]
+[node name="Default" type="Node2D" parent="Animator/Sprites"]
+use_parent_material = true
+
+[node name="left" type="AnimatedSprite" parent="Animator/Sprites/Default"]
 visible = false
 use_parent_material = true
 position = Vector2( -394, -43 )
 frames = ExtResource( 2 )
-animation = "crouch_uncrouch_aim_down_right"
-frame = 2
+animation = "shinespark_boost_fx"
 playing = true
 flip_h = true
 
-[node name="sMainRight" type="AnimatedSprite" parent="Animator/Sprites"]
+[node name="right" type="AnimatedSprite" parent="Animator/Sprites/Default"]
 visible = false
 use_parent_material = true
 position = Vector2( -45, -84 )
 frames = ExtResource( 2 )
-animation = "crouch_uncrouch_aim_down_right"
+animation = "shinespark_boost_fx"
 
 [node name="SpeedboostAnimationPlayer" type="AnimationPlayer" parent="Animator"]
 pause_mode = 1

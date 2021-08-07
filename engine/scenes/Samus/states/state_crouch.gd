@@ -132,8 +132,10 @@ func process(_delta: float):
 	
 	if play_transition:
 		animations["turn_" + animation].play()
+		animations["legs_turn"].play()
 	elif not Animator.transitioning(false, true):
 		animations[animation].play(true)
+		animations["legs"].play(true)
 
 func physics_process(delta: float):
 	Physics.move_x(0, Physics.data["run"]["deceleration"]*delta)

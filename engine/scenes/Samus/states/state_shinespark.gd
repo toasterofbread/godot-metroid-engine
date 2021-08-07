@@ -75,6 +75,16 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	else:
 		animations["roll"].play()
 	
+	if direction.x == 0:
+		animations["boost_fx_vert_" + ("up" if direction.y == -1 else "down")].play()
+	elif direction.y == 0:
+		animations["boost_fx_horiz"].play()
+	else:
+		print("boost_fx_horiz_" + ("up" if direction.y == -1 else "down"))
+		animations["boost_fx_horiz_" + ("up" if direction.y == -1 else "down")].play()
+	
+#	Animator.current[true].sprites[Samus.facing].rotation = direction.angle() + (deg2rad(180) if Samus.facing == Enums.dir.LEFT else 0.0)
+	
 	moving = true
 
 # Changes Samus's state to the passed state script

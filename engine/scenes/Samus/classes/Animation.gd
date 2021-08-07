@@ -8,6 +8,7 @@ var id: String
 var state_id: String
 var transition: bool
 var overlay: bool
+var overlay_above: bool
 var sprites: Dictionary
 var positions: Dictionary
 var directional: bool
@@ -16,6 +17,8 @@ var animation_length: float
 var full: bool
 var position_node_path: String
 var step_frames: Array
+var no_trail: bool
+var rotation_degrees: float
 
 # Nodes
 var Animator: Node2D
@@ -31,6 +34,7 @@ var cache = {}
 const _default_args = {
 	"transition": false,
 	"overlay": false,
+	"overlay_above": false,
 	"leftPos": Vector2(0, 0),
 	"rightPos": Vector2(0, 0),
 	"directional": true,
@@ -38,6 +42,8 @@ const _default_args = {
 	"state_id": null,
 	"position_node_path": null,
 	"step_frames": [],
+	"no_trail": false,
+	"rotation_degrees": 0.0,
 }
 const cooldown_time: float = 0.04
 var frames: SpriteFrames
@@ -104,32 +110,44 @@ func play(retain_frame:=false, speed:=1.0, ignore_paused:bool=false):
 			return
 	cache = new_cache
 	
+	if overlay:
+		Animator.overlay_above = overlay_above
 	Samus.set_collider(self)
 	
 	for dir in sprites:
 		
+		var sprite: AnimatedSprite = sprites[dir]
+		
 		# Set position
-		sprites[dir].position = positions[dir]
-	
+		sprite.position = positions[dir]
+		
+		# Set rotation
+		sprite.rotation_degrees = rotation_degrees
+		if dir == Enums.dir.LEFT:
+			sprite.rotation_degrees *= -1
+		
 		# Set visibility
-		sprites[dir].visible = Samus.facing == dir
+		sprite.visible = Samus.facing == dir
 		if not Animator.current[!overlay] or (self.full and !overlay):
-			for sprite in Animator.sprites[!overlay].values():
-				sprite.visible = false
-	
+			for s in Animator.sprites[!overlay].values():
+				s.visible = false
+		
 		if not retain_frame:
-			for sprite in sprites.values():
-				sprite.frame = 0
-	
+			for s in sprites.values():
+				s.frame = 0
+		
+		# Set trail emission flag
+		sprite.set_meta("no_trail", no_trail)
+		
 		# Play animation
 		var frame = sprites[dir].frame
-		sprites[dir].play(self.animation_keys[dir], speed<0)
-		sprites[dir].pause_mode = Node.PAUSE_MODE_PROCESS if ignore_paused else Node.PAUSE_MODE_STOP
-		sprites[dir].speed_scale = abs(speed)
+		sprite.play(self.animation_keys[dir], speed<0)
+		sprite.pause_mode = Node.PAUSE_MODE_PROCESS if ignore_paused else Node.PAUSE_MODE_STOP
+		sprite.speed_scale = abs(speed)
 		if retain_frame:
-			sprites[dir].frame = frame
-		if sprites[dir].frame == 0 and speed<0:
-			sprites[dir].frame = frames.get_frame_count(animation_keys[dir]) - 1
+			sprite.frame = frame
+		if sprite.frame == 0 and speed<0:
+			sprite.frame = frames.get_frame_count(animation_keys[dir]) - 1
 	
 	if not Animator.transitioning():
 		Animator.current[overlay] = self

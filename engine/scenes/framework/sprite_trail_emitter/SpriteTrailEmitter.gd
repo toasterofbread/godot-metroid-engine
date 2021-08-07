@@ -65,7 +65,7 @@ func clear_trail():
 func emit_trail():
 	
 	for sprite in sprites:
-		if not sprite.visible:
+		if not sprite.visible or (sprite.has_meta("no_trail") and sprite.get_meta("no_trail")):
 			continue
 		
 		var SpriteContainer: Node2D = TrailSpriteTemplate.duplicate()
