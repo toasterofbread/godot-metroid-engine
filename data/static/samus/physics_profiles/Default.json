@@ -10,7 +10,7 @@
 		"fall_speed_cap": [325]
 	},
 	"run": {
-		"speed": [170],
+		"speed": [170, 50],
 		"acceleration": [900],
 		"deceleration": [3000],
 

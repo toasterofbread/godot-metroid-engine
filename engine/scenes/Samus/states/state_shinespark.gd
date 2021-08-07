@@ -75,15 +75,14 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	else:
 		animations["roll"].play()
 	
+	var boost_animation: String
 	if direction.x == 0:
-		animations["boost_fx_vert_" + ("up" if direction.y == -1 else "down")].play()
+		boost_animation = "boost_fx_vert_" + ("up" if direction.y == -1 else "down")
 	elif direction.y == 0:
-		animations["boost_fx_horiz"].play()
+		boost_animation = "boost_fx_horiz"
 	else:
-		print("boost_fx_horiz_" + ("up" if direction.y == -1 else "down"))
-		animations["boost_fx_horiz_" + ("up" if direction.y == -1 else "down")].play()
-	
-#	Animator.current[true].sprites[Samus.facing].rotation = direction.angle() + (deg2rad(180) if Samus.facing == Enums.dir.LEFT else 0.0)
+		boost_animation = "boost_fx_horiz_" + ("up" if direction.y == -1 else "down")
+	animations[("ball_" if ballspark else "") + boost_animation].play()
 	
 	moving = true
 
@@ -141,6 +140,7 @@ func process(_delta: float):
 		Physics.vel = Vector2.ZERO
 		Samus.boosting = false
 		moving = false
+		Animator.current[true].sprites[Samus.facing].visible = false
 		
 		Loader.current_room.earthquake(Samus.global_position, damage_values["earthquake_strength"], damage_values["earthquake_duration"])
 		
@@ -151,7 +151,6 @@ func process(_delta: float):
 		if not ballspark:
 			if sprite != null:
 				sprite.flip_v = false
-#			yield(animations["end"].play(), "completed")
 			if direction != Vector2(0, 1):
 				animations["end"].play()
 			change_state("jump", {"options": []})

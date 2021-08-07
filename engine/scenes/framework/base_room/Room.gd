@@ -11,7 +11,6 @@ var area_index: int setget , get_area_index
 export var heat_damage: bool = false
 export var grid_position: Vector2 = Vector2.ZERO
 
-onready var upgrade_pickups = get_tree().get_nodes_in_group("UpgradePickip")
 onready var doors = Enums.get_nodes_in_group(Enums.Groups.DOOR)
 onready var camera_chunks = $CameraChunks.get_children()
 onready var map_chunks = $MapChunks.get_children()
@@ -72,12 +71,6 @@ func _ready():
 	
 	for saveStation in Enums.get_nodes_in_group(Enums.Groups.SAVESTATION):
 		save_stations[saveStation.id] = saveStation
-	
-	# Ensure UpgradePickup IDs within this room are unique
-	var ids: Array = []
-	for upgradePickup in upgrade_pickups:
-		assert(not upgradePickup.id in ids)
-		ids.append(upgradePickup.id)
 	
 	z_as_relative = false
 	z_index = Enums.Layers.WORLD

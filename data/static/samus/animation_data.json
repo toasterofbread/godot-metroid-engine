@@ -698,6 +698,85 @@
 			],
 			"state_id": "morphball"
 		},
+		"ball_boost_fx_horiz": {
+			"leftPos": [
+				6,
+				9
+			],
+			"overlay": true,
+			"rightPos": [
+				1,
+				9
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true
+		},
+		"ball_boost_fx_vert_up": {
+			"leftPos": [
+				2,
+				14
+			],
+			"overlay": true,
+			"rightPos": [
+				5,
+				14
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": -90
+		},
+		"ball_boost_fx_vert_down": {
+			"leftPos": [
+				2,
+				6
+			],
+			"overlay": true,
+			"rightPos": [
+				5,
+				6
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": 90
+		},
+		"ball_boost_fx_horiz_up": {
+			"leftPos": [
+				4,
+				12
+			],
+			"overlay": true,
+			"rightPos": [
+				4,
+				12
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": -45
+		},
+		"ball_boost_fx_horiz_down": {
+			"leftPos": [
+				3,
+				9
+			],
+			"overlay": true,
+			"rightPos": [
+				4,
+				8
+			],
+			"directional": false,
+			"overlay_above": true,
+			"id": "boost_fx",
+			"no_trail": true,
+			"rotation_degrees": 45
+		},
 		"boost_fx_horiz": {
 			"leftPos": [
 				-5,

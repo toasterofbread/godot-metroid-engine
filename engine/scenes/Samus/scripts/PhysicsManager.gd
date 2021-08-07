@@ -17,11 +17,11 @@ var disable_floor_snap: bool = false
 var on_slope: bool = false
 
 onready var profiles: Dictionary = {}
-#const physics_profiles_path = Data.data_path + "static/samus/physics_profiles/"
 var data: = {}
 
 onready var profile_key: String = Settings.get("control_options/samus_physics_profile")
 var mode: int = Enums.SAMUS_PHYSICS_MODES.STANDARD
+var prevent_physics_override: bool = false
 
 # Keeping this around for the memories
 #var time = -1
@@ -30,6 +30,7 @@ func _ready():
 	reload_data()
 	set_data()
 	Settings.connect("settings_changed", self, "settings_changed")
+	Samus.connect("suit_changed", self, "samus_suit_changed")
 	
 	Shortcut.register_debug_shortcut("DEBUG_reload_samus_physics_data", "Reload Samus physics data", {"just_pressed": funcref(self, "shortcut_reload_data")})
 
@@ -105,6 +106,8 @@ func settings_changed(path: String, value):
 
 func set_data():
 	var profile_data: Dictionary = profiles[profile_key]
+	
+	var mode_to_apply: int = Enums.SAMUS_PHYSICS_MODES.STANDARD if prevent_physics_override else mode
 	for group in profile_data:
 		if group == "profile_info":
 			continue
@@ -113,10 +116,20 @@ func set_data():
 			data[group] = {}
 		for key in profile_data[group]:
 			# DEBUG
-			data[group][key] = profile_data[group][key][mode if mode < len(profile_data[group][key]) else 0]
+			data[group][key] = profile_data[group][key][mode_to_apply if mode_to_apply < len(profile_data[group][key]) else 0]
 #			data[group][key] = profile_data[group][key][mode]
 	emit_signal("physics_data_set")
 
 func set_mode(_mode: int):
 	mode = _mode
+	set_data()
+
+func samus_suit_changed(active_suits: Dictionary):
+	if mode == Enums.SAMUS_PHYSICS_MODES.STANDARD:
+		return
+	prevent_physics_override = false
+	for suit in active_suits.values():
+		if suit["prevent_physics_override"]:
+			prevent_physics_override = true
+			break
 	set_data()

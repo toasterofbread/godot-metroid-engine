@@ -19,8 +19,8 @@ const default_data: Dictionary = {
 	"samus": {
 		"upgrades": {
 			Enums.Upgrade.POWERSUIT: {"amount": 1, "active": true},
-			Enums.Upgrade.VARIASUIT: {"amount": 0, "active": true},
-			Enums.Upgrade.GRAVITYSUIT: {"amount": 0, "active": true},
+			Enums.Upgrade.VARIASUIT: {"amount": 1, "active": false},
+			Enums.Upgrade.GRAVITYSUIT: {"amount": 1, "active": false},
 			
 			Enums.Upgrade.ETANK: {"amount": 15, "active": true},
 			Enums.Upgrade.MISSILE: {"amount": 50, "ammo": 50, "active": true},

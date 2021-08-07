@@ -29,10 +29,12 @@ var paused: Dictionary = {
 	false: false # Main
 }
 
-onready var suits = {
-	"power": [preload("res://engine/scenes/Samus/animations/power.tres"), preload("res://engine/scenes/Samus/animations/power_armed.tres")]
+onready var suit_frames = { # Ordered by visual priority
+	Enums.Upgrade.GRAVITYSUIT: [preload("res://engine/scenes/Samus/animations/gravity.tres"), preload("res://engine/scenes/Samus/animations/gravity_armed.tres")],
+	Enums.Upgrade.VARIASUIT: [preload("res://engine/scenes/Samus/animations/varia.tres"), preload("res://engine/scenes/Samus/animations/varia_armed.tres")],
+	Enums.Upgrade.POWERSUIT: [preload("res://engine/scenes/Samus/animations/power.tres"), preload("res://engine/scenes/Samus/animations/power_armed.tres")],
 }
-var current_suit = "power"
+var current_suit_visual: int
 
 func _process(_delta):
 	for animation in current.values():
@@ -40,16 +42,7 @@ func _process(_delta):
 			animation.process()
 
 func _ready():
-#	if Settings.get_system("animations/turn_speed") is int or Settings.get_system("animations/turn_speed") is float:
-#		for suit in suits.values():
-#			for frames in suit:
-#				for anim in frames.get_animation_names():
-#					if frames.get_animation_speed(anim) == 60 and "turn" in anim.to_lower():
-#						frames.set_animation_speed(anim, Settings.get_system("animations/turn_speed"))
-	for set in sprites.values():
-		for sprite in set.values():
-			sprite.frames = suits.values()[0][0]
-			sprite.visible = false
+	Samus.connect("suit_changed", self, "samus_suit_changed")
 	
 	SpriteContainer.profiles = {
 		"speedboost": {
@@ -104,7 +97,7 @@ func set_armed(set_to_armed: bool):
 	
 	for set in sprites.values():
 		for sprite in set.values():
-			sprite.frames = suits[current_suit][int(set_to_armed)]
+			sprite.frames = suit_frames[current_suit_visual][int(set_to_armed)]
 	
 	Samus.Weapons.update_weapon_icons()
 
@@ -113,7 +106,6 @@ func transitioning(overlay: bool = false, ignore_cooldown: bool = false):
 		return false
 	else:
 		return current[overlay].transitioning or (current[overlay].cooldown and not ignore_cooldown)
-
 
 func load_from_json(state_id: String, json_key = null) -> Dictionary:
 	if json_key == null:
@@ -144,3 +136,14 @@ func set_overlay_above(value: bool):
 		return
 	overlay_above = value
 	$Sprites.move_child($Sprites/Overlay, $Sprites/Default.get_position_in_parent() + int(overlay_above))
+
+func samus_suit_changed(active_suits: Dictionary):
+	
+	for suit in suit_frames:
+		if suit in active_suits:
+			current_suit_visual = suit
+			break
+	
+	for set in sprites.values():
+		for sprite in set.values():
+			sprite.frames = suit_frames[current_suit_visual][int(Samus.armed)]

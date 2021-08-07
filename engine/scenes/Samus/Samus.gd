@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal state_changed
+signal suit_changed
 
 onready var Animator: Node2D = $Animator
 onready var Collision: CollisionShape2D = $Collision
@@ -29,6 +30,9 @@ const collision_data_path: String = "res://data/static/samus/collision_data.json
 onready var collision_data: Dictionary = Global.load_json(collision_data_path)
 
 var current_fluid: int
+
+onready var suit_data: Dictionary = Data.data["damage_values"]["samus"]["suits"]
+var active_suits: Dictionary = {}
 
 onready var states = {
 	"jump": preload("res://engine/scenes/Samus/states/state_jump.gd").new(self, "jump"),
@@ -122,6 +126,7 @@ func _ready():
 			if "ammo" in upgrades[upgrade]:
 				weapon.ammo = upgrades[upgrade]["ammo"]
 			weapon.amount = upgrades[upgrade]["amount"]
+	update_current_suit()
 	
 #	for state in states.values():
 #		if state.has_method("persistent_process"):
@@ -221,12 +226,20 @@ func set_aiming(value: int):
 	aiming = value
 
 func save_value_set(path: Array, _value):
-	
 	if len(path) < 2 or path[0] != "samus":
 		return
-	
 	if len(path) == 4 and path[1] == "upgrades":
-		upgrade_cache = {}
+		upgrade_cache.clear()
+		
+		if path[2] in Enums.UpgradeTypes["suit"]:
+			update_current_suit()
+
+func update_current_suit():
+	active_suits.clear()
+	for suit in Enums.UpgradeTypes["suit"]:
+		if is_upgrade_active(suit):
+			active_suits[suit] = suit_data[Enums.Upgrade.keys()[suit].to_lower()]
+	emit_signal("suit_changed", active_suits)
 
 # Returns true if the current state has been active for more than the specified time
 # Or if the previous state doesn't match the state key
@@ -243,11 +256,17 @@ func _damage(type: int, amount: float, impact_position):
 	if InvincibilityTimer.time_left > 0:
 		return
 	
-	var diff: float = (amount - (amount * damage_reduction_mini_upgrade[0]["created"] * damage_reduction_mini_upgrade[1]))
-	if diff <= 0:
+	for suit in active_suits.values():
+		amount *= suit["incoming_damage_multiplier"]
+		print(amount)
+	print(damage_reduction_mini_upgrade[0]["created"], damage_reduction_mini_upgrade[1])
+	amount -= amount * damage_reduction_mini_upgrade[0]["created"] * damage_reduction_mini_upgrade[1]
+	print(amount)
+	
+	if amount <= 0:
 		return
 	
-	energy = max(0, energy - diff)
+	energy = max(0, energy - amount)
 	HUD.set_energy(energy)
 	
 	# DEBUG

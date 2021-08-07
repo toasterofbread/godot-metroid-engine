@@ -352,7 +352,6 @@ func set_spinning(value: bool):
 		Animator.SpriteContainer.current_profile = "spacejump"
 	else:
 		Animator.SpriteContainer.current_profile = null
-		Animator.SpriteContainer.clear_trail()
 	
 	if not spinning:
 		for sound in sounds_spin.values():

@@ -8,36 +8,34 @@ onready var sprites = {
 onready var EquipmentItem = preload("res://engine/scenes/ui/map/EquipmentItem.tscn")
 enum GROUP {MISC, SUIT, BOOTS, WEAPONS, BEAMS}
 const upgrade_data = {
-	
-	Enums.Upgrade.CHARGEBEAM: {"group": GROUP.BEAMS, "exclusive": false, "point": "cannon"}, 
+	Enums.Upgrade.CHARGEBEAM: {"group": GROUP.BEAMS, "locked": false, "point": "cannon"}, 
 #	POWERBEAM, 
-	Enums.Upgrade.ICEBEAM: {"group": GROUP.BEAMS, "exclusive": false, "point": "cannon"}, 
-	Enums.Upgrade.PLASMABEAM: {"group": GROUP.BEAMS, "exclusive": false, "point": "cannon"}, 
-	Enums.Upgrade.SPAZERBEAM: {"group": GROUP.BEAMS, "exclusive": false, "point": "cannon"}, 
-	Enums.Upgrade.WAVEBEAM: {"group": GROUP.BEAMS, "exclusive": false, "point": "cannon"}, 
-	Enums.Upgrade.GRAPPLEBEAM: {"group": GROUP.BEAMS, "exclusive": false, "point": "cannon"},
+	Enums.Upgrade.ICEBEAM: {"group": GROUP.BEAMS, "locked": false, "point": "cannon"}, 
+	Enums.Upgrade.PLASMABEAM: {"group": GROUP.BEAMS, "locked": false, "point": "cannon"}, 
+	Enums.Upgrade.SPAZERBEAM: {"group": GROUP.BEAMS, "locked": false, "point": "cannon"}, 
+	Enums.Upgrade.WAVEBEAM: {"group": GROUP.BEAMS, "locked": false, "point": "cannon"}, 
+	Enums.Upgrade.GRAPPLEBEAM: {"group": GROUP.BEAMS, "locked": false, "point": "cannon"},
 	
-	Enums.Upgrade.SCREWATTACK: {"group": GROUP.WEAPONS, "exclusive": false, "point": "body"}, 
-	Enums.Upgrade.BOMB: {"group": GROUP.WEAPONS, "exclusive": false, "point": "body"},
-	Enums.Upgrade.POWERBOMB: {"group": GROUP.WEAPONS, "exclusive": false, "point": "body"},
-	Enums.Upgrade.MISSILE: {"group": GROUP.WEAPONS, "exclusive": false, "point": "cannon"},
-	Enums.Upgrade.SUPERMISSILE: {"group": GROUP.WEAPONS, "exclusive": false, "point": "cannon"},
+	Enums.Upgrade.SCREWATTACK: {"group": GROUP.WEAPONS, "locked": false, "point": "body"}, 
+	Enums.Upgrade.BOMB: {"group": GROUP.WEAPONS, "locked": false, "point": "body"},
+	Enums.Upgrade.POWERBOMB: {"group": GROUP.WEAPONS, "locked": false, "point": "body"},
+	Enums.Upgrade.MISSILE: {"group": GROUP.WEAPONS, "locked": false, "point": "cannon"},
+	Enums.Upgrade.SUPERMISSILE: {"group": GROUP.WEAPONS, "locked": false, "point": "cannon"},
 	
-	Enums.Upgrade.POWERSUIT: {"group": GROUP.SUIT, "exclusive": true, "point": "shoulder"},
-	Enums.Upgrade.VARIASUIT: {"group": GROUP.SUIT, "exclusive": true, "point": "shoulder"}, 
-	Enums.Upgrade.GRAVITYSUIT: {"group": GROUP.SUIT, "exclusive": true, "point": "shoulder"}, 
-	Enums.Upgrade.SCANVISOR: {"group": GROUP.SUIT, "exclusive": false, "point": "visor"}, 
-	Enums.Upgrade.XRAYVISOR: {"group": GROUP.SUIT, "exclusive": false, "point": "visor"},
+	Enums.Upgrade.POWERSUIT: {"group": GROUP.SUIT, "locked": true, "point": "shoulder"},
+	Enums.Upgrade.VARIASUIT: {"group": GROUP.SUIT, "locked": false, "point": "shoulder"}, 
+	Enums.Upgrade.GRAVITYSUIT: {"group": GROUP.SUIT, "locked": false, "point": "shoulder"}, 
+	Enums.Upgrade.SCANVISOR: {"group": GROUP.SUIT, "locked": false, "point": "visor"}, 
+	Enums.Upgrade.XRAYVISOR: {"group": GROUP.SUIT, "locked": false, "point": "visor"},
 	
-	Enums.Upgrade.MORPHBALL: {"group": GROUP.MISC, "exclusive": false, "point": "body"}, 
-	Enums.Upgrade.SPIDERBALL: {"group": GROUP.MISC, "exclusive": false, "point": "body"}, 
-	Enums.Upgrade.SPRINGBALL: {"group": GROUP.MISC, "exclusive": false, "point": "body"}, 
-	Enums.Upgrade.POWERGRIP: {"group": GROUP.MISC, "exclusive": false, "point": "hand"}, 
+	Enums.Upgrade.MORPHBALL: {"group": GROUP.MISC, "locked": false, "point": "body"}, 
+	Enums.Upgrade.SPIDERBALL: {"group": GROUP.MISC, "locked": false, "point": "body"}, 
+	Enums.Upgrade.SPRINGBALL: {"group": GROUP.MISC, "locked": false, "point": "body"}, 
+	Enums.Upgrade.POWERGRIP: {"group": GROUP.MISC, "locked": false, "point": "hand"}, 
 	
-	Enums.Upgrade.HIGHJUMP: {"group": GROUP.BOOTS, "exclusive": false, "point": "boots"}, 
-	Enums.Upgrade.SPACEJUMP: {"group": GROUP.BOOTS, "exclusive": false, "point": "boots"}, 
-	Enums.Upgrade.SPEEDBOOSTER: {"group": GROUP.BOOTS, "exclusive": false, "point": "boots"}, 
-	
+	Enums.Upgrade.HIGHJUMP: {"group": GROUP.BOOTS, "locked": false, "point": "boots"}, 
+	Enums.Upgrade.SPACEJUMP: {"group": GROUP.BOOTS, "locked": false, "point": "boots"}, 
+	Enums.Upgrade.SPEEDBOOSTER: {"group": GROUP.BOOTS, "locked": false, "point": "boots"}, 
 }
 
 var selected_item: Control
