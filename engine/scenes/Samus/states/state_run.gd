@@ -10,15 +10,6 @@ var SpeedboostTimer: Timer
 
 var run_transition = null
 
-# PHYSICS
-#const run_acceleration = 15*60
-#const run_deceleration = 50*60
-#const run_speed = 170
-
-#const boost_acceleration = 15*60
-#const boost_deceleration = 50
-#const max_boost_speed = 500
-
 func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	SpeedboostTimer = Global.get_timer([Samus, "set", ["boosting", true]])
 
@@ -31,8 +22,10 @@ func process(_delta: float):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	
+	# TODO | Other styles
 	if Settings.get("control_options/aiming_style") == 0:
 		if Input.is_action_pressed("arm_weapon"):
+			Samus.aim_none_timer.start()
 			Animator.set_armed(true)
 		else:
 			Animator.set_armed(false)
@@ -58,19 +51,19 @@ func process(_delta: float):
 		change_state("jump", {"options": ["fall"]})
 		return
 	
+	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
 	if Input.is_action_pressed("aim_weapon"):
 		if Samus.aiming == Samus.aim.FRONT or Samus.aiming == Samus.aim.NONE:
 			Samus.aiming = Samus.aim.UP
-		if Input.is_action_just_pressed("pad_up"):
+		if pad_vector.y == -1:
 			Samus.aiming = Samus.aim.UP
-		elif Input.is_action_just_pressed("pad_down"):
+		elif pad_vector.y == 1:
 			Samus.aiming = Samus.aim.DOWN
 		
-		
-	elif Input.is_action_pressed("pad_up"):
+	elif pad_vector.y == -1:
 		Samus.aiming = Samus.aim.UP
 		
-	elif Input.is_action_pressed("pad_down"):
+	elif pad_vector.y == 1:
 		Samus.aiming = Samus.aim.DOWN
 		
 	else:
@@ -86,17 +79,16 @@ func process(_delta: float):
 		Samus.aim.FRONT: animation = "aim_front"
 		_: animation = "aim_none"
 	
-	
 	if not Animator.transitioning():
-		if Input.is_action_pressed("pad_left"):
+		if pad_vector.x == -1:
 			if Samus.facing == Enums.dir.RIGHT:
 				play_transition = true
 			Samus.facing = Enums.dir.LEFT
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_vector.x == 1:
 			if Samus.facing == Enums.dir.LEFT:
 				play_transition = true
 			Samus.facing = Enums.dir.RIGHT
-		elif Input.is_action_pressed("pad_down"):
+		elif pad_vector.y == 1:
 			change_state("crouch")
 			return
 		else:
@@ -130,7 +122,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 func physics_process(delta: float):
 	
-	var pad_x = Shortcut.get_pad_vector("pressed").x
+	var pad_x: int = Shortcut.get_pad_x("pressed")
 	if Samus.boosting and pad_x != Global.dir2vector(Samus.facing).x:
 		Samus.boosting = false
 	

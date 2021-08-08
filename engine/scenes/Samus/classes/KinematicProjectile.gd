@@ -46,7 +46,8 @@ func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _data:=
 		visibility_notifier.connect("screen_exited", self, "screen_exited")
 		visibility_notifier.connect("screen_entered", self, "screen_entered")
 		
-	global_position = fire_pos.global_position + Vector2(0, -10).rotated(fire_pos.rotation)
+	global_position = fire_pos.global_position# + Vector2(0, -10).rotated(fire_pos.rotation)
+	print(Vector2(0, -10).rotated(fire_pos.rotation))
 	rotation = fire_pos.rotation
 	velocity = Vector2(0, -base_velocity).rotated(rotation)
 	

@@ -34,12 +34,13 @@ func process(_delta: float):
 	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(false)
 	
-	if Input.is_action_pressed("pad_left"):
+	var pad_x: float = Shortcut.get_pad_x("pressed")
+	if pad_x == -1:
 		Samus.facing = Enums.dir.LEFT
 		animations[prefix + "turn"].play()
 		change_state("neutral")
 		return
-	elif Input.is_action_pressed("pad_right"):
+	elif pad_x == 1:
 		Samus.facing = Enums.dir.RIGHT
 		animations[prefix + "turn"].play()
 		change_state("neutral")

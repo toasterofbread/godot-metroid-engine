@@ -24,7 +24,7 @@ func _ready():
 	# Register all rooms to the dictionary by ID
 	var room_dirs: Array = []
 	for dir in Data.data["engine_config"]["room_directories"]:
-		room_dirs.append(Global.dir2dict(dir, true, ["room.tscn"]))
+		room_dirs.append(Global.dir2dict(dir, Global.DIR2DICT_MODES.SINGLE_LAYER_DIR, ["room.tscn"]))
 	rooms = Global.combine_dicts(room_dirs)
 	
 	register_commands()

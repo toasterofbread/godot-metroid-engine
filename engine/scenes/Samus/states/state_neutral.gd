@@ -25,6 +25,7 @@ func process(_delta: float):
 	var original_facing = Samus.facing
 	var play_transition = false
 	var reset_idle_timer = false
+	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
 	
 	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
@@ -45,7 +46,7 @@ func process(_delta: float):
 		change_state("airspark")
 		return
 	elif Input.is_action_just_pressed("jump"):
-		if Physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
+		if Physics.vel.x != 0 or pad_vector.x != 0:
 			change_state("jump", {"options": ["jump", "spin"]})
 		else:
 			if Samus.shinespark_charged:
@@ -79,7 +80,7 @@ func process(_delta: float):
 	
 	if not Animator.transitioning():
 		
-		if Input.is_action_pressed("pad_left"):
+		if pad_vector.x == -1:
 			Samus.facing = Enums.dir.LEFT
 			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
@@ -87,7 +88,7 @@ func process(_delta: float):
 			elif not Samus.is_on_wall() and Physics.can_walk(-1):
 				change_state("run", {"boost": false})
 				return
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_vector.x == 1:
 			Samus.facing = Enums.dir.RIGHT
 			if original_facing == Enums.dir.LEFT:
 				play_transition = true
@@ -110,7 +111,7 @@ func process(_delta: float):
 			Samus.aiming = Samus.aim.DOWN
 		
 		reset_idle_timer = true
-	elif Input.is_action_pressed("pad_up") and Samus.time_since_last_state("crouch", 0.085):
+	elif pad_vector.y == -1 and Samus.time_since_last_state("crouch", 0.085):
 		Samus.aiming = Samus.aim.SKY
 		reset_idle_timer = true
 		

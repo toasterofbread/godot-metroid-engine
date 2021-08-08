@@ -1,14 +1,14 @@
 extends Node2D
 
 onready var Samus: KinematicBody2D = get_parent()
-onready var Animator: Node2D  = get_parent().Animator
+onready var Animator: Node2D = get_parent().get_node("Animator")
 onready var CannonPositions = $CannonPositions
 onready var VisorPositions = $VisorPositions
 
-onready var ChargebeamAnimationPlayer: AnimationPlayer = get_parent().get_node("Animator/ChargebeamAnimationPlayer")
-onready var ChargebeamStartBurstPlayer: AnimationPlayer = get_parent().get_node("Animator/ChargebeamStartBurstPlayer")
-onready var ChargebeamStartBurst: AnimatedSprite = get_parent().get_node("Animator/ChargebeamStartBurst")
-onready var ChargeBeamGravityArea: Area2D = get_parent().get_node("Animator/ChargebeamStartBurst/Area2D")
+onready var ChargebeamAnimationPlayer: AnimationPlayer = Animator.get_node("ChargebeamAnimationPlayer")
+onready var ChargebeamStartBurstPlayer: AnimationPlayer = Animator.get_node("ChargebeamStartBurstPlayer")
+onready var ChargebeamStartBurst: AnimatedSprite = Animator.get_node("ChargebeamStartBurst")
+onready var ChargeBeamGravityArea: Area2D = Animator.get_node("ChargebeamStartBurst/Area2D")
 onready var CannonPositionAnchor: Node2D = $CannonPositionAnchor
 
 onready var charge_times: Dictionary = Data.data["damage_values"]["samus"]["weapons"]["chargebeam"]["charge_times"]
@@ -29,10 +29,17 @@ var added_weapons_base = {
 	true: null,
 	false: null,
 }
-#var current_weapon = [
-#	0, # Current weapon selection index
-#	false # Whether the current selection is a morphball weapon
-#]
+
+onready var armed_sprite_textures = {
+	Samus.aim.FRONT: preload("res://engine/sprites/samus/arm_weapon/front.png"),
+	Samus.aim.NONE: preload("res://engine/sprites/samus/arm_weapon/front.png"),
+	Samus.aim.UP: preload("res://engine/sprites/samus/arm_weapon/up.png"),
+	Samus.aim.SKY: preload("res://engine/sprites/samus/arm_weapon/sky.png"),
+	Samus.aim.DOWN: preload("res://engine/sprites/samus/arm_weapon/down.png"),
+	Samus.aim.FLOOR: preload("res://engine/sprites/samus/arm_weapon/floor.png")
+}
+onready var override_armed_sprite_textures = Global.dir2dict("res://engine/sprites/samus/arm_weapon/override/", Global.DIR2DICT_MODES.SINGLE_LAYER_FILE)
+onready var armed_sprite: Sprite = Sprite.new()
 
 var current_weapon = null
 
@@ -54,8 +61,10 @@ var all_visors = {
 }
 var equipped_visors = []
 
+var samus_facing_override = null
 
 func _ready():
+	
 	for key in charge_times.keys().duplicate():
 		charge_times[float(key)] = charge_times[key]
 		charge_times.erase(key)
@@ -66,10 +75,22 @@ func _ready():
 		Global.reparent_child(node, CannonPositionAnchor)
 	ChargebeamStartBurst.position = Vector2.ZERO
 	
+	CannonPositions.position = Vector2.ZERO
 	for state in CannonPositions.get_children():
-		state.visible = true # DEBUG
+		state.position = Vector2.ZERO
 		for animation in state.get_children():
-			fire_pos_nodes[state.name + "/" + animation.name] = animation
+			if not animation is SamusCannonPosition:
+				var frames: Dictionary = {}
+				for frame in animation.get_children():
+					frames[int(frame.name)] = frame
+				fire_pos_nodes[state.name + "/" + animation.name] = frames
+			else:
+				fire_pos_nodes[state.name + "/" + animation.name] = animation
+	armed_sprite.use_parent_material = true
+	Animator.get_node("Sprites").add_child(armed_sprite)
+	
+	for texture in override_armed_sprite_textures:
+		override_armed_sprite_textures[texture] = load(override_armed_sprite_textures[texture])
 	
 	# Add all weapons to the scene
 	for weapon in all_weapons.values():
@@ -294,21 +315,41 @@ func _on_SpeedboosterDamageArea_body_entered(body):
 
 func update_fire_pos():
 	
-	if not Samus.Animator.current[false]:
+	var current_animation = Animator.queued[false]
+	if not current_animation:
 		return
 	
-	var position_node_path = Samus.Animator.current[false].position_node_path
+	var position_node_path = current_animation.position_node_path
+	var directional_fire_pos: bool = false
 	if not position_node_path in fire_pos_nodes:
-		if fire_pos != null:
-			fire_pos.is_current = false
-			fire_pos.reset()
-		fire_pos = null
-		return null
-	var pos: SamusCannonPosition = fire_pos_nodes[position_node_path]
+		if Samus.facing == Enums.dir.RIGHT:
+			position_node_path += "_right"
+		else:
+			position_node_path += "_left"
+		if not position_node_path in fire_pos_nodes:
+			if fire_pos != null:
+				fire_pos.is_current = false
+				fire_pos.reset()
+			fire_pos = null
+			armed_sprite.visible = false
+			return null
+		else:
+			directional_fire_pos = true
 	
 	if fire_pos != null:
 		fire_pos.is_current = false
 		fire_pos.reset()
+	
+	var pos = fire_pos_nodes[position_node_path]
+	
+	# If pos is a list of frames
+	if pos is Dictionary:
+		var sprite: AnimatedSprite = current_animation.sprites[Samus.facing]
+		if sprite.frame in pos:
+			pos = pos[sprite.frame]
+		else:
+			fire_pos = null
+			return
 	
 	if not Samus.facing in pos.allowed_facing_directions:
 		fire_pos = null
@@ -316,12 +357,28 @@ func update_fire_pos():
 	
 	fire_pos = pos
 	fire_pos.is_current = true
-		
+	
 	if Samus.facing == Enums.dir.RIGHT:
-		fire_pos.position.x += (pos.position.x * -1 + 8) - pos.position.x
+		if not directional_fire_pos:
+			fire_pos.position.x += (pos.position.x * -1 + (8 if Samus.aiming in [Samus.aim.SKY, Samus.aim.FLOOR] else 9)) - pos.position.x
 		fire_pos.rotation = (Vector2(-1, 0).rotated(pos.rotation) * Vector2(-1, 1)).angle()
 	
 	CannonPositionAnchor.global_position = fire_pos.global_position
+	
+	if Samus.armed and fire_pos.display_armed_sprite:
+		var texture: Texture
+		if current_animation.position_node_path in override_armed_sprite_textures:
+			texture = override_armed_sprite_textures[current_animation.position_node_path]
+		elif directional_fire_pos and position_node_path in override_armed_sprite_textures:
+			texture = override_armed_sprite_textures[position_node_path]
+		else:
+			texture = armed_sprite_textures[Samus.aiming]
+		armed_sprite.texture = texture
+		armed_sprite.flip_h = (Samus.facing if samus_facing_override == null else samus_facing_override) == Enums.dir.LEFT
+		armed_sprite.global_position = fire_pos.global_position
+		armed_sprite.visible = true
+	else:
+		armed_sprite.visible = false
 	
 	return fire_pos
 

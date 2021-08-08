@@ -138,19 +138,10 @@ func explode(projectile: PhysicsBody2D):
 				if Samus.current_state.id in ["morphball", "spiderball"]:
 					
 					var offset: float = projectile.global_position.x - Samus.global_position.x - (2 if Samus.facing == Enums.dir.LEFT else 6)
-					if abs(offset) > 2.5: 
-#						morphball_horiz_bounce(offset)
-						bomb_bounce_timer.start(morphball_physics_data["bomb_jump_time"])
-						bomb_bounce_limit = morphball_physics_data["bomb_jump_horiz_speed"] * -sign(offset)
-					
-					if not Samus.is_on_floor():
-						if Samus.current_fluid == Fluid.TYPES.NONE:
-							Samus.current_state.bounce(morphball_physics_data["bomb_jump_speed"])
-							
-							# TODO | Should this be a thing? Probably not.
-#							Samus.damage(Enums.DamageType.BOMB, samus_aerial_damage, projectile.global_position)
-					else:
-						Samus.current_state.bounce(morphball_physics_data["bomb_jump_speed"])
+					Samus.current_state.bounce(
+						morphball_physics_data["bomb_jump_speed_ground" if Samus.is_on_floor() else "bomb_jump_speed_air"],
+						morphball_physics_data["bomb_jump_horiz_speed"] * -sign(offset) if abs(offset) > 2.5 else 0.0
+						)
 			elif not body.name == "Samus":
 				if body.has_method("damage"):
 					body.damage(damage_type, damage_amount, projectile.global_position)

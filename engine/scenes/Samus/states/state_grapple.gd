@@ -55,9 +55,10 @@ func process(_delta: float):
 	if not Input.is_action_pressed("fire_weapon"):
 		
 		Samus.aiming = Samus.aim.FRONT
-		if Input.is_action_pressed("pad_left"):
+		var pad_x: float = Shortcut.get_pad_x("pressed")
+		if pad_x == -1:
 			Samus.facing = Enums.dir.LEFT
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_x == 1:
 			Samus.facing = Enums.dir.RIGHT
 		
 		change_state("jump", {"options": ["spin"] if Samus.boosting else ["fall"]})
