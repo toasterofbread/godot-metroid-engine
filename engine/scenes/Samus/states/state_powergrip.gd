@@ -18,11 +18,13 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 func init_state(data: Dictionary, _previous_state_id: String) -> bool:
 	
 	if Samus.facing == Enums.dir.LEFT:
+		Samus.Weapons.samus_facing_override = Enums.dir.RIGHT
 		direction = {
 			true: "pad_left",
 			false: "pad_right"
 		}
 	else:
+		Samus.Weapons.samus_facing_override = Enums.dir.LEFT
 		direction = {
 			true: "pad_right",
 			false: "pad_left"
@@ -40,6 +42,7 @@ func init_state(data: Dictionary, _previous_state_id: String) -> bool:
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	Physics.apply_velocity = true
+	Samus.Weapons.samus_facing_override = null
 	.change_state(new_state_key, data)
 
 func process(_delta: float):

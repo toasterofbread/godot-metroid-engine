@@ -90,6 +90,7 @@ func process(_delta: float):
 	
 	var play_transition = false
 	var original_spinning = spinning
+	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
 	
 	Samus.set_hurtbox_damage(id, damage_type, damage_amount if (Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning) else null)
 	
@@ -103,10 +104,9 @@ func process(_delta: float):
 			Samus.Weapons.update_fire_pos()
 		Samus.Weapons.fire()
 	
-	if Samus.shinespark_charged and not spinning:
-		if Input.is_action_just_pressed("jump") and not (Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right")):
-			change_state("shinespark", {"ballspark": false})
-			return
+	if Samus.shinespark_charged and not spinning and Input.is_action_just_pressed("jump") and pad_vector.x == 0:
+		change_state("shinespark", {"ballspark": false})
+		return
 	
 	if Samus.is_on_floor() and not Animator.transitioning(false, true) and not first_frame:
 		sounds["land"].play()
@@ -131,20 +131,20 @@ func process(_delta: float):
 		elif Samus.aiming == Samus.aim.FRONT:
 			Samus.aiming = Samus.aim.UP
 			set_spinning(false)
-	elif Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
-		if Input.is_action_pressed("pad_up"):
+	elif pad_vector.x != 0:
+		if pad_vector.y == -1:
 			Samus.aiming = Samus.aim.UP
 			set_spinning(false)
-		elif Input.is_action_pressed("pad_down"):
+		elif pad_vector.y == 1:
 			Samus.aiming = Samus.aim.DOWN
 			set_spinning(false)
 		else:
 			Samus.aiming = Samus.aim.FRONT
 	else:
-		if Input.is_action_pressed("pad_up"):
+		if pad_vector.y == -1:
 			Samus.aiming = Samus.aim.SKY
 			set_spinning(false)
-		elif Input.is_action_pressed("pad_down"):
+		elif pad_vector.y == 1:
 			if Samus.aiming == Samus.aim.FLOOR and Input.is_action_just_pressed("pad_down") and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 				change_state("morphball", {"options": ["animate"], "jump_current_time": jump_current_time})
 				return
@@ -164,7 +164,7 @@ func process(_delta: float):
 		Samus.aiming = shortcut_aiming
 	
 	if not Animator.transitioning():
-		if Input.is_action_pressed("pad_left"):
+		if pad_vector.x == -1:
 			if Samus.facing == Enums.dir.RIGHT:
 				play_transition = true
 			Samus.facing = Enums.dir.LEFT
@@ -172,7 +172,7 @@ func process(_delta: float):
 				WalljumpTimer.start(WalljumpPeriod)
 				animations["spin_walljump"].play()
 			
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_vector.x == 1:
 			if Samus.facing == Enums.dir.LEFT:
 				play_transition = true
 			Samus.facing = Enums.dir.RIGHT

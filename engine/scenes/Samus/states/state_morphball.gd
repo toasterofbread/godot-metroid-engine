@@ -49,7 +49,8 @@ func init_state(data: Dictionary, _previous_state_id: String):
 func process(_delta: float):
 	
 	var original_facing = Samus.facing
-
+	var pad_x: int = Shortcut.get_pad_x("pressed")
+	
 	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
 
@@ -61,9 +62,8 @@ func process(_delta: float):
 			change_state("spiderball")
 			return
 	
-	if Samus.shinespark_charged and Input.is_action_just_pressed("jump") and not Animator.transitioning(false, true):
-		if not Input.is_action_pressed("pad_left") and not Input.is_action_pressed("pad_right"):
-			change_state("shinespark", {"ballspark": true})
+	if Samus.shinespark_charged and Input.is_action_just_pressed("jump") and not Animator.transitioning(false, true) and pad_x == 0:
+		change_state("shinespark", {"ballspark": true})
 	
 	if (Input.is_action_just_pressed("morph_shortcut") or Input.is_action_just_pressed("pad_up")) and not Animator.transitioning():
 		if not CeilingRaycast.is_colliding():
@@ -77,16 +77,16 @@ func process(_delta: float):
 		animations["unmorph"].play()
 		change_state("airspark")
 		return
-
-	if Input.is_action_pressed("pad_left"):
-		Samus.facing = Enums.dir.LEFT
-		if original_facing == Enums.dir.RIGHT:
-			animations["turn"].play()
-			
-	elif Input.is_action_pressed("pad_right"):
-		Samus.facing = Enums.dir.RIGHT
-		if original_facing == Enums.dir.LEFT:
-			animations["turn"].play()
+	
+	match pad_x:
+		-1:
+			Samus.facing = Enums.dir.LEFT
+			if original_facing == Enums.dir.RIGHT:
+				animations["turn"].play()
+		1:
+			Samus.facing = Enums.dir.RIGHT
+			if original_facing == Enums.dir.LEFT:
+				animations["turn"].play()
 
 	if not Animator.transitioning(false, true):
 		
@@ -115,20 +115,18 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	
 	.change_state(new_state_key, data)
 
-func bounce(amount: float):
-	if Samus.current_fluid == Fluid.TYPES.NONE:
-		Physics.move_y(-amount)
-	else:
-		Physics.move_y(-amount*0.5)
-#	Physics.disable_floor_snap = true
-#	Physics.vel.y = -amount
+func bounce(vert_speed: float, horiz_speed: float):
+	if vert_speed != 0.0:
+		Physics.move_y(-vert_speed)
+	if horiz_speed != 0.0:
+		Physics.move_x(horiz_speed)
 
 func physics_process(delta: float, spiderball: bool = false):
 	
 	if spiderball:
 		Samus.fall_time = 0.0
 	elif Samus.is_on_floor() and Samus.fall_time > bounce_fall_time:
-		bounce(bounce_fall_amount)
+		Physics.move_y(-bounce_fall_amount)
 		sounds["bounce"].play()
 	
 	# Vertical

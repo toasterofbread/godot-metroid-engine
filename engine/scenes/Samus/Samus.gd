@@ -16,7 +16,7 @@ var facing: int = Enums.dir.LEFT
 var armed: bool = false
 enum aim {NONE, UP, DOWN, FRONT, SKY, FLOOR}
 var aiming: int = aim.FRONT setget set_aiming
-var aim_none_timer: Timer = Global.get_timer()
+var aim_none_timer: ExTimer = Global.get_timer(null, null, self).set_wait_time(2.0)
 
 var hurtbox_damage: Dictionary = {}
 
@@ -258,10 +258,7 @@ func _damage(type: int, amount: float, impact_position):
 	
 	for suit in active_suits.values():
 		amount *= suit["incoming_damage_multiplier"]
-		print(amount)
-	print(damage_reduction_mini_upgrade[0]["created"], damage_reduction_mini_upgrade[1])
 	amount -= amount * damage_reduction_mini_upgrade[0]["created"] * damage_reduction_mini_upgrade[1]
-	print(amount)
 	
 	if amount <= 0:
 		return

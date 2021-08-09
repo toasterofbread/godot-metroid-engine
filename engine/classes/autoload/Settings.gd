@@ -39,7 +39,7 @@ func apply_custom_settings():
 	data["type"] = "string"
 	data["data"] = []
 	for dir in Data.data["engine_config"]["samus_physics_profiles_directories"]:
-		var profiles: Dictionary = Global.dir2dict(dir, false, null, ["json"])
+		var profiles: Dictionary = Global.dir2dict(dir, Global.DIR2DICT_MODES.NESTED, null, ["json"])
 		for profile in profiles:
 			var profile_info: Dictionary = Global.load_json(profiles[profile])["profile_info"]
 			data["data"].append(profile_info["name"][Data.language_code])

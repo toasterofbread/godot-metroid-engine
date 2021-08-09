@@ -34,13 +34,15 @@
 		"horiz_spin_max_speed": [200],
 	},
 	"morphball": {
+		"gravity": [1300],
+
 		"ground_speed": [150],
 		"ground_acceleration": [1500],
 		"ground_deceleration": [3000],
 
 		"air_speed": [150],
-		"air_acceleration": [1500],
-		"air_deceleration": [3000],
+		"air_acceleration": [2000],
+		"air_deceleration": [750],
 
 		"springball_speed": [200],
 		"springball_acceleration": [24000],
@@ -50,13 +52,12 @@
 		"springball_acceleration_high": [24000],
 		"springball_time_high": [0.2],
 
-		"bomb_jump_speed": [350],
-		"bomb_jump_horiz_speed": [200],
-		"bomb_jump_time": [0.2]
+		"bomb_jump_speed_ground": [340],
+		"bomb_jump_speed_air": [370],
+		"bomb_jump_horiz_speed": [300]
 	},
 	"spiderball": {
-		"speed": [50],
-		"acceleration": [1500]
+		"speed": [50]
 	},
 	"grapple": {
 		"speed": [0.12],

@@ -49,7 +49,7 @@ func _process(delta):
 func _physics_process(delta):
 	emit_signal("physics_frame", delta)
 
-func get_timer(timeout_connect=null, started_connect=null, parent=null):
+func get_timer(timeout_connect=null, started_connect=null, parent=null) -> ExTimer:
 	var timer = ExTimer.new()
 	timer.one_shot = true
 	
@@ -296,7 +296,8 @@ func combine_dicts(dicts: Array) -> Dictionary:
 			ret[key] = dict[key]
 	return ret
 
-func dir2dict(path: String, single_layer: bool = false, allowed_files = null, allowed_extensions = null, top_path: String = "") -> Dictionary:
+enum DIR2DICT_MODES {NESTED, SINGLE_LAYER_DIR, SINGLE_LAYER_FILE}
+func dir2dict(path: String, mode: int = DIR2DICT_MODES.NESTED, allowed_files = null, allowed_extensions = null, top_path: String = "") -> Dictionary:
 	var ret: Dictionary = {}
 	var data: Dictionary = ret
 	if top_path == "":
@@ -307,15 +308,19 @@ func dir2dict(path: String, single_layer: bool = false, allowed_files = null, al
 	
 	for file in iterate_directory(dir):
 		if dir.dir_exists(file):
-			if not single_layer:
-				data[file] = dir2dict(path + file + "/", single_layer, allowed_files, allowed_extensions, top_path)
+			if mode == DIR2DICT_MODES.NESTED:
+				data[file] = dir2dict(path + file + "/", mode, allowed_files, allowed_extensions, top_path)
 			else:
-				var layer_data: Dictionary = dir2dict(path + file + "/", single_layer, allowed_files, allowed_extensions, top_path)
+				var layer_data: Dictionary = dir2dict(path + file + "/", mode, allowed_files, allowed_extensions, top_path)
 				for key in layer_data:
 					data[key] = layer_data[key]
 			
 		elif not file.ends_with(".import") and (allowed_files == null or file in allowed_files) and (allowed_extensions == null or file.split(".")[1] in allowed_extensions):
-			var key: String = file.split(".")[0] if not single_layer else path.trim_prefix(top_path)
+			var key: String
+			match mode:
+				DIR2DICT_MODES.NESTED: key = file.split(".")[0]
+				DIR2DICT_MODES.SINGLE_LAYER_DIR: key = path.trim_prefix(top_path)
+				DIR2DICT_MODES.SINGLE_LAYER_FILE: key = path.trim_prefix(top_path) + file.split(".")[0]
 			data[key.trim_suffix("/")] = path + file
 	
 	return ret

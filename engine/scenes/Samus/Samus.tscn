@@ -379,6 +379,26 @@ tracks/0/keys = {
 
 [sub_resource type="SpriteFrames" id=11]
 animations = [ {
+"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "PLASMABEAM 0",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 50 ), ExtResource( 43 ) ],
+"loop": true,
+"name": "WAVEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 40 ), ExtResource( 41 ) ],
+"loop": true,
+"name": "CHARGEBEAM 1",
+"speed": 15.0
+}, {
+"frames": [ ExtResource( 13 ), ExtResource( 51 ) ],
+"loop": true,
+"name": "ICEBEAM 0",
+"speed": 15.0
+}, {
 "frames": [ ExtResource( 25 ), ExtResource( 20 ) ],
 "loop": true,
 "name": "CHARGEBEAM 2",
@@ -438,26 +458,6 @@ animations = [ {
 "loop": false,
 "name": "CHARGEBEAM 2 start",
 "speed": 30.0
-}, {
-"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
-"loop": true,
-"name": "PLASMABEAM 0",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 50 ), ExtResource( 43 ) ],
-"loop": true,
-"name": "WAVEBEAM 1",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 40 ), ExtResource( 41 ) ],
-"loop": true,
-"name": "CHARGEBEAM 1",
-"speed": 15.0
-}, {
-"frames": [ ExtResource( 13 ), ExtResource( 51 ) ],
-"loop": true,
-"name": "ICEBEAM 0",
-"speed": 15.0
 } ]
 
 [sub_resource type="CircleShape2D" id=12]
@@ -787,29 +787,29 @@ collision_mask = 524288
 [node name="TestSprites" type="Node2D" parent="Animator"]
 position = Vector2( -478, -56 )
 
-[node name="roll" type="AnimatedSprite" parent="Animator/TestSprites"]
-position = Vector2( 5, 10 )
+[node name="aim_front" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
+position = Vector2( 1, -1 )
 frames = ExtResource( 2 )
-animation = "morphball_roll"
-frame = 5
+animation = "run_aim_front_left"
+frame = 4
 playing = true
+flip_h = true
 script = ExtResource( 4 )
-state_key = "shinespark"
-animation_key = "roll"
-facing = 1
+state_key = "run"
+animation_key = "aim_front"
 data = {
-"directional": false,
-"leftPos": [ 2.0, 10.0 ],
-"rightPos": [ 5.0, 10.0 ],
-"state_id": "morphball"
+"leftPos": [ 1.0, -1.0 ],
+"rightPos": [ 7.0, -1.0 ],
+"step_frames": [  ]
 }
 
 [node name="ball_boost_fx_vert_down" type="AnimatedSprite" parent="Animator/TestSprites"]
+visible = false
 position = Vector2( 5, 6 )
 rotation = 1.5708
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
-frame = 2
 playing = true
 script = ExtResource( 4 )
 state_key = "shinespark"
@@ -823,7 +823,8 @@ data = {
 "overlay": true,
 "overlay_above": true,
 "rightPos": [ 5.0, 6.0 ],
-"rotation_degrees": 90.0
+"rotation_degrees": 90.0,
+"step_frames": [  ]
 }
 
 [node name="turn_aim_down" type="AnimatedSprite" parent="Animator/TestSprites"]
@@ -858,7 +859,6 @@ use_parent_material = true
 position = Vector2( -300, 7 )
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
-frame = 2
 playing = true
 flip_h = true
 
@@ -878,7 +878,6 @@ use_parent_material = true
 position = Vector2( -394, -43 )
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
-frame = 2
 playing = true
 flip_h = true
 
@@ -939,48 +938,275 @@ position = Vector2( 5, 10 )
 shape = SubResource( 16 )
 
 [node name="Weapons" type="Node2D" parent="."]
-pause_mode = 2
+pause_mode = 1
 script = ExtResource( 7 )
 
 [node name="CannonPositions" type="Node2D" parent="Weapons"]
-z_index = 999
-z_as_relative = false
+position = Vector2( -478, -56 )
+
+[node name="run" type="Node2D" parent="Weapons/CannonPositions"]
+visible = false
+
+[node name="aim_front" type="Node2D" parent="Weapons/CannonPositions/run"]
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -13, -9 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -14, -10 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -17, -11 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="3" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -16, -10 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="4" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -14, -10 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="5" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -13, -9 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="6" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -13, -10 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="7" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -14, -11 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="8" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -15, -11 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="9" type="Position2D" parent="Weapons/CannonPositions/run/aim_front"]
+visible = false
+position = Vector2( -14, -10 )
+rotation = -1.5708
+script = ExtResource( 58 )
+
+[node name="aim_down" type="Node2D" parent="Weapons/CannonPositions/run"]
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -8, 1 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -9, 0 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -10, -1 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="3" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -11, 0 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="4" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -9, 0 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="5" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -8, 1 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="6" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -8, 0 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="7" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -9, -1 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="8" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -10, -1 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="9" type="Position2D" parent="Weapons/CannonPositions/run/aim_down"]
+visible = false
+position = Vector2( -9, 0 )
+rotation = -2.35619
+script = ExtResource( 58 )
+
+[node name="aim_up" type="Node2D" parent="Weapons/CannonPositions/run"]
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -9, -19 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -10, -20 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -11, -21 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="3" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -12, -20 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="4" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -10, -20 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="5" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -9, -19 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="6" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -9, -20 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="7" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -10, -21 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="8" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -11, -21 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="9" type="Position2D" parent="Weapons/CannonPositions/run/aim_up"]
+visible = false
+position = Vector2( -10, -20 )
+rotation = -0.785398
+script = ExtResource( 58 )
+
+[node name="aim_none" type="Position2D" parent="Weapons/CannonPositions/run"]
+visible = false
+position = Vector2( -17, -10 )
+rotation = -1.5708
+script = ExtResource( 58 )
+display_armed_sprite = false
 
 [node name="shinespark" type="Node2D" parent="Weapons/CannonPositions"]
+visible = false
 
 [node name="horiz" type="Position2D" parent="Weapons/CannonPositions/shinespark"]
 position = Vector2( -6, -8 )
 script = ExtResource( 58 )
+display_armed_sprite = false
 
 [node name="vert" type="Position2D" parent="Weapons/CannonPositions/shinespark"]
 position = Vector2( 4, 3 )
 script = ExtResource( 58 )
+display_armed_sprite = false
 left = false
 
 [node name="powergrip" type="Node2D" parent="Weapons/CannonPositions"]
 visible = false
 
-[node name="aim_sky" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
-position = Vector2( 9, -29 )
+[node name="aim_sky_left" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+visible = false
+position = Vector2( 9, -28 )
 script = ExtResource( 58 )
 
-[node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
-position = Vector2( 20, -20 )
+[node name="aim_up_left" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+visible = false
+position = Vector2( 19, -18 )
 rotation = 0.785398
 script = ExtResource( 58 )
 
-[node name="aim_front" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+[node name="aim_front_left" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+visible = false
 position = Vector2( 24, -9 )
 rotation = 1.5708
 script = ExtResource( 58 )
 
-[node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+[node name="aim_down_left" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+visible = false
 position = Vector2( 19, 1 )
 rotation = 2.35619
 script = ExtResource( 58 )
 
-[node name="aim_floor" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
-position = Vector2( 7, 7 )
+[node name="aim_floor_left" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+visible = false
+position = Vector2( 8, 6 )
+rotation = 3.14159
+script = ExtResource( 58 )
+
+[node name="aim_sky_right" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( 0, -28 )
+script = ExtResource( 58 )
+
+[node name="aim_up_right" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( -9, -18 )
+rotation = 0.785398
+script = ExtResource( 58 )
+
+[node name="aim_front_right" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( -14, -9 )
+rotation = 1.5708
+script = ExtResource( 58 )
+
+[node name="aim_down_right" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( -9, 1 )
+rotation = 2.35619
+script = ExtResource( 58 )
+
+[node name="aim_floor_right" type="Position2D" parent="Weapons/CannonPositions/powergrip"]
+position = Vector2( 2, 7 )
 rotation = 3.14159
 script = ExtResource( 58 )
 
@@ -988,21 +1214,21 @@ script = ExtResource( 58 )
 visible = false
 
 [node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/neutral"]
-position = Vector2( -8, 1 )
+position = Vector2( -7, 1 )
 rotation = -2.35619
 script = ExtResource( 58 )
 
 [node name="aim_front" type="Position2D" parent="Weapons/CannonPositions/neutral"]
-position = Vector2( -12, -9 )
+position = Vector2( -11, -9 )
 rotation = -1.5708
 script = ExtResource( 58 )
 
 [node name="aim_sky" type="Position2D" parent="Weapons/CannonPositions/neutral"]
-position = Vector2( 1, -25 )
+position = Vector2( 1, -24 )
 script = ExtResource( 58 )
 
 [node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/neutral"]
-position = Vector2( -9, -21 )
+position = Vector2( -7, -19 )
 rotation = -0.785398
 script = ExtResource( 58 )
 
@@ -1050,154 +1276,216 @@ script = ExtResource( 58 )
 [node name="jump" type="Node2D" parent="Weapons/CannonPositions"]
 visible = false
 
-[node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/jump"]
+[node name="turn_aim_down" type="Position2D" parent="Weapons/CannonPositions/jump"]
+visible = false
 position = Vector2( -8, -2 )
+rotation = -2.35619
+script = ExtResource( 58 )
+display_armed_sprite = false
+
+[node name="turn_aim_floor" type="Position2D" parent="Weapons/CannonPositions/jump"]
+visible = false
+position = Vector2( 1, 8 )
+rotation = 3.14159
+script = ExtResource( 58 )
+display_armed_sprite = false
+
+[node name="turn_aim_front" type="Position2D" parent="Weapons/CannonPositions/jump"]
+visible = false
+position = Vector2( -10, -9 )
+rotation = -1.5708
+script = ExtResource( 58 )
+display_armed_sprite = false
+
+[node name="turn_aim_sky" type="Position2D" parent="Weapons/CannonPositions/jump"]
+visible = false
+position = Vector2( 4, -26 )
+script = ExtResource( 58 )
+display_armed_sprite = false
+
+[node name="turn_aim_up" type="Position2D" parent="Weapons/CannonPositions/jump"]
+visible = false
+position = Vector2( -8, -24 )
+rotation = -0.785398
+script = ExtResource( 58 )
+display_armed_sprite = false
+
+[node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/jump"]
+visible = false
+position = Vector2( -8, 1 )
 rotation = -2.35619
 script = ExtResource( 58 )
 
 [node name="aim_floor" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( 1, 8 )
+visible = false
+position = Vector2( 2, 12 )
 rotation = 3.14159
 script = ExtResource( 58 )
 
 [node name="aim_front" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( -10, -9 )
+visible = false
+position = Vector2( -10, -6 )
 rotation = -1.5708
 script = ExtResource( 58 )
 
 [node name="aim_sky" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( 0, -26 )
+visible = false
+position = Vector2( 0, -25 )
 script = ExtResource( 58 )
 
 [node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( -8, -24 )
-rotation = -0.785398
-script = ExtResource( 58 )
-
-[node name="turn_aim_down" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( -8, -2 )
-rotation = -2.35619
-script = ExtResource( 58 )
-
-[node name="turn_aim_floor" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( 1, 8 )
-rotation = 3.14159
-script = ExtResource( 58 )
-
-[node name="turn_aim_front" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( -10, -9 )
-rotation = -1.5708
-script = ExtResource( 58 )
-
-[node name="turn_aim_sky" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( 4, -26 )
-script = ExtResource( 58 )
-
-[node name="turn_aim_up" type="Position2D" parent="Weapons/CannonPositions/jump"]
-position = Vector2( -8, -24 )
+visible = false
+position = Vector2( -7, -19 )
 rotation = -0.785398
 script = ExtResource( 58 )
 
 [node name="crouch" type="Node2D" parent="Weapons/CannonPositions"]
+visible = false
 
-[node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -9, 11 )
-rotation = -2.35619
+[node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+position = Vector2( -6, -9 )
+rotation = -0.785398
 script = ExtResource( 58 )
 
 [node name="aim_front" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -11, 4 )
+visible = false
+position = Vector2( -9, 4 )
 rotation = -1.5708
 script = ExtResource( 58 )
 
-[node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -9, -10 )
-rotation = -0.785398
-script = ExtResource( 58 )
-
-[node name="uncrouch_aim_down" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -9, 4.14214 )
+[node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+position = Vector2( -7, 11 )
 rotation = -2.35619
 script = ExtResource( 58 )
 
-[node name="uncrouch_aim_front" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -11, -2.85786 )
-rotation = -1.5708
+[node name="uncrouch_aim_up" type="Node2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_up"]
+position = Vector2( -6, -8 )
 script = ExtResource( 58 )
 
-[node name="uncrouch_aim_up" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -9, -16.8579 )
-rotation = -0.785398
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_up"]
+position = Vector2( -5, -12 )
 script = ExtResource( 58 )
 
-[node name="crouch_aim_down" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -9, 4.14214 )
-rotation = -2.35619
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_up"]
+position = Vector2( -6, -16 )
 script = ExtResource( 58 )
 
-[node name="crouch_aim_front" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -11, -2.85786 )
-rotation = -1.5708
+[node name="uncrouch_aim_front" type="Node2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_front"]
+position = Vector2( -9, 5 )
 script = ExtResource( 58 )
 
-[node name="crouch_aim_up" type="Position2D" parent="Weapons/CannonPositions/crouch"]
-position = Vector2( -9, -16.8579 )
-rotation = -0.785398
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_front"]
+position = Vector2( -7, 0 )
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_front"]
+position = Vector2( -9, -3 )
+script = ExtResource( 58 )
+
+[node name="uncrouch_aim_down" type="Node2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_down"]
+position = Vector2( -6, 10 )
+script = ExtResource( 58 )
+
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_down"]
+position = Vector2( -5, 7 )
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/crouch/uncrouch_aim_down"]
+position = Vector2( -6, 2 )
+script = ExtResource( 58 )
+
+[node name="crouch_aim_up" type="Node2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_up"]
+position = Vector2( -6, -16 )
+script = ExtResource( 58 )
+
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_up"]
+position = Vector2( -5, -12 )
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_up"]
+position = Vector2( -6, -8 )
+script = ExtResource( 58 )
+
+[node name="crouch_aim_front" type="Node2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_front"]
+position = Vector2( -9, -3 )
+script = ExtResource( 58 )
+
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_front"]
+position = Vector2( -7, 0 )
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_front"]
+position = Vector2( -9, 5 )
+script = ExtResource( 58 )
+
+[node name="crouch_aim_down3" type="Node2D" parent="Weapons/CannonPositions/crouch"]
+visible = false
+
+[node name="0" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_down3"]
+position = Vector2( -6, 2 )
+script = ExtResource( 58 )
+
+[node name="1" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_down3"]
+position = Vector2( -5, 7 )
+script = ExtResource( 58 )
+
+[node name="2" type="Position2D" parent="Weapons/CannonPositions/crouch/crouch_aim_down3"]
+position = Vector2( -6, 10 )
 script = ExtResource( 58 )
 
 [node name="morphball" type="Node2D" parent="Weapons/CannonPositions"]
-visible = false
-position = Vector2( 0, 10 )
 
 [node name="roll" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 script = ExtResource( 58 )
+display_armed_sprite = false
 
 [node name="morph" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 script = ExtResource( 58 )
+display_armed_sprite = false
 
 [node name="roll_spider" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 script = ExtResource( 58 )
+display_armed_sprite = false
 
 [node name="roll_spider_reverse" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 script = ExtResource( 58 )
+display_armed_sprite = false
 
 [node name="turn" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( 2, 10 )
 script = ExtResource( 58 )
+display_armed_sprite = false
 
 [node name="unmorph" type="Position2D" parent="Weapons/CannonPositions/morphball"]
 position = Vector2( -11, -6 )
 rotation = -1.5708
 script = ExtResource( 58 )
-
-[node name="run" type="Node2D" parent="Weapons/CannonPositions"]
-visible = false
-
-[node name="aim_down" type="Position2D" parent="Weapons/CannonPositions/run"]
-position = Vector2( -10, -4.76837e-07 )
-rotation = -2.35619
-script = ExtResource( 58 )
-
-[node name="aim_front" type="Position2D" parent="Weapons/CannonPositions/run"]
-position = Vector2( -17, -10 )
-rotation = -1.5708
-script = ExtResource( 58 )
-
-[node name="aim_none" type="Position2D" parent="Weapons/CannonPositions/run"]
-position = Vector2( -17, -10 )
-rotation = -1.5708
-script = ExtResource( 58 )
-
-[node name="aim_up" type="Position2D" parent="Weapons/CannonPositions/run"]
-position = Vector2( -13, -23 )
-rotation = -0.785398
-script = ExtResource( 58 )
+can_fire_chargebeam = false
+display_armed_sprite = false
 
 [node name="CannonPositionAnchor" type="Node2D" parent="Weapons"]
+use_parent_material = true
 
 [node name="VisorPositions" type="Node2D" parent="Weapons"]
 visible = false

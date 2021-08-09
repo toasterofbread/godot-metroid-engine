@@ -85,6 +85,7 @@ func process(delta: float):
 	
 	var play_transition: bool = false
 	var original_facing: int = Samus.facing
+	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
 	
 	if not Samus.Weapons.cycle_visor():
 		change_state("neutral")
@@ -108,7 +109,7 @@ func process(delta: float):
 		change_state("morphball", {"options": ["animate"]})
 		return
 	elif Input.is_action_just_pressed("jump"):
-		if Physics.vel.x != 0 or Input.is_action_pressed("pad_left") or Input.is_action_pressed("pad_right"):
+		if Physics.vel.x != 0 or pad_vector.x != 0:
 			change_state("jump", {"options": ["jump", "spin"]})
 		else:
 			if Samus.shinespark_charged:
@@ -125,11 +126,11 @@ func process(delta: float):
 
 	if not Animator.transitioning() and not enabled:
 		
-		if Input.is_action_pressed("pad_left"):
+		if pad_vector.x == -1:
 			Samus.facing = Enums.dir.LEFT
 			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_vector.x == 1:
 			Samus.facing = Enums.dir.RIGHT
 			if original_facing == Enums.dir.LEFT:
 				play_transition = true
@@ -145,9 +146,8 @@ func process(delta: float):
 	
 	var reverse: bool = false
 	if enabled:
-		var pad_vector: float = Shortcut.get_pad_vector("pressed").x
-		if pad_vector != 0:
-			reverse = (pad_vector == 1 and Samus.facing == Enums.dir.LEFT) or (pad_vector == -1 and Samus.facing == Enums.dir.RIGHT)
+		if pad_vector.x != 0:
+			reverse = (pad_vector.x == 1 and Samus.facing == Enums.dir.LEFT) or (pad_vector.x == -1 and Samus.facing == Enums.dir.RIGHT)
 	
 	if play_transition or force_transition:
 		force_transition = false
@@ -166,10 +166,10 @@ func physics_process(delta: float):
 	
 	angle_process()
 	
-	var pad_vector: float = Shortcut.get_pad_vector("pressed").x
+	var pad_x: int = Shortcut.get_pad_x("pressed")
 	
-	if pad_vector != 0:
-		Physics.vel.x = move_toward(Physics.vel.x, max_walk_speed*pad_vector, walk_acceleration)
+	if pad_x != 0:
+		Physics.vel.x = move_toward(Physics.vel.x, max_walk_speed*pad_x, walk_acceleration)
 	else:
 		Physics.vel.x = move_toward(Physics.vel.x, 0, walk_deceleration)
 
@@ -199,7 +199,7 @@ func angle_process():
 			disable()
 			return
 		
-		var pad_y = Shortcut.get_pad_vector("pressed").y
+		var pad_y: int = Shortcut.get_pad_y("pressed")
 		if pad_y != 0:
 			angle = min(180, max(0, angle + angle_move_speed * pad_y * movement_speed_multiplier))
 #		elif fire_pos:

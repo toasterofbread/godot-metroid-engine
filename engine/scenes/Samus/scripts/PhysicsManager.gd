@@ -10,6 +10,9 @@ const SNAP_DISTANCE = 15.0
 const SNAP_VECTOR = SNAP_DIRECTION * SNAP_DISTANCE
 const FLOOR_MAX_ANGLE = deg2rad(70)
 
+var gravity: float
+var fall_speed_cap: float
+
 var vel: Vector2 = Vector2.ZERO
 var apply_gravity: bool = true
 var apply_velocity: bool = true
@@ -31,6 +34,7 @@ func _ready():
 	set_data()
 	Settings.connect("settings_changed", self, "settings_changed")
 	Samus.connect("suit_changed", self, "samus_suit_changed")
+	Samus.connect("state_changed", self, "samus_state_changed")
 	
 	Shortcut.register_debug_shortcut("DEBUG_reload_samus_physics_data", "Reload Samus physics data", {"just_pressed": funcref(self, "shortcut_reload_data")})
 
@@ -39,7 +43,7 @@ func reload_data():
 	
 	var profile_dirs: Array = []
 	for dir in Data.data["engine_config"]["samus_physics_profiles_directories"]:
-		var dir_profiles: Dictionary = Global.dir2dict(dir, false, null, ["json"])
+		var dir_profiles: Dictionary = Global.dir2dict(dir, Global.DIR2DICT_MODES.NESTED, null, ["json"])
 		for profile in dir_profiles:
 			profiles[profile] = Global.load_json(dir_profiles[profile])
 	
@@ -66,7 +70,7 @@ func _physics_process(delta: float):
 		Samus.boosting = false
 	
 	if apply_gravity:
-		vel.y = min(vel.y + data["general"]["gravity"]*delta, data["general"]["fall_speed_cap"])
+		vel.y = min(vel.y + gravity*delta, fall_speed_cap)
 	
 	var slope_angle = Samus.get_floor_normal().dot(Vector2.UP)
 	on_slope = slope_angle != 0 and slope_angle != 1
@@ -118,6 +122,7 @@ func set_data():
 			# DEBUG
 			data[group][key] = profile_data[group][key][mode_to_apply if mode_to_apply < len(profile_data[group][key]) else 0]
 #			data[group][key] = profile_data[group][key][mode]
+	samus_state_changed(null, Samus.current_state.id if Samus.current_state else "general", null)
 	emit_signal("physics_data_set")
 
 func set_mode(_mode: int):
@@ -133,3 +138,10 @@ func samus_suit_changed(active_suits: Dictionary):
 			prevent_physics_override = true
 			break
 	set_data()
+
+func samus_state_changed(_previous_state_id, new_state_id: String, _data):
+	for property in ["gravity", "fall_speed_cap"]:
+		if new_state_id in data and property in data[new_state_id]:
+			set(property, data[new_state_id][property])
+		else:
+			set(property, data["general"][property])

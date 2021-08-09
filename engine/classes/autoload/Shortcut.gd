@@ -21,7 +21,7 @@ func _ready():
 	else:
 		for file in Global.iterate_directory(dir):
 			if dir.dir_exists(file):
-				joypad_icons[file] = Global.dir2dict(ButtonIcon.icons_directory + file + "/", false, null, ["png"])
+				joypad_icons[file] = Global.dir2dict(ButtonIcon.icons_directory + file + "/", Global.DIR2DICT_MODES.NESTED, null, ["png"])
 
 	var settings_data: Dictionary = Data.data["settings_information"]["visuals"]["options"]["joypad_button_icon_style"]
 	settings_data["type"] = "string"
@@ -89,16 +89,32 @@ func get_aiming(Samus: KinematicBody2D, include_front: bool = false):
 		return null
 
 func get_pad_vector(method: String) -> Vector2:
-	var ret = Vector2.ZERO
+	var ret: Vector2 = Vector2.ZERO
 	method = "is_action_" + method
 	if Input.call(method, "pad_left"):
-		ret.x = -1
-	elif Input.call(method, "pad_right"):
-		ret.x = 1
+		ret.x += -1
+	if Input.call(method, "pad_right"):
+		ret.x += 1
 	if Input.call(method, "pad_up"):
-		ret.y = -1
-	elif Input.call(method, "pad_down"):
-		ret.y = 1
+		ret.y += -1
+	if Input.call(method, "pad_down"):
+		ret.y += 1
+	return ret
+func get_pad_x(method: String) -> int:
+	var ret: int = 0.0
+	method = "is_action_" + method
+	if Input.call(method, "pad_left"):
+		ret += -1
+	if Input.call(method, "pad_right"):
+		ret += 1
+	return ret
+func get_pad_y(method: String) -> int:
+	var ret: int = 0
+	method = "is_action_" + method
+	if Input.call(method, "pad_up"):
+		ret += -1
+	if Input.call(method, "pad_down"):
+		ret += 1
 	return ret
 
 func get_joystick_vector(joystick_name: String):

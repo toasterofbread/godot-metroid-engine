@@ -23,6 +23,10 @@ var current: Dictionary = {
 	true: null, # Overlay
 	false: null # Main
 }
+var queued: Dictionary = {
+	true: null, # Overlay
+	false: null # Main
+}
 
 var paused: Dictionary = {
 	true: false, # Overlay
@@ -30,9 +34,9 @@ var paused: Dictionary = {
 }
 
 onready var suit_frames = { # Ordered by visual priority
-	Enums.Upgrade.GRAVITYSUIT: [preload("res://engine/scenes/Samus/animations/gravity.tres"), preload("res://engine/scenes/Samus/animations/gravity_armed.tres")],
-	Enums.Upgrade.VARIASUIT: [preload("res://engine/scenes/Samus/animations/varia.tres"), preload("res://engine/scenes/Samus/animations/varia_armed.tres")],
-	Enums.Upgrade.POWERSUIT: [preload("res://engine/scenes/Samus/animations/power.tres"), preload("res://engine/scenes/Samus/animations/power_armed.tres")],
+	Enums.Upgrade.GRAVITYSUIT: preload("res://engine/scenes/Samus/animations/gravity.tres"),
+	Enums.Upgrade.VARIASUIT: preload("res://engine/scenes/Samus/animations/varia.tres"),
+	Enums.Upgrade.POWERSUIT: preload("res://engine/scenes/Samus/animations/power.tres"),
 }
 var current_suit_visual: int
 
@@ -94,12 +98,12 @@ func set_armed(set_to_armed: bool):
 		return
 	
 	Samus.armed = set_to_armed
-	
-	for set in sprites.values():
-		for sprite in set.values():
-			sprite.frames = suit_frames[current_suit_visual][int(set_to_armed)]
-	
 	Samus.Weapons.update_weapon_icons()
+	
+#	for set in sprites.values():
+#		for sprite in set.values():
+#			sprite.frames = suit_frames[current_suit_visual]#[int(set_to_armed)]
+	
 
 func transitioning(overlay: bool = false, ignore_cooldown: bool = false):
 	if current[overlay] == null:
@@ -146,4 +150,4 @@ func samus_suit_changed(active_suits: Dictionary):
 	
 	for set in sprites.values():
 		for sprite in set.values():
-			sprite.frames = suit_frames[current_suit_visual][int(Samus.armed)]
+			sprite.frames = suit_frames[current_suit_visual]#[int(Samus.armed)]

@@ -68,7 +68,8 @@ func process(_delta: float):
 			change_state("jump", {"options": ["jump"]})
 			return
 		
-		if Input.is_action_pressed("pad_left"):
+		var pad_x: int = Shortcut.get_pad_x("pressed")
+		if pad_x == -1:
 			Samus.facing = Enums.dir.LEFT
 			Shortcut.remove_input_hold_monitor("pad_right", id)
 			
@@ -81,7 +82,7 @@ func process(_delta: float):
 			elif not Animator.transitioning():
 				Shortcut.add_input_hold_monitor("pad_left", id)
 				
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_x == 1:
 			Samus.facing = Enums.dir.RIGHT
 			Shortcut.remove_input_hold_monitor("pad_left", id)
 			

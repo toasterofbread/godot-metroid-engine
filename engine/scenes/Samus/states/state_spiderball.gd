@@ -97,9 +97,9 @@ func set_floor(value: Vector2):
 var trigger_action
 func get_direction() -> int:
 	
-	var pad_vector = Shortcut.get_pad_vector("pressed")
+	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
 	if not Settings.get("control_options/spiderball_relative_controls"):
-		return pad_vector.x * -1
+		return int(pad_vector.x) * -1
 	
 	var ret: int = 0
 	
@@ -112,10 +112,10 @@ func get_direction() -> int:
 	var slope = FLOOR.x != 0 and FLOOR.y != 0
 
 	if FLOOR == Vector2.DOWN or FLOOR == Vector2.UP or slope:
-		if Input.is_action_pressed("pad_left"):
+		if pad_vector.x == -1:
 			trigger_action = "pad_left"
 			ret = -1
-		elif Input.is_action_pressed("pad_right"):
+		elif pad_vector.x == 1:
 			trigger_action = "pad_right"
 			ret = 1
 		if FLOOR.y > 0:
@@ -124,10 +124,10 @@ func get_direction() -> int:
 			return ret
 	
 	if FLOOR == Vector2.RIGHT or FLOOR == Vector2.LEFT or slope:
-		if Input.is_action_pressed("pad_up"):
+		if pad_vector.y == -1:
 			trigger_action = "pad_up"
 			ret = -1
-		elif Input.is_action_pressed("pad_down"):
+		elif pad_vector.y == 1:
 			trigger_action = "pad_down"
 			ret = 1
 		if FLOOR.x < 0:
@@ -165,12 +165,9 @@ func attached_physics_process(delta: float):
 	if collision != null:
 		set_floor(-collision.normal)
 
-func bounce(amount: float):
+func bounce(vert_speed: float, horiz_speed: float):
 	set_floor(Vector2.ZERO)
-	if Samus.current_fluid == Fluid.TYPES.NONE:
-		Physics.move_y(-amount)
-	else:
-		Physics.move_y(-amount*0.5)
+	Samus.states["morphball"].bounce(vert_speed, horiz_speed)
 
 #func bounce(amount: float):
 #	set_floor(Vector2.ZERO)
@@ -181,11 +178,10 @@ func physics_process(delta: float):
 	if attached:
 		attached_physics_process(delta)
 		return
-	var pad_x = Shortcut.get_pad_vector("pressed").x
 	
 	var velocity = Physics.vel*delta
 	if velocity.x == 0:
-		velocity.x = pad_x
+		velocity.x = Shortcut.get_pad_x("pressed")
 	if velocity.y == 0:
 		velocity.y = 1
 	
