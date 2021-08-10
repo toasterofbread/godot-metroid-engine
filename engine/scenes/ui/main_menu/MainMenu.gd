@@ -56,7 +56,6 @@ func selectsave_button_pressed():
 	if save_selected_option != 0:
 		$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
 	save_selected_option = 0
-	$SaveSelection/SaveContainer.get_child(save_selected_option).current = true
 	
 	$Tween.interpolate_property($Title, "modulate:a", 1.0, 0.0, 0.2)
 	$Tween.start()
@@ -85,6 +84,7 @@ func selectsave_button_pressed():
 			$Tween.start()
 			yield($Tween, "tween_completed")
 	
+	$SaveSelection/SaveContainer.get_child(save_selected_option).current = true
 	state = STATES.SAVE_SELECTION
 
 func settings_button_pressed():
@@ -184,6 +184,10 @@ func process_saveselection(_delta: float, pad: Vector2):
 		$SaveSelection/ButtonPrompts/DeleteButtonPrompt.set_visibility(true, true)
 
 func save_option_mouse_hover(entered: bool, option: int):
+	
+	if state != STATES.SAVE_SELECTION:
+		return
+	
 	if entered and option != save_selected_option:
 		if save_selected_option >= 0:
 			$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
@@ -193,7 +197,26 @@ func save_option_mouse_hover(entered: bool, option: int):
 		$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
 		save_selected_option = -1
 func save_option_pressed(option: int):
+	
+	if option < 0:
+		return
+	
 	state = STATES.TRANSITIONING
+	
+	var saveGame_to_load: SaveGame = $SaveSelection/SaveContainer.get_child(option).saveGame
+	
+	if not saveGame_to_load.file_exists:
+		var difficulties: PoolStringArray = []
+		for difficulty in Data.data["damage_values"]["difficulty"].keys():
+			difficulties.append(tr("difficulty_" + difficulty))
+		
+		var prompt_result = yield($SaveSelection/Control/MultipleChoicePrompt.show_prompt(difficulties, "Select difficulty for new game", Data.data["damage_values"]["difficulty"].keys().find("0")), "completed")
+		if prompt_result == null:
+			state = STATES.SAVE_SELECTION
+			return
+		print("difficulty | ", int(Data.data["damage_values"]["difficulty"].keys()[prompt_result]))
+		saveGame_to_load.set_data_key(["difficulty", "level"], int(Data.data["damage_values"]["difficulty"].keys()[prompt_result]))
+		saveGame_to_load.save_file()
 	
 	$Overlay/ColorRect.color = Color(0, 0, 0, 0)
 	$Overlay/ColorRect.visible = true
@@ -201,7 +224,7 @@ func save_option_pressed(option: int):
 	$Tween.start()
 	yield(Global.wait(0.31, true), "completed")
 	
-	Loader.load_savegame($SaveSelection/SaveContainer.get_child(option).saveGame)
+	Loader.load_savegame(saveGame_to_load)
 	
 	visible = false
 #	for child in get_children():

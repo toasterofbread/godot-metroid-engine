@@ -50,6 +50,7 @@
 		"map_zoom_out": {"type": "input", "default": null},
 	},
 	"other": {
+		"controller_vibration_strength": {"type": "percentage", "default": 1.0},
 		"language": {"type": "string", "default": 0},
 	},
 }

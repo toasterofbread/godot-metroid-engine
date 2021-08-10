@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://engine/scenes/ui/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://engine/fonts/SerpentineDBol.ttf" type="DynamicFontData" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=13]
 [ext_resource path="res://engine/scenes/ui/button_icon/ButtonIcon.tscn" type="PackedScene" id=14]
 [ext_resource path="res://engine/sprites/ui/button_prompt/keyboard/keys/BACKSPACE.png" type="Texture" id=15]
+[ext_resource path="res://engine/scenes/ui/multiple_choice_prompt/MultipleChoicePrompt.tscn" type="PackedScene" id=16]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -362,9 +363,12 @@ __meta__ = {
 }
 
 [node name="SaveSelection" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -1.68179
+margin_top = 1.68179
+margin_right = -1.68176
+margin_bottom = 1.68176
 mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -374,7 +378,7 @@ __meta__ = {
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -1000.0
+margin_left = -1193.0
 margin_bottom = -119.0
 custom_constants/separation = 119
 alignment = 1
@@ -386,21 +390,21 @@ __meta__ = {
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 114.0
-margin_right = 1000.0
+margin_right = 1193.0
 margin_bottom = 279.0
 
 [node name="SaveGameInfoDisplay2" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 398.0
-margin_right = 1000.0
+margin_right = 1193.0
 margin_bottom = 563.0
 
 [node name="SaveGameInfoDisplay3" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 682.0
-margin_right = 1000.0
+margin_right = 1193.0
 margin_bottom = 847.0
 
 [node name="ButtonPrompts" type="HBoxContainer" parent="SaveSelection"]
@@ -432,7 +436,26 @@ default_text = "titlescreen_button_delete_file"
 default_action_key = "ui_special_2"
 hold_time = 3
 
+[node name="Control" type="Control" parent="SaveSelection"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+rect_scale = Vector2( 2, 2 )
+
+[node name="MultipleChoicePrompt" parent="SaveSelection/Control" instance=ExtResource( 16 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -265.0
+margin_top = -102.0
+margin_right = 266.0
+margin_bottom = 102.0
+size_flags_horizontal = 4
+
 [node name="Settings" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true

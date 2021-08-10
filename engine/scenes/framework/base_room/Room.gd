@@ -121,4 +121,5 @@ func save():
 signal earthquake
 func earthquake(center: Vector2, strength: float, duration):
 	emit_signal("earthquake", center, strength)
+	Shortcut.vibrate_controller(strength, duration)
 	Global.shake_camera(Loader.Samus.camera, Vector2.ZERO, strength*10, duration)

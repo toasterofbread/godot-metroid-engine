@@ -16,8 +16,10 @@ settings_value_input_joypad,Joypad:,JP Joypad:
 settings_value_input_keyboard,Keyboard:,JP Keyboard:
 buttongetter_main_text,Press a key to assign to action:,JP Press a key to assign to action: UI Accept
 buttongetter_time_remaining,Time remaining:,JP Time remaining:
-titlescreen_playtime_text,Time:,sgdas
-titlescreen_completion_text,Completion:,dsdasdas
+titlescreen_playtime_text,Time,sgdas
+titlescreen_completion_text,Completion,dsdasdas
+titlescreen_difficulty_text,Difficulty,JP Difficulty:
+titlescreen_created_date_text,Created,Created:
 titlescreen_savefile_empty,Empty,JPEmpty
 titlescreen_button_load_file,Load file,JP Load file
 titlescreen_button_copy_file,Copy file,JP Copy file
@@ -50,3 +52,8 @@ upgradestation_create,Create,JP Create
 upgradestation_cancel,Cancel,JP Cancel
 deathscreen_reloadsave,Return to save point,JP Return to save point
 deathscreen_exit,Exit to title screen,JP Exit to title screen
+multiplechoiceprompt_button_select,Select,JP Select
+multiplechoiceprompt_button_cancel,Cancel,JP Cancel
+difficulty_-1,Easy,JP Easy
+difficulty_0,Normal,JP Normal
+difficulty_1,Hard,JP Hard

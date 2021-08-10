@@ -163,33 +163,14 @@ func load_value():
 	return ret
 
 func save_value():
-	if option_data["type"] == "string":
-		Settings.set_split(category, option, option_data["data"][current_value])
-	else:
-		Settings.set_split(category, option, current_value)
-		if option_data["type"] == "input":
-			Shortcut.update_control_mappings(option)
+	if option_data["type"] == "input":
+		Shortcut.update_control_mappings(option)
+	Settings.set_split(category, option, Settings.get_value_as_saveable(current_value, option_data))
 	
 	$Background.color = background_colour
 
 func reset_value():
-	if option_data["type"] == "input":
-		current_value.clear()
-#		for event in InputMap.get_action_list(option):
-		for event in ProjectSettings.get_setting("input/" + option)["events"]:
-			
-			if event.get_class() in ["InputEventKey", "InputEventMouseButton"] and not "keyboard" in current_value:
-				current_value["keyboard"] = {"type": event.get_class()}
-				if event is InputEventKey:
-					current_value["keyboard"]["scancode"] = event.scancode
-				else:
-					current_value["keyboard"]["button_index"] = event.button_index
-			elif event is InputEventJoypadButton and not "joypad" in current_value:
-				current_value["joypad"] = {"type": event.get_class(), "button_index": event.button_index}
-			if len(current_value) == 2:
-				break
-	else:
-		current_value = option_data["default"]
+	current_value = Settings.get_default_of_option(option, option_data)
 	$Background.color = background_colour
 	if current:
 		update_value_label()

@@ -27,7 +27,7 @@ _global_script_classes=[ {
 "base": "Control",
 "class": "ButtonGetter",
 "language": "GDScript",
-"path": "res://engine/scenes/ui/button_getter/ButtonGetter.gd"
+"path": "res://engine/scenes/ui/button_selection_prompt/ButtonSelectionPrompt.gd"
 }, {
 "base": "TextureRect",
 "class": "ButtonIcon",
@@ -119,6 +119,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://engine/scenes/ui/map/MapTile.gd"
 }, {
+"base": "PanelContainer",
+"class": "MultipleChoicePrompt",
+"language": "GDScript",
+"path": "res://engine/scenes/ui/multiple_choice_prompt/MultipleChoicePrompt.gd"
+}, {
 "base": "AnimatedSprite",
 "class": "PositionalAnimatedSprite",
 "language": "GDScript",
@@ -179,6 +184,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://engine/classes/SaveGame.gd"
 }, {
+"base": "Container",
+"class": "ScaleContainer",
+"language": "GDScript",
+"path": "res://engine/classes/ScaleContainer.gd"
+}, {
 "base": "Node2D",
 "class": "ScanNode",
 "language": "GDScript",
@@ -227,6 +237,7 @@ _global_script_class_icons={
 "LocalizationPlaceholders": "",
 "MapChunk": "",
 "MapTile": "",
+"MultipleChoicePrompt": "",
 "PositionalAnimatedSprite": "",
 "Room": "",
 "SamusAnimation": "",
@@ -239,6 +250,7 @@ _global_script_class_icons={
 "SamusVisor": "",
 "SamusWeapon": "",
 "SaveGame": "",
+"ScaleContainer": "",
 "ScanNode": "",
 "SoundManager": "",
 "SpriteTrailEmitter": "",
@@ -267,12 +279,12 @@ vOverlay="*res://addons/Var_Overlay/overlay.gd"
 Notification="*res://engine/scenes/ui/notification_display/NotificationDisplay.tscn"
 Global="*res://engine/classes/autoload/Global.tscn"
 Enums="*res://engine/classes/autoload/Enums.gd"
+Shortcut="*res://engine/classes/autoload/Shortcut.gd"
 Settings="*res://engine/classes/autoload/Settings.gd"
 Data="*res://engine/classes/autoload/Data.gd"
 Audio="*res://engine/classes/autoload/Audio.gd"
 Loader="*res://engine/classes/autoload/Loader.gd"
 Map="*res://engine/classes/autoload/Map.gd"
-Shortcut="*res://engine/classes/autoload/Shortcut.gd"
 Console="*res://addons/quentincaffeino/console/src/Console.tscn"
 
 [debug]
@@ -310,7 +322,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "json" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/SingletonScriptsShortcut/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/SingletonScriptsShortcut/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/localization_editor/plugin.cfg", "res://addons/quentincaffeino/console/plugin.cfg" )
 
 [gdnative]
 
@@ -354,7 +366,7 @@ wav={
 ui_accept={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"unicode":0,"echo":false,"script":null)
-, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 ui_select={

@@ -63,7 +63,7 @@ func init(animate: bool):
 		
 		var menuItem: Control = MenuItem.instance()
 		menuItem.connect("current_set", self, "menu_item_current_set")
-		menuItem.init(data, category, null, value_label, top_buttonicon, bottom_buttonicon, $ButtonGetter)
+		menuItem.init(data, category, null, value_label, top_buttonicon, bottom_buttonicon, $ButtonSelectionPrompt)
 		
 		if animate:
 			menuItem.visible = false
@@ -200,7 +200,7 @@ func category_item_selected(index: int):
 		var menuItem: Control = MenuItem.instance()
 		menuItem.visible = false
 		menuItem.connect("current_set", self, "menu_item_current_set")
-		menuItem.init(data, current_category, option, value_label, top_buttonicon, bottom_buttonicon, $ButtonGetter)
+		menuItem.init(data, current_category, option, value_label, top_buttonicon, bottom_buttonicon, $ButtonSelectionPrompt)
 		ItemContainer.add_child(menuItem)
 		if i == selected_item:
 			menuItem.set_current(true, false)
@@ -215,7 +215,7 @@ func category_item_selected(index: int):
 	transitioning = false
 
 
-func _on_ButtonGetter_status_changed(shown: bool):
+func _on_ButtonSelectionPrompt_status_changed(shown: bool):
 	for buttonPrompt in [confirm_button, cancel_button, save_button, reset_button]:
 		buttonPrompt.pause_mode = PAUSE_MODE_PROCESS
 		buttonPrompt.set_visibility(!shown, true)

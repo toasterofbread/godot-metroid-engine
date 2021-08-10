@@ -798,6 +798,11 @@
 					"description": "Various tweaks, including language",
 					"options": [
 						{
+							"key": "controller_vibration_strength",
+							"title": "Controller vibration strength",
+							"description": "If above 0, controller vibration will be enabled at the set strength."
+						},
+						{
 							"key": "language",
 							"title": "Language",
 							"description": "Pretty self-explanatory",

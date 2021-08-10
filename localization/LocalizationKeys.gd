@@ -22,6 +22,8 @@ const buttongetter_main_text = "buttongetter_main_text"
 const buttongetter_time_remaining = "buttongetter_time_remaining"
 const titlescreen_playtime_text = "titlescreen_playtime_text"
 const titlescreen_completion_text = "titlescreen_completion_text"
+const titlescreen_difficulty_text = "titlescreen_difficulty_text"
+const titlescreen_created_date_text = "titlescreen_created_date_text"
 const titlescreen_savefile_empty = "titlescreen_savefile_empty"
 const titlescreen_button_load_file = "titlescreen_button_load_file"
 const titlescreen_button_copy_file = "titlescreen_button_copy_file"
@@ -54,6 +56,11 @@ const upgradestation_create = "upgradestation_create"
 const upgradestation_cancel = "upgradestation_cancel"
 const deathscreen_reloadsave = "deathscreen_reloadsave"
 const deathscreen_exit = "deathscreen_exit"
+const multiplechoiceprompt_button_select = "multiplechoiceprompt_button_select"
+const multiplechoiceprompt_button_cancel = "multiplechoiceprompt_button_cancel"
+const difficulty_-1 = "difficulty_-1"
+const difficulty_0 = "difficulty_0"
+const difficulty_1 = "difficulty_1"
 
 const KEYS = [
  "VALIDITY_TEST",
@@ -75,6 +82,8 @@ const KEYS = [
  "buttongetter_time_remaining",
  "titlescreen_playtime_text",
  "titlescreen_completion_text",
+ "titlescreen_difficulty_text",
+ "titlescreen_created_date_text",
  "titlescreen_savefile_empty",
  "titlescreen_button_load_file",
  "titlescreen_button_copy_file",
@@ -106,5 +115,10 @@ const KEYS = [
  "upgradestation_create",
  "upgradestation_cancel",
  "deathscreen_reloadsave",
- "deathscreen_exit"
+ "deathscreen_exit",
+ "multiplechoiceprompt_button_select",
+ "multiplechoiceprompt_button_cancel",
+ "difficulty_-1",
+ "difficulty_0",
+ "difficulty_1"
 ]
