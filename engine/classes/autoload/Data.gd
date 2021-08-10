@@ -12,17 +12,17 @@ var data: Dictionary
 
 func _ready():
 	
+	Settings.connect("settings_changed", self, "settings_changed")
 	var engine_config: Dictionary = Global.load_json("res://engine_config.json")
 	var user_dir_override = engine_config["user_dir_override"]
 	user_dir_path = "user://" if user_dir_override == null else user_dir_override
 	
-	yield(Settings, "loaded")
-	language_code = Settings.get("other/language")
-	Settings.connect("settings_changed", self, "settings_changed")
+	var settings_information = Global.load_json(data_path + "static/settings_information.json")
+	data = {"settings_information": settings_information}
+	language_code = yield(Settings, "language_loaded")
 	update_language()
 	
 	# Format settings data
-	var settings_information = Global.load_json(data_path + "static/settings_information.json")
 	var settings_text_information = get_cdb_sheet("settings_information")
 	for group in settings_text_information:
 		settings_text_information[group]["options"] = format_cdb_dict(settings_text_information[group]["options"])

@@ -21,12 +21,14 @@ func _ready():
 	else:
 		for file in Global.iterate_directory(dir):
 			if dir.dir_exists(file):
-				joypad_icons[file] = Global.dir2dict(ButtonIcon.icons_directory + file + "/", Global.DIR2DICT_MODES.NESTED, null, ["png"])
-
+				joypad_icons[file] = Global.dir2dict(ButtonIcon.icons_directory + file + "/", Global.DIR2DICT_MODES.NESTED, null, null)
+	
+	yield(Data, "loaded")
 	var settings_data: Dictionary = Data.data["settings_information"]["visuals"]["options"]["joypad_button_icon_style"]
 	settings_data["type"] = "string"
 	settings_data["data"] = joypad_icons.keys()
 	
+	yield(Settings, "loaded")
 	update_control_mappings()
 
 func update_control_mappings(action_key=null):
@@ -44,6 +46,7 @@ func update_control_mappings(action_key=null):
 					event = InputEventMouseButton.new()
 				"InputEventKey":
 					event = InputEventKey.new()
+			event.device = -1
 			for property in event_data:
 				if property != "type":
 					event.set(property, event_data[property])
@@ -176,3 +179,10 @@ func process_debug_shortcuts():
 
 func update_button_icons():
 	emit_signal("update_button_icons")
+
+func vibrate_controller(strength: float, duration: float):
+	strength *= Settings.get("other/controller_vibration_strength")
+	if strength <= 0.0:
+		return
+	for joypad in Input.get_connected_joypads():
+		Input.start_joy_vibration(joypad, strength, strength, duration)

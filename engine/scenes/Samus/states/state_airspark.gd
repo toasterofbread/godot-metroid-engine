@@ -97,7 +97,7 @@ func samus_landed():
 func can_airspark() -> bool:
 	if not Samus.is_upgrade_active(Enums.Upgrade.AIRSPARK) or hud_meter.full_segments <= 0:
 		return false
-	elif Samus.current_state.id in ["run", "crouch", "neutral"]:
+	elif Samus.is_on_floor() and Samus.current_state.id in ["run", "crouch", "neutral", "morphball"]:
 		if not physics_data["can_airspark_while_grounded"]:
 			return false
 		if Samus.current_state.id != "neutral":

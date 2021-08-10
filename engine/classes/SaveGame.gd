@@ -75,10 +75,11 @@ const default_data: Dictionary = {
 		"recorded_entries": ["POWERSUIT", "POWERBEAM"]
 	},
 	"difficulty": {
-		"level": 1
+		"level": 0
 	},
 	"statistics": {
 		"playtime": (5*60*60) + (43*60) + 27,
+		"creation_date": null
 	}
 }
 
@@ -104,10 +105,9 @@ func load_file():
 	var file = Global.load_json(filename)
 	file_exists = file != null
 	
-	# DEBUG | This is set to always use the default data
-	if not file_exists or true:
-		data = default_data
-#		save_file()
+	if not file_exists:
+		data = default_data.duplicate()
+		data["statistics"]["creation_date"] = OS.get_unix_time()
 	else:
 		data = file
 	

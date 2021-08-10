@@ -1,4 +1,18 @@
 {
+	"difficulty": {
+		"-1": {
+			"incoming_damage_multiplier": 0.75,
+			"outgoing_damage_multiplier": 1.5,
+		},
+		"0": {
+			"incoming_damage_multiplier": 1.0,
+			"outgoing_damage_multiplier": 1.0,
+		},
+		"1": {
+			"incoming_damage_multiplier": 2.0,
+			"outgoing_damage_multiplier": 0.5,
+		},
+	},
 	"samus": {
 		"weapons": {
 			"missile": {

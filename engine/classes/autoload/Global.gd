@@ -194,7 +194,9 @@ func load_json(path: String):
 
 func save_json(path: String, data, pretty: bool = false):
 	var f = File.new()
-	f.open(path, File.WRITE)
+	var error: int = f.open(path, File.WRITE)
+	if error != OK:
+		print(error)
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
 	f.close()
 
@@ -314,14 +316,15 @@ func dir2dict(path: String, mode: int = DIR2DICT_MODES.NESTED, allowed_files = n
 				var layer_data: Dictionary = dir2dict(path + file + "/", mode, allowed_files, allowed_extensions, top_path)
 				for key in layer_data:
 					data[key] = layer_data[key]
-			
-		elif not file.ends_with(".import") and (allowed_files == null or file in allowed_files) and (allowed_extensions == null or file.split(".")[1] in allowed_extensions):
-			var key: String
-			match mode:
-				DIR2DICT_MODES.NESTED: key = file.split(".")[0]
-				DIR2DICT_MODES.SINGLE_LAYER_DIR: key = path.trim_prefix(top_path)
-				DIR2DICT_MODES.SINGLE_LAYER_FILE: key = path.trim_prefix(top_path) + file.split(".")[0]
-			data[key.trim_suffix("/")] = path + file
+		else:
+			file = file.trim_suffix(".import")
+			if (allowed_files == null or file in allowed_files) and (allowed_extensions == null or file.split(".")[1] in allowed_extensions):
+				var key: String
+				match mode:
+					DIR2DICT_MODES.NESTED: key = file.split(".")[0]
+					DIR2DICT_MODES.SINGLE_LAYER_DIR: key = path.trim_prefix(top_path)
+					DIR2DICT_MODES.SINGLE_LAYER_FILE: key = path.trim_prefix(top_path) + file.split(".")[0]
+				data[key.trim_suffix("/")] = path + file
 	
 	return ret
 
@@ -363,3 +366,6 @@ func clamp_vector2(value: Vector2, _minimum, _maximum) -> Vector2:
 			_maximum.x if _maximum is Vector2 else _maximum
 		)
 	return value
+
+func get_date_as_string(datetime: Dictionary = OS.get_datetime()):
+	return str(datetime["day"]) + "/" + str(datetime["month"]) + "/" + str(datetime["year"])

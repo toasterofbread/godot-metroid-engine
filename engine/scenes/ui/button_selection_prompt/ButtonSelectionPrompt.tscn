@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://engine/scenes/ui/button_getter/ButtonGetter.gd" type="Script" id=1]
+[ext_resource path="res://engine/scenes/ui/button_selection_prompt/ButtonSelectionPrompt.gd" type="Script" id=1]
 [ext_resource path="res://engine/fonts/Pixeled.tres" type="DynamicFont" id=2]
 
-[node name="ButtonGetter" type="ColorRect"]
+[node name="ButtonSelectionPrompt" type="ColorRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0, 0, 0, 0.941176 )
@@ -47,5 +47,4 @@ one_shot = true
 
 [node name="Tween" type="Tween" parent="."]
 
-[connection signal="status_changed" from="." to="." method="_on_ButtonGetter_status_changed"]
 [connection signal="timeout" from="TimeoutTimer" to="." method="_on_TimeoutTimer_timeout"]

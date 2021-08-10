@@ -18,7 +18,6 @@ var rooms: Dictionary = {}
 var map_data_regenerated: bool = false
 
 func _ready():
-	
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
 	# Register all rooms to the dictionary by ID
@@ -28,6 +27,11 @@ func _ready():
 	rooms = Global.combine_dicts(room_dirs)
 	
 	register_commands()
+	
+	var dir: Directory = Directory.new()
+	if not dir.dir_exists(get_savefile_path(-1)):
+		dir.make_dir_recursive(get_savefile_path(-1))
+	
 #	regenerate_all_map_data()
 
 # DEBUG
@@ -47,7 +51,7 @@ func load_savegame(saveGame: SaveGame):
 	room_container.add_child(current_room)
 	room_container.add_child(Samus)
 	
-	current_room.save_stations[save_point["save_station_id"]].spawn_samus()
+	current_room.save_stations[int(save_point["save_station_id"])].spawn_samus()
 	
 	emit_signal("room_loaded")
 	if not loaded_save.file_exists:
@@ -222,4 +226,7 @@ func kill_game():
 	get_tree().quit()
 
 func get_savefile_path(index: int) -> String:
-	return Data.get_from_user_dir("/saves/save_" + str(index + 1) + ".json")
+	if index < 0:
+		return Data.get_from_user_dir("/saves/")
+	else:
+		return Data.get_from_user_dir("/saves/save_" + str(index + 1) + ".json")
