@@ -1,16 +1,34 @@
 {
 	"difficulty": {
 		"-1": {
-			"incoming_damage_multiplier": 0.75,
-			"outgoing_damage_multiplier": 1.5,
+			"incoming_damage_multiplier": {"value": 0.75, "type": "percentage", "hidden": false},
+			"outgoing_damage_multiplier": {"value": 1.5, "type": "percentage", "hidden": false},
+			"can_be_changed": {"value": true, "type": "bool_yesno", "hidden": false},
+			"locked": {"value": false, "hidden": true}
 		},
 		"0": {
-			"incoming_damage_multiplier": 1.0,
-			"outgoing_damage_multiplier": 1.0,
+			"incoming_damage_multiplier": {"value": 1.0, "type": "percentage", "hidden": false},
+			"outgoing_damage_multiplier": {"value": 1.0, "type": "percentage", "hidden": false},
+			"can_be_changed": {"value": true, "type": "bool_yesno", "hidden": false},
+			"locked": {"value": false, "hidden": true}
 		},
 		"1": {
-			"incoming_damage_multiplier": 2.0,
-			"outgoing_damage_multiplier": 0.5,
+			"incoming_damage_multiplier": {"value": 2.0, "type": "percentage", "hidden": false},
+			"outgoing_damage_multiplier": {"value": 0.75, "type": "percentage", "hidden": false},
+			"can_be_changed": {"value": false, "type": "bool_yesno", "hidden": false},
+			"locked": {"value": false, "hidden": true}
+		},
+		"2": {
+			"incoming_damage_multiplier": {"value": 3.5, "type": "percentage", "hidden": false},
+			"outgoing_damage_multiplier": {"value": 0.5, "type": "percentage", "hidden": false},
+			"can_be_changed": {"value": false, "type": "bool_yesno", "hidden": false},
+			"locked": {"value": true, "hidden": true}
+		},
+		"3": {
+			"ohko_samus": {"value": true, "type": "hidden", "hidden": false},
+			"ohko_enemies": {"value": true, "type": "hidden", "hidden": false},
+			"can_be_changed": {"value": false, "type": "bool_yesno", "hidden": false},
+			"locked": {"value": true, "hidden": true}
 		},
 	},
 	"samus": {

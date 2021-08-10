@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndBallBounce.wav-5c222427f8546509d9731384daced0e0.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/state_morphball/sndBallBounce.wav"
+dest_files=[ "res://.import/sndBallBounce.wav-5c222427f8546509d9731384daced0e0.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

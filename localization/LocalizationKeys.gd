@@ -59,8 +59,26 @@ const deathscreen_exit = "deathscreen_exit"
 const multiplechoiceprompt_button_select = "multiplechoiceprompt_button_select"
 const multiplechoiceprompt_button_cancel = "multiplechoiceprompt_button_cancel"
 const difficulty_-1 = "difficulty_-1"
+const difficulty_description_-1 = "difficulty_description_-1"
 const difficulty_0 = "difficulty_0"
+const difficulty_description_0 = "difficulty_description_0"
 const difficulty_1 = "difficulty_1"
+const difficulty_description_1 = "difficulty_description_1"
+const difficulty_2 = "difficulty_2"
+const difficulty_description_2 = "difficulty_description_2"
+const difficulty_3 = "difficulty_3"
+const difficulty_description_3 = "difficulty_description_3"
+const difficulty_cannot_change = "difficulty_cannot_change"
+const difficulty_can_change = "difficulty_can_change"
+const difficulty_incoming_damage_multiplier = "difficulty_incoming_damage_multiplier"
+const difficulty_outgoing_damage_multiplier = "difficulty_outgoing_damage_multiplier"
+const difficulty_can_be_changed = "difficulty_can_be_changed"
+const difficulty_ohko_samus = "difficulty_ohko_samus"
+const difficulty_ohko_enemies = "difficulty_ohko_enemies"
+const value_bool_yesno_true = "value_bool_yesno_true"
+const value_bool_yesno_false = "value_bool_yesno_false"
+const value_bool_onoff_true = "value_bool_onoff_true"
+const value_bool_onoff_false = "value_bool_onoff_false"
 
 const KEYS = [
  "VALIDITY_TEST",
@@ -119,6 +137,24 @@ const KEYS = [
  "multiplechoiceprompt_button_select",
  "multiplechoiceprompt_button_cancel",
  "difficulty_-1",
+ "difficulty_description_-1",
  "difficulty_0",
- "difficulty_1"
+ "difficulty_description_0",
+ "difficulty_1",
+ "difficulty_description_1",
+ "difficulty_2",
+ "difficulty_description_2",
+ "difficulty_3",
+ "difficulty_description_3",
+ "difficulty_cannot_change",
+ "difficulty_can_change",
+ "difficulty_incoming_damage_multiplier",
+ "difficulty_outgoing_damage_multiplier",
+ "difficulty_can_be_changed",
+ "difficulty_ohko_samus",
+ "difficulty_ohko_enemies",
+ "value_bool_yesno_true",
+ "value_bool_yesno_false",
+ "value_bool_onoff_true",
+ "value_bool_onoff_false"
 ]

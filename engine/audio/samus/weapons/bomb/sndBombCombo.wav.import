@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndBombCombo.wav-27dc6f5b32ae9cc78099d68d382e8fbe.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/weapons/bomb/sndBombCombo.wav"
+dest_files=[ "res://.import/sndBombCombo.wav-27dc6f5b32ae9cc78099d68d382e8fbe.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

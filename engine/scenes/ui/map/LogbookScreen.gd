@@ -44,7 +44,7 @@ func update_group():
 		node.text = data.values()[current_group][key]["name"]
 
 func process():
-	var pad_y: int = Shortcut.get_pad_vector("just_pressed").y
+	var pad_y: int = InputManager.get_pad_vector("just_pressed").y
 	
 	var pad_x: int = 0
 	if Input.is_action_just_pressed($List/ButtonIcons/Previous.action_key):

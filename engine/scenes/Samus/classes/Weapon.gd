@@ -81,7 +81,7 @@ func ready():
 func projectile_physics_process(_projectile, _colliding_bodies, _delta: float):
 	pass
 
-func get_fire_object(_pos: Position2D, _chargebeam_damage_multiplier):
+func get_fire_object(_pos: SamusCannonPosition, _chargebeam_damage_multiplier):
 	return null
 
 func fired(_projectile):

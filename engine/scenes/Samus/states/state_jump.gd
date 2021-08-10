@@ -3,6 +3,7 @@ extends SamusState
 var Animator: Node
 var Physics: Node
 var animations: Dictionary
+var sounds: Dictionary
 var physics_data: Dictionary
 
 const damage_type: int = Enums.DamageType.SCREWATTACK
@@ -33,17 +34,12 @@ const WalljumpPeriod: float = 0.075
 var PowergripCooldownTimer: Timer = Global.get_timer()
 var powergrip_cooldown: float = 0.25
 
-var sounds = {
-	"jump": Audio.get_player("/samus/jump/sndJump", Audio.TYPE.SAMUS),
-	"walljump": Audio.get_player("/samus/jump/sndWallJump", Audio.TYPE.SAMUS),
-	"land": Audio.get_player("/samus/jump/sndLand", Audio.TYPE.SAMUS),
-}
-var sounds_spin = {
-	"spin": Audio.get_player("/samus/jump/sndSpinJump", Audio.TYPE.SAMUS),#.set_loop(-1),
-	"spin_space": Audio.get_player("/samus/jump/sndSpaceJump", Audio.TYPE.SAMUS),#.set_loop(-1),
-	"spin_screw": Audio.get_player("/samus/jump/sndScrewAttack", Audio.TYPE.SAMUS),#.set_loop(-1),
-	"spin_space_screw": Audio.get_player("/samus/jump/sndSpaceScrewAttack", Audio.TYPE.SAMUS),#.set_loop(-1),
-}
+const sounds_spin: Array = [
+	"sndSpinJump",
+	"sndSpaceJump",
+	"sndScrewAttack",
+	"sndSpaceScrewAttack",
+]
 
 # Called during Samus's readying period
 func _init(_Samus: Node2D, _id: String).(_Samus, _id):
@@ -77,7 +73,7 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	if "jump" in options:
 		if not spinning:
 			animations["legs_start"].play()
-			sounds["jump"].play()
+			sounds["sndJump"].play()
 		jump_current_time = jump_time
 		Physics.move_y(-jump_speed, jump_acceleration*(1/60))
 	if "fall" in options and not spinning:
@@ -90,7 +86,7 @@ func process(_delta: float):
 	
 	var play_transition = false
 	var original_spinning = spinning
-	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
+	var pad_vector: Vector2 = InputManager.get_pad_vector("pressed")
 	
 	Samus.set_hurtbox_damage(id, damage_type, damage_amount if (Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK) and spinning) else null)
 	
@@ -109,7 +105,6 @@ func process(_delta: float):
 		return
 	
 	if Samus.is_on_floor() and not Animator.transitioning(false, true) and not first_frame:
-		sounds["land"].play()
 		change_state("neutral")
 		return
 	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true) and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
@@ -154,12 +149,12 @@ func process(_delta: float):
 		elif (Samus.aiming != Samus.aim.SKY or Input.is_action_just_released("secondary_pad_up")) and (Samus.aiming != Samus.aim.FLOOR or Input.is_action_just_released("secondary_pad_down")):
 			Samus.aiming = Samus.aim.FRONT
 	
-	var shortcut_facing = Shortcut.get_facing()
+	var shortcut_facing = InputManager.get_facing()
 	if shortcut_facing != null and shortcut_facing != Samus.facing:
 		Samus.facing = shortcut_facing
 		play_transition = true
 	
-	var shortcut_aiming = Shortcut.get_aiming(Samus)
+	var shortcut_aiming = InputManager.get_aiming(Samus)
 	if shortcut_aiming != null:
 		Samus.aiming = shortcut_aiming
 	
@@ -203,19 +198,14 @@ func play_animation(play_transition):
 			if not Animator.transitioning(true, true) and Samus.aiming != Samus.aim.FLOOR:
 				animations["legs"].play(true)
 		elif not Animator.transitioning(false, true):
-			
-			var spin_animation = "spin_space" if Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP) else "spin"
-			animations[spin_animation].play(true)
-			if sounds_spin[spin_animation].status != AudioPlayer.STATE.PLAYING:
-				sounds_spin[spin_animation].play()
-			
+			animations["spin_space" if Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP) else "spin"].play(true)
 			if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK):
 				animations["spin_screw_overlay"].play(true)
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-	for sound in sounds_spin.values():
-		sound.stop()
+	for sound in sounds_spin:
+		sounds[sound].stop()
 	if new_state_key != "morphball":
 		Samus.boosting = false
 	grip_above_raycast.enabled = false
@@ -227,7 +217,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 func physics_process(delta: float):
 	
-	var pad_x = Shortcut.get_pad_vector("pressed").x
+	var pad_x = InputManager.get_pad_vector("pressed").x
 	
 	if Samus.is_upgrade_active(Enums.Upgrade.POWERGRIP) and pad_x == (1 if Samus.facing == Enums.dir.RIGHT else -1):
 		
@@ -275,10 +265,10 @@ func physics_process(delta: float):
 		if Input.is_action_just_pressed("jump"):
 			if walljump_raycasts[Enums.dir.RIGHT].is_colliding() and Input.is_action_pressed("pad_right"):
 				jump_current_time = jump_time
-				sounds["walljump"].play()
+				sounds["sndWallJump"].play()
 			elif walljump_raycasts[Enums.dir.LEFT].is_colliding() and Input.is_action_pressed("pad_left"):
 				jump_current_time = jump_time
-				sounds["walljump"].play()
+				sounds["sndWallJump"].play()
 			elif Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP) and Physics.vel.y > 0:
 				jump_current_time = jump_time
 		
@@ -348,14 +338,20 @@ func set_spinning(value: bool):
 		return
 	spinning = value
 	
-	if spinning and Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP):
+	var spacejump_active: bool = Samus.is_upgrade_active(Enums.Upgrade.SPACEJUMP)
+	if spinning and spacejump_active:
 		Animator.SpriteContainer.current_profile = "spacejump"
 	else:
 		Animator.SpriteContainer.current_profile = null
 	
 	if not spinning:
-		for sound in sounds_spin.values():
-			sound.stop()
+		for sound in sounds_spin:
+			sounds[sound].stop()
+	else:
+		if Samus.is_upgrade_active(Enums.Upgrade.SCREWATTACK):
+			sounds["sndSpaceScrewAttack" if spacejump_active else "sndScrewAttack"].play()
+		else:
+			sounds["sndSpaceJump" if spacejump_active else "sndSpinJump"].play()
 	
 	grip_raycast_container.position.y = -14
 #	grip_raycast_container.position.y = -1 if spinning else -14

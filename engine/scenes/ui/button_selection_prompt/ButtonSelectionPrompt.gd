@@ -31,6 +31,7 @@ func get_button(action_key: String):
 	$Tween.interpolate_property(self, "modulate:a", modulate.a, 0.0, 0.2)
 	$Tween.start()
 	yield($Tween, "tween_completed")
+	visible = false
 	
 	get_tree().paused = false
 	return result

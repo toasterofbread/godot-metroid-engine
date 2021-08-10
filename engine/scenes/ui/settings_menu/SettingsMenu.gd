@@ -24,7 +24,7 @@ onready var save_button: ButtonPrompt = get_node(save_button_path)
 onready var reset_button: ButtonPrompt = get_node(reset_button_path)
 
 onready var data: Dictionary = Data.data["settings_information"]
-onready var ItemContainer: VBoxContainer = $Control/ScrollContainer/ItemContainer
+onready var ItemContainer: VBoxContainer = $Control/ScrollContainer/HBoxContainer/ItemContainer
 
 var selected_item: int = 0
 onready var MenuItem: PackedScene = preload("res://engine/scenes/ui/settings_menu/SettingsMenuItem.tscn")
@@ -32,7 +32,6 @@ onready var MenuItem: PackedScene = preload("res://engine/scenes/ui/settings_men
 var transitioning: bool = false
 var current_category = null
 var mouse_mode: bool = false
-
 
 func _ready():
 	
@@ -75,7 +74,7 @@ func init(animate: bool):
 			description_label.text = data[category]["description"]
 		
 		if animate:
-			menuItem.slide(true, (i*0.1) + 0.15)
+			menuItem.slide(true, (i*0.1) + 0.05)
 		i += 1
 
 func menu_item_current_set(menuItem: Control, current: bool, set_by_mouse: bool):
@@ -190,25 +189,30 @@ func category_item_selected(index: int):
 	for menuItem in ItemContainer.get_children():
 		i += 1
 		menuItem.slide(false, i*0.1)
-	yield(Global.wait((i*0.1) + 0.2, true), "completed")
+	yield(Global.wait((i*0.1) + 0.05, true), "completed")
 	for menuItem in ItemContainer.get_children():
 		menuItem.queue_free()
 	
 	i = -1
 	for option in data[current_category]["options"]:
+		
+		if not can_option_be_displayed(data[current_category]["options"][option]):
+			continue
+		
 		i += 1
 		var menuItem: Control = MenuItem.instance()
 		menuItem.visible = false
 		menuItem.connect("current_set", self, "menu_item_current_set")
+		
 		menuItem.init(data, current_category, option, value_label, top_buttonicon, bottom_buttonicon, $ButtonSelectionPrompt)
 		ItemContainer.add_child(menuItem)
 		if i == selected_item:
 			menuItem.set_current(true, false)
 		
 		if i < visible_items:
-			menuItem.slide(true, i*0.1)
+			menuItem.slide(true, i*0.05)
 		else:
-			menuItem.slide(true, 4*0.1)
+			menuItem.slide(true, 4*0.05)
 	
 	emit_signal("category_mode_changed", true)
 	yield(Global.wait(visible_items*0.1, true), "completed")
@@ -223,3 +227,11 @@ func _on_ButtonSelectionPrompt_status_changed(shown: bool):
 func category_mode_changed(category_mode: bool):
 	save_button.set_visibility(category_mode, true)
 	reset_button.set_visibility(category_mode, true)
+
+func can_option_be_displayed(option_data: Dictionary):
+	if "required_settings" in option_data:
+		var required_settings: Dictionary = option_data["required_settings"]
+		for setting_key in required_settings:
+			if str(Settings.get(setting_key)) != str(required_settings[setting_key]):
+				return false
+	return true

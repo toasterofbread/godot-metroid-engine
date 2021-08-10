@@ -379,11 +379,6 @@ tracks/0/keys = {
 
 [sub_resource type="SpriteFrames" id=11]
 animations = [ {
-"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
-"loop": true,
-"name": "PLASMABEAM 0",
-"speed": 15.0
-}, {
 "frames": [ ExtResource( 50 ), ExtResource( 43 ) ],
 "loop": true,
 "name": "WAVEBEAM 1",
@@ -458,6 +453,11 @@ animations = [ {
 "loop": false,
 "name": "CHARGEBEAM 2 start",
 "speed": 30.0
+}, {
+"frames": [ ExtResource( 46 ), ExtResource( 42 ) ],
+"loop": true,
+"name": "PLASMABEAM 0",
+"speed": 15.0
 } ]
 
 [sub_resource type="CircleShape2D" id=12]
@@ -792,7 +792,7 @@ visible = false
 position = Vector2( 1, -1 )
 frames = ExtResource( 2 )
 animation = "run_aim_front_left"
-frame = 8
+frame = 5
 playing = true
 flip_h = true
 script = ExtResource( 4 )
@@ -810,6 +810,7 @@ position = Vector2( 5, 6 )
 rotation = 1.5708
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
+frame = 3
 playing = true
 script = ExtResource( 4 )
 state_key = "shinespark"
@@ -859,6 +860,7 @@ use_parent_material = true
 position = Vector2( -300, 7 )
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
+frame = 3
 playing = true
 flip_h = true
 
@@ -878,6 +880,7 @@ use_parent_material = true
 position = Vector2( -394, -43 )
 frames = ExtResource( 2 )
 animation = "shinespark_boost_fx"
+frame = 3
 playing = true
 flip_h = true
 
@@ -1555,8 +1558,11 @@ pause_mode = 2
 position = Vector2( -2, 2 )
 current = true
 zoom = Vector2( 0.25, 0.25 )
+drag_margin_h_enabled = true
 drag_margin_v_enabled = true
+drag_margin_left = 0.02
 drag_margin_top = 0.02
+drag_margin_right = 0.02
 drag_margin_bottom = 0.02
 script = ExtResource( 5 )
 

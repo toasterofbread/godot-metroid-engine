@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndPBombExpl.wav-a9824c7b7baa7048478fac985fdc92d4.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/weapons/powerbomb/sndPBombExpl.wav"
+dest_files=[ "res://.import/sndPBombExpl.wav-a9824c7b7baa7048478fac985fdc92d4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

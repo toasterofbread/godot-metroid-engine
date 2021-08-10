@@ -196,7 +196,8 @@ func save_json(path: String, data, pretty: bool = false):
 	var f = File.new()
 	var error: int = f.open(path, File.WRITE)
 	if error != OK:
-		print(error)
+		push_error("Error saving json file '" + path + "': " + str(error))
+		return
 	f.store_string(JSON.print(data, "\t" if pretty else ""))
 	f.close()
 
@@ -299,14 +300,17 @@ func combine_dicts(dicts: Array) -> Dictionary:
 	return ret
 
 enum DIR2DICT_MODES {NESTED, SINGLE_LAYER_DIR, SINGLE_LAYER_FILE}
-func dir2dict(path: String, mode: int = DIR2DICT_MODES.NESTED, allowed_files = null, allowed_extensions = null, top_path: String = "") -> Dictionary:
+func dir2dict(path: String, mode: int = DIR2DICT_MODES.NESTED, allowed_files = null, allowed_extensions = null, top_path: String = ""):
 	var ret: Dictionary = {}
 	var data: Dictionary = ret
 	if top_path == "":
 		top_path = path
 	
 	var dir: Directory = Directory.new()
-	assert(dir.open(path) == OK)
+	
+	var error: int = dir.open(path)
+	if error != OK:
+		return error
 	
 	for file in iterate_directory(dir):
 		if dir.dir_exists(file):
@@ -369,3 +373,10 @@ func clamp_vector2(value: Vector2, _minimum, _maximum) -> Vector2:
 
 func get_date_as_string(datetime: Dictionary = OS.get_datetime()):
 	return str(datetime["day"]) + "/" + str(datetime["month"]) + "/" + str(datetime["year"])
+
+func str_remove_all_before_input(string: String, input: String):
+	string.erase(0, string.find(input))
+	return string
+func str_remove_all_after_input(string: String, input: String):
+	string.erase(string.find(input) + len(input), INF)
+	return string

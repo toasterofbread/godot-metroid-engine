@@ -4,7 +4,7 @@ class_name ScaleContainer
 
 export var child_to_scale_with: NodePath
 
-func _process(_delta: float):
+func _process(_delta: float = 0):
 	if has_node(child_to_scale_with):
 		var child: CanvasItem = get_node(child_to_scale_with)
 #		child.set("size" if child is Node2D else "rect_size", Vector2.ZERO)
@@ -16,4 +16,6 @@ func _ready():
 	if Engine.editor_hint:
 		return
 	set_process(false)
-	_process(0)
+	_process()
+	if has_node(child_to_scale_with):
+		get_node(child_to_scale_with).connect("item_rect_changed", self, "_process")

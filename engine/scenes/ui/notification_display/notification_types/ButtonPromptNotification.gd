@@ -6,10 +6,10 @@ func update_size(_value: bool = false):
 	rect_size = rect_min_size
 
 var action_key: String
-func init(text: String, action_key: String, clear):
+func init(text: String, _action_key: String, clear):
+	action_key = _action_key
 	$HBoxContainer/Label.text = text
-	$HBoxContainer/ButtonIcon.action_key = action_key
-	self.action_key = action_key
+	$HBoxContainer/ButtonIcon.set_action_key(action_key)
 	
 	if Notification.left_to_right:
 		var style: StyleBoxFlat = get("custom_styles/panel")

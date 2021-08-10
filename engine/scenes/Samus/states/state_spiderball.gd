@@ -2,11 +2,9 @@ extends SamusState
 
 var Animator: Node
 var Physics: Node
-var animations = {}
+var animations: Dictionary
+var sounds: Dictionary
 var physics_data: Dictionary
-
-#var sounds = {
-#}
 
 var FloorRaycastL: RayCast2D
 var FloorRaycastR: RayCast2D
@@ -30,6 +28,9 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 # Called when Samus's state is changed to this one
 func init_state(_data: Dictionary, _previous_state_id: String):
 	Samus.aiming = Samus.aim.NONE
+	trigger_action = null
+	sounds["sndSBallStart"].play()
+	update_passive_sound()
 	if Samus.is_on_floor():
 		set_floor(Vector2.DOWN)
 
@@ -48,7 +49,7 @@ func process(_delta: float):
 	if Input.is_action_just_pressed("fire_weapon"):
 		Samus.Weapons.fire()
 	
-	var pad_x = Shortcut.get_pad_vector("pressed").x
+	var pad_x = InputManager.get_pad_vector("pressed").x
 	if not attached:
 		if pad_x < 0:
 			Samus.facing = Enums.dir.LEFT
@@ -64,7 +65,7 @@ func process(_delta: float):
 		var anim_speed: = 1.0
 		if attached:
 			if direction == null:
-				direction = get_direction()
+				update_direction()
 			anim_speed = direction * (-1.0 if Samus.facing == Enums.dir.RIGHT else 1.0)
 		else:
 			anim_speed = int(Physics.vel.x != 0)
@@ -78,6 +79,7 @@ func process(_delta: float):
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	set_floor(Vector2.ZERO)
+	sounds["sndSBallLoop"].stop()
 	Animator.resume()
 	.change_state(new_state_key, data)
 
@@ -94,53 +96,59 @@ func set_floor(value: Vector2):
 	
 	FloorRaycastContainer.rotation = FLOOR.rotated(deg2rad(-90)).angle()
 
-var trigger_action
-func get_direction() -> int:
+var trigger_action = null
+func update_direction():
 	
-	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
+	var pad_vector: Vector2 = InputManager.get_pad_vector("pressed")
 	if not Settings.get("control_options/spiderball_relative_controls"):
-		return int(pad_vector.x) * -1
-	
-	var ret: int = 0
+		direction = int(pad_vector.x) * -1
+		update_passive_sound()
+		return
 	
 	if trigger_action != null:
 		if Input.is_action_pressed(trigger_action):
-			return direction
+			return
 		else:
 			trigger_action = null
 	
 	var slope = FLOOR.x != 0 and FLOOR.y != 0
 
+	direction = 0
 	if FLOOR == Vector2.DOWN or FLOOR == Vector2.UP or slope:
 		if pad_vector.x == -1:
 			trigger_action = "pad_left"
-			ret = -1
+			direction = -1
 		elif pad_vector.x == 1:
 			trigger_action = "pad_right"
-			ret = 1
+			direction = 1
 		if FLOOR.y > 0:
-			ret *= -1
-		if ret != 0:
-			return ret
+			direction *= -1
+		if direction != 0:
+			update_passive_sound()
+			return
 	
 	if FLOOR == Vector2.RIGHT or FLOOR == Vector2.LEFT or slope:
 		if pad_vector.y == -1:
 			trigger_action = "pad_up"
-			ret = -1
+			direction = -1
 		elif pad_vector.y == 1:
 			trigger_action = "pad_down"
-			ret = 1
+			direction = 1
 		if FLOOR.x < 0:
-			ret *= -1
-		if ret != 0:
-			return ret
+			direction *= -1
 	
-	return ret
+	update_passive_sound()
+
+func update_passive_sound():
+	if direction == 0:
+		sounds["sndSBallLoop"].stop()
+	elif sounds["sndSBallLoop"].status != AudioPlayer.STATE.PLAYING:
+		sounds["sndSBallLoop"].play()
 
 var direction: int
 func attached_physics_process(delta: float):
 	
-	direction = get_direction()
+	update_direction()
 #	Physics.move(FLOOR.rotated(deg2rad(90))*direction*spider_speed, spider_acceleration*delta)
 #	Physics.vel = FLOOR.rotated(deg2rad(90))*direction*spider_speed
 	
@@ -181,7 +189,7 @@ func physics_process(delta: float):
 	
 	var velocity = Physics.vel*delta
 	if velocity.x == 0:
-		velocity.x = Shortcut.get_pad_x("pressed")
+		velocity.x = InputManager.get_pad_x("pressed")
 	if velocity.y == 0:
 		velocity.y = 1
 	

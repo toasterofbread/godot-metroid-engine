@@ -46,7 +46,7 @@ func collided(body):
 		return
 	
 	if body.has_method("damage"):
-		body.damage(weapon.damage_type, weapon.damage_amount, $Area2D.get_child(0).global_position)
+		body.damage(weapon.damage_type, weapon.damage_amount * Loader.loaded_save.difficulty_data["outgoing_damage_multiplier"], $Area2D.get_child(0).global_position)
 	if body.has_method("attach_grapple"):
 		fire_pos = weapon.get_fire_pos()
 		moving = false

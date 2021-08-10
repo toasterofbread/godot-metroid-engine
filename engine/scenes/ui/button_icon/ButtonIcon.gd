@@ -10,11 +10,11 @@ export var set_icon_on_ready: bool = false
 var keyboard_mode_override = null
 var event_override = null
 
-onready var joypad_icons_key: String = Settings.get("visuals/joypad_button_icon_style")
+var joypad_icons_key#: String
 
 func _ready():
 	Settings.connect("settings_changed", self, "settings_changed")
-	Shortcut.connect("update_button_icons", self, "update_icon")
+	InputManager.connect("update_button_icons", self, "update_icon")
 	
 	if set_icon_on_ready:
 		update_icon()
@@ -33,7 +33,12 @@ func update_icon(icons_to_update=null):
 		assert(false, "Action '" + action_key + "' doesn't seem to exist")
 		return
 	
-	if joypad_icons_key == null or not (icons_to_update == null or action_key in icons_to_update):
+	if joypad_icons_key == null:
+		if Settings.loaded and Settings.get("visuals/joypad_button_icon_style") != null:
+			joypad_icons_key = Settings.get("visuals/joypad_button_icon_style")
+		else:
+			return
+	if not (icons_to_update == null or action_key in icons_to_update):
 		return
 	
 	var events: Array
@@ -54,7 +59,7 @@ func update_icon(icons_to_update=null):
 	else:
 		events = InputMap.get_action_list(action_key)
 	
-	if (Shortcut.using_keyboard and keyboard_mode_override == null) or keyboard_mode_override:
+	if (InputManager.using_keyboard and keyboard_mode_override == null) or keyboard_mode_override:
 		for event in events:
 			var image_key: String
 			var folder_key: String
@@ -68,7 +73,7 @@ func update_icon(icons_to_update=null):
 				continue
 			
 			image_key = image_key.to_upper()
-			var icons: Dictionary = Shortcut.keyboard_icons[folder_key]
+			var icons: Dictionary = InputManager.keyboard_icons[folder_key]
 			if image_key in icons:
 				texture = load(icons[image_key])
 				break
@@ -78,7 +83,7 @@ func update_icon(icons_to_update=null):
 		for event in events:
 			if not event is InputEventJoypadButton:
 				continue
-			var icons: Dictionary = Shortcut.joypad_icons[joypad_icons_key]
+			var icons: Dictionary = InputManager.joypad_icons[joypad_icons_key]
 			if str(event.button_index) in icons:
 				texture = load(icons[str(event.button_index)])
 				break

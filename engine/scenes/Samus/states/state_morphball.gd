@@ -3,25 +3,16 @@ extends SamusState
 var Animator: Node
 var Physics: Node
 var animations: Dictionary
+var sounds: Dictionary
 var physics_data: Dictionary
 
 var CeilingRaycast: RayCast2D
 var particles: Particles2D
 
-const bounce_fall_time: float = 0.5 # The morphball will bounce if it lands after falling for this many seconds
-const bounce_fall_amount: float = 200.0 # The amount to bounce in the above case
-
-# PHYSICS
 var springball_speed: float
 var springball_acceleration: float
 var springball_time: float
 var springball_current_time: float
-
-var sounds = {
-	"morph": Audio.get_player("/samus/morphball/sndMorph", Audio.TYPE.SAMUS),
-	"unmorph": Audio.get_player("/samus/morphball/sndUnMorph", Audio.TYPE.SAMUS),
-	"bounce": Audio.get_player("/samus/morphball/sndBallBounce", Audio.TYPE.SAMUS),
-}
 
 # Called during Samus's readying period
 func _init(_Samus: Node2D, _id: String).(_Samus, _id):
@@ -37,7 +28,7 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	var options = data["options"]
 	if "animate" in options:
 		animations["morph"].play()
-		sounds["morph"].play()
+		sounds["sndMorph"].play()
 	
 	if "jump_current_time" in data:
 		springball_current_time = data["jump_current_time"]
@@ -49,7 +40,7 @@ func init_state(data: Dictionary, _previous_state_id: String):
 func process(_delta: float):
 	
 	var original_facing = Samus.facing
-	var pad_x: int = Shortcut.get_pad_x("pressed")
+	var pad_x: int = InputManager.get_pad_x("pressed")
 	
 	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
@@ -110,7 +101,7 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	particles.emitting = false
 	
 	if new_state_key != "spiderball":
-		sounds["unmorph"].play()
+		sounds["sndUnMorph"].play()
 		Animator.resume()
 	
 	.change_state(new_state_key, data)
@@ -125,9 +116,9 @@ func physics_process(delta: float, spiderball: bool = false):
 	
 	if spiderball:
 		Samus.fall_time = 0.0
-	elif Samus.is_on_floor() and Samus.fall_time > bounce_fall_time:
-		Physics.move_y(-bounce_fall_amount)
-		sounds["bounce"].play()
+	elif Samus.is_on_floor() and Samus.fall_time > physics_data["bounce_fall_time"]:
+		Physics.move_y(-physics_data["bounce_fall_amount"])
+		sounds["sndBallBounce"].play()
 	
 	# Vertical
 	if Samus.is_upgrade_active(Enums.Upgrade.SPRINGBALL):
@@ -147,7 +138,7 @@ func physics_process(delta: float, spiderball: bool = false):
 			springball_current_time = 0
 	
 	# Horizontal
-	var pad_x = Shortcut.get_pad_vector("pressed").x
+	var pad_x = InputManager.get_pad_vector("pressed").x
 	if not Samus.is_on_floor():
 		Physics.move_x(physics_data["air_speed"]*pad_x, (physics_data["air_acceleration"] if pad_x != 0 else physics_data["air_deceleration"])*delta)
 	else:

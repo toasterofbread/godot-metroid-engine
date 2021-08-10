@@ -311,7 +311,7 @@ func is_weapon_equipped(weapon_key: int):
 func _on_SpeedboosterDamageArea_body_entered(body):
 	var shinespark = Samus.states["shinespark"]
 	if body.has_method("damage"):
-		body.damage(shinespark.damage_type, shinespark.damage_amount)
+		body.damage(shinespark.damage_type, shinespark.damage_amount * Loader.loaded_save.difficulty_data["outgoing_damage_multiplier"])
 
 func update_fire_pos():
 	

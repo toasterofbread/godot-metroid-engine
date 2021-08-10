@@ -1,11 +1,26 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenu.gd" type="Script" id=1]
 [ext_resource path="res://engine/scenes/ui/settings_menu/SettingsMenuItem.tscn" type="PackedScene" id=2]
 [ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://engine/scenes/ui/button_selection_prompt/ButtonSelectionPrompt.tscn" type="PackedScene" id=4]
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 1, 1, 1, 0.101961 )
+expand_margin_left = 2.0
+
+[sub_resource type="Theme" id=2]
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/styles/grabber = SubResource( 1 )
+VScrollBar/styles/grabber_highlight = SubResource( 1 )
+VScrollBar/styles/grabber_pressed = SubResource( 1 )
+VScrollBar/styles/scroll = null
+VScrollBar/styles/scroll_focus = null
+
+[sub_resource type="DynamicFont" id=3]
 size = 32
 font_data = ExtResource( 3 )
 
@@ -22,7 +37,7 @@ __meta__ = {
 [node name="Control" type="Control" parent="."]
 margin_left = 716.0
 margin_top = 61.0
-margin_right = 2069.0
+margin_right = 1920.0
 margin_bottom = 826.0
 rect_clip_content = true
 __meta__ = {
@@ -30,18 +45,25 @@ __meta__ = {
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
-margin_left = 160.0
-margin_right = 409.0
+margin_left = 169.0
+margin_right = 387.0
 margin_bottom = 152.0
 rect_scale = Vector2( 5, 5 )
 rect_clip_content = false
+theme = SubResource( 2 )
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ItemContainer" type="VBoxContainer" parent="Control/ScrollContainer"]
-margin_right = 237.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ScrollContainer"]
+margin_right = 206.0
+margin_bottom = 275.0
+size_flags_horizontal = 3
+custom_constants/separation = 0
+
+[node name="ItemContainer" type="VBoxContainer" parent="Control/ScrollContainer/HBoxContainer"]
+margin_right = 199.0
 margin_bottom = 275.0
 size_flags_horizontal = 3
 custom_constants/separation = 12
@@ -49,38 +71,44 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SettingsMenuItem" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
-margin_right = 237.0
+[node name="SettingsMenuItem" parent="Control/ScrollContainer/HBoxContainer/ItemContainer" instance=ExtResource( 2 )]
+margin_right = 199.0
 
-[node name="SettingsMenuItem2" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+[node name="SettingsMenuItem2" parent="Control/ScrollContainer/HBoxContainer/ItemContainer" instance=ExtResource( 2 )]
 margin_top = 41.0
-margin_right = 237.0
+margin_right = 199.0
 margin_bottom = 70.0
 
-[node name="SettingsMenuItem3" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+[node name="SettingsMenuItem3" parent="Control/ScrollContainer/HBoxContainer/ItemContainer" instance=ExtResource( 2 )]
 margin_top = 82.0
-margin_right = 237.0
+margin_right = 199.0
 margin_bottom = 111.0
 
-[node name="SettingsMenuItem4" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+[node name="SettingsMenuItem4" parent="Control/ScrollContainer/HBoxContainer/ItemContainer" instance=ExtResource( 2 )]
 margin_top = 123.0
-margin_right = 237.0
+margin_right = 199.0
 margin_bottom = 152.0
 
-[node name="SettingsMenuItem5" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+[node name="SettingsMenuItem5" parent="Control/ScrollContainer/HBoxContainer/ItemContainer" instance=ExtResource( 2 )]
 margin_top = 164.0
-margin_right = 237.0
+margin_right = 199.0
 margin_bottom = 193.0
 
-[node name="SettingsMenuItem6" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+[node name="SettingsMenuItem6" parent="Control/ScrollContainer/HBoxContainer/ItemContainer" instance=ExtResource( 2 )]
 margin_top = 205.0
-margin_right = 237.0
+margin_right = 199.0
 margin_bottom = 234.0
 
-[node name="SettingsMenuItem7" parent="Control/ScrollContainer/ItemContainer" instance=ExtResource( 2 )]
+[node name="SettingsMenuItem7" parent="Control/ScrollContainer/HBoxContainer/ItemContainer" instance=ExtResource( 2 )]
 margin_top = 246.0
-margin_right = 237.0
+margin_right = 199.0
 margin_bottom = 275.0
+
+[node name="Spacer" type="Control" parent="Control/ScrollContainer/HBoxContainer"]
+margin_left = 199.0
+margin_right = 206.0
+margin_bottom = 275.0
+rect_min_size = Vector2( 7, 0 )
 
 [node name="ValuePanelTemplate" type="ColorRect" parent="."]
 visible = false
@@ -100,7 +128,7 @@ margin_left = 17.0
 margin_top = 15.054
 margin_right = 303.0
 margin_bottom = 85.054
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "Current value: "
 autowrap = true
 __meta__ = {
@@ -112,7 +140,7 @@ margin_left = 17.0
 margin_top = 98.2984
 margin_right = 303.0
 margin_bottom = 168.298
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 3 )
 text = "New value: "
 autowrap = true
 __meta__ = {

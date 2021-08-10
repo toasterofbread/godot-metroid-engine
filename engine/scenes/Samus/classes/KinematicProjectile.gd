@@ -47,7 +47,6 @@ func init(_Weapon, _fire_pos: Position2D, _chargebeam_damage_multiplier, _data:=
 		visibility_notifier.connect("screen_entered", self, "screen_entered")
 		
 	global_position = fire_pos.global_position# + Vector2(0, -10).rotated(fire_pos.rotation)
-	print(Vector2(0, -10).rotated(fire_pos.rotation))
 	rotation = fire_pos.rotation
 	velocity = Vector2(0, -base_velocity).rotated(rotation)
 	
@@ -92,7 +91,11 @@ func _physics_process(delta):
 	if apply_damage:
 		for body in colliders:
 			if body.has_method("damage"):
-				body.damage(Weapon.damage_type, Weapon.damage_amount*(chargebeam_damage_multiplier if chargebeam_damage_multiplier != null else 1.0), get_node("ImpactPosition").global_position)
+				body.damage(
+					Weapon.damage_type, 
+					Weapon.damage_amount * (chargebeam_damage_multiplier if chargebeam_damage_multiplier != null else 1.0) * Loader.loaded_save.difficulty_data["outgoing_damage_multiplier"],
+					get_node("ImpactPosition").global_position
+					)
 	
 	Weapon.projectile_physics_process(self, colliders, delta)
 

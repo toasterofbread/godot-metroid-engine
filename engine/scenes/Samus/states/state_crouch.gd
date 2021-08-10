@@ -27,8 +27,8 @@ func init_state(_data: Dictionary, previous_state_id: String):
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
-	Shortcut.remove_input_hold_monitor("pad_right", id)
-	Shortcut.remove_input_hold_monitor("pad_left", id)
+	InputManager.remove_input_hold_monitor("pad_right", id)
+	InputManager.remove_input_hold_monitor("pad_left", id)
 	
 	if new_state_key == "neutral":
 		var animation: String
@@ -68,32 +68,32 @@ func process(_delta: float):
 			change_state("jump", {"options": ["jump"]})
 			return
 		
-		var pad_x: int = Shortcut.get_pad_x("pressed")
+		var pad_x: int = InputManager.get_pad_x("pressed")
 		if pad_x == -1:
 			Samus.facing = Enums.dir.LEFT
-			Shortcut.remove_input_hold_monitor("pad_right", id)
+			InputManager.remove_input_hold_monitor("pad_right", id)
 			
 			if original_facing == Enums.dir.RIGHT:
 				play_transition = true
-			elif not Animator.transitioning() and Shortcut.get_input_hold_value("pad_left") >= 0.1 and Samus.time_since_last_state("morphball", 0.1):
+			elif not Animator.transitioning() and InputManager.get_input_hold_value("pad_left") >= 0.1 and Samus.time_since_last_state("morphball", 0.1):
 				if not CeilingRaycast.is_colliding():
 					change_state("run", {"boost": false})
 					return
 			elif not Animator.transitioning():
-				Shortcut.add_input_hold_monitor("pad_left", id)
+				InputManager.add_input_hold_monitor("pad_left", id)
 				
 		elif pad_x == 1:
 			Samus.facing = Enums.dir.RIGHT
-			Shortcut.remove_input_hold_monitor("pad_left", id)
+			InputManager.remove_input_hold_monitor("pad_left", id)
 			
 			if original_facing == Enums.dir.LEFT:
 				play_transition = true
-			elif not Animator.transitioning() and Shortcut.get_input_hold_value("pad_right") >= 0.1 and Samus.time_since_last_state("morphball", 0.1):
+			elif not Animator.transitioning() and InputManager.get_input_hold_value("pad_right") >= 0.1 and Samus.time_since_last_state("morphball", 0.1):
 				if not CeilingRaycast.is_colliding():
 					change_state("run", {"boost": false})
 					return
 			elif not Animator.transitioning():
-				Shortcut.add_input_hold_monitor("pad_right", id)
+				InputManager.add_input_hold_monitor("pad_right", id)
 	
 	if Input.is_action_pressed("aim_weapon"):
 		

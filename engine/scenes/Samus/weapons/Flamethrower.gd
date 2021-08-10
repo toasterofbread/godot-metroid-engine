@@ -9,7 +9,7 @@ func ready():
 	projectile.z_as_relative = false
 	projectile.visible = true
 
-func get_fire_object(pos: Position2D, _chargebeam_damage_multiplier):
+func get_fire_object(pos: SamusCannonPosition, _chargebeam_damage_multiplier):
 	return projectile
 
 func fired(projectile: Area2D):
@@ -38,4 +38,4 @@ func _process(delta):
 	
 	for body in projectile.get_overlapping_bodies():
 		if body.has_method("damage"):
-			body.damage(damage_type, damage_amount, null)
+			body.damage(damage_type, damage_amount * Loader.loaded_save.difficulty_data["outgoing_damage_multiplier"], null)

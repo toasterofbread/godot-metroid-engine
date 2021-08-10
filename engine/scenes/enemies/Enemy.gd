@@ -22,6 +22,12 @@ func death(_type: int):
 	ammoPickup.spawn(Loader.Samus, data["ammo_drop_profile"], global_position)
 
 func damage(type: int, amount: float, _impact_position):
+	
+	if Loader.loaded_save.difficulty_data["ohko_enemies"]:
+		health = 0
+		death(type)
+		return
+	
 	if health > 0 and (type in effective_types or not type in ineffective_types):
 		health = max(0, health - amount)
 		

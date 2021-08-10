@@ -34,7 +34,7 @@ func init(_saveGame: SaveGame):
 		var seconds: String = str(time % 60).pad_zeros(2)
 		$Container/VBoxContainer/PlayTime.text = tr("titlescreen_playtime_text") + ": " + hours + ":" + minutes + ":" + seconds
 		$Container/VBoxContainer/HBoxContainer/Completion.text = tr("titlescreen_completion_text") + ": " + str(saveGame.get_overall_percentage() * 100).pad_decimals(1)
-		$Container/VBoxContainer2/Difficulty.text = tr("titlescreen_difficulty_text") + ": " + tr("difficulty_" + str(saveGame.get_data_key(["difficulty", "level"])))
+		$Container/VBoxContainer2/Difficulty.text = tr("titlescreen_difficulty_text") + ": " + tr("difficulty_" + str(saveGame.get_data_key(["difficulty"])))
 		$Container/VBoxContainer2/Created.text = tr("titlescreen_created_date_text") + ": " + Global.get_date_as_string(OS.get_datetime_from_unix_time(saveGame.get_data_key(["statistics", "creation_date"])))
 	else:
 		$Container/Empty.text = tr("titlescreen_savefile_empty")

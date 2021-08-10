@@ -103,7 +103,7 @@ func _ready():
 	$Labels/Template/ColorRect.visible = background_colour.a != 0
 	set_text_colour(text_colour)
 	settings_changed()
-	Shortcut.connect("keyboard_mode_changed", self, "keyboard_mode_changed")
+	InputManager.connect("keyboard_mode_changed", self, "keyboard_mode_changed")
 	Settings.connect("settings_changed", self, "settings_changed")
 	
 	var i = 0

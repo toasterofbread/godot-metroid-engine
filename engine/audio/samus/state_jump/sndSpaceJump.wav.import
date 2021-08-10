@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndSpaceJump.wav-481f4f309726731e25c8233279046422.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/state_jump/sndSpaceJump.wav"
+dest_files=[ "res://.import/sndSpaceJump.wav-481f4f309726731e25c8233279046422.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

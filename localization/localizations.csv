@@ -55,5 +55,23 @@ deathscreen_exit,Exit to title screen,JP Exit to title screen
 multiplechoiceprompt_button_select,Select,JP Select
 multiplechoiceprompt_button_cancel,Cancel,JP Cancel
 difficulty_-1,Easy,JP Easy
+difficulty_description_-1,Use for a more forgiving experience.,JP Use for a more forgiving experience.
 difficulty_0,Normal,JP Normal
+difficulty_description_0,Default values. Recommended for most first playthroughs.,JP Default values. Recommended for most first playthroughs.
 difficulty_1,Hard,JP Hard
+difficulty_description_1,Significantly more challenging gameplay than normal.,JP Significantly more challenging gameplay than normal.
+difficulty_2,METROID,JP METROID
+difficulty_description_2,Ultimate Warrior,JP Ultimate Warrior
+difficulty_3,One-hit KO,JP One-hit KO
+difficulty_description_3,"All enemies can be killed with one shot, but so can you","JP All enemies can be killed with one shot, but so can you"
+difficulty_cannot_change,(Cannot be changed),JP (Cannot be changed)
+difficulty_can_change,(Can be changed),JP (Can be changed)
+difficulty_incoming_damage_multiplier,Damage taken,JP Incoming damage multiplier
+difficulty_outgoing_damage_multiplier,Damage dealt,JP Outgoing damage multiplier
+difficulty_can_be_changed,Can be changed,JP Can be changed
+difficulty_ohko_samus,Samus dies in one hit,JP Samus dies in one hit
+difficulty_ohko_enemies,Enemies die in one hit,JP Enemies die in one hit
+value_bool_yesno_true,Yes,JP  Yes
+value_bool_yesno_false,No,JP No
+value_bool_onoff_true,On,JP On
+value_bool_onoff_false,Off,JP Off

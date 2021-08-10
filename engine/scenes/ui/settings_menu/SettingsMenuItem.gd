@@ -12,11 +12,12 @@ var option
 var option_data: Dictionary
 var value_label: Label
 var types: Dictionary = {
-	"bool": "option_process_bool", # Boolean
-	"int": "option_process_int", # An integer, which can have a custom range or none
-	"enum": "option_process_enum", # One item from a list of strings, stored as an int
-	"string": "option_process_enum", # One item from a list of strings, stores as is
-	"input": "option_process_input"
+	"bool": funcref(self, "option_process_bool"), # Boolean
+	"int": funcref(self, "option_process_int"), # An integer, which can have a custom range or none
+	"enum": funcref(self, "option_process_enum"), # One item from a list of strings, stored as an int
+	"string": funcref(self, "option_process_enum"), # One item from a list of strings, stores as is
+	"input": funcref(self, "option_process_input"),
+	"percentage": funcref(self, "option_process_percentage")
 }
 var current_value
 var new_value
@@ -85,6 +86,7 @@ func set_current(value: bool, emit: bool = true, set_by_mouse: bool = false):
 	
 	if emit:
 		emit_signal("current_set", self, current, set_by_mouse)
+	InputManager.using_keyboard = set_by_mouse
 	
 	$Tween.stop_all()
 	$Tween.interpolate_property($Background, "rect_position:x", $Background.rect_position.x, current_offset_value if current else 0, 0.3, Tween.TRANS_EXPO, Tween.EASE_OUT)
@@ -97,7 +99,7 @@ func option_process(delta: float, pad: Vector2, confirm_button: ButtonPrompt):
 	var pressed = (confirm_button.just_pressed() if confirm_button != null else Input.is_action_just_pressed("ui_accept")) or button_just_pressed
 	button_just_pressed = false
 	
-	var changes_made = call(types[option_data["type"]], delta, pad, pressed)
+	var changes_made = types[option_data["type"]].call_func(delta, pad, pressed)
 	while changes_made is GDScriptFunctionState:
 		changes_made = yield(changes_made, "completed")
 	if changes_made:
@@ -154,6 +156,13 @@ func option_process_input(_delta: float, pad: Vector2, pressed: bool):
 		
 	return false
 
+func option_process_percentage(_delta: float, pad: Vector2, _pressed: bool):
+	if pad.x != 0:
+		current_value = wrapf(current_value + (pad.x*0.1), 0.0, 1.1)
+		return true
+	else:
+		return false
+
 func load_value():
 	var ret = Settings.get_split(category, option)
 	if ret is Dictionary:
@@ -164,7 +173,7 @@ func load_value():
 
 func save_value():
 	if option_data["type"] == "input":
-		Shortcut.update_control_mappings(option)
+		InputManager.update_control_mappings(option)
 	Settings.set_split(category, option, Settings.get_value_as_saveable(current_value, option_data))
 	
 	$Background.color = background_colour
@@ -181,6 +190,8 @@ func update_value_label():
 			value_label.text = tr("settings_value_bool_" + ("on" if current_value else "off"))
 		"int":
 			value_label.text = str(current_value)
+		"percentage":
+			value_label.text = str(int(current_value*100)) + "%"
 		"enum", "string":
 			value_label.text = option_data["data"][current_value]
 		"input":

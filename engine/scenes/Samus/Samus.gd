@@ -21,7 +21,8 @@ var aim_none_timer: ExTimer = Global.get_timer(null, null, self).set_wait_time(2
 var hurtbox_damage: Dictionary = {}
 
 var boosting: bool = false setget set_boosting
-var shinespark_charged: bool = false
+var shinespark_charged: bool = false setget set_shinespark_charged
+onready var speedboost_sounds: Dictionary = Audio.get_players_from_dir("/samus/speedboost/", Audio.TYPE.SAMUS)
 
 var fall_time: float = 0
 var was_on_floor: bool = false
@@ -63,8 +64,28 @@ var paused = null
 var real: = false
 
 func set_boosting(value: bool):
+	if boosting == value:
+		return
 	boosting = value
+	
+	if boosting:
+		if current_state.id == "run":
+			speedboost_sounds["sndSBStart"].play(0.0, -1.0, speedboost_sounds["sndSBLoop"])
+	else:
+		for sound in ["sndSBStart", "sndSBLoop"]:
+			speedboost_sounds[sound].stop()
+	
 	set_hurtbox_damage("boosting", states["shinespark"].damage_type, states["shinespark"].damage_amount if boosting else null)
+
+func set_shinespark_charged(value: bool):
+	if shinespark_charged == value:
+		return
+	shinespark_charged = value
+	
+	if shinespark_charged:
+		speedboost_sounds["sndSBChargeLoop"].play()
+	else:
+		speedboost_sounds["sndSBChargeLoop"].stop()
 
 func set_hurtbox_damage(id: String, type: int, amount):
 	if amount == null:
@@ -140,16 +161,6 @@ func _ready():
 	register_commands()
 
 func _process(delta):
-	# DEBUG
-#	if Input.is_action_just_pressed("[DEBUG] increase energy"):
-#		energy += 1
-#		print("Increased energy to: " + str(energy))
-#		HUD.set_energy(energy)
-#	elif Input.is_action_just_pressed("[DEBUG] decrease energy"):
-#		energy -= 1
-#		print("Decreased energy to: " + str(energy))
-#		HUD.set_energy(energy)
-	
 	if (get_tree().paused and paused == null) or paused:
 		if current_state.has_method("paused_process"):
 			current_state.paused_process(delta)
@@ -158,12 +169,6 @@ func _process(delta):
 	current_state.process(delta)
 	if is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		states["shinespark"].process_speedboooster(delta)
-	
-#	for function in functions_to_process:
-#		function.call_func(delta)
-	
-#	if is_upgrade_active(Enums.Upgrade.CHARGEBEAM):
-#		process_chargebeam(delta)
 
 var prev = ""
 func _physics_process(delta):
@@ -256,8 +261,14 @@ func _damage(type: int, amount: float, impact_position):
 	if InvincibilityTimer.time_left > 0:
 		return
 	
+	if Loader.loaded_save.difficulty_data["ohko_samus"]:
+		energy = 0
+		death()
+		return
+	
 	for suit in active_suits.values():
 		amount *= suit["incoming_damage_multiplier"]
+	amount *= Loader.loaded_save.difficulty_data["incoming_damage_multiplier"]
 	amount -= amount * damage_reduction_mini_upgrade[0]["created"] * damage_reduction_mini_upgrade[1]
 	
 	if amount <= 0:
@@ -266,10 +277,8 @@ func _damage(type: int, amount: float, impact_position):
 	energy = max(0, energy - amount)
 	HUD.set_energy(energy)
 	
-	# DEBUG
 	if energy == 0:
 		death()
-		
 	else:
 		InvincibilityTimer.start(states["hurt"].physics_data["invincibility_duration"])
 		if impact_position == null:
@@ -413,18 +422,9 @@ func acquire_ammo_pickup(ammo_data: Dictionary):
 	elif ammo_data["type"] == AmmoPickup.TYPES.UPGRADE:
 		ammo_data["weapon"].ammo = min(ammo_data["weapon"].amount, ammo_data["weapon"].ammo + ammo_data["amount"]) 
 
-
-onready var step_sounds = {
-	"snow": [
-		Audio.get_player("/samus/step_sounds/snow/snow_step_dry-01", Audio.TYPE.SAMUS),
-		Audio.get_player("/samus/step_sounds/snow/snow_step_dry-02", Audio.TYPE.SAMUS),
-		Audio.get_player("/samus/step_sounds/snow/snow_step_dry-03", Audio.TYPE.SAMUS),
-		Audio.get_player("/samus/step_sounds/snow/snow_step_dry-04", Audio.TYPE.SAMUS),
-	]
-}
-
-func step(index: int):
-	step_sounds["snow"][index].play()
+func footstep(index: int):
+	if Physics.current_ground_collider_shape is GroundTypeCollisionShape2D:
+		Physics.current_ground_collider_shape.play_step_sound()
 
 onready var InvincibilityPlayer: AnimationPlayer = Animator.get_node("InvincibilityPlayer")
 var InvincibilityTimer: ExTimer = Global.get_timer([self, "invincibility_changed", [false]], [self, "invincibility_changed", [true]])
@@ -433,13 +433,9 @@ func invincibility_changed(status: bool):
 		return
 	InvincibilityPlayer.play("invincibility" if status else "reset")
 	if not status:
-		# DEBUG
-		pass
-#		Collision.disabled = true
 		Hurtbox.disabled = true
 		yield(get_tree(), "idle_frame")
 		Hurtbox.disabled = false
-#		Collision.disabled = false
 
 # DEBUG
 func register_commands():

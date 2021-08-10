@@ -101,7 +101,7 @@ func _ready():
 	altContainer.visible = false
 	add_child(altContainer)
 	
-	Shortcut.connect("keyboard_mode_changed", self, "keyboard_mode_changed")
+	InputManager.connect("keyboard_mode_changed", self, "keyboard_mode_changed")
 	Settings.connect("settings_changed", self, "settings_changed")
 	
 	set_enabled(enabled, 0)

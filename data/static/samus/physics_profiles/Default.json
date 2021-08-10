@@ -34,7 +34,7 @@
 		"horiz_spin_max_speed": [200],
 	},
 	"morphball": {
-		"gravity": [1300],
+		"gravity_override": [1300],
 
 		"ground_speed": [150],
 		"ground_acceleration": [1500],
@@ -54,7 +54,10 @@
 
 		"bomb_jump_speed_ground": [340],
 		"bomb_jump_speed_air": [370],
-		"bomb_jump_horiz_speed": [300]
+		"bomb_jump_horiz_speed": [300],
+
+		"bounce_fall_time": [0.5],
+		"bounce_fall_amount": [200]
 	},
 	"spiderball": {
 		"speed": [50]

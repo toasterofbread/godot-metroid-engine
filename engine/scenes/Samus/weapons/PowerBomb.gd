@@ -1,6 +1,7 @@
 extends SamusWeapon
 
 onready var explosion_damage_refresh_time: float = damage_values["explosion_damage_refresh_time"]
+onready var sounds: Dictionary = Audio.get_players_from_dir("/samus/weapons/powerbomb/", Audio.TYPE.SAMUS)
 
 func _ready():
 	
@@ -15,12 +16,14 @@ func _ready():
 func fired(projectile: SamusKinematicProjectile):
 	var sprite: AnimatedSprite = projectile.get_node("Sprite")
 	sprite.play("default")
+	sounds["sndPBombSet"].play()
 	
 	yield(sprite, "animation_finished")
 	sprite.queue_free()
 	
 	var player: AnimationPlayer = projectile.get_node("AnimationPlayer")
 	player.play("explode")
+	sounds["sndPBombExpl"].play()
 	
 	var area: Area2D = projectile.get_node("Explosion")
 	var processed_bodies = []
@@ -38,7 +41,7 @@ func fired(projectile: SamusKinematicProjectile):
 			
 			if body != Loader.Samus:
 				if body.has_method("damage"):
-					body.damage(damage_type, damage_amount, null)
+					body.damage(damage_type, damage_amount * Loader.loaded_save.difficulty_data["outgoing_damage_multiplier"], null)
 		
 		yield(Global, "process_frame")
 	
@@ -47,7 +50,7 @@ func fired(projectile: SamusKinematicProjectile):
 func erase(container: Array, body):
 	container.erase(body)
 
-func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
+func get_fire_object(pos: SamusCannonPosition, chargebeam_damage_multiplier):
 	if Cooldown.time_left > 0 or ammo == 0:
 		return null
 	set_ammo(max(0, ammo - 1))

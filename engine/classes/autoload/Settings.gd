@@ -4,8 +4,15 @@ signal loaded
 signal settings_changed
 signal language_loaded
 
+var loaded: bool = false
+
 var settings_file_path: String
 var _config: ConfigFile = ConfigFile.new()
+
+var global_stats: Dictionary
+const default_global_stats: Dictionary = {
+	"total_playtime": 0, # TODO | Total and per-save playtime tracking
+}
 
 func get_value_as_saveable(value, option_data: Dictionary):
 	if option_data["type"] == "string":
@@ -35,6 +42,13 @@ func _ready():
 	yield(Data, "ready")
 	settings_file_path = Data.get_from_user_dir("settings.cfg")
 	load_file()
+	
+	var loaded_global_stats = Global.load_json(Data.get_from_user_dir("stats.json"))
+	if loaded_global_stats == null:
+		global_stats = default_global_stats
+		Global.save_json(Data.get_from_user_dir("stats.json"), global_stats, true)
+	else:
+		global_stats = loaded_global_stats
 
 func save_file():
 	return _config.save(settings_file_path)
@@ -62,6 +76,7 @@ func load_file():
 		return
 	
 	emit_signal("language_loaded", get("other/language"))
+	loaded = true
 	emit_signal("loaded")
 	return error
 

@@ -55,7 +55,7 @@ func process(_delta: float):
 	if not Input.is_action_pressed("fire_weapon"):
 		
 		Samus.aiming = Samus.aim.FRONT
-		var pad_x: float = Shortcut.get_pad_x("pressed")
+		var pad_x: float = InputManager.get_pad_x("pressed")
 		if pad_x == -1:
 			Samus.facing = Enums.dir.LEFT
 		elif pad_x == 1:
@@ -92,7 +92,7 @@ func process(_delta: float):
 			animations["turn_" + animation].play()
 			animations["turn_legs"].play()
 		elif not Animator.transitioning(false, true):
-			var pad_vector = Shortcut.get_pad_vector("pressed")
+			var pad_vector = InputManager.get_pad_vector("pressed")
 			if pad_vector.x == 0 or Physics.vel.x == 0:
 				animations["stand_" + animation].play(true)
 			else:
@@ -190,12 +190,12 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	return true
 
 func physics_process(delta: float):
-	var pad_vector = Shortcut.get_pad_vector("pressed")
+	var pad_vector = InputManager.get_pad_vector("pressed")
 	delta*=60
 	if state == STATES.STAND or state == STATES.JUMP:
 		
 		if state == STATES.JUMP:
-			if jump_current_time != 0 and Input.is_action_pressed("jump"):
+			if jump_current_time > 0 and Input.is_action_pressed("jump"):
 				Physics.move_y(-jump_state.jump_speed, jump_state.jump_acceleration*delta)
 #				Physics.accelerate_y(jump_acceleration, jump_speed, Enums.dir.UP)
 				jump_current_time -= delta/60
@@ -209,7 +209,7 @@ func physics_process(delta: float):
 				return
 			jump_current_time = 0
 		
-		var pad_x: float = Shortcut.get_pad_vector("pressed").x
+		var pad_x: float = InputManager.get_pad_vector("pressed").x
 		
 		var capped: = false
 		if beam.fire_pos:

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndFireBeamCW.wav-669fa2d7b92c48c16fda54db18cf99fe.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/weapons/beam/sndFireBeamCW.wav"
+dest_files=[ "res://.import/sndFireBeamCW.wav-669fa2d7b92c48c16fda54db18cf99fe.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
