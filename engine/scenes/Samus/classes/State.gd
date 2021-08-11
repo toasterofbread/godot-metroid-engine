@@ -16,6 +16,8 @@ func _init(_Samus: KinematicBody2D, _id: String) -> void:
 		self.Weapons = Samus.Weapons
 	if "animations" in self and id in Global.load_json(PositionalAnimatedSprite.data_json_path):
 		self.animations = Samus.Animator.load_from_json(id)
+	if "sounds" in self:
+		self.sounds = Audio.get_players_from_dir("/samus/state_" + id + "/", Audio.TYPE.SAMUS)
 	if "physics_data" in self:
 		self.physics_data = Samus.Physics.data[id]
 

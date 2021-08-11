@@ -18,7 +18,7 @@ var save_to_copy: Control
 var settings_animation_played: bool = false
 
 func _process(delta: float):
-	var pad_vector: Vector2 = Shortcut.get_pad_vector("just_pressed")
+	var pad_vector: Vector2 = InputManager.get_pad_vector("just_pressed")
 	$Background/bg_planet.rotation_degrees += delta * 0.5
 	
 	match state:
@@ -49,6 +49,8 @@ func title_option_mouse_hover(entered: bool, option: int):
 	elif not entered and option == title_selected_option:
 		$Title/Options.get_child(title_selected_option).self_modulate = title_option_unselected_modulate
 		title_selected_option = -1
+	
+	InputManager.using_keyboard = true
 
 func selectsave_button_pressed():
 	state = STATES.TRANSITIONING
@@ -196,6 +198,9 @@ func save_option_mouse_hover(entered: bool, option: int):
 	elif not entered and option == save_selected_option:
 		$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
 		save_selected_option = -1
+	
+	InputManager.using_keyboard = true
+
 func save_option_pressed(option: int):
 	
 	if option < 0:
@@ -207,15 +212,48 @@ func save_option_pressed(option: int):
 	
 	if not saveGame_to_load.file_exists:
 		var difficulties: PoolStringArray = []
-		for difficulty in Data.data["damage_values"]["difficulty"].keys():
-			difficulties.append(tr("difficulty_" + difficulty))
+		var descriptions: PoolStringArray = []
+		var difficulty_data: Dictionary = Data.data["damage_values"]["difficulty"]
 		
-		var prompt_result = yield($SaveSelection/Control/MultipleChoicePrompt.show_prompt(difficulties, "Select difficulty for new game", Data.data["damage_values"]["difficulty"].keys().find("0")), "completed")
+		for difficulty in difficulty_data.keys():
+			
+			# Skip difficulty if it hasn't been unlocked
+			if difficulty_data[difficulty]["locked"]["value"] and (
+			not "unlocked_difficulties" in Settings.global_stats or
+			not difficulty in Settings.global_stats["unlocked_difficulties"]
+			):
+				continue
+			
+			difficulties.append(tr("difficulty_" + difficulty))
+			
+			var description: String = tr("difficulty_description_" + difficulty) + "\n___________\n"
+			for key in difficulty_data[difficulty]:
+				
+				if difficulty_data[difficulty][key]["hidden"]:
+					continue
+				
+				description += "\n" + tr("difficulty_" + key)
+				if difficulty_data[difficulty][key]["type"] != "hidden":
+					description += ": "
+					match difficulty_data[difficulty][key]["type"]:
+						"percentage":
+							description += str(int(difficulty_data[difficulty][key]["value"] * 100)) + "%"
+						"bool_yesno":
+							description += tr("value_bool_yesno_" + str(difficulty_data[difficulty][key]["value"]).to_lower())
+						"bool_onoff":
+							description += tr("value_bool_onoff_" + str(difficulty_data[difficulty][key]["value"]).to_lower())
+			descriptions.append(description)
+		
+		$MainButtonPrompts/AcceptButtonPrompt.set_visibility(false, true)
+		$MainButtonPrompts/CancelButtonPrompt.set_visibility(false, true)
+		
+		var prompt_result = yield($SaveSelection/MultipleChoicePrompt.show_prompt(difficulties, descriptions, "Select difficulty for new game", Data.data["damage_values"]["difficulty"].keys().find("0")), "completed")
 		if prompt_result == null:
+			$MainButtonPrompts/AcceptButtonPrompt.set_visibility(true, true)
+			$MainButtonPrompts/CancelButtonPrompt.set_visibility(true, true)
 			state = STATES.SAVE_SELECTION
 			return
-		print("difficulty | ", int(Data.data["damage_values"]["difficulty"].keys()[prompt_result]))
-		saveGame_to_load.set_data_key(["difficulty", "level"], int(Data.data["damage_values"]["difficulty"].keys()[prompt_result]))
+		saveGame_to_load.set_data_key(["difficulty"], str(Data.data["damage_values"]["difficulty"].keys()[prompt_result]))
 		saveGame_to_load.save_file()
 	
 	$Overlay/ColorRect.color = Color(0, 0, 0, 0)

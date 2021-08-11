@@ -27,7 +27,7 @@ func _ready():
 	for group in settings_text_information:
 		settings_text_information[group]["options"] = format_cdb_dict(settings_text_information[group]["options"])
 		
-		# Format the data section of each option if it exists
+		# Format the data and required_settings sections of each option if they exist
 		for option in settings_text_information[group]["options"]:
 			var option_data: Dictionary = settings_text_information[group]["options"][option]
 			if "data" in option_data:
@@ -118,3 +118,11 @@ func settings_changed(path: String, value):
 func get_from_user_dir(path: String):
 	path = path.trim_prefix("/")
 	return user_dir_path + path
+
+func cdbarray2dict(cdb_array: Array) -> Dictionary:
+	var ret: Dictionary = {}
+	for dict in cdb_array:
+		var key: String = dict["key"]
+		dict.erase("key")
+		ret[key] = dict
+	return ret

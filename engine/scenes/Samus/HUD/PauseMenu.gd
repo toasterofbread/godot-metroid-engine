@@ -83,7 +83,7 @@ func resume():
 	$AnimationPlayer.play("reset")
 	Map.Marker.moving = false
 	Map.Marker.editable_name = false
-	Shortcut.text_input_active = false
+	InputManager.text_input_active = false
 	yield($AnimationPlayer, "animation_finished")
 	mapGrid.reset_minimap_properties()
 #	transitioning = false
@@ -143,7 +143,7 @@ func _process(delta: float):
 			mode = MODES.EQUIPMENT
 		else:
 			var update: bool = false
-			var pad_vector: Vector2 = -Shortcut.get_pad_vector("pressed")
+			var pad_vector: Vector2 = -InputManager.get_pad_vector("pressed")
 			map_move_velocity.x = move_toward(map_move_velocity.x, map_move_speed*pad_vector.x, map_move_acceleration*delta)
 			map_move_velocity.y = move_toward(map_move_velocity.y, map_move_speed*pad_vector.y, map_move_acceleration*delta)
 			if map_move_velocity != Vector2.ZERO:
@@ -210,7 +210,7 @@ func process_marker(first_frame: bool, last_frame: bool):
 		return
 	
 	if Map.Marker.moving:
-		Map.Marker.grid_position += Shortcut.get_pad_vector("just_pressed")
+		Map.Marker.grid_position += InputManager.get_pad_vector("just_pressed")
 		mapGrid.set_focus_position(Map.Marker.position, false)
 	
 #	if Buttons.get_node("Marker").transitioning:
@@ -228,7 +228,7 @@ func process_marker(first_frame: bool, last_frame: bool):
 		else:
 			Buttons.get_node("MarkerContainer/Rename").set_text("pausemenu_button_rename_marker", true)
 		Map.Marker.moving = !Map.Marker.editable_name
-		Shortcut.text_input_active = Map.Marker.editable_name
+		InputManager.text_input_active = Map.Marker.editable_name
 	
 	if mode != MODES.MAPMARKER or last_frame:
 		
@@ -247,7 +247,7 @@ func process_marker(first_frame: bool, last_frame: bool):
 		Buttons.get_node("MarkerContainer/Rename").set_visibility(false, true)
 
 func process_settings(last_frame: bool, delta: float):
-	var close_menu = $CanvasLayer2/Settings/SettingsMenu.process(delta, Shortcut.get_pad_vector("just_pressed"))
+	var close_menu = $CanvasLayer2/Settings/SettingsMenu.process(delta, InputManager.get_pad_vector("just_pressed"))
 	while close_menu is GDScriptFunctionState:
 		close_menu = yield(close_menu, "completed")
 	if close_menu:

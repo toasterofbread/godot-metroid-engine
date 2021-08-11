@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndUnMorph.wav-07b70b73129963cc0c2e16de7fd90604.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/state_morphball/sndUnMorph.wav"
+dest_files=[ "res://.import/sndUnMorph.wav-07b70b73129963cc0c2e16de7fd90604.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

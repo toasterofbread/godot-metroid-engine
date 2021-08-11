@@ -3,6 +3,7 @@ extends SamusState
 var Animator: Node
 var Physics: Node
 var animations: Dictionary
+var sounds: Dictionary
 var physics_data: Dictionary
 
 var speedboost_charge_time: float = 2.0
@@ -51,7 +52,7 @@ func process(_delta: float):
 		change_state("jump", {"options": ["fall"]})
 		return
 	
-	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
+	var pad_vector: Vector2 = InputManager.get_pad_vector("pressed")
 	if Input.is_action_pressed("aim_weapon"):
 		if Samus.aiming == Samus.aim.FRONT or Samus.aiming == Samus.aim.NONE:
 			Samus.aiming = Samus.aim.UP
@@ -122,9 +123,10 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 
 func physics_process(delta: float):
 	
-	var pad_x: int = Shortcut.get_pad_x("pressed")
+	var pad_x: int = InputManager.get_pad_x("pressed")
 	if Samus.boosting and pad_x != Global.dir2vector(Samus.facing).x:
 		Samus.boosting = false
+		sounds["sndBrake"].play()
 	
 	if Physics.vel.x != 0 and sign(Physics.vel.x) != pad_x:
 		Physics.move_x(0, physics_data["deceleration"]*delta)

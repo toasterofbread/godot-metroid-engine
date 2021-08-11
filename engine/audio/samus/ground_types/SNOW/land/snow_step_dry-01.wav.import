@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snow_step_dry-01.wav-2d24329b3972bd25795feafee0bf31c8.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/ground_types/SNOW/land/snow_step_dry-01.wav"
+dest_files=[ "res://.import/snow_step_dry-01.wav-2d24329b3972bd25795feafee0bf31c8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,13 +1,18 @@
 extends SamusWeapon
 
-var current_types: = []
+var current_types: Array = []
+var current_sound_key: String
+
 onready var sprite: AnimatedSprite = ProjectileNode.get_node("Sprite")
 onready var sprite_chargebeam: AnimatedSprite = ProjectileNode.get_node("SpriteChargebeam")
+
+onready var sounds: Dictionary = Audio.get_players_from_dir("/samus/weapons/beam/", Audio.TYPE.SAMUS)
 
 func _ready():
 	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	set_types()
 
+const sound_letter_order = ["C", "S", "w", "I", "P"]
 func set_types():
 	var types = []
 	for type in Enums.UpgradeTypes["beam"]:
@@ -37,6 +42,16 @@ func set_types():
 		var data: Dictionary = damage_values["upgrades"][Enums.Upgrade.keys()[type]]
 		damage_amount *= data["damage_multiplier"]
 		cooldown *= data["cooldown_multiplier"]
+	
+	# Set fire sound key
+	var current_sound_letters: Array = []
+	for type in current_types:
+		current_sound_letters.append(Enums.Upgrade.keys()[type][0].to_upper())
+	
+	current_sound_key = ""
+	for type in sound_letter_order:
+		if type in current_sound_letters:
+			current_sound_key += type
 
 func set_collision():
 	var texture = sprite.frames.get_frame(sprite.animation, 0)
@@ -65,10 +80,11 @@ func get_base_type(chargebeam: bool) -> int:
 			ret = Enums.Upgrade.POWERBEAM
 	return ret
 
-func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
+func get_fire_object(pos: SamusCannonPosition, chargebeam_damage_multiplier):
 	if Cooldown.time_left > 0:
 		return null
 	
+	play_fire_sound(chargebeam_damage_multiplier != null)
 	sprite.visible = chargebeam_damage_multiplier == null
 	sprite_chargebeam.visible = chargebeam_damage_multiplier != null
 	
@@ -109,6 +125,9 @@ func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
 	projectiles[0].burst_start(true, Enums.Upgrade.keys()[projectile_data["base_type"]] + " start")
 	return projectiles
 
+func play_fire_sound(is_chargebeam: bool):
+	sounds[("sndFireBeamC" if is_chargebeam else "sndFireBeam") + current_sound_key].play()
+
 func offset(object, offset: Vector2):
 	object.position += offset
 
@@ -137,7 +156,11 @@ func projectile_physics_process(projectile: SamusKinematicProjectile, colliders:
 			# Special damage case for plasmabeam to ensure enemies are only
 			# damaged once per projectile
 			if collider.has_method("damage") and not collider in projectile.data["damaged_bodies"]:
-				collider.damage(damage_type, damage_amount*(projectile.chargebeam_damage_multiplier if projectile.chargebeam_damage_multiplier != null else 1.0), projectile.get_node("ImpactPosition").global_position)
+				collider.damage(
+					damage_type, 
+					damage_amount*(projectile.chargebeam_damage_multiplier if projectile.chargebeam_damage_multiplier != null else 1.0) * Loader.loaded_save.difficulty_data["outgoing_damage_multiplier"],
+					projectile.get_node("ImpactPosition").global_position
+					)
 				projectile.data["damaged_bodies"].append(collider)
 	else:
 		# Projectiles should collide with world if not plasmabeam

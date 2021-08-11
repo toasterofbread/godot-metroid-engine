@@ -83,7 +83,7 @@ func process():
 		TYPES.INT, TYPES.PERCENTAGE: process_int()
 
 func process_enum():
-	var pad_x: int = Shortcut.get_pad_vector("just_pressed").x
+	var pad_x: int = InputManager.get_pad_vector("just_pressed").x
 	if pad_x != 0:
 		current_value += pad_x
 		if current_value < 0:
@@ -93,12 +93,12 @@ func process_enum():
 		set_value_label()
 
 func process_bool():
-	if Input.is_action_just_pressed("ui_accept") or Shortcut.get_pad_vector("just_pressed").x != 0:
+	if Input.is_action_just_pressed("ui_accept") or InputManager.get_pad_vector("just_pressed").x != 0:
 		current_value = !current_value
 		set_value_label()
 
 func process_dict():
-	var pad_x: int = Shortcut.get_pad_vector("just_pressed").x
+	var pad_x: int = InputManager.get_pad_vector("just_pressed").x
 	if pad_x != 0:
 		var i = option_data["type"].values().find(current_value) + pad_x
 		if i < 0:
@@ -109,7 +109,7 @@ func process_dict():
 		set_value_label()
 
 func process_int():
-	var pad_x = Shortcut.get_pad_vector("pressed").x
+	var pad_x = InputManager.get_pad_vector("pressed").x
 	if pad_x != 0:
 		current_value += pad_x/5
 		if option_data["type"] is Array:

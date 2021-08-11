@@ -25,7 +25,7 @@ var hud_meter: Node2D
 func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	trailEmitter = Animator.SpriteContainer
 	additional_midair_airsparks = Samus.get_mini_upgrade("additional_midair_airsparks", 0)
-	Physics.connect("landed", self, "samus_landed")
+	Physics.connect("is_on_floor_changed", self, "samus_is_on_floor_changed")
 	animations = Animator.load_from_json("shinespark")
 	hud_meter = Samus.Animator.get_node("AirsparkMeter")
 	
@@ -38,7 +38,7 @@ func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 # Called when Samus's state is changed to this one
 func init_state(data: Dictionary, _previous_state_id: String):
 	
-	direction = Shortcut.get_pad_vector("pressed")
+	direction = InputManager.get_pad_vector("pressed")
 	if direction == Vector2.ZERO:
 		direction = Vector2(0, -1)
 	
@@ -89,10 +89,10 @@ func process(delta: float):
 func physics_process(_delta: float):
 	pass
 
-func samus_landed():
-	while Samus.is_on_floor() and hud_meter.full_segments < hud_meter.total_segments:
-		yield(hud_meter.set_full_segments(hud_meter.full_segments + 1, true), "completed")
-#		yield(Global.wait(0.5), "completed")
+func samus_is_on_floor_changed(is_on_floor: bool):
+	if is_on_floor:
+		while Samus.is_on_floor() and hud_meter.full_segments < hud_meter.total_segments:
+			yield(hud_meter.set_full_segments(hud_meter.full_segments + 1, true), "completed")
 
 func can_airspark() -> bool:
 	if not Samus.is_upgrade_active(Enums.Upgrade.AIRSPARK) or hud_meter.full_segments <= 0:

@@ -25,7 +25,7 @@ func process(_delta: float):
 	var original_facing = Samus.facing
 	var play_transition = false
 	var reset_idle_timer = false
-	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
+	var pad_vector: Vector2 = InputManager.get_pad_vector("pressed")
 	
 	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(Input.is_action_pressed("arm_weapon"))
@@ -65,13 +65,13 @@ func process(_delta: float):
 		change_state("visor")
 		return
 	
-	var shortcut_facing = Shortcut.get_facing()
+	var shortcut_facing = InputManager.get_facing()
 	if shortcut_facing != null and shortcut_facing != Samus.facing:
 		Samus.facing = shortcut_facing
 		play_transition = true
 		reset_idle_timer = true
 	
-	var shortcut_aiming = Shortcut.get_aiming(Samus)
+	var shortcut_aiming = InputManager.get_aiming(Samus)
 	if shortcut_aiming != null and shortcut_aiming != Samus.aiming:
 		if shortcut_aiming == Samus.aim.FLOOR:
 			shortcut_aiming = Samus.aim.DOWN
@@ -146,9 +146,19 @@ func process(_delta: float):
 		idle_timer.start()
 	
 # Called when Samus's state changes to this one
-func init_state(data: Dictionary, _previous_state_id: String):
+func init_state(data: Dictionary, previous_state_id: String):
 	idle_timer.start(Global.rng.randi_range(idle_animation_interval[0], idle_animation_interval[1]))
-	from_powergrip = "from_powergrip" in data and data["from_powergrip"]
+	from_powergrip = previous_state_id == "powergrip"
+	if previous_state_id == "jump" and InputManager.get_pad_x("pressed") == 0:
+		var animation: String
+		match Samus.aiming:
+			Samus.aim.UP, Samus.aim.SKY:
+				animation = "aim_up"
+			Samus.aim.DOWN, Samus.aim.FLOOR:
+				animation = "aim_down"
+			_:
+				animation = "aim_front"
+		Samus.states["crouch"].animations["uncrouch_" + animation].play()
 
 # Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):

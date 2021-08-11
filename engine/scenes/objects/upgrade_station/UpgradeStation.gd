@@ -84,7 +84,7 @@ func process_menu():
 			$Menu/ConfirmationWindow/CostLabel.text = $Menu/Data/CostLabel.text
 			$Menu/ConfirmationWindow/CostLabel/OwnedLabel.text = $Menu/Data/CostLabel/OwnedLabel.text
 		else:
-			var pad: Vector2 = Shortcut.get_pad_vector("just_pressed")
+			var pad: Vector2 = InputManager.get_pad_vector("just_pressed")
 			if pad.y != 0 and $Menu/Items/VBoxContainer.get_child_count() > 1:
 				$Menu/Items/VBoxContainer.get_child(selected_item).selected = false
 				selected_item += pad.y

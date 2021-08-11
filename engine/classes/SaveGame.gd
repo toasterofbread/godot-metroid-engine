@@ -19,7 +19,7 @@ const default_data: Dictionary = {
 	"samus": {
 		"upgrades": {
 			Enums.Upgrade.POWERSUIT: {"amount": 1, "active": true},
-			Enums.Upgrade.VARIASUIT: {"amount": 1, "active": false},
+			Enums.Upgrade.VARIASUIT: {"amount": 1, "active": true},
 			Enums.Upgrade.GRAVITYSUIT: {"amount": 1, "active": false},
 			
 			Enums.Upgrade.ETANK: {"amount": 15, "active": true},
@@ -74,13 +74,19 @@ const default_data: Dictionary = {
 	"logbook": {
 		"recorded_entries": ["POWERSUIT", "POWERBEAM"]
 	},
-	"difficulty": {
-		"level": 0
-	},
+	"difficulty": "0",
 	"statistics": {
 		"playtime": (5*60*60) + (43*60) + 27,
 		"creation_date": null
 	}
+}
+
+var difficulty_data: Dictionary
+const default_difficulty_data: Dictionary = {
+	"ohko_samus": false,
+	"ohko_enemies": false,
+	"incoming_damage_multiplier": 1.0,
+	"outgoing_damage_multiplier": 1.0,
 }
 
 func _init(_filename: String):
@@ -102,14 +108,18 @@ func save_file():
 	Global.save_json(filename, data)
 
 func load_file():
-	var file = Global.load_json(filename)
-	file_exists = file != null
-	
-	if not file_exists:
+	# DEBUG
+	if filename != "debug":
+		var file = Global.load_json(filename)
+		file_exists = file != null
+		if not file_exists:
+			data = default_data.duplicate()
+			data["statistics"]["creation_date"] = OS.get_unix_time()
+		else:
+			data = file
+	else:
 		data = default_data.duplicate()
 		data["statistics"]["creation_date"] = OS.get_unix_time()
-	else:
-		data = file
 	
 	var upgrades = data["samus"]["upgrades"]
 	for upgrade in upgrades:
@@ -117,6 +127,14 @@ func load_file():
 	for upgrade in upgrades:
 		if upgrade is String:
 			upgrades.erase(upgrade)
+	
+	update_difficulty_data()
+
+func update_difficulty_data():
+	difficulty_data.clear()
+	var raw_difficulty_data: Dictionary = Data.data["damage_values"]["difficulty"][get_data_key(["difficulty"])]
+	for key in default_difficulty_data:
+		difficulty_data[key] = raw_difficulty_data[key]["value"] if key in raw_difficulty_data else default_difficulty_data[key]
 
 func get_data_key(keys: Array, create_new_keys:=false):
 	
@@ -152,6 +170,9 @@ func set_data_key(keys: Array, value):
 		i += 1
 	
 	emit_signal("value_set", keys, value)
+	
+	if len(keys) == 1 and keys[0] == "difficulty":
+		update_difficulty_data()
 
 func add_save_function(function: FuncRef):
 	save_functions.append(function)

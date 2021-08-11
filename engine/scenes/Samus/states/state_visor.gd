@@ -85,7 +85,7 @@ func process(delta: float):
 	
 	var play_transition: bool = false
 	var original_facing: int = Samus.facing
-	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
+	var pad_vector: Vector2 = InputManager.get_pad_vector("pressed")
 	
 	if not Samus.Weapons.cycle_visor():
 		change_state("neutral")
@@ -166,7 +166,7 @@ func physics_process(delta: float):
 	
 	angle_process()
 	
-	var pad_x: int = Shortcut.get_pad_x("pressed")
+	var pad_x: int = InputManager.get_pad_x("pressed")
 	
 	if pad_x != 0:
 		Physics.vel.x = move_toward(Physics.vel.x, max_walk_speed*pad_x, walk_acceleration)
@@ -184,7 +184,7 @@ func angle_process():
 			analog_visor = false
 			angle = 90
 		else:
-			var joystick_vector = Shortcut.get_joystick_vector("analog_visor")
+			var joystick_vector = InputManager.get_joystick_vector("analog_visor")
 			if joystick_vector != Vector2.ZERO:
 				enable()
 				analog_visor = true
@@ -199,7 +199,7 @@ func angle_process():
 			disable()
 			return
 		
-		var pad_y: int = Shortcut.get_pad_y("pressed")
+		var pad_y: int = InputManager.get_pad_y("pressed")
 		if pad_y != 0:
 			angle = min(180, max(0, angle + angle_move_speed * pad_y * movement_speed_multiplier))
 #		elif fire_pos:
@@ -216,7 +216,7 @@ func angle_process():
 			scanner.rotation_degrees = angle - 90
 		
 	else:
-		var joystick_vector: Vector2 = Shortcut.get_joystick_vector("analog_visor")
+		var joystick_vector: Vector2 = InputManager.get_joystick_vector("analog_visor")
 		joystick_vector.y *= -1
 		if joystick_vector == Vector2.ZERO:
 			disable()

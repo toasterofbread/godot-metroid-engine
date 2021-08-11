@@ -3,19 +3,18 @@ extends SamusState
 var Animator: Node
 var Physics: Node
 var animations: Dictionary
-var sounds: Dictionary = {
-	"death": Audio.get_player("/samus/death/death", Audio.TYPE.SAMUS).set_volume(20.0).set_ignore_paused(true),
-	"death_real": Audio.get_player("/samus/death/death_real", Audio.TYPE.SAMUS).set_volume(20.0).set_ignore_paused(true),
-}
+var sounds: Dictionary
 
 var tween: Tween = Global.get_tween(true)
 
 func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
-	pass
+	for sound in sounds:
+		sounds[sound].set_ignore_paused(true)
 
 # Called when Samus' state is changed to this one
 func init_state(data: Dictionary, _previous_state_id: String):
 	Samus.paused = true
+	Physics.apply_velocity = false
 	var material: ShaderMaterial = Animator.get_node("Sprites").material
 	material.set("shader_param/whitening_value", 0)
 	
@@ -38,7 +37,7 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	yield(tween, "tween_all_completed")
 	Samus.get_tree().paused = true
 	
-	var death_sound: AudioPlayer = sounds["death_real" if Samus.real else "death"]
+	var death_sound: AudioPlayer = sounds["death_full" if Samus.real else "death"]
 	death_sound.play()
 	if not Samus.real:
 		yield(death_sound, "finished")

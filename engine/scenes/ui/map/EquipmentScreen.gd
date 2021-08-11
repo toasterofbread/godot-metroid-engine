@@ -77,7 +77,7 @@ func close(instant: bool = false):
 #	yield($AnimationPlayer, "animation_finished")
 
 func process():
-	var pad_vector = Shortcut.get_pad_vector("just_pressed")
+	var pad_vector = InputManager.get_pad_vector("just_pressed")
 	
 	var group: Control = selected_item.get_parent()
 	if pad_vector.y != 0:

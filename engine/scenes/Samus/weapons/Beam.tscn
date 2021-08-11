@@ -310,9 +310,9 @@ animations = [ {
 "name": "PLASMABEAM end",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 81 ), ExtResource( 71 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 79 ), ExtResource( 78 ), ExtResource( 77 ), ExtResource( 77 ) ],
+"frames": [ ExtResource( 70 ), ExtResource( 68 ), ExtResource( 75 ), ExtResource( 19 ), ExtResource( 19 ) ],
 "loop": false,
-"name": "ICEBEAM end",
+"name": "POWERBEAM end",
 "speed": 60.0
 }, {
 "frames": [ ExtResource( 96 ), ExtResource( 90 ), ExtResource( 90 ) ],
@@ -325,11 +325,6 @@ animations = [ {
 "name": "PLASMABEAM start",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 74 ), ExtResource( 4 ), ExtResource( 73 ), ExtResource( 17 ), ExtResource( 67 ), ExtResource( 76 ), ExtResource( 65 ), ExtResource( 65 ) ],
-"loop": false,
-"name": "WAVEBEAM end",
-"speed": 60.0
-}, {
 "frames": [ ExtResource( 96 ), ExtResource( 90 ), ExtResource( 90 ) ],
 "loop": false,
 "name": "POWERBEAM start",
@@ -340,9 +335,14 @@ animations = [ {
 "name": "CHARGEBEAM end",
 "speed": 60.0
 }, {
-"frames": [ ExtResource( 70 ), ExtResource( 68 ), ExtResource( 75 ), ExtResource( 19 ), ExtResource( 19 ) ],
+"frames": [ ExtResource( 81 ), ExtResource( 71 ), ExtResource( 7 ), ExtResource( 13 ), ExtResource( 79 ), ExtResource( 78 ), ExtResource( 77 ), ExtResource( 77 ) ],
 "loop": false,
-"name": "POWERBEAM end",
+"name": "ICEBEAM end",
+"speed": 60.0
+}, {
+"frames": [ ExtResource( 74 ), ExtResource( 4 ), ExtResource( 73 ), ExtResource( 17 ), ExtResource( 67 ), ExtResource( 76 ), ExtResource( 65 ), ExtResource( 65 ) ],
+"loop": false,
+"name": "WAVEBEAM end",
 "speed": 60.0
 }, {
 "frames": [ ExtResource( 92 ), ExtResource( 91 ), ExtResource( 91 ) ],

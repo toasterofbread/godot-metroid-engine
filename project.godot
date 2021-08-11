@@ -90,6 +90,11 @@ _global_script_classes=[ {
 "path": "res://engine/scenes/objects/fluid/Fluid.gd"
 }, {
 "base": "Node2D",
+"class": "GroundTypeCollisionShape2D",
+"language": "GDScript",
+"path": "res://engine/classes/GroundTypeCollisionShape2D.gd"
+}, {
+"base": "Node2D",
 "class": "LayerSetter",
 "language": "GDScript",
 "path": "res://engine/classes/nodes/LayerSetter.gd"
@@ -119,7 +124,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://engine/scenes/ui/map/MapTile.gd"
 }, {
-"base": "PanelContainer",
+"base": "Control",
 "class": "MultipleChoicePrompt",
 "language": "GDScript",
 "path": "res://engine/scenes/ui/multiple_choice_prompt/MultipleChoicePrompt.gd"
@@ -231,6 +236,7 @@ _global_script_class_icons={
 "ExTween": "",
 "ExpandingBoxContainer": "",
 "Fluid": "",
+"GroundTypeCollisionShape2D": "",
 "LayerSetter": "",
 "LocalizationData": "",
 "LocalizationKeys": "",
@@ -279,7 +285,7 @@ vOverlay="*res://addons/Var_Overlay/overlay.gd"
 Notification="*res://engine/scenes/ui/notification_display/NotificationDisplay.tscn"
 Global="*res://engine/classes/autoload/Global.tscn"
 Enums="*res://engine/classes/autoload/Enums.gd"
-Shortcut="*res://engine/classes/autoload/Shortcut.gd"
+InputManager="*res://engine/classes/autoload/InputManager.gd"
 Settings="*res://engine/classes/autoload/Settings.gd"
 Data="*res://engine/classes/autoload/Data.gd"
 Audio="*res://engine/classes/autoload/Audio.gd"
@@ -359,6 +365,10 @@ wav={
 "force/max_rate": false,
 "force/max_rate_hz": 44100,
 "force/mono": false
+}
+ogg_vorbis={
+"loop": false,
+"loop_offset": 0
 }
 
 [input]

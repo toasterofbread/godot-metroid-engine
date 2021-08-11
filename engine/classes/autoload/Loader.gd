@@ -51,6 +51,8 @@ func load_savegame(saveGame: SaveGame):
 	room_container.add_child(current_room)
 	room_container.add_child(Samus)
 	
+	Notification.set_preset("SamusHUD", false)
+	Notification.left_to_right = false
 	current_room.save_stations[int(save_point["save_station_id"])].spawn_samus()
 	
 	emit_signal("room_loaded")
@@ -187,8 +189,8 @@ func register_commands():
 		.set_description("Reloads the current room without repositioning Samus.")\
 		.register()
 	
-	Shortcut.register_debug_shortcut("DEBUG_reload_room", "Reload room", {"just_pressed": funcref(self, "command_reload_room")})
-	Shortcut.register_debug_shortcut("DEBUG_reset_samus_position", "Reset Samus's position", {"just_pressed": funcref(self, "command_reset_samus_position")})
+	InputManager.register_debug_shortcut("DEBUG_reload_room", "Reload room", {"just_pressed": funcref(self, "command_reload_room")})
+	InputManager.register_debug_shortcut("DEBUG_reset_samus_position", "Reset Samus's position", {"just_pressed": funcref(self, "command_reset_samus_position")})
 
 func command_load_room(room_id: String):
 	var result = load_room(room_id)

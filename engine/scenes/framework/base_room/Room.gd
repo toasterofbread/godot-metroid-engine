@@ -1,6 +1,10 @@
 extends Node2D
 class_name Room
 
+onready var sounds: Dictionary = {
+	"sndQuakeLoop": Audio.get_player("other/sndQuakeLoop", Audio.TYPE.FX)
+}
+
 var is_preview: bool = false
 
 var id_info_set: bool = false
@@ -53,7 +57,7 @@ func _ready():
 	
 	# DEBUG | Handles launching current scene with F6
 	if Loader.current_room == null:
-		Loader.loaded_save = SaveGame.new(Loader.get_savefile_path(0))
+		Loader.loaded_save = SaveGame.new("debug")
 		Loader.emit_signal("save_loaded")
 		Loader.load_room(id)
 		queue_free()
@@ -119,7 +123,8 @@ func save():
 	Loader.loaded_save.set_data_key(["current_room_id"], id)
 
 signal earthquake
-func earthquake(center: Vector2, strength: float, duration):
+func earthquake(center: Vector2, strength: float, duration: float):
 	emit_signal("earthquake", center, strength)
-	Shortcut.vibrate_controller(strength, duration)
+	InputManager.vibrate_controller(strength, duration)
+	sounds["sndQuakeLoop"].play(0.0, duration)
 	Global.shake_camera(Loader.Samus.camera, Vector2.ZERO, strength*10, duration)

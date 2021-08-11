@@ -1,6 +1,6 @@
 extends Node
 
-signal landed
+signal is_on_floor_changed
 signal physics_data_set
 onready var Samus: KinematicBody2D = get_parent()
 
@@ -26,6 +26,8 @@ onready var profile_key: String = Settings.get("control_options/samus_physics_pr
 var mode: int = Enums.SAMUS_PHYSICS_MODES.STANDARD
 var prevent_physics_override: bool = false
 
+var current_ground_collider_shape = null
+
 # Keeping this around for the memories
 #var time = -1
 
@@ -35,8 +37,9 @@ func _ready():
 	Settings.connect("settings_changed", self, "settings_changed")
 	Samus.connect("suit_changed", self, "samus_suit_changed")
 	Samus.connect("state_changed", self, "samus_state_changed")
+	connect("is_on_floor_changed", self, "is_on_floor_changed")
 	
-	Shortcut.register_debug_shortcut("DEBUG_reload_samus_physics_data", "Reload Samus physics data", {"just_pressed": funcref(self, "shortcut_reload_data")})
+	InputManager.register_debug_shortcut("DEBUG_reload_samus_physics_data", "Reload Samus physics data", {"just_pressed": funcref(self, "shortcut_reload_data")})
 
 func reload_data():
 	profiles.clear()
@@ -57,14 +60,17 @@ func _physics_process(delta: float):
 	if get_tree().paused:# or Samus.paused:
 		return
 	
-	if not Samus.was_on_floor and Samus.is_on_floor():
-		Samus.was_on_floor = true
-		emit_signal("landed")
+	if not Samus.was_on_floor:
+		if Samus.is_on_floor():
+			Samus.was_on_floor = true
+			emit_signal("is_on_floor_changed", true)
 	else:
-		Samus.was_on_floor = Samus.is_on_floor()
+		if not Samus.is_on_floor():
+			Samus.was_on_floor = false
+			emit_signal("is_on_floor_changed", false)
 	
-	if Samus.current_fluid != Fluid.TYPES.NONE:
-		fluid_process(delta)
+#	if Samus.current_fluid != Fluid.TYPES.NONE:
+#		fluid_process(delta)
 	
 	if Samus.boosting and (Samus.is_on_ceiling() or Samus.is_on_wall()):
 		Samus.boosting = false
@@ -100,8 +106,8 @@ func move_x(to: float, by: float = INF):
 func move(to: Vector2, delta: float = INF):
 	vel = vel.move_toward(to, delta)
 
-func fluid_process(delta):
-	pass
+#func fluid_process(delta):
+#	pass
 
 func settings_changed(path: String, value):
 	if path == "other/physics_profile":
@@ -141,7 +147,20 @@ func samus_suit_changed(active_suits: Dictionary):
 
 func samus_state_changed(_previous_state_id, new_state_id: String, _data):
 	for property in ["gravity", "fall_speed_cap"]:
-		if new_state_id in data and property in data[new_state_id]:
-			set(property, data[new_state_id][property])
+		if new_state_id in data and property + "_override" in data[new_state_id]:
+			set(property, data[new_state_id][property + "_override"])
 		else:
 			set(property, data["general"][property])
+
+func is_on_floor_changed(is_on_floor: bool):
+	if is_on_floor:
+		for slide_idx in range(Samus.get_slide_count()):
+			var collision: KinematicCollision2D = Samus.get_slide_collision(slide_idx)
+			if collision.normal == Samus.get_floor_normal():
+				current_ground_collider_shape = collision.collider_shape
+				# DEBUG | Eventually, all CollisionPolygon/Shapes that Samus can land/walk on should be GroundTypeCollisionShapes
+				if current_ground_collider_shape is GroundTypeCollisionShape2D:
+					current_ground_collider_shape.play_land_sound()
+					return
+	else:
+		current_ground_collider_shape = null

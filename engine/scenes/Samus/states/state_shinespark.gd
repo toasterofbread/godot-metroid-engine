@@ -3,6 +3,7 @@ extends SamusState
 var Animator: Node
 var Physics: Node
 var animations: Dictionary
+var sounds: Dictionary
 var physics_data: Dictionary
 
 const damage_type: int = Enums.DamageType.SPEEDBOOSTER
@@ -33,11 +34,11 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	maintain_shinespark_when_airsparking = Samus.get_mini_upgrade("maintain_shinespark_when_airsparking", 0)
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary, _previous_state_id: String):
+func init_state(data: Dictionary, previous_state_id: String):
 	
 	Physics.apply_gravity = false
 	Physics.vel = Vector2.ZERO
-	direction = Shortcut.get_pad_vector("pressed")
+	direction = InputManager.get_pad_vector("pressed")
 	
 	discharge_shinespark()
 	Physics.disable_floor_snap = true
@@ -57,7 +58,7 @@ func init_state(data: Dictionary, _previous_state_id: String):
 		Physics.vel.y = 0
 		yield(Global.wait(0.15), "completed")
 	
-	var pad_vector: Vector2 = Shortcut.get_pad_vector("pressed")
+	var pad_vector: Vector2 = InputManager.get_pad_vector("pressed")
 	if pad_vector != Vector2.ZERO:
 		direction = pad_vector
 	elif direction == Vector2.ZERO:
@@ -84,6 +85,8 @@ func init_state(data: Dictionary, _previous_state_id: String):
 		boost_animation = "boost_fx_horiz_" + ("up" if direction.y == -1 else "down")
 	animations[("ball_" if ballspark else "") + boost_animation].play()
 	
+	if previous_state_id != id:
+		sounds["sndSJLoop"].play()
 	moving = true
 
 # Changes Samus's state to the passed state script
@@ -94,6 +97,8 @@ func change_state(new_state_key: String, data: Dictionary = {}):
 	moving = false
 	Physics.apply_gravity = true
 	
+	if new_state_key != id:
+		sounds["sndSJLoop"].stop()
 	.change_state(new_state_key, data)
 	
 # Called every frame while this state is active
@@ -141,6 +146,7 @@ func process(_delta: float):
 		Samus.boosting = false
 		moving = false
 		Animator.current[true].sprites[Samus.facing].visible = false
+		sounds["sndSJLoop"].stop()
 		
 		Loader.current_room.earthquake(Samus.global_position, damage_values["earthquake_strength"], damage_values["earthquake_duration"])
 		

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndBrake.wav-e60cb6aae3d44aa5b15f45af531055da.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/state_run/sndBrake.wav"
+dest_files=[ "res://.import/sndBrake.wav-e60cb6aae3d44aa5b15f45af531055da.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

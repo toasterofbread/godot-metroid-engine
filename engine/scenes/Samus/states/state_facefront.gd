@@ -34,7 +34,7 @@ func process(_delta: float):
 	if Settings.get("control_options/aiming_style") == 0:
 		Animator.set_armed(false)
 	
-	var pad_x: float = Shortcut.get_pad_x("pressed")
+	var pad_x: float = InputManager.get_pad_x("pressed")
 	if pad_x == -1:
 		Samus.facing = Enums.dir.LEFT
 		animations[prefix + "turn"].play()

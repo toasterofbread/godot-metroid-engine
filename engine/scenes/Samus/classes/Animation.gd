@@ -51,7 +51,7 @@ var frames: SpriteFrames
 func process():
 	var frame = sprites[Samus.facing].frame
 	if frame in step_frames:
-		Samus.step(0 if frame == step_frames[0] else 1)
+		Samus.footstep(frame)
 
 func _init(_animator: Node2D, _id: String, args: Dictionary = {}):
 	

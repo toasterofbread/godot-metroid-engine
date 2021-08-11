@@ -4,6 +4,7 @@ onready var bomb_bounce_timer: Timer = Global.get_timer()
 var bomb_bounce_limit: float
 
 var morphball_physics_data: Dictionary
+onready var sounds: Dictionary = Audio.get_players_from_dir("/samus/weapons/bomb/", Audio.TYPE.SAMUS)
 #onready var bomb_jump_speed: float = morphball_physics_data["bomb_jump_speed"]
 #onready var bomb_jump_horiz_speed: float = morphball_physics_data["bomb_jump_horiz_speed"]
 #onready var bomb_jump_time: float = morphball_physics_data["bomb_jump_time"]
@@ -18,7 +19,7 @@ func _ready():
 		yield(get_tree(), "idle_frame")
 	morphball_physics_data = Samus.Physics.data["morphball"]
 
-func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
+func get_fire_object(pos: SamusCannonPosition, chargebeam_damage_multiplier):
 	if not Weapons.fire_pos or Cooldown.time_left > 0 or len(projectiles) >= max_bomb_amount + (bomb_amount_mini_upgrade[0]["created"] * bomb_amount_mini_upgrade[1]) or chargebeam_damage_multiplier == 1.0:
 		return false
 	
@@ -30,6 +31,7 @@ func get_fire_object(pos: Position2D, chargebeam_damage_multiplier):
 		projectile.init(self, pos, chargebeam_damage_multiplier)
 		projectiles.append(projectile)
 		projectile.apply_damage = false
+		sounds["sndBombSet"].play()
 		return projectiles
 	else:
 		init_charge_bombs(chargebeam_damage_multiplier)
@@ -44,17 +46,21 @@ func init_charge_bombs(chargebeam_damage_multiplier: float):
 	
 	var amplitude = 0.5
 	var timer: GDScriptFunctionState = Global.wait(0.5)
-
+	sounds["sndBombComboStart"].play()
+	
+#	var pos: SamusCannonPosition = Weapons.fire_pos_nodes["morphball/roll"]
+#	Weapons.fire_pos.get_parent().add_child(pos)
 	while timer.is_valid() and Input.is_action_pressed("fire_weapon") and Samus.current_state.id in ["morphball", "spiderball"]:
 		var delta: float = yield(Global, "physics_frame")
 		amplitude += delta
 	
-#	var samus_final_position = Samus.global_position
+	sounds["sndBombCombo"].play()
+	var pos: SamusCannonPosition = Weapons.fire_pos
+	
 	var projectiles = []
-	var pad_vector = Shortcut.get_pad_vector("pressed")
+	var pad_vector = InputManager.get_pad_vector("pressed")
 	if pad_vector.y == 1 and pad_vector.x == 0 and Samus.is_on_floor():
 		
-		var pos = Weapons.fire_pos.duplicate()
 		for i in range(5):
 			if i != 0:
 				yield(Global.wait(0.05*i), "completed")
@@ -67,11 +73,12 @@ func init_charge_bombs(chargebeam_damage_multiplier: float):
 	else:
 		for i in range(5):
 			var projectile: SamusRigidProjectile = ProjectileNode["Rigid"].duplicate()
-			projectile.init(self, Weapons.fire_pos, chargebeam_damage_multiplier, {"position": i, "charge_profile": "scatter"})
+			projectile.init(self, pos, chargebeam_damage_multiplier, {"position": i, "charge_profile": "scatter"})
 			var impulse = Vector2(50*(i-2), -200) + Vector2(200*pad_vector.x, -40*abs(pad_vector.x)*(abs(i-4) if pad_vector.x > 0 else i))
 			projectile.apply_central_impulse(impulse*amplitude)
 			GlobalAnchor.add_child(projectile)
 			fired(projectile)
+#	pos.queue_free()
 #			yield(Global.wait(0.05+(0.05*abs(i-2))), "completed")
 #		projectile.velocity.x = (i-2)*500
 #		projectile.velocity.y = 200*sin((i-2))
@@ -122,6 +129,7 @@ func explode(projectile: PhysicsBody2D):
 		return
 	
 	projectile.visible = false
+	sounds["sndBombExpl"].play()
 	var processed_bodies = []
 	var burst: AnimatedSprite = projectile.burst_end(false)
 	var area: Area2D = projectile.get_node("Area2D")
@@ -144,7 +152,7 @@ func explode(projectile: PhysicsBody2D):
 						)
 			elif not body.name == "Samus":
 				if body.has_method("damage"):
-					body.damage(damage_type, damage_amount, projectile.global_position)
+					body.damage(damage_type, damage_amount * Loader.loaded_save.difficulty_data["outgoing_damage_multiplier"], projectile.global_position)
 		yield(get_tree(), "idle_frame")
 	projectiles.erase(projectile)
 	projectile.queue_free()

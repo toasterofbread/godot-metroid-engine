@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndLand.wav-b0c6d618dd296224c26d037c72fde9b4.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/ground_types/ROCK_01/land/sndLand.wav"
+dest_files=[ "res://.import/sndLand.wav-b0c6d618dd296224c26d037c72fde9b4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

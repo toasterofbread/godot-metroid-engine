@@ -3,6 +3,7 @@ extends SamusState
 var Physics: Node
 var Animator: Node2D
 var animations: Dictionary
+var sounds: Dictionary
 
 var attach_point: Vector2
 var climbing: bool = false
@@ -38,6 +39,8 @@ func init_state(data: Dictionary, _previous_state_id: String) -> bool:
 	if Samus.aiming == Samus.aim.FRONT:
 		Samus.aiming = Samus.aim.NONE
 	
+	sounds["sndGrab"].play()
+	
 	return true
 
 func change_state(new_state_key: String, data: Dictionary = {}):
@@ -63,6 +66,7 @@ func process(_delta: float):
 	elif Input.is_action_just_pressed("jump"):
 		if Input.is_action_pressed(direction[true]): 
 			climbing = true
+			sounds["sndPullUp"].play()
 			if Samus.facing == Enums.dir.LEFT:
 				Animator.Player.play("powergrip_climb_left")
 			else:
@@ -99,7 +103,7 @@ func process(_delta: float):
 				Samus.facing = Enums.dir.RIGHT
 				change_state("run", {"boost": false})
 			else:
-				change_state("neutral", {"from_powergrip": true})
+				change_state("neutral")
 #				Samus.global_position.y -= 8
 #				change_state("neutral")
 			return
@@ -148,7 +152,7 @@ func process(_delta: float):
 	
 	# Aim shortcut
 	if not Input.is_action_pressed("secondary_" + direction[true]):
-		var new_aiming = Shortcut.get_aiming(Samus, true)
+		var new_aiming = InputManager.get_aiming(Samus, true)
 		if new_aiming != null:
 			Samus.aiming = new_aiming
 		elif Input.is_action_just_released("secondary_" + direction[false]) or Input.is_action_just_released("secondary_pad_down") or Input.is_action_just_released("secondary_pad_up"):

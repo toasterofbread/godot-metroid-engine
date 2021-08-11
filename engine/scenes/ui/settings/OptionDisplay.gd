@@ -94,7 +94,7 @@ func reset():
 
 func process():
 	
-	var pad_vector = Shortcut.get_pad_vector("just_pressed").y
+	var pad_vector = InputManager.get_pad_vector("just_pressed").y
 	
 	var previous_index = index
 	if pad_vector != 0 and $Categories.get_child_count() > 1:

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sndLandStone.wav-9e2c15368877e97e9249777580212a78.sample"
+
+[deps]
+
+source_file="res://engine/audio/samus/ground_types/ROCK_03/land/sndLandStone.wav"
+dest_files=[ "res://.import/sndLandStone.wav-9e2c15368877e97e9249777580212a78.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
