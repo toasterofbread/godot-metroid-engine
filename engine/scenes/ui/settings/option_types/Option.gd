@@ -12,7 +12,7 @@ enum TYPES {
 func compare_arrays(arrayA: Array, arrayB: Array) -> bool:
 	if len(arrayA) != len(arrayB):
 		return false
-	for i in range(len(arrayA)):
+	for i in len(arrayA):
 		if arrayA[i] != arrayB[i]:
 			return false
 	return true

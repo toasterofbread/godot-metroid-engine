@@ -30,7 +30,7 @@ func trigger(upgrade_type: int, added: int, total: int):
 	$CanvasLayer/Added.text = "Added: " + str(added)
 	$CanvasLayer/Total.text = "Total: " + str(total)
 	
-	var camera: ExCamera2D = Global.current_camera
+	var camera: ControlledCamera2D = Global.current_camera
 	camera.set_dim_layer(Enums.Layers.MENU)
 	camera.dim_colour = Color(0, 0, 0, 0)
 	$Tween.interpolate_property(camera, "dim_colour:a", 0, 0.75, show_duration*2)

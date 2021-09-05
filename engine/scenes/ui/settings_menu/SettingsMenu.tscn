@@ -35,10 +35,11 @@ __meta__ = {
 }
 
 [node name="Control" type="Control" parent="."]
-margin_left = 716.0
-margin_top = 61.0
-margin_right = 1920.0
-margin_bottom = 826.0
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -1204.0
+margin_top = 46.6171
+margin_bottom = 811.617
 rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -111,7 +112,6 @@ margin_bottom = 275.0
 rect_min_size = Vector2( 7, 0 )
 
 [node name="ValuePanelTemplate" type="ColorRect" parent="."]
-visible = false
 margin_left = 56.1091
 margin_top = 453.109
 margin_right = 378.109
@@ -149,3 +149,5 @@ __meta__ = {
 
 [node name="ButtonSelectionPrompt" parent="." instance=ExtResource( 4 )]
 visible = false
+
+[connection signal="status_changed" from="ButtonSelectionPrompt" to="." method="_on_ButtonSelectionPrompt_status_changed"]

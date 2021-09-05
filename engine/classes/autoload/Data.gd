@@ -31,7 +31,7 @@ func _ready():
 		for option in settings_text_information[group]["options"]:
 			var option_data: Dictionary = settings_text_information[group]["options"][option]
 			if "data" in option_data:
-				for i in range(len(option_data["data"])):
+				for i in len(option_data["data"]):
 					option_data["data"][i] = option_data["data"][i]["key"]
 		
 	for group in settings_text_information:
@@ -40,7 +40,7 @@ func _ready():
 				settings_text_information[group]["options"][setting][key] = settings_information[group][setting][key]
 	
 	# Format mini_upgrades data
-	var mini_upgrades_data = get_cdb_sheet("mini_upgrades")
+	var mini_upgrades_data: Dictionary = get_cdb_sheet("mini_upgrades")
 	for upgrade in mini_upgrades_data:
 		mini_upgrades_data[upgrade]["key"] = upgrade
 		
@@ -49,13 +49,18 @@ func _ready():
 		for value in dependencies:
 			mini_upgrades_data[upgrade]["dependencies"].append(Enums.Upgrade.keys().find(value["value"]))
 	
+	# Format map areas and rooms data
+	var map_data: Dictionary = get_cdb_sheet("map")
+	for area in map_data:
+		map_data[area]["rooms"] = cdbarray2dict(map_data[area]["rooms"])
+	
 	data = {
 		"logbook": get_cdb_sheet("logbook"),
 		"mini_upgrades": mini_upgrades_data,
 		"damage_values": Global.load_json(data_path + "static/damage_values.json"),
 		"engine_config": engine_config,
 		"settings_information": settings_text_information,
-		"map_areas": get_cdb_sheet("map_areas")
+		"map": map_data
 	}
 	
 	emit_signal("loaded")

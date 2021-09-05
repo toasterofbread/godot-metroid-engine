@@ -12,7 +12,19 @@ var map_scale: Vector2 = Vector2.ONE setget set_map_scale
 const default_map_size: Vector2 = Vector2(40, 24)
 var map_size: Vector2 = default_map_size
 
-onready var default_position: Vector2 = rect_position
+#onready var default_position: Vector2 = rect_position
+onready var default_margins: Dictionary = {
+	"margin_left": margin_left,
+	"margin_right": margin_right,
+	"margin_top": margin_top,
+	"margin_bottom": margin_bottom,
+}
+onready var default_anchors: Dictionary ={
+	"anchor_left": anchor_left,
+	"anchor_right": anchor_right,
+	"anchor_top": anchor_top,
+	"anchor_bottom": anchor_bottom,
+}
 var focus_position = Vector2.ZERO setget set_focus_position
 
 var background_offset: Vector2 = Vector2.ZERO setget set_background_offset
@@ -43,7 +55,11 @@ func update_minimap():
 
 func reset_minimap_properties():
 	set_map_scale(Vector2.ONE)
-	rect_position = default_position
+#	rect_position = default_position
+	for margin in default_margins:
+		set(margin, default_margins[margin])
+	for anchor in default_anchors:
+		set(anchor, default_anchors[anchor])
 	map_size = default_map_size
 	rect_size = map_size
 	Background.rect_size = rect_size

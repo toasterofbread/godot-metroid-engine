@@ -2,6 +2,8 @@ tool
 extends Control
 class_name ButtonPrompt
 
+signal just_pressed
+
 export var preview_text: String setget set_preview_text
 export var preview_texture: Texture setget set_preview_texture
 
@@ -37,6 +39,10 @@ func _ready():
 	set_hold_time(hold_time)
 	
 	$ProgressBarContainer.visible = false
+
+func _input(event: InputEvent):
+	if event.is_action_pressed(_action_key):
+		emit_signal("just_pressed")
 
 func _process(delta: float):
 	
@@ -81,12 +87,12 @@ func set_preview_text(value: String):
 	$Label.text = preview_text
 
 var _action_key: String
-var current_action_key_tween: float
+var current_action_key_tween: int
 func set_action_key(action_key: String, animate: bool):
 	_action_key = action_key
 	
 	if animate:
-		var time: float = OS.get_ticks_msec()
+		var time: int = OS.get_ticks_msec()
 		current_action_key_tween = time
 		
 		$TweenIcon.stop_all()
@@ -101,11 +107,11 @@ func set_action_key(action_key: String, animate: bool):
 	if animate:
 		$TweenIcon.interpolate_property($ButtonIconContainer/ButtonIcon, "modulate:a", $ButtonIconContainer/ButtonIcon.modulate.a, 1.0, 0.2, Tween.TRANS_EXPO, Tween.EASE_OUT)
 
-var current_text_tween: float
+var current_text_tween: int
 func set_text(text_key: String, animate: bool):
 	
 	if animate:
-		var time: float = OS.get_ticks_msec()
+		var time: int = OS.get_ticks_msec()
 		current_text_tween = time
 		
 		$TweenLabel.stop_all()
@@ -121,7 +127,7 @@ func set_text(text_key: String, animate: bool):
 		$TweenLabel.interpolate_property($Label, "modulate:a", $Label.modulate.a, 1.0, 0.2, Tween.TRANS_EXPO, Tween.EASE_OUT)
 		yield($TweenLabel, "tween_completed")
 
-var current_visibility_tween: float
+var current_visibility_tween: int
 func set_visibility(visibility: bool, animate: bool):
 	
 	set_process(hold_time != HOLD_TIMES.NONE and visibility)
@@ -130,7 +136,7 @@ func set_visibility(visibility: bool, animate: bool):
 		visible = true
 	
 	if animate:
-		var time: float = OS.get_ticks_msec()
+		var time: int = OS.get_ticks_msec()
 		current_visibility_tween = time
 		$TweenVisibility.stop_all()
 		$TweenVisibility.interpolate_property(self, "modulate:a", modulate.a, float(visibility), 0.2, Tween.TRANS_EXPO, Tween.EASE_OUT)

@@ -3,7 +3,7 @@ extends Node
 enum dir {LEFT, RIGHT, UP, DOWN, TOPLEFT, TOPRIGHT, BOTLEFT, BOTRIGHT, NONE}
 
 func _ready():
-	for i in range(len(DamageType)):
+	for i in len(DamageType):
 		DamageTypeDict[DamageType.keys()[i]] = i
 
 enum DamageType {

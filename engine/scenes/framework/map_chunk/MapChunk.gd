@@ -66,7 +66,7 @@ func generate_tile_data():
 	
 	var data: Dictionary = Global.load_json(Map.tile_data_path)
 	
-	var room: Room = get_parent().get_parent()
+	var room: GameRoom = get_parent().get_parent()
 	if not grid_position_adjusted:
 		grid_position += room.grid_position
 		grid_position_adjusted = true

@@ -1,13 +1,22 @@
 extends Area2D
 
+"""
+
+Upgrade ideas:
+	Speedbooster/shinespark opens doors on collision
+	Grapple beam penetrates solid objects
+	Grapple beam attaches to any surface
+
+"""
+
 onready var Samus: KinematicBody2D = Loader.Samus
 signal hide_prompt
 var prompt = null
 var samus_entered: = false
 
 # Menu
-var camera_original_limits: Dictionary
-var camera_original_position: Vector2
+#var camera_original_limits: Dictionary
+#var camera_original_position: Vector2
 onready var menu_scale: Vector2 = $Menu.rect_scale
 enum MENU_STATES {CLOSED, SELECTION, CONFIRMATION, TRANSITION}
 var menu_state: int = MENU_STATES.CLOSED
@@ -154,14 +163,10 @@ func open_menu():
 	$Tween.interpolate_property($ScreenMask, "modulate:a", $ScreenMask.modulate.a, 1, 0.5)
 	$Tween.start()
 	
-	var camera: ExCamera2D = Samus.camera
-	camera_original_limits = camera.get_limits()
-	camera_original_position = camera.global_position
-	camera.set_limits(null)
-	
-	$Tween.interpolate_property(camera, "global_position:y", camera.global_position.y, $CameraPosition.global_position.y, 1.0, Tween.TRANS_EXPO, Tween.EASE_OUT)
-	$Tween.start()
-	yield(Global.wait(0.1), "completed")
+	var camera: ControlledCamera2D = Samus.camera
+	camera.follow_node_pos = false
+	camera.follow_pos = $CameraPosition.global_position
+	yield(camera, "stopped")
 	
 	get_tree().paused = true
 	upgrades = Loader.loaded_save.get_data_key(["samus", "mini_upgrades"])
@@ -244,14 +249,9 @@ func close_menu():
 	$MenuTween.interpolate_property($Menu, "rect_scale:x", $Menu.rect_scale.x, 0, 0.25, Tween.TRANS_EXPO, Tween.EASE_OUT)
 	$MenuTween.start()
 	
-	var camera: ExCamera2D = Samus.camera
-	
-	$Tween.interpolate_property(camera, "global_position:y", camera.global_position.y, camera_original_position.y, 0.75, Tween.TRANS_EXPO, Tween.EASE_OUT)
-	$Tween.interpolate_property($ScreenMask, "modulate:a", $ScreenMask.modulate.a, 0, 0.5)
-	$Tween.start()
-	yield(Global.wait(0.2, true), "completed")
-	
-	camera.set_limits(camera_original_limits)
+	var camera: ControlledCamera2D = Samus.camera
+	camera.follow_node_pos = true
+	yield(camera, "stopped")
 	
 	get_tree().paused = false
 	Samus.paused = false

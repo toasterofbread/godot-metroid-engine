@@ -18,19 +18,19 @@
 [ext_resource path="res://engine/sprites/objects/door/yellow/sYellowDoor_0.png" type="Texture" id=16]
 [ext_resource path="res://engine/sprites/objects/door/yellow/sYellowDoor_2.png" type="Texture" id=17]
 [ext_resource path="res://engine/sprites/objects/door/red/sRedDoor_2.png" type="Texture" id=18]
-[ext_resource path="res://engine/classes/nodes/DamageConnector.gd" type="Script" id=19]
-[ext_resource path="res://engine/classes/GroundTypeCollisionShape2D.gd" type="Script" id=20]
+[ext_resource path="res://engine/classes/RoomPhysicsBody2DDamageable.gd" type="Script" id=19]
+[ext_resource path="res://engine/classes/RoomCollisionArea.gd" type="Script" id=20]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ],
+"frames": [ ExtResource( 7 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 16 ) ],
 "loop": false,
-"name": "green_open",
+"name": "yellow_close",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
+"frames": [ ExtResource( 15 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 13 ) ],
 "loop": false,
-"name": "blue_close",
+"name": "red_close",
 "speed": 20.0
 }, {
 "frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 12 ) ],
@@ -38,9 +38,14 @@ animations = [ {
 "name": "green_close",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 7 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
 "loop": false,
-"name": "yellow_open",
+"name": "blue_close",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ],
+"loop": false,
+"name": "green_open",
 "speed": 20.0
 }, {
 "frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 18 ), ExtResource( 15 ) ],
@@ -48,24 +53,19 @@ animations = [ {
 "name": "red_open",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 7 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 16 ) ],
+"frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 7 ) ],
 "loop": false,
-"name": "yellow_close",
+"name": "yellow_open",
 "speed": 20.0
 }, {
 "frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "blue_open",
 "speed": 20.0
-}, {
-"frames": [ ExtResource( 15 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 13 ) ],
-"loop": false,
-"name": "red_close",
-"speed": 20.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 3, 32 )
+extents = Vector2( 28, 32 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 3 )
@@ -93,10 +93,9 @@ frames = SubResource( 1 )
 animation = "blue_open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cover"]
-position = Vector2( 12, 0 )
+position = Vector2( -12, 0 )
 shape = SubResource( 2 )
 script = ExtResource( 20 )
-ground_type = 1
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( -16, 0 )
@@ -129,7 +128,6 @@ position = Vector2( -32, 0 )
 position = Vector2( 1, -20 )
 polygon = PoolVector2Array( -41.0156, -12.0078, -41.0234, 52.0156, 7, 52.0156, 7, 52, -41, 52, -41, -12, 7, -12, 7, -12.0156 )
 script = ExtResource( 20 )
-ground_type = 1
 
 [connection signal="damage" from="Cover" to="." method="_on_Cover_damage"]
 [connection signal="body_entered" from="TransitionTriggerArea" to="." method="_on_TransitionTriggerArea_body_entered"]

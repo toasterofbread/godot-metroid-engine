@@ -6,12 +6,18 @@ export var length: float = 1.0 setget set_length
 export var generation_seed: int = 0
 export var generate_with_random_seed: bool setget generate_random
 export var _generate: bool setget generate_tiles
+export var guideline_visible: bool = true setget set_guideline_visible
+
+func set_guideline_visible(value: bool):
+	guideline_visible = value
+	$Line2D.visible = guideline_visible
 
 func _ready():
+	generate_tiles(true, generation_seed)
 	if Engine.editor_hint:
 		return
-	
-	generate_tiles(true, generation_seed)
+	set_guideline_visible(false)
+	$Line2D.queue_free()
 
 func generate_random(setter:bool=true):
 	if not setter:
@@ -23,13 +29,17 @@ func generate_random(setter:bool=true):
 
 func set_length(value: float):
 	
+	length = value
+	
+	if not is_inside_tree():
+		return
+	
 	if len($Line2D.points) != 2:
 		$Line2D.points = [
 			Vector2(0, 0),
 			Vector2(1, 0)
 		]
 	
-	length = value
 	$Line2D.points[1].x = length*100
 
 func generate_tiles(setter:bool=true, sd: int = generation_seed):

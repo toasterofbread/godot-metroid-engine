@@ -72,7 +72,7 @@
 	},
 	"powergrip": {
 		"size": [7.5, 15],
-		"leftPos": [3, 0],
-		"rightPos": [7, 0]
+		"leftPos": [3, -4],
+		"rightPos": [7, -4]
 	},
 }

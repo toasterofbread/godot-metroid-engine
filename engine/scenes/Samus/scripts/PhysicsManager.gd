@@ -159,7 +159,7 @@ func is_on_floor_changed(is_on_floor: bool):
 			if collision.normal == Samus.get_floor_normal():
 				current_ground_collider_shape = collision.collider_shape
 				# DEBUG | Eventually, all CollisionPolygon/Shapes that Samus can land/walk on should be GroundTypeCollisionShapes
-				if current_ground_collider_shape is GroundTypeCollisionShape2D:
+				if current_ground_collider_shape is RoomCollisionArea:
 					current_ground_collider_shape.play_land_sound()
 					return
 	else:

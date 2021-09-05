@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://engine/scenes/ui/main_menu/SaveGameInfoDisplay.gd" type="Script" id=1]
 [ext_resource path="res://engine/fonts/Pixeled.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://engine/sprites/ui/main_menu/percent_symbol.png" type="Texture" id=3]
 [ext_resource path="res://engine/fonts/Pixel-Life.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -12,7 +11,7 @@ bg_color = Color( 1, 1, 1, 0.101961 )
 bg_color = Color( 0.807843, 0.223529, 0.223529, 0.498039 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 128
+size = 96
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=4]
@@ -22,17 +21,15 @@ extra_spacing_top = -24
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=5]
-size = 32
-outline_color = Color( 0, 0, 0, 1 )
-extra_spacing_top = -19
-font_data = ExtResource( 2 )
+size = 48
+font_data = ExtResource( 4 )
 
 [node name="SaveGameInfoDisplay" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -765.0
-margin_bottom = -915.0
-rect_min_size = Vector2( 1000, 165 )
+margin_right = -920.0
+margin_bottom = -956.25
+rect_min_size = Vector2( 1000, 123.75 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -40,8 +37,8 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="."]
-margin_right = 1155.0
-margin_bottom = 165.0
+margin_right = 1000.0
+margin_bottom = 123.75
 focus_mode = 0
 flat = true
 __meta__ = {
@@ -51,8 +48,8 @@ __meta__ = {
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Container" type="HBoxContainer" parent="."]
-margin_right = 1155.0
-margin_bottom = 165.0
+margin_right = 1000.0
+margin_bottom = 123.75
 mouse_filter = 2
 custom_constants/separation = 30
 __meta__ = {
@@ -61,16 +58,16 @@ __meta__ = {
 
 [node name="Number" type="PanelContainer" parent="Container"]
 margin_right = 100.0
-margin_bottom = 165.0
+margin_bottom = 123.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 2
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 2 )
 
 [node name="Label" type="Label" parent="Container/Number"]
-margin_top = 22.0
+margin_top = 16.0
 margin_right = 100.0
-margin_bottom = 142.0
+margin_bottom = 106.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 5
@@ -98,75 +95,29 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Container"]
 margin_left = 130.0
-margin_right = 552.0
-margin_bottom = 165.0
+margin_right = 556.0
+margin_bottom = 123.0
 mouse_filter = 2
+custom_constants/separation = 15
 alignment = 1
 
-[node name="PlayTime" type="Label" parent="Container/VBoxContainer"]
-margin_top = 8.0
-margin_right = 422.0
-margin_bottom = 80.0
+[node name="Location" type="Label" parent="Container/VBoxContainer"]
+margin_top = 9.0
+margin_right = 426.0
+margin_bottom = 54.0
 custom_fonts/font = SubResource( 5 )
-text = "Time: 00:00:00"
+text = "Crateria | Golden statue"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Container/VBoxContainer"]
-margin_top = 84.0
-margin_right = 422.0
-margin_bottom = 156.0
-mouse_filter = 2
-
-[node name="Completion" type="Label" parent="Container/VBoxContainer/HBoxContainer"]
-margin_right = 378.0
-margin_bottom = 72.0
+[node name="Time" type="Label" parent="Container/VBoxContainer"]
+margin_top = 69.0
+margin_right = 426.0
+margin_bottom = 114.0
 custom_fonts/font = SubResource( 5 )
-text = "Completion: 46"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextureRect" type="TextureRect" parent="Container/VBoxContainer/HBoxContainer"]
-margin_left = 382.0
-margin_right = 422.0
-margin_bottom = 72.0
-rect_min_size = Vector2( 40, 40 )
-mouse_filter = 2
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="Container"]
-margin_left = 582.0
-margin_right = 1095.0
-margin_bottom = 165.0
-mouse_filter = 2
-alignment = 1
-
-[node name="Difficulty" type="Label" parent="Container/VBoxContainer2"]
-margin_top = 8.0
-margin_right = 513.0
-margin_bottom = 80.0
-custom_fonts/font = SubResource( 5 )
-text = "Difficulty: Normal"
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Created" type="Label" parent="Container/VBoxContainer2"]
-margin_top = 84.0
-margin_right = 513.0
-margin_bottom = 156.0
-custom_fonts/font = SubResource( 5 )
-text = "Created: 9 Aug 2021"
+text = "Time: 13:37:32"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false

@@ -9,6 +9,8 @@ var text_input_active: bool = false
 
 var input_hold_monitors: Dictionary = {}
 
+const joystick_deadzone: float = 0.5
+
 func _ready():
 	pause_mode = Node.PAUSE_MODE_PROCESS
 	
@@ -34,23 +36,19 @@ func update_control_mappings(action_key=null):
 	
 	var actions: Array = Settings.get_options_in_category("control_mappings") if action_key == null else [action_key]
 	for action in actions:
-		InputMap.action_erase_events(action)
 		
-		for event_data in Settings.get_split("control_mappings", action).values():
-			var event: InputEvent
-			match event_data["type"]:
-				"InputEventJoypadButton":
-					event = InputEventJoypadButton.new()
-				"InputEventMouseButton":
-					event = InputEventMouseButton.new()
-				"InputEventKey":
-					event = InputEventKey.new()
-			event.device = -1
-			for property in event_data:
-				if property != "type":
-					event.set(property, event_data[property])
-			
-			InputMap.action_add_event(action, event)
+		# If this is a joystick action
+		if Settings.get_split("control_mappings", action).keys() == ["x", "y"]:
+			for direction in [["x", "left", 1.0], ["x", "right", -1.0], ["y", "up", 1.0], ["y", "down", -1.0]]:
+				var event: InputEventJoypadMotion = Settings.get_split("control_mappings", action)[direction[0]].duplicate()
+				event.axis_value *= direction[2]
+				InputMap.action_erase_events(action + "_" + direction[1])
+				InputMap.action_add_event(action + "_" + direction[1], event)
+		else:
+			InputMap.action_erase_events(action)
+			for event in Settings.get_split("control_mappings", action).values():
+				InputMap.action_add_event(action, event)
+		
 	emit_signal("update_button_icons", actions)
 
 func _process(delta: float):

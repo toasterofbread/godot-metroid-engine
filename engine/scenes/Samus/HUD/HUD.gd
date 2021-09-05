@@ -2,40 +2,37 @@ extends Control
 
 #const etank_row_size = 10
 var ETank: Control = preload("res://engine/scenes/Samus/HUD/ETank.tscn").instance()
-onready var rows = $CanvasLayer/TopBar/ETanks.get_children()
+onready var rows = $CanvasLayer/Control/Control/TopBar/ETanks.get_children()
 onready var Modulate: CanvasModulate = $CanvasLayer/CanvasModulate
 var current_visor = null
 
 func _ready():
 	
-	# DEBUG
-	$DEBUG.queue_free()
-	
 	$DeathScreen/AnimationPlayer.play("reset")
 	Modulate.color = Color.white
 	$CanvasLayer.layer = Enums.CanvasLayers.HUD
-	Map.Grid = $CanvasLayer/MapGrid
+	Map.Grid = $CanvasLayer/Control/Control/MapGrid
 	rows.invert()
-	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
+#	$CanvasLayer.scale = Vector2(ProjectSettings.get_setting("display/window/size/height")/288, ProjectSettings.get_setting("display/window/size/height")/288)
 	
 	set_process(false)
 	Notification.set_preset("SamusHUD", false)
 
 func add_weapon(weapon_icon: SamusHUDIcon):
-	$CanvasLayer/TopBar/WeaponIcons.add_child(weapon_icon)
+	$CanvasLayer/Control/Control/TopBar/WeaponIcons.add_child(weapon_icon)
 
 func remove_weapon(weapon_icon: SamusHUDIcon):
-	if weapon_icon in $CanvasLayer/TopBar/WeaponIcons.get_children():
-		$CanvasLayer/TopBar/WeaponIcons.remove_child(weapon_icon)
+	if weapon_icon in $CanvasLayer/Control/Control/TopBar/WeaponIcons.get_children():
+		$CanvasLayer/Control/Control/TopBar/WeaponIcons.remove_child(weapon_icon)
 		return true
 	return false
 
 func add_visor(visor_icon: SamusHUDIcon):
-	$CanvasLayer/VisorIcons.add_child(visor_icon)
+	$CanvasLayer/Control/Control/VisorIcons.add_child(visor_icon)
 
 func remove_visor(visor_icon: SamusHUDIcon):
-	if visor_icon in $CanvasLayer/VisorIcons.get_children():
-		$CanvasLayer/VisorIcons.remove_child(visor_icon)
+	if visor_icon in $CanvasLayer/Control/Control/VisorIcons.get_children():
+		$CanvasLayer/Control/Control/VisorIcons.remove_child(visor_icon)
 		return true
 	return false
 
@@ -52,9 +49,9 @@ func add_etank():
 func set_energy(energy: int):
 	
 	if energy <= 30:
-		$CanvasLayer/TopBar/AnimationPlayer.play("energy_low_warning")
+		$CanvasLayer/Control/Control/TopBar/AnimationPlayer.play("energy_low_warning")
 	else:
-		$CanvasLayer/TopBar/AnimationPlayer.stop()
+		$CanvasLayer/Control/Control/TopBar/AnimationPlayer.stop()
 	
 	#warning-ignore:integer_division
 	var etanks = int(energy / 100)
@@ -68,8 +65,8 @@ func set_energy(energy: int):
 		str_energy = "0" + str_energy
 	elif len(str_energy) > 2:
 		str_energy = str_energy[len(str_energy) - 2] + str_energy[len(str_energy) - 1]
-	$CanvasLayer/TopBar/EnergyDigits/Digit0.frame = int(str_energy[0])
-	$CanvasLayer/TopBar/EnergyDigits/Digit1.frame = int(str_energy[1])
+	$CanvasLayer/Control/Control/TopBar/EnergyDigits/Digit0.frame = int(str_energy[0])
+	$CanvasLayer/Control/Control/TopBar/EnergyDigits/Digit1.frame = int(str_energy[1])
 
 func _process(_delta: float):
 	if $DeathScreen/Buttons/RespawnButton.just_pressed():
@@ -90,3 +87,5 @@ func set_visibility(value: bool):
 	for child in $CanvasLayer.get_children():
 		child.visible = value
 	
+func _on_Control_resized():
+	$CanvasLayer/Control/Control.rect_size = $CanvasLayer/Control.rect_size / $CanvasLayer.scale

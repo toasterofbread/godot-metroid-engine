@@ -7,7 +7,7 @@ signal acquired
 onready var Samus: KinematicBody2D = Loader.Samus
 export (Enums.Upgrade) var upgrade_type: int = Enums.Upgrade.MISSILE setget set_upgrade_type
 export var id: String
-#export var hidden: = false setget set_hidden
+export var hidden: = false setget set_hidden
 
 #var unique_id: int
 var save_path_acquired: Array
@@ -29,7 +29,6 @@ func _ready():
 	
 	if Engine.editor_hint:
 		return
-	
 	
 	if Loader.current_room == null:
 		yield(Loader, "room_loaded")
@@ -78,8 +77,9 @@ func _on_UpgradePickup_body_entered(body):
 #		mapChunk = area.get_child(0)
 #		mapChunk.set_upgrade_icon(true)
 
-#func set_hidden(value: bool):
-#	hidden = value
-#	if Engine.editor_hint:
-#		return
-#	visible = !hidden
+func set_hidden(value: bool):
+	hidden = value
+	if Engine.editor_hint:
+		return
+	visible = !hidden
+	$ScanNode.hidden = hidden

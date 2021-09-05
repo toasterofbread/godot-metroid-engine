@@ -4,7 +4,6 @@ onready var weapon: SamusWeapon = get_parent()
 
 var velocity: float = 0.0
 onready var speed: float = weapon.damage_values["speed"]
-const acceleration: float = 5.0
 
 var max_length = 450
 var length = 0.0 setget set_length
@@ -18,18 +17,20 @@ func set_length(value: float, half=false):
 	$Texture.rect_size.y = length
 	return length == max_length
 
-func _process(delta):
+func _process(delta: float):
+#	if fire_pos:
+#		fire_pos.queue_free()
+	fire_pos = weapon.Weapons.fire_pos
 	
 	if not moving:
 		if anchor:
 			$Line2D.points[0] = to_local(anchor.global_position)
 			if fire_pos:
-				fire_pos.queue_free()
-			fire_pos = weapon.get_fire_pos()
-			if fire_pos:
 				$Line2D.points[1] = to_local(fire_pos.global_position)
 		return
-		
+	if fire_pos:
+		global_position = fire_pos.global_position
+		rotation = fire_pos.rotation
 	velocity = speed
 	$Area2D.position.y -= velocity*delta
 	

@@ -1,5 +1,5 @@
 extends Enemy
-class_name ZoomerTemplate
+class_name Zoomer
 
 onready var Samus: KinematicBody2D = Loader.Samus
 
@@ -10,7 +10,7 @@ export var speed: float
 export var visual_path: NodePath
 export var rotate_visual: = true
 var visual: Node2D
-var gravity: float = 1200 
+var gravity: float = 1200
 var velocity: = Vector2.ZERO
 var fall_speed_cap: float = 325
 const visual_rotation_speed = 0.15
@@ -45,8 +45,10 @@ func _physics_process(delta: float):
 
 	if rotate_visual:
 		visual.rotation = lerp_angle(visual.rotation, 0, visual_rotation_speed)
-#	velocity.y = min(fall_speed_cap, velocity.y+gravity*delta)
+	
+	velocity.y = min(fall_speed_cap, velocity.y+gravity*delta)
 #	velocity = FLOOR.rotated(deg2rad(0))*10
+	
 	var collision = $Dummy.move_and_collide(velocity*delta)
 	position += $Dummy.position
 	$Dummy.position = Vector2.ZERO

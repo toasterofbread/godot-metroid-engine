@@ -115,7 +115,7 @@ func load_data(data: Dictionary, x: String, y: String):
 	
 	var room_id: String = data["r"]
 #	area_index = Enums.MapAreas.keys().find(room_id.split("/")[0].to_upper())
-	area_index = Data.data["map_areas"].keys().find(room_id.split("/")[0].to_upper())
+	area_index = Data.data["map"].keys().find(room_id.split("/")[0])
 #	assert(area_index in Enums.MapAreas.values())
 	
 	grid_position = Vector2(int(x), int(y))

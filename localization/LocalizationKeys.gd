@@ -18,8 +18,16 @@ const settings_value_bool_off = "settings_value_bool_off"
 const settings_value_bool_on = "settings_value_bool_on"
 const settings_value_input_joypad = "settings_value_input_joypad"
 const settings_value_input_keyboard = "settings_value_input_keyboard"
-const buttongetter_main_text = "buttongetter_main_text"
-const buttongetter_time_remaining = "buttongetter_time_remaining"
+const buttongetter_button_assign = "buttongetter_button_assign"
+const buttongetter_button_press = "buttongetter_button_press"
+const buttongetter_stick_assign = "buttongetter_stick_assign"
+const buttongetter_stick_press_x = "buttongetter_stick_press_x"
+const buttongetter_stick_press_y = "buttongetter_stick_press_y"
+const buttongetter_detected_axis = "buttongetter_detected_axis"
+const buttongetter_detected_button = "buttongetter_detected_button"
+const buttongetter_button_accept = "buttongetter_button_accept"
+const buttongetter_button_blacklist_button = "buttongetter_button_blacklist_button"
+const buttongetter_button_blacklist_axis = "buttongetter_button_blacklist_axis"
 const titlescreen_playtime_text = "titlescreen_playtime_text"
 const titlescreen_completion_text = "titlescreen_completion_text"
 const titlescreen_difficulty_text = "titlescreen_difficulty_text"
@@ -96,8 +104,16 @@ const KEYS = [
  "settings_value_bool_on",
  "settings_value_input_joypad",
  "settings_value_input_keyboard",
- "buttongetter_main_text",
- "buttongetter_time_remaining",
+ "buttongetter_button_assign",
+ "buttongetter_button_press",
+ "buttongetter_stick_assign",
+ "buttongetter_stick_press_x",
+ "buttongetter_stick_press_y",
+ "buttongetter_detected_axis",
+ "buttongetter_detected_button",
+ "buttongetter_button_accept",
+ "buttongetter_button_blacklist_button",
+ "buttongetter_button_blacklist_axis",
  "titlescreen_playtime_text",
  "titlescreen_completion_text",
  "titlescreen_difficulty_text",

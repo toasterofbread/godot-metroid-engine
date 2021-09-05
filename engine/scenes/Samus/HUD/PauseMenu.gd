@@ -50,8 +50,10 @@ func pause():
 	
 	yield(mapGrid.fade(false, 0.1), "completed")
 	
-#	mapGrid.visible = false
 	Global.reparent_child(mapGrid, $CanvasLayer/MapGridContainer)
+	for anchor in mapGrid.default_anchors:
+		mapGrid.set(anchor, 0)
+	
 	mapGrid.map_offset_offset = Vector2(0, 0) + mapGrid.rect_position
 	mapGrid.rect_position = Vector2.ZERO
 	mapGrid.map_size = $CanvasLayer/MapGridContainer.rect_size

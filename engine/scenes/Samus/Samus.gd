@@ -4,13 +4,13 @@ signal state_changed
 signal suit_changed
 
 onready var Animator: Node2D = $Animator
-onready var Collision: CollisionShape2D = $Collision
+onready var Collision: ExCollisionShape2D = $Collision
 onready var Hurtbox: CollisionShape2D = $Samus/CollisionShape2D
 onready var Physics: Node = $Physics
 onready var Weapons: Node2D = $Weapons
 onready var HUD: Control = $HUD
 onready var PauseMenu: Control = $PauseMenu
-onready var camera: ExCamera2D = $ExCamera2D
+onready var camera: ControlledCamera2D = $ControlledCamera2D
 
 var facing: int = Enums.dir.LEFT
 var armed: bool = false
@@ -331,11 +331,13 @@ func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration: f
 	if not camera.is_inside_tree():
 		yield(camera, "tree_entered")
 	
-	var limits = chunk.get_limits() if chunk != null else null
-	if room_transition:
-		yield(camera.interpolate_limits(limits, duration, Tween.TRANS_EXPO, Tween.EASE_OUT), "completed")
-	else:
-		yield(camera.interpolate_limits(limits, duration), "completed")
+	var limits = chunk.get_limits() if chunk != null else ControlledCamera2D.default_limits
+#	if room_transition:
+	camera.set_limits(limits)
+	yield(camera, "stopped")
+#		yield(camera.interpolate_limits(limits, duration, Tween.TRANS_EXPO, Tween.EASE_OUT), "completed")
+#	else:
+#		yield(camera.interpolate_limits(limits, duration), "completed")
 	
 func camerachunk_exited(chunk: CameraChunk):
 	if current_camerachunk == chunk:
@@ -423,7 +425,7 @@ func acquire_ammo_pickup(ammo_data: Dictionary):
 		ammo_data["weapon"].ammo = min(ammo_data["weapon"].amount, ammo_data["weapon"].ammo + ammo_data["amount"]) 
 
 func footstep(index: int):
-	if Physics.current_ground_collider_shape is GroundTypeCollisionShape2D:
+	if Physics.current_ground_collider_shape is RoomCollisionArea:
 		Physics.current_ground_collider_shape.play_step_sound()
 
 onready var InvincibilityPlayer: AnimationPlayer = Animator.get_node("InvincibilityPlayer")

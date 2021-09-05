@@ -13,18 +13,18 @@ var length = LENGTH.normal
 var scan_duration: float
 
 export var data_key: String setget set_data_key
-
 export(Array, NodePath) var material_nodes: Array = []
+export var hidden: bool = false
+
 onready var scan_material: Material = material.duplicate()
 onready var scan_beam_size: float = scan_material.get("shader_param/dissolve_beam_size")
 
-var hidden: bool = false
 var scanned: bool = false
 func set_data_key(value: String):
-	
-	if not Loader.is_a_parent_of(self):
-		return
-	
+#	if not Loader.is_a_parent_of(self):
+#		return
+	if Loader.loaded_save == null:
+		yield(Loader, "save_loaded")
 	data_key = value
 	scanned = data_key in Loader.loaded_save.get_data_key(["logbook", "recorded_entries"])
 
@@ -32,7 +32,11 @@ func set_data_key(value: String):
 #	return $CollisionShape2D.global_position
 
 func _ready():
+	if Loader.loaded_save == null:
+		yield(Loader, "save_loaded")
+	
 	Enums.add_node_to_group(self, Enums.Groups.SCANNODE)
+	Loader.loaded_save.connect("value_set", self, "save_value_set")
 	
 	yield(get_parent(), "ready")
 	if not Loader.Samus.is_inside_tree():
@@ -48,6 +52,12 @@ func _ready():
 	
 	# DEBUG
 	$TestSprite.queue_free()
+
+func save_value_set(path: Array, value):
+	if path == ["logbook", "recorded_entries"]:
+		scanned = data_key in value
+		if scanned:
+			end_scan()
 
 func scanned():
 	scanned = true

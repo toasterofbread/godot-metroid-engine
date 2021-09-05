@@ -56,14 +56,13 @@ func _init(_Samus: Node2D, _id: String).(_Samus, _id):
 	Physics.connect("physics_data_set", self, "set_jump_values")
 
 # Called when Samus's state is changed to this one
-func init_state(data: Dictionary, _previous_state_id: String):
+func init_state(data: Dictionary, previous_state_id: String):
 	var options: Array = data["options"]
 	first_frame = true
 	
-	if Samus.previous_state_id == "powergrip":
+	if previous_state_id == "powergrip":
 		PowergripCooldownTimer.start(powergrip_cooldown)
 	
-#	ledgeRaycastVert.enabled = true
 	grip_above_raycast.enabled = true
 	grip_below_raycast.enabled = true
 	set_walljump_raycasts_state(true)

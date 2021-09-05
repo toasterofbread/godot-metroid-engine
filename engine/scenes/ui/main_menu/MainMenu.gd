@@ -19,7 +19,7 @@ var settings_animation_played: bool = false
 
 func _process(delta: float):
 	var pad_vector: Vector2 = InputManager.get_pad_vector("just_pressed")
-	$Background/bg_planet.rotation_degrees += delta * 0.5
+	$Background/Control/bg_planet.rotation_degrees += delta * 0.5
 	
 	match state:
 		STATES.TITLE: process_title(delta, pad_vector)
@@ -56,8 +56,9 @@ func selectsave_button_pressed():
 	state = STATES.TRANSITIONING
 	
 	if save_selected_option != 0:
-		$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
+		save_option_set_current(save_selected_option, false)
 	save_selected_option = 0
+	save_option_set_current(save_selected_option, true)
 	
 	$Tween.interpolate_property($Title, "modulate:a", 1.0, 0.0, 0.2)
 	$Tween.start()
@@ -86,7 +87,6 @@ func selectsave_button_pressed():
 			$Tween.start()
 			yield($Tween, "tween_completed")
 	
-	$SaveSelection/SaveContainer.get_child(save_selected_option).current = true
 	state = STATES.SAVE_SELECTION
 
 func settings_button_pressed():
@@ -108,9 +108,9 @@ func process_saveselection(_delta: float, pad: Vector2):
 		if save_selected_option < 0:
 			save_selected_option = 0
 		else:
-			$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
+			save_option_set_current(save_selected_option, false)
 			save_selected_option = wrapi(save_selected_option + pad.y, 0, $SaveSelection/SaveContainer.get_child_count())
-		$SaveSelection/SaveContainer.get_child(save_selected_option).current = true
+		save_option_set_current(save_selected_option, true)
 	
 	if state == STATES.SAVE_SELECTION:
 		# Load save
@@ -163,6 +163,7 @@ func process_saveselection(_delta: float, pad: Vector2):
 			if save_to_copy.get_position_in_parent() == save_selected_option:
 				Notification.types["text"].instance().init(tr("titlescreen_button_copy_samefile"), Notification.lengths["short"])
 				$MainButtonPrompts/AcceptButtonPrompt.cancel_hold()
+			return
 		elif $MainButtonPrompts/AcceptButtonPrompt.hold_completed():
 			
 			if save_to_copy.get_position_in_parent() == save_selected_option:
@@ -192,14 +193,26 @@ func save_option_mouse_hover(entered: bool, option: int):
 	
 	if entered and option != save_selected_option:
 		if save_selected_option >= 0:
-			$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
+			save_option_set_current(save_selected_option, false)
 		save_selected_option = option
-		$SaveSelection/SaveContainer.get_child(save_selected_option).current = true
+		save_option_set_current(save_selected_option, true)
 	elif not entered and option == save_selected_option:
-		$SaveSelection/SaveContainer.get_child(save_selected_option).current = false
+		save_option_set_current(save_selected_option, false)
 		save_selected_option = -1
 	
 	InputManager.using_keyboard = true
+
+func save_option_set_current(option: int, current: bool):
+	var option_node: Control = $SaveSelection/SaveContainer.get_child(option)
+	option_node.current = current
+	if current:
+		if option_node.saveGame.file_exists:
+			$SaveSelection/Description/HSplitContainer/Completion.text = option_node.get_meta("description_completion")
+			$SaveSelection/Description/HSplitContainer/Difficulty.text = option_node.get_meta("description_difficulty")
+			$SaveSelection/Description/HSplitContainer2/Created.text = option_node.get_meta("description_created")
+			$SaveSelection/Description.visible = true
+			return
+	$SaveSelection/Description.visible = false
 
 func save_option_pressed(option: int):
 	

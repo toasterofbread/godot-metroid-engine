@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://engine/scenes/ui/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://engine/fonts/SerpentineDBol.ttf" type="DynamicFontData" id=2]
@@ -43,18 +43,23 @@ size = 51
 font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=5]
+size = 64
+extra_spacing_bottom = 30
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_top = -15
 extra_spacing_bottom = -9
 font_data = ExtResource( 13 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_top = -15
 extra_spacing_bottom = -7
 font_data = ExtResource( 13 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Title/Options:rect_size")
@@ -199,10 +204,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bg_planet" type="Sprite" parent="Background"]
+[node name="Control" type="Control" parent="Background"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -1136.42
+margin_right = -1136.42
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bg_planet" type="Sprite" parent="Background/Control"]
 material = SubResource( 2 )
-position = Vector2( -936.414, 544.821 )
-rotation = 4.48724
+rotation = -1.79595
 scale = Vector2( 4, 4 )
 texture = ExtResource( 5 )
 __meta__ = {
@@ -210,7 +223,6 @@ __meta__ = {
 }
 
 [node name="Title" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
@@ -220,14 +232,14 @@ __meta__ = {
 }
 
 [node name="TitleLogo" type="TextureRect" parent="Title"]
-anchor_left = 0.5
+anchor_left = 1.0
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -225.12
-margin_top = -423.857
-margin_right = 931.88
-margin_bottom = -137.857
+margin_left = -1240.15
+margin_top = -407.583
+margin_right = -83.1548
+margin_bottom = -121.583
 rect_scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 3 )
 expand = true
@@ -258,13 +270,14 @@ __meta__ = {
 }
 
 [node name="Options" type="VBoxContainer" parent="Title"]
-anchor_top = 1.0
+anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 810.222
-margin_top = -480.883
-margin_right = -464.775
-margin_bottom = -224.883
+anchor_bottom = 0.5
+margin_left = -1101.09
+margin_top = 55.9485
+margin_right = -456.092
+margin_bottom = 311.948
 rect_scale = Vector2( 1.5, 1.5 )
 custom_constants/separation = 20
 __meta__ = {
@@ -272,8 +285,8 @@ __meta__ = {
 }
 
 [node name="SelectSave" type="Label" parent="Title/Options"]
-margin_left = 373.0
-margin_right = 645.0
+margin_left = 372.0
+margin_right = 644.0
 margin_bottom = 49.0
 mouse_filter = 1
 size_flags_horizontal = 8
@@ -294,9 +307,9 @@ __meta__ = {
 }
 
 [node name="Settings" type="Label" parent="Title/Options"]
-margin_left = 496.0
+margin_left = 495.0
 margin_top = 69.0
-margin_right = 645.0
+margin_right = 644.0
 margin_bottom = 118.0
 mouse_filter = 1
 size_flags_horizontal = 8
@@ -317,9 +330,9 @@ __meta__ = {
 }
 
 [node name="Docs" type="Label" parent="Title/Options"]
-margin_left = 443.0
+margin_left = 442.0
 margin_top = 138.0
-margin_right = 645.0
+margin_right = 644.0
 margin_bottom = 187.0
 mouse_filter = 1
 size_flags_horizontal = 8
@@ -340,9 +353,9 @@ __meta__ = {
 }
 
 [node name="Quit" type="Label" parent="Title/Options"]
-margin_left = 575.0
+margin_left = 574.0
 margin_top = 207.0
-margin_right = 645.0
+margin_right = 644.0
 margin_bottom = 256.0
 mouse_filter = 1
 size_flags_horizontal = 8
@@ -363,6 +376,7 @@ __meta__ = {
 }
 
 [node name="SaveSelection" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
@@ -374,40 +388,46 @@ __meta__ = {
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -1193.0
-margin_bottom = -119.0
-custom_constants/separation = 119
+margin_left = -1000.0
+margin_top = 59.0
+margin_bottom = -386.0
+custom_constants/separation = 120
 alignment = 1
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="SaveGameInfoDisplay" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 114.0
-margin_right = 1193.0
-margin_bottom = 279.0
+margin_top = 13.0
+margin_right = 1000.0
+margin_bottom = 136.75
 
 [node name="SaveGameInfoDisplay2" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 398.0
-margin_right = 1193.0
-margin_bottom = 563.0
+margin_top = 256.0
+margin_right = 1000.0
+margin_bottom = 379.75
 
 [node name="SaveGameInfoDisplay3" parent="SaveSelection/SaveContainer" instance=ExtResource( 8 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 682.0
-margin_right = 1193.0
-margin_bottom = 847.0
+margin_top = 499.0
+margin_right = 1000.0
+margin_bottom = 622.75
 
 [node name="ButtonPrompts" type="HBoxContainer" parent="SaveSelection"]
-margin_left = 791.0
-margin_top = 1005.0
-margin_right = 1340.0
-margin_bottom = 1021.0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1115.0
+margin_top = -60.0
+margin_right = -566.0
+margin_bottom = -44.0
 rect_scale = Vector2( 2, 2 )
 custom_constants/separation = 14
 alignment = 2
@@ -433,10 +453,74 @@ default_action_key = "ui_special_2"
 hold_time = 3
 
 [node name="MultipleChoicePrompt" parent="SaveSelection" instance=ExtResource( 16 )]
+visible = false
 margin_right = -960.0
 margin_bottom = -540.0
 rect_scale = Vector2( 2, 2 )
 color = Color( 0, 0, 0, 1 )
+
+[node name="Description" type="VBoxContainer" parent="SaveSelection"]
+margin_left = 824.0
+margin_top = 780.0
+margin_right = 1888.0
+margin_bottom = 964.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="SaveSelection/Description"]
+visible = false
+margin_right = 1064.0
+margin_bottom = 90.0
+dragger_visibility = 1
+
+[node name="Completion" type="Label" parent="SaveSelection/Description/HSplitContainer"]
+margin_right = 448.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 5 )
+text = "Completion: 13.2 %"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Difficulty" type="Label" parent="SaveSelection/Description/HSplitContainer"]
+margin_left = 460.0
+margin_right = 1064.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 5 )
+text = "Difficulty: One-hit KO"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer2" type="HSplitContainer" parent="SaveSelection/Description"]
+visible = false
+margin_top = 94.0
+margin_right = 1064.0
+margin_bottom = 184.0
+
+[node name="Created" type="Label" parent="SaveSelection/Description/HSplitContainer2"]
+margin_right = 1064.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 5 )
+text = "Created: 10/8/2021"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="SaveSelection/Description/HSplitContainer2"]
+visible = false
+margin_left = 488.0
+margin_right = 1140.0
+margin_bottom = 90.0
+custom_fonts/font = SubResource( 5 )
+text = "Difficulty: One-hit KO"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Settings" type="Control" parent="."]
 visible = false
@@ -469,7 +553,7 @@ margin_left = -154.0
 margin_top = -130.5
 margin_right = 154.0
 margin_bottom = 130.5
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 autowrap = true
 clip_text = true
@@ -498,7 +582,7 @@ margin_left = -154.0
 margin_top = -27.5
 margin_right = 154.0
 margin_bottom = 27.5
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "Joypad:
 Keyboard:"
 align = 1
@@ -537,10 +621,14 @@ save_button_path = NodePath("../ButtonPrompts/SaveButtonPrompt")
 reset_button_path = NodePath("../ButtonPrompts/ResetButtonPrompt")
 
 [node name="ButtonPrompts" type="HBoxContainer" parent="Settings"]
-margin_left = 791.0
-margin_top = 1005.0
-margin_right = 1340.0
-margin_bottom = 1021.0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -1121.11
+margin_top = -60.0159
+margin_right = -572.113
+margin_bottom = -44.0159
 rect_scale = Vector2( 2, 2 )
 custom_constants/separation = 14
 alignment = 2
@@ -568,10 +656,12 @@ hold_time = 2
 start_invisible = true
 
 [node name="MainButtonPrompts" type="HBoxContainer" parent="."]
-margin_left = 34.9831
-margin_top = 1015.78
-margin_right = 291.983
-margin_bottom = 1031.78
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 32.7876
+margin_top = -60.0
+margin_right = 289.787
+margin_bottom = -44.0
 rect_scale = Vector2( 2, 2 )
 custom_constants/separation = 14
 __meta__ = {
@@ -593,7 +683,7 @@ default_text = "titlescreen_button_back_option"
 default_action_key = "ui_cancel"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/reset = SubResource( 7 )
+anims/reset = SubResource( 8 )
 
 [node name="Tween" type="Tween" parent="."]
 
