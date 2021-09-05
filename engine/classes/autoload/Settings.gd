@@ -21,19 +21,21 @@ func get_value_as_saveable(value, option_data: Dictionary):
 		return value
 
 func get_default_of_option(option: String, option_data: Dictionary):
-	if option_data["type"] == "input":
+	if option_data["type"] == "inputbutton":
 		var ret: Dictionary = {}
 		for event in ProjectSettings.get_setting("input/" + option)["events"]:
+			event.device = -1
 			if event.get_class() in ["InputEventKey", "InputEventMouseButton"] and not "keyboard" in ret:
-				ret["keyboard"] = {"type": event.get_class()}
-				if event is InputEventKey:
-					ret["keyboard"]["scancode"] = event.scancode
-				else:
-					ret["keyboard"]["button_index"] = event.button_index
+				ret["keyboard"] = event
 			elif event is InputEventJoypadButton and not "joypad" in ret:
-				ret["joypad"] = {"type": event.get_class(), "button_index": event.button_index}
+				ret["joypad"] = event
 			if len(ret) == 2:
 				break
+		return ret
+	elif option_data["type"] == "inputstick":
+		var ret: Dictionary = {}
+		for axis in [["x", "left"], ["y", "right"]]:
+			ret[axis[0]] = ProjectSettings.get_setting("input/" + option + "_" + axis[1])["events"][0]
 		return ret
 	else:
 		return option_data["default"]
@@ -54,8 +56,7 @@ func save_file():
 	return _config.save(settings_file_path)
 
 func load_file():
-	var error: int = ERR_FILE_NOT_FOUND
-#	var error: int = _config.load(settings_file_path)
+	var error: int = _config.load(settings_file_path)
 	if error == ERR_FILE_NOT_FOUND:
 		emit_signal("language_loaded", "en")
 		apply_custom_settings()
@@ -65,9 +66,11 @@ func load_file():
 		for category in settings_information:
 			for key in settings_information[category]["options"]:
 				var value: Dictionary = settings_information[category]["options"][key]
+				pass
 				_config.set_value(category, key, get_value_as_saveable(get_default_of_option(key, value), value))
 		error = _config.save(settings_file_path)
 	elif error == OK:
+		emit_signal("language_loaded", get("other/language"))
 		apply_custom_settings()
 	if error != OK:
 		# TODO | Fatal error screen

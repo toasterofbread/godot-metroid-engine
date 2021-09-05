@@ -13,7 +13,7 @@ func _ready():
 	connect("body_exited", self, "_body_exited")
 
 func _body_entered(body):
-	var time: float = OS.get_ticks_msec()
+	var time: int = OS.get_ticks_msec()
 	body_enter_record[body] = time
 	
 	if body in body_exit_record and (time - body_exit_record[body]) < (safe_wait_time * 1000):
@@ -23,7 +23,7 @@ func _body_entered(body):
 
 func _body_exited(body):
 	body_enter_record.erase(body)
-	var time: float = OS.get_ticks_msec()
+	var time: int = OS.get_ticks_msec()
 	body_exit_record[body] = time
 	
 	Global.wait(safe_wait_time, false, [self, "_body_exited_waited", [body, time]])

@@ -81,7 +81,7 @@ func save_value_set(path: Array, value):
 	set_data(value)
 
 func set_data(data_value=null):
-	var recorded_entries
+	var recorded_entries: Array
 	if data_value != null:
 		recorded_entries = data_value
 	else:

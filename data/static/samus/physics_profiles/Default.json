@@ -60,6 +60,7 @@
 		"bounce_fall_amount": [200]
 	},
 	"spiderball": {
+		"gravity_override": [1300],
 		"speed": [50]
 	},
 	"grapple": {

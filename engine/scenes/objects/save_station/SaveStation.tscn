@@ -95,6 +95,7 @@ shape = SubResource( 3 )
 
 [node name="ScanNode" parent="." instance=ExtResource( 7 )]
 data_key = "save_station"
+material_nodes = [ NodePath("../AnimatedSprite") ]
 
 [node name="CollisionShape2D" parent="ScanNode" index="0"]
 position = Vector2( 0, 6 )

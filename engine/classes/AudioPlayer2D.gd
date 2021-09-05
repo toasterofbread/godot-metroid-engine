@@ -8,7 +8,7 @@ enum STATE {PLAYING, STOPPED, UNSTARTED, FINISHED}
 var status: int = STATE.UNSTARTED
 var loop_amount: int = 0
 
-var _start_time: float
+var _start_time: int
 
 func _init(sound):
 	connect("finished", self, "_on_finished")
@@ -30,7 +30,7 @@ func play(from_position: float = 0.0, until_position: float = -1.0, play_when_fi
 	emit_signal("started")
 	
 	if until_position > 0.0:
-		var time: float = OS.get_ticks_msec()
+		var time: int = OS.get_ticks_msec()
 		_start_time = time
 		yield(Global.wait(until_position, pause_mode == Node.PAUSE_MODE_PROCESS), "completed")
 		if _start_time == time:
@@ -41,7 +41,7 @@ func play(from_position: float = 0.0, until_position: float = -1.0, play_when_fi
 				play_when_finished.play()
 	else:
 		if play_when_finished:
-			var time: float = OS.get_ticks_msec()
+			var time: int = OS.get_ticks_msec()
 			_start_time = time
 			yield(self, "finished")
 			if _start_time == time:

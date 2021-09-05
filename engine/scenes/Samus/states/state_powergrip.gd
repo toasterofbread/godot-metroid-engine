@@ -16,7 +16,7 @@ var direction = {
 func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	pass
 
-func init_state(data: Dictionary, _previous_state_id: String) -> bool:
+func init_state(data: Dictionary, _previous_state_id: String):
 	
 	if Samus.facing == Enums.dir.LEFT:
 		Samus.Weapons.samus_facing_override = Enums.dir.RIGHT
@@ -34,14 +34,18 @@ func init_state(data: Dictionary, _previous_state_id: String) -> bool:
 	climbing = false
 	attach_point = data["point"]
 	Samus.global_position.y = attach_point.y + 19
-#	Samus.global_position.x = attach_point.x
+	
+	var collision_shape: ExCollisionShape2D = Samus.Collision
+	if Samus.facing == Enums.dir.LEFT:
+		Samus.global_position.x = attach_point.x + collision_shape.get_shape_size().x + Samus.to_local(collision_shape.global_position).x
+	else:
+		Samus.global_position.x = attach_point.x - ((collision_shape.get_shape_size().x*3) + Samus.to_local(collision_shape.global_position).x)
+	
 	Samus.Physics.apply_velocity = false
 	if Samus.aiming == Samus.aim.FRONT:
 		Samus.aiming = Samus.aim.NONE
 	
 	sounds["sndGrab"].play()
-	
-	return true
 
 func change_state(new_state_key: String, data: Dictionary = {}):
 	Physics.apply_velocity = true

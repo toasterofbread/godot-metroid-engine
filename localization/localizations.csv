@@ -14,8 +14,16 @@ settings_value_bool_off,Off,JP OFF
 settings_value_bool_on,On,JP ON
 settings_value_input_joypad,Joypad:,JP Joypad:
 settings_value_input_keyboard,Keyboard:,JP Keyboard:
-buttongetter_main_text,Press a key to assign to action:,JP Press a key to assign to action: UI Accept
-buttongetter_time_remaining,Time remaining:,JP Time remaining:
+buttongetter_button_assign,Assign a button to action:,JP Press a key to assign to action: UI Accept
+buttongetter_button_press,Press any button,JP Press any key
+buttongetter_stick_assign,Assign a joystick to action:,JP Assign a joystick to action:
+buttongetter_stick_press_x,Move the joystick left,JP Move the joystick left
+buttongetter_stick_press_y,Move the joystick up,JP Move the joystick up
+buttongetter_detected_axis,Detected axis: ,JP Detected axis:
+buttongetter_detected_button,Detected button:,JP Detected button:
+buttongetter_button_accept,Accept,JP Accept
+buttongetter_button_blacklist_button,Blacklist button,JP Blacklist button
+buttongetter_button_blacklist_axis,Blacklist axis,JP Blacklist axis
 titlescreen_playtime_text,Time,sgdas
 titlescreen_completion_text,Completion,dsdasdas
 titlescreen_difficulty_text,Difficulty,JP Difficulty:

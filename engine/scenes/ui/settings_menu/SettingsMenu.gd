@@ -95,7 +95,7 @@ func menu_item_current_set(menuItem: Control, current: bool, set_by_mouse: bool)
 # Returns false if exiting
 func process(delta: float, pad: Vector2):
 	
-	if transitioning:
+	if transitioning or $ButtonSelectionPrompt.visible:
 		return false
 	
 	if selected_item >= 0 and not mouse_mode:
@@ -188,8 +188,8 @@ func category_item_selected(index: int):
 	var i: int = -1
 	for menuItem in ItemContainer.get_children():
 		i += 1
-		menuItem.slide(false, i*0.1)
-	yield(Global.wait((i*0.1) + 0.05, true), "completed")
+		menuItem.slide(false, i*0.05)
+	yield(Global.wait((i*0.05) + 0.05, true), "completed")
 	for menuItem in ItemContainer.get_children():
 		menuItem.queue_free()
 	

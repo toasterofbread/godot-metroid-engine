@@ -311,10 +311,10 @@ func visor_mode_changed(mode):
 
 
 func _on_Area2D_area_exited(area):
-	if Samus.current_state == self and Weapons.current_visor:
+	if enabled and Samus.current_state == self and Weapons.current_visor:
 		Weapons.current_visor._on_Area2D_area_exited(area)
 
 
 func _on_Area2D_area_entered(area):
-	if Samus.current_state == self and Weapons.current_visor:
+	if enabled and Samus.current_state == self and Weapons.current_visor:
 		Weapons.current_visor._on_Area2D_area_entered(area)

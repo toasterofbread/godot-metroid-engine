@@ -1,6 +1,6 @@
 extends Control
 
-onready var overlay = preload("res://addons/Var_Overlay/overlay.tscn").instance()
+onready var overlay = preload("res://engine/classes/autoload/Var_Overlay/overlay.tscn").instance()
 
 var _labels = {}
 

@@ -7,10 +7,10 @@ const keyboard_icons_directory: String = "res://engine/sprites/ui/button_prompt/
 export var action_key: String setget set_action_key
 export var set_icon_on_ready: bool = false
 
-var keyboard_mode_override = null
-var event_override = null
+var keyboard_mode_override: bool = null
+var event_override: InputEvent = null
 
-var joypad_icons_key#: String
+var joypad_icons_key: String = null
 
 func _ready():
 	Settings.connect("settings_changed", self, "settings_changed")
@@ -29,8 +29,8 @@ func set_action_key(value: String):
 	update_icon()
 
 func update_icon(icons_to_update=null):
-	if not InputMap.has_action(action_key):
-		assert(false, "Action '" + action_key + "' doesn't seem to exist")
+	if not InputMap.has_action(action_key) and not event_override:
+		push_warning("Action '" + action_key + "' doesn't seem to exist")
 		return
 	
 	if joypad_icons_key == null:
@@ -41,23 +41,7 @@ func update_icon(icons_to_update=null):
 	if not (icons_to_update == null or action_key in icons_to_update):
 		return
 	
-	var events: Array
-	
-	if event_override:
-		var event: InputEvent
-		match event_override["type"]:
-			"InputEventJoypadButton":
-				event = InputEventJoypadButton.new()
-			"InputEventMouseButton":
-				event = InputEventMouseButton.new()
-			"InputEventKey":
-				event = InputEventKey.new()
-		for property in event_override:
-			if property != "type":
-				event.set(property, event_override[property])
-		events = [event]
-	else:
-		events = InputMap.get_action_list(action_key)
+	var events: Array = [event_override] if event_override else InputMap.get_action_list(action_key)
 	
 	if (InputManager.using_keyboard and keyboard_mode_override == null) or keyboard_mode_override:
 		for event in events:

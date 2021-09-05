@@ -6,7 +6,7 @@ signal room_transitioning
 
 var room_is_loaded: bool = false
 
-var current_room: Room
+var current_room: GameRoom
 var Samus: KinematicBody2D = preload("res://engine/scenes/Samus/Samus.tscn").instance()
 var room_container: Node2D = self
 var loaded_save: SaveGame
@@ -32,7 +32,7 @@ func _ready():
 	if not dir.dir_exists(get_savefile_path(-1)):
 		dir.make_dir_recursive(get_savefile_path(-1))
 	
-#	regenerate_all_map_data()
+	regenerate_all_map_data()
 
 # DEBUG
 func regenerate_all_map_data():
@@ -62,7 +62,7 @@ func load_savegame(saveGame: SaveGame):
 func load_room(room_id: String, set_samus_position: bool = true, data: Dictionary = {}):
 	
 	assert("/" in room_id and len(room_id.split("/")) == 2)
-	var room: Room = load(rooms[room_id]).instance()
+	var room: GameRoom = load(rooms[room_id]).instance()
 	
 	if current_room != null:
 		current_room.queue_free()
@@ -232,3 +232,13 @@ func get_savefile_path(index: int) -> String:
 		return Data.get_from_user_dir("/saves/")
 	else:
 		return Data.get_from_user_dir("/saves/save_" + str(index + 1) + ".json")
+
+func get_area_title(area_or_room_id: String):
+	if "/" in area_or_room_id:
+		area_or_room_id = area_or_room_id.split("/")[0]
+	return Data.data["map"][area_or_room_id]["name"]
+
+func get_room_title(room_id: String):
+	var area_id: String = room_id.split("/")[0]
+	room_id = room_id.split("/")[1]
+	return Data.data["map"][area_id]["rooms"][room_id]["name"]

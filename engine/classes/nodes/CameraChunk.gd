@@ -8,7 +8,7 @@ export var apply_top: = false
 export var apply_bottom: = false
 
 var area: ExArea2D
-var room: Room
+var room: GameRoom
 
 func _ready():
 	

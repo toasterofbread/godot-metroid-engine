@@ -11,7 +11,7 @@ var Marker: Node2D = preload("res://engine/scenes/ui/map/MapMarker.tscn").instan
 var tiles: Dictionary
 var tiles_by_area: Dictionary = {}
 var tile_data: Dictionary
-var savedata: Dictionary
+var savedata: Dictionary# = onsignal.new(self, "savedata", Loader).wait(Loader, "save_loaded", [[Loader, "loaded_save",  null]]).property("loaded_save").method("get_data_key", [["map"]]).done()
 
 var current_chunk: MapChunk
 var previous_chunk = null
@@ -26,7 +26,6 @@ func _ready():
 	for x in tile_data:
 		for y in tile_data[x]:
 			total_upgrade_amount += len(tile_data[x][y]["u"])
-	
 	
 	if Loader.loaded_save == null:
 		yield(Loader, "save_loaded")

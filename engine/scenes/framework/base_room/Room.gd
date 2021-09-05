@@ -1,5 +1,5 @@
 extends Node2D
-class_name Room
+class_name GameRoom
 
 onready var sounds: Dictionary = {
 	"sndQuakeLoop": Audio.get_player("other/sndQuakeLoop", Audio.TYPE.FX)
@@ -39,13 +39,13 @@ func set_id_info():
 	
 	id = filename.split("/")[len(filename.split("/")) - 3] + "/" + filename.split("/")[len(filename.split("/")) - 2]
 	area = id.split("/")[0]
-	area_index = Data.data["map_areas"].keys().find(area.to_upper())
+	area_index = Data.data["map"].keys().find(area)
 	id_info_set = true
 
 func init(data: Dictionary):
 	
 	# DEBUG
-	assert(not is_inside_tree(), "Room must be initialised before entering the scene tree")
+	assert(not is_inside_tree(), "GameRoom must be initialised before entering the scene tree")
 	
 	if "preview" in data:
 		is_preview = data["preview"]

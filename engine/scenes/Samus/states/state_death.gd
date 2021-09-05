@@ -20,7 +20,7 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	
 	animations["suit"].play(false, 1.0, true)
 	
-	var camera: ExCamera2D = Samus.camera
+	var camera: ControlledCamera2D = Samus.camera
 	camera.set_limits(null)
 	tween.interpolate_property(camera, "global_position", camera.get_center(), Samus.global_position, 0.5, Tween.TRANS_EXPO, Tween.EASE_IN_OUT)
 	

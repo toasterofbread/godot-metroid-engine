@@ -11,7 +11,7 @@ func get_fire_pos():
 	var pos = Samus.Weapons.CannonPositions.get_node_or_null(Samus.Animator.current[false].position_node_path)
 	if pos == null:
 		return null
-	var ret: SamusCannonPosition = pos.duplicate()
+	var ret: Node2D = pos.duplicate()
 	ret.reset()
 	pos.get_parent().add_child(ret)
 	ret.position = pos.position
@@ -27,7 +27,7 @@ func fire(_chargebeam_damage_multiplier):
 	
 	var projectile = Projectile.instance()
 	
-	self.add_child(projectile)
+	add_child(projectile)
 	projectile.visible = true
 	
 	projectile.global_position = pos.global_position

@@ -16,7 +16,8 @@ var types: Dictionary = {
 	"int": funcref(self, "option_process_int"), # An integer, which can have a custom range or none
 	"enum": funcref(self, "option_process_enum"), # One item from a list of strings, stored as an int
 	"string": funcref(self, "option_process_enum"), # One item from a list of strings, stores as is
-	"input": funcref(self, "option_process_input"),
+	"inputbutton": funcref(self, "option_process_input"),
+	"inputstick": funcref(self, "option_process_input"),
 	"percentage": funcref(self, "option_process_percentage")
 }
 var current_value
@@ -145,15 +146,21 @@ func option_process_enum(_delta: float, pad: Vector2, pressed: bool):
 func option_process_input(_delta: float, pad: Vector2, pressed: bool):
 	
 	if pressed:
-		var button = yield(buttonGetter.get_button(option_data["title"]), "completed")
-		if button == null:
+		
+		var type: int = ButtonGetter.TYPE.BUTTON if option_data["type"] == "inputbutton" else ButtonGetter.TYPE.STICK
+		var input = yield(buttonGetter.get_button(option_data["title"], type), "completed")
+		if input == null:
 			return false
 		
-		for input_method in button:
-			current_value[input_method] = button[input_method]
+		# Button
+		if option_data["type"] == "inputbutton":
+			for input_method in input:
+				current_value[input_method] = input[input_method]
+		# Joystick
+		else:
+			current_value = input
 		
 		return true
-		
 	return false
 
 func option_process_percentage(_delta: float, pad: Vector2, _pressed: bool):
@@ -172,9 +179,9 @@ func load_value():
 	return ret
 
 func save_value():
-	if option_data["type"] == "input":
-		InputManager.update_control_mappings(option)
 	Settings.set_split(category, option, Settings.get_value_as_saveable(current_value, option_data))
+	if option_data["type"] in ["inputbutton", "inputstick"]:
+		InputManager.update_control_mappings(option)
 	
 	$Background.color = background_colour
 

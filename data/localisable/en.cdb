@@ -790,6 +790,21 @@
 							"key": "map_zoom_out",
 							"title": "Map - zoom out",
 							"description": "Zooms out from the map while it is displayed in the pause menu."
+						},
+						{
+							"key": "airspark",
+							"title": "Airspark",
+							"description": "Triggers the airspark suit ability if it is enabled."
+						},
+						{
+							"key": "select_visor",
+							"title": "Cycle visors",
+							"description": "Cycles through the active visors."
+						},
+						{
+							"key": "analog_visor",
+							"title": "Analog visor control",
+							"description": "Analog stick used to control the visor when equipped."
 						}
 					]
 				},
@@ -867,7 +882,7 @@
 			]
 		},
 		{
-			"name": "map_areas",
+			"name": "map",
 			"columns": [
 				{
 					"typeStr": "1",
@@ -877,20 +892,51 @@
 					"typeStr": "1",
 					"name": "name",
 					"display": null
+				},
+				{
+					"typeStr": "8",
+					"name": "rooms"
 				}
 			],
 			"lines": [
 				{
-					"name": "Caves",
-					"key": "CAVES"
+					"name": "Area",
+					"key": "Caves",
+					"rooms": [
+						{
+							"key": "ship_saveroom",
+							"name": "Level"
+						}
+					]
 				},
 				{
-					"name": "DEBUG",
-					"key": "DEBUG"
+					"name": "Debug area",
+					"key": "DEBUG",
+					"rooms": []
 				}
 			],
 			"separators": [],
 			"props": {}
+		},
+		{
+			"name": "map@rooms",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "key",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"display": null
+				}
+			]
 		}
 	],
 	"customTypes": [],

@@ -9,10 +9,8 @@ bg_color = Color( 0, 0, 0, 0.152941 )
 [node name="MainPanel" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -0.561218
-margin_top = -0.23597
-margin_right = -823.561
-margin_bottom = -426.236
+margin_right = -823.0
+margin_bottom = -426.0
 rect_clip_content = true
 size_flags_vertical = 3
 script = ExtResource( 1 )

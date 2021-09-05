@@ -1,5 +1,5 @@
 tool
-extends StaticBody2D
+extends RoomPhysicsBody2D
 class_name Door
 
 signal target_room_loaded
@@ -33,7 +33,7 @@ onready var coverSprite: AnimatedSprite = $Cover/Sprite
 onready var coverCollider: CollisionShape2D = $Cover/CollisionShape2D
 const cover_animation_frames: int = 4
 
-var target_room_instance: Room
+var target_room_instance: GameRoom
 onready var targetSpawnPosition: Position2D = $TargetSpawnPosition
 
 func set_visual(value: bool):
@@ -112,7 +112,7 @@ func set_locked(value: bool, animate: bool = true):
 	if animate:
 		sounds["lock" if locked else "unlock"].play()
 
-func _on_Cover_damage(type: int, amount: int, _impact_position):
+func _on_Cover_damage(type: int, amount: int, _impact_position: Vector2):
 	if locked or open:
 		return
 	if type in destructive_damage_types and amount > 0:

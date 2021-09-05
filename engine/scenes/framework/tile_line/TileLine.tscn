@@ -7,11 +7,10 @@
 position = Vector2( 0, 93.0077 )
 script = ExtResource( 1 )
 tile_data = ExtResource( 2 )
-length = 9.334
 
 [node name="Line2D" type="Line2D" parent="."]
 z_index = 10
-points = PoolVector2Array( 0, 0, 933.4, 0 )
+points = PoolVector2Array( 0, 0, 100, 0 )
 width = 1.0
 
 [node name="Sprites" type="Node2D" parent="."]

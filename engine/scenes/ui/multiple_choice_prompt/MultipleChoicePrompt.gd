@@ -59,10 +59,9 @@ func set_selected_option(value: int):
 func show_prompt(choices: PoolStringArray, descriptions: Array, title: String, starting_option: int = 0, _cancellable: bool = true):
 	cancellable = _cancellable
 	buttonCancel.set_visibility(cancellable, false)
-	selected_option = starting_option
 	
 	$PanelContainer/VSplitContainer/TitleLabel.text = title
-	for i in range(len(choices)):
+	for i in len(choices):
 		var choice_text: String = choices[i]
 		var choice_node: Label = $PanelContainer/Node2D/TemplateChoice.duplicate()
 		choice_node.text = choice_text
@@ -74,7 +73,7 @@ func show_prompt(choices: PoolStringArray, descriptions: Array, title: String, s
 		choice_node.get_child(0).connect("mouse_entered", self, "choice_mouse_interacted", [choice_node, true])
 		choice_node.get_child(0).connect("mouse_exited", self, "choice_mouse_interacted", [choice_node, false])
 		choiceContainer.add_child(choice_node)
-	choiceContainer.get_child(selected_option).get_child(0).flat = false
+	set_selected_option(starting_option)
 	
 	visible = true
 	$PanelContainer/Tween.interpolate_property(self, "modulate:a", modulate.a, 1.0, 0.2)

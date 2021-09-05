@@ -6,7 +6,7 @@ onready var dimColorRect: ColorRect = ColorRect.new()
 var dim_colour: Color = Color.transparent setget set_dim_colour
 var dim_layer: int = 0 setget set_dim_layer
 onready var tween: Tween = Global.get_tween(true, self)
-var current_limit_interpolation = null
+var current_limit_interpolation: int = null
 
 const limit_paths = ["limit_top", "limit_bottom", "limit_left", "limit_right"]
 
@@ -177,7 +177,7 @@ func interpolate_limits(target_limits, duration: float, trans_type:=Tween.TRANS_
 			tween.interpolate_method(self, "update_limit_offset", starting_position, starting_position, duration, trans_type, ease_type)
 			tween.interpolate_method(self, "_interpolate_process", 0, 1, duration, trans_type, ease_type)
 	
-	var time: float = OS.get_ticks_msec()
+	var time: int = OS.get_ticks_msec()
 	current_limit_interpolation = time
 	tween.start()
 #	yield(tween, "tween_all_completed")
