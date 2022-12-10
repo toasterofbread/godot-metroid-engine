@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://engine/scenes/framework/base_room/Room.gd" type="Script" id=1]
 [ext_resource path="res://engine/scenes/framework/map_chunk/MapChunk.gd" type="Script" id=2]
 [ext_resource path="res://engine/scenes/objects/door/Door.tscn" type="PackedScene" id=3]
 [ext_resource path="res://engine/classes/nodes/CameraChunk.gd" type="Script" id=4]
+[ext_resource path="res://engine/scenes/objects/save_station/SaveStation.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 256, 256 )
@@ -55,9 +56,7 @@ apply_right = true
 apply_top = true
 apply_bottom = true
 
-[node name="SpawnPos" type="Position2D" parent="." groups=[
-"SpawnPosition",
-]]
+[node name="SpawnPos" type="Position2D" parent="." groups=["SpawnPosition"]]
 position = Vector2( 24, -64 )
 
 [node name="VisualTileMapPrecise3" type="TileMap" parent="."]
@@ -98,3 +97,6 @@ position = Vector2( -344, -32 )
 target_room_id = "DEBUG/test_maproom"
 target_door_id = "right"
 cameraChunk = NodePath("../../CameraChunks/CameraChunk")
+
+[node name="SaveStation" parent="." instance=ExtResource( 5 )]
+position = Vector2( 138, -135 )

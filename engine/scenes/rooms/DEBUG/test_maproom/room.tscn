@@ -58,9 +58,7 @@ apply_right = true
 apply_top = true
 apply_bottom = true
 
-[node name="SpawnPos" type="Position2D" parent="." groups=[
-"SpawnPosition",
-]]
+[node name="SpawnPos" type="Position2D" parent="." groups=["SpawnPosition"]]
 position = Vector2( 24, -64 )
 
 [node name="VisualTileMapPrecise3" type="TileMap" parent="."]

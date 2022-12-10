@@ -7,6 +7,7 @@ signal looping
 enum STATE {PLAYING, STOPPED, UNSTARTED, FINISHED}
 var status: int = STATE.UNSTARTED
 var loop_amount: int = 0
+var enabled: bool = true
 
 var _start_time: int
 
@@ -25,6 +26,9 @@ func set_volume(volume: float):
 	return self
 
 func play(from_position: float = 0.0, until_position: float = -1.0, play_when_finished=null):
+	if not enabled:
+		return
+	
 	.play(from_position)
 	status = STATE.PLAYING
 	emit_signal("started")

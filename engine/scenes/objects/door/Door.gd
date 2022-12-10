@@ -119,7 +119,7 @@ func _on_Cover_damage(type: int, amount: int, _impact_position: Vector2):
 		set_open(true)
 
 func _on_TransitionTriggerArea_body_entered(body):
-	if body.name == "Samus":
+	if body == Loader.Samus:
 		Loader.door_transition(self)
 
 func door_entered():

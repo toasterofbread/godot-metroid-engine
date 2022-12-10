@@ -153,7 +153,7 @@ func door_transition(origin_door: Door):
 		previous_room.queue_free()
 		current_room.visible = true
 		
-		yield(Samus.camerachunk_entered(destination_cameraChunk, true, 0.45), "completed")
+		yield(Samus.camerachunk_entered(destination_cameraChunk, true, 0.1), "completed")
 		
 		tween.interpolate_property(destination_door, "modulate:a", destination_door.modulate.a, 1, 0.25)
 		tween.interpolate_property(Samus.camera, "dim_colour:a", 1, 0, 0.25)
@@ -177,17 +177,14 @@ func door_transition(origin_door: Door):
 
 # DEBUG
 func register_commands():
-	# Registering command
-	# 1. argument is command name
-	# 2. arg. is target (target could be a funcref)
-	# 3. arg. is target name (name is not required if it is the same as first arg or target is a funcref)
-	Console.add_command("loadroom", self, "command_load_room")\
-		.set_description("Frees the current room and loads the specified one.")\
-		.add_argument("room_id", TYPE_STRING)\
-		.register()
-	Console.add_command("reloadroom", self, "command_reload_room")\
-		.set_description("Reloads the current room without repositioning Samus.")\
-		.register()
+	# TODO
+#	Console.add_command("loadroom", self, "command_load_room")\
+#		.set_description("Frees the current room and loads the specified one.")\
+#		.add_argument("room_id", TYPE_STRING)\
+#		.register()
+#	Console.add_command("reloadroom", self, "command_reload_room")\
+#		.set_description("Reloads the current room without repositioning Samus.")\
+#		.register()
 	
 	InputManager.register_debug_shortcut("DEBUG_reload_room", "Reload room", {"just_pressed": funcref(self, "command_reload_room")})
 	InputManager.register_debug_shortcut("DEBUG_reset_samus_position", "Reset Samus's position", {"just_pressed": funcref(self, "command_reset_samus_position")})
@@ -241,4 +238,9 @@ func get_area_title(area_or_room_id: String):
 func get_room_title(room_id: String):
 	var area_id: String = room_id.split("/")[0]
 	room_id = room_id.split("/")[1]
-	return Data.data["map"][area_id]["rooms"][room_id]["name"]
+	
+	var rooms: Dictionary = Data.data["map"][area_id]["rooms"]
+	if not rooms.has(room_id):
+		return "null"
+	
+	return rooms[room_id]["name"]

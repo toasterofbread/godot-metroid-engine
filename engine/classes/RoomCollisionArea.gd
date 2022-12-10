@@ -24,12 +24,14 @@ func _ready():
 			sounds[group][sound] = Audio.get_player(audio_key, Audio.TYPE.SAMUS)
 	
 	# Add visible polygon for X-Ray visor
-	if self is CollisionShape2D:
+	var s = self
+	if s is CollisionShape2D:
 		visual = ShapePolygon2D.new()
 		visual.shape = self.shape
 	else: # CollisionPolygon2D
 		visual = Polygon2D.new()
 		visual.polygon = self.polygon
+	
 	visual.z_as_relative = false
 	visual.z_index = Enums.Layers.WORLD - 1
 	add_child(visual)

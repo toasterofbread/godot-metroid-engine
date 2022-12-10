@@ -91,7 +91,7 @@ func generate_tile_data():
 		"h": hidden, # Hidden
 		"r": room.id, # Room ID
 		"u": upgrade_pickup_ids # UpgradePickup IDs
-		}
+	}
 	
 #	if not "areas" in data:
 #		data["areas"] = {area: []}
