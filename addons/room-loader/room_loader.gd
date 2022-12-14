@@ -19,7 +19,6 @@ func _on_filesystem_changed():
 	reload_rooms()
 
 func reload_rooms():
-	print(plugin)
 	if not is_instance_valid(plugin):
 		return
 	
@@ -51,7 +50,6 @@ func reload_rooms():
 				
 				area_submenu.add_item(room.capitalize(), len(rooms))
 				rooms.append(dir_path.plus_file(area).plus_file(room).plus_file("room.tscn"))
-				print(rooms)
 	
 	$RoomSelectionMenu.add_separator()
 	$RoomSelectionMenu.add_item("Cancel", len(rooms))

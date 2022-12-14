@@ -1,18 +1,20 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://engine/scenes/framework/base_room/Room.gd" type="Script" id=1]
 [ext_resource path="res://engine/scenes/framework/map_chunk/MapChunk.gd" type="Script" id=2]
 [ext_resource path="res://engine/scenes/objects/door/Door.tscn" type="PackedScene" id=3]
 [ext_resource path="res://engine/classes/nodes/CameraChunk.gd" type="Script" id=4]
 [ext_resource path="res://engine/scenes/objects/save_station/SaveStation.tscn" type="PackedScene" id=5]
+[ext_resource path="res://engine/scenes/enemies/kraid/Kraid.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 256, 256 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 808, 272 )
+extents = Vector2( 141271, 272 )
 
 [node name="test" type="Node2D"]
+position = Vector2( 0, 2 )
 script = ExtResource( 1 )
 
 [node name="MapChunks" type="Node2D" parent="."]
@@ -48,7 +50,7 @@ z_index = 4096
 
 [node name="CameraChunk" type="CollisionShape2D" parent="CameraChunks"]
 modulate = Color( 0, 1, 0.529412, 1 )
-position = Vector2( 432, -240 )
+position = Vector2( 140895, -240 )
 shape = SubResource( 2 )
 script = ExtResource( 4 )
 apply_left = true
@@ -87,7 +89,7 @@ collision_mask = 0
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2( -431.5, -24 )
-scale = Vector2( 2.37787, 1 )
+scale = Vector2( 2000, 1 )
 polygon = PoolVector2Array( 0, 24, 0, 56, 696, 56, 696, 24 )
 
 [node name="Doors" type="Node2D" parent="."]
@@ -100,3 +102,6 @@ cameraChunk = NodePath("../../CameraChunks/CameraChunk")
 
 [node name="SaveStation" parent="." instance=ExtResource( 5 )]
 position = Vector2( 138, -135 )
+
+[node name="Kraid" parent="." instance=ExtResource( 6 )]
+position = Vector2( -128, -110 )

@@ -24,6 +24,9 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	FloorRaycastD = FloorRaycastContainer.get_node("FloorD")
 	
 	animations = Animator.load_from_json("morphball")
+	
+	sounds["sndSBallLoop"].set_loop(-1)
+	sounds["sndSBallLoop"].enabled = false
 
 # Called when Samus's state is changed to this one
 func init_state(_data: Dictionary, _previous_state_id: String):

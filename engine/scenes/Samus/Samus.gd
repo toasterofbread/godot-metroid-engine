@@ -316,7 +316,7 @@ func get_current_limits() -> Dictionary:
 
 var current_camerachunk = null
 var previous_camerachunk = null
-func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration: float = 0.5):
+func camerachunk_entered(chunk: CameraChunk, room_transition: bool = false, transition_speed: float = null):
 	if chunk == current_camerachunk:
 		return
 	
@@ -326,15 +326,17 @@ func camerachunk_entered(chunk: CameraChunk, room_transition:=false, duration: f
 #		return
 	
 	if (get_tree().paused or paused) and not room_transition:
-		duration = 0.0
+		transition_speed = null
 	
 	if not camera.is_inside_tree():
 		yield(camera, "tree_entered")
 	
 	var limits = chunk.get_limits() if chunk != null else ControlledCamera2D.default_limits
 #	if room_transition:
+	camera.speed_override = transition_speed
 	camera.set_limits(limits)
 	yield(camera, "stopped")
+	camera.speed_override = null
 #		yield(camera.interpolate_limits(limits, duration, Tween.TRANS_EXPO, Tween.EASE_OUT), "completed")
 #	else:
 #		yield(camera.interpolate_limits(limits, duration), "completed")
@@ -425,7 +427,7 @@ func acquire_ammo_pickup(ammo_data: Dictionary):
 		ammo_data["weapon"].ammo = min(ammo_data["weapon"].amount, ammo_data["weapon"].ammo + ammo_data["amount"]) 
 
 func footstep(index: int):
-	if Physics.current_ground_collider_shape is RoomCollisionArea:
+	if is_instance_valid(Physics.current_ground_collider_shape) and Physics.current_ground_collider_shape is RoomCollisionArea:
 		Physics.current_ground_collider_shape.play_step_sound()
 
 onready var InvincibilityPlayer: AnimationPlayer = Animator.get_node("InvincibilityPlayer")
@@ -441,17 +443,15 @@ func invincibility_changed(status: bool):
 
 # DEBUG
 func register_commands():
-	# Registering command
-	# 1. argument is command name
-	# 2. arg. is target (target could be a funcref)
-	# 3. arg. is target name (name is not required if it is the same as first arg or target is a funcref)
-	Console.add_command("samussetenergy", self, "command_setenergy")\
-		.set_description("Sets Samus's energy value. Fills all ETanks if the value is below 0.")\
-		.add_argument('value', TYPE_INT)\
-		.register()
-	Console.add_command("samuskill", self, "death")\
-		.set_description("Triggers Samus's death animation, regardless of remaining energy.")\
-		.register()
+	# TODO
+	pass
+#	Console.add_command("samussetenergy", self, "command_setenergy")\
+#		.set_description("Sets Samus's energy value. Fills all ETanks if the value is below 0.")\
+#		.add_argument('value', TYPE_INT)\
+#		.register()
+#	Console.add_command("samuskill", self, "death")\
+#		.set_description("Triggers Samus's death animation, regardless of remaining energy.")\
+#		.register()
 
 func command_setenergy(value: int):
 	if value < 0:

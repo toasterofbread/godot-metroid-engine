@@ -42,4 +42,4 @@ func init(_saveGame: SaveGame):
 	else:
 		$Container/Empty.text = tr("titlescreen_savefile_empty")
 	
-	sort_disabled = true
+#	sort_disabled = true

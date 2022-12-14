@@ -148,7 +148,7 @@ func get_anchor(anchor_path: String) -> Node2D:
 	parent.pause_mode = Node.PAUSE_MODE_STOP
 	return parent
 
-func shake_camera(camera: ControlledCamera2D, normal_offset: Vector2, intensity: float, duration: float, shake_frequency: float = 0.05):
+func shake_camera(camera: ControlledCamera2D, intensity: float, duration: float, normal_offset: Vector2 = Vector2.ZERO, shake_frequency: float = 0.05):
 	var timer = Timer.new()
 	self.add_child(timer)
 	timer.one_shot = true

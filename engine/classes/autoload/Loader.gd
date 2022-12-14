@@ -121,7 +121,7 @@ func door_transition(origin_door: Door):
 	var spawn_point = origin_door.targetSpawnPosition.global_position
 	var offset = current_room.global_position - destination_door.global_position
 	current_room.global_position = spawn_point + offset
-	current_room.visible = false
+	current_room.visible = true
 #	current_room.World.visible = false
 	
 	# Why tf did I originally add Samus to the room rather than the Loader???
@@ -143,20 +143,23 @@ func door_transition(origin_door: Door):
 		
 		var tween: Tween = Global.get_tween(true)
 		tween.interpolate_property(origin_door, "modulate:a", origin_door.modulate.a, 0, 0.25)
-		Samus.camera.dim_colour = Color(0, 0, 0, 0)
-		Samus.camera.set_dim_layer(-1)
-		tween.interpolate_property(Samus.camera, "dim_colour:a", 0, 1, 0.25)
+		Samus.camera.overlay_colour = Color(0, 0, 0, 0)
+		Samus.camera.set_dim_layer(Enums.Layers.MENU - 1)
+		
+		tween.interpolate_property(Samus.camera, "overlay_colour:a", 0, 1, 0.25)
 		tween.start()
 		yield(tween, "tween_all_completed")
 		destination_door.visible = false
 		
+		yield(get_tree(), "idle_frame")
+		
 		previous_room.queue_free()
 		current_room.visible = true
 		
-		yield(Samus.camerachunk_entered(destination_cameraChunk, true, 0.1), "completed")
+		yield(Samus.camerachunk_entered(destination_cameraChunk, true, 0.15), "completed")
 		
 		tween.interpolate_property(destination_door, "modulate:a", destination_door.modulate.a, 1, 0.25)
-		tween.interpolate_property(Samus.camera, "dim_colour:a", 1, 0, 0.25)
+		tween.interpolate_property(Samus.camera, "overlay_colour:a", 1, 0, 0.25)
 		tween.start()
 		destination_door.visible = true
 		yield(tween, "tween_all_completed")
@@ -193,11 +196,11 @@ func command_load_room(room_id: String):
 	var result = load_room(room_id)
 	if result is GDScriptFunctionState:
 		result = yield(result, "completed")
-	if result == true:
-		Console.write_line("Loaded room: " + room_id)
-	else:
-		Console.write_line("An error occurred while loading room of ID [" + room_id + "]")
-		Console.write_line(result)
+#	if result == true:
+#		Console.write_line("Loaded room: " + room_id)
+#	else:
+#		Console.write_line("An error occurred while loading room of ID [" + room_id + "]")
+#		Console.write_line(result)
 
 func command_reload_room():
 	
@@ -208,11 +211,11 @@ func command_reload_room():
 	if result is GDScriptFunctionState:
 		result = yield(result, "completed")
 	if result == true:
-		Console.write_line("Reloaded room: " + room_id)
+#		Console.write_line("Reloaded room: " + room_id)
 		Notification.types["text"].instance().init("Reloaded room: " + room_id, Notification.lengths["short"])
-	else:
-		Console.write_line("An error occurred while reloading room of ID [" + room_id + "]")
-		Console.write_line(result)
+#	else:
+#		Console.write_line("An error occurred while reloading room of ID [" + room_id + "]")
+#		Console.write_line(result)
 
 func command_reset_samus_position():
 	if current_room.spawnPosition == null:

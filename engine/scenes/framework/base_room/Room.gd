@@ -5,6 +5,7 @@ onready var sounds: Dictionary = {
 	"sndQuakeLoop": Audio.get_player("other/sndQuakeLoop", Audio.TYPE.FX)
 }
 
+var initialised: bool = false
 var is_preview: bool = false
 
 var id_info_set: bool = false
@@ -43,6 +44,11 @@ func set_id_info():
 	id_info_set = true
 
 func init(data: Dictionary):
+	
+	if initialised:
+		return
+	
+	initialised = true
 	
 	# DEBUG
 	assert(not is_inside_tree(), "GameRoom must be initialised before entering the scene tree")
@@ -127,4 +133,4 @@ func earthquake(center: Vector2, strength: float, duration: float):
 	emit_signal("earthquake", center, strength)
 	InputManager.vibrate_controller(strength, duration)
 	sounds["sndQuakeLoop"].play(0.0, duration)
-	Global.shake_camera(Loader.Samus.camera, Vector2.ZERO, strength*10, duration)
+	Global.shake_camera(Loader.Samus.camera, strength*10, duration)

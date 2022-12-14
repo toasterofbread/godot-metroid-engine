@@ -4,7 +4,7 @@ class_name ButtonIcon
 const icons_directory: String = "res://engine/sprites/ui/button_prompt/joypad_icons/"
 const keyboard_icons_directory: String = "res://engine/sprites/ui/button_prompt/keyboard/"
 
-export var action_key: String setget set_action_key
+export var action_key: String = null setget set_action_key
 export var set_icon_on_ready: bool = false
 
 var keyboard_mode_override: bool = null
@@ -29,8 +29,13 @@ func set_action_key(value: String):
 	update_icon()
 
 func update_icon(icons_to_update=null):
-	if not InputMap.has_action(action_key) and not event_override:
-		push_warning("Action '" + action_key + "' doesn't seem to exist")
+	if (action_key == null or not InputMap.has_action(action_key)) and not event_override:
+		# DEBUG
+		if action_key != null:
+			push_warning("Action '" + str(action_key) + "' doesn't seem to exist")
+		
+		# TODO
+		texture = preload("res://godot.png")
 		return
 	
 	if joypad_icons_key == null:
@@ -67,6 +72,7 @@ func update_icon(icons_to_update=null):
 		for event in events:
 			if not event is InputEventJoypadButton:
 				continue
+			
 			var icons: Dictionary = InputManager.joypad_icons[joypad_icons_key]
 			if str(event.button_index) in icons:
 				texture = load(icons[str(event.button_index)])

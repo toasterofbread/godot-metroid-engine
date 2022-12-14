@@ -3,7 +3,7 @@ class_name ExCamera2D
 
 onready var dimColorRectContainer: Node2D = Node2D.new()
 onready var dimColorRect: ColorRect = ColorRect.new()
-var dim_colour: Color = Color.transparent setget set_dim_colour
+var overlay_colour: Color = Color.transparent setget set_overlay_colour
 var dim_layer: int = 0 setget set_dim_layer
 onready var tween: Tween = Global.get_tween(true, self)
 var current_limit_interpolation: int = null
@@ -42,7 +42,7 @@ func _ready():
 	
 	add_child(dimColorRectContainer)
 	dimColorRectContainer.add_child(dimColorRect)
-	set_dim_colour(dim_colour)
+	set_overlay_colour(overlay_colour)
 	dimColorRect.rect_size = Vector2(480, 270)
 	
 	_set("current", current)
@@ -51,9 +51,9 @@ func set_dim_layer(z_index: int):
 	dim_layer = z_index
 	dimColorRectContainer.z_index = z_index
 
-func set_dim_colour(colour: Color):
+func set_overlay_colour(colour: Color):
 	dimColorRect.rect_global_position = get_center() - (dimColorRect.rect_size / 2)
-	dim_colour = colour
+	overlay_colour = colour
 	dimColorRect.color = colour
 	dimColorRectContainer.visible = colour.a > 0
 

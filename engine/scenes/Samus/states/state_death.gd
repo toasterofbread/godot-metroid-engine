@@ -11,7 +11,7 @@ func _init(_Samus: KinematicBody2D, _id: String).(_Samus, _id):
 	for sound in sounds:
 		sounds[sound].set_ignore_paused(true)
 
-# Called when Samus' state is changed to this one
+# Called when Samus's state is changed to this one
 func init_state(data: Dictionary, _previous_state_id: String):
 	Samus.paused = true
 	Physics.apply_velocity = false
@@ -27,9 +27,9 @@ func init_state(data: Dictionary, _previous_state_id: String):
 	tween.interpolate_property(Loader.current_room, "modulate:a", Loader.current_room.modulate.a, 0, 0.2)
 	
 #	var colour_value = 0
-	Samus.camera.dim_colour = Color.black
+	Samus.camera.overlay_colour = Color.black
 	Samus.camera.set_dim_layer(-1)
-	tween.interpolate_property(Samus.camera, "dim_colour:a", 0, 1, 0.2)
+	tween.interpolate_property(Samus.camera, "overlay_colour:a", 0, 1, 0.2)
 #	tween.interpolate_property(Animator.get_node("DimLayer/ColorRect"), "color", Color(colour_value, colour_value, colour_value, 0), Color(colour_value, colour_value, colour_value, 1), 0.2)
 	tween.interpolate_property(Samus.HUD.Modulate, "color:a", Samus.HUD.Modulate.color.a, 0, 0.2)
 	

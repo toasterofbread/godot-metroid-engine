@@ -779,6 +779,10 @@ pointing/emulate_touch_from_mouse=true
 translations=PoolStringArray( "res://localization/localizations.en.translation", "res://localization/localizations.ja.translation" )
 locale_filter=[ 1, [ "en", "ja" ] ]
 
+[network]
+
+limits/debugger_stdout/max_chars_per_second=2048000
+
 [physics]
 
 2d/default_gravity=750

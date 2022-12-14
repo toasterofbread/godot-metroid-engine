@@ -12,7 +12,7 @@ func _init(_Samus: Node2D, _id).(_Samus, _id):
 	yield(Samus, "ready")
 	InvincibilityTimer = Samus.InvincibilityTimer
 
-# Called when Samus' state is changed to this one
+# Called when Samus's state is changed to this one
 func init_state(data: Dictionary, _previous_state_id: String):
 	Physics.apply_velocity = true
 	Physics.apply_gravity = true

@@ -104,15 +104,18 @@ func process(_delta: float):
 		return
 	
 	if Samus.is_on_floor() and not Animator.transitioning(false, true) and not first_frame:
-		change_state("neutral")
+		change_state("neutral" if pad_vector.x == 0 else "run", {"boost": Samus.boosting})
 		return
-	elif Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true) and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
+	
+	if Input.is_action_just_pressed("morph_shortcut") and not Animator.transitioning(false, true) and Samus.is_upgrade_active(Enums.Upgrade.MORPHBALL):
 		change_state("morphball", {"options": ["animate"], "jump_current_time": jump_current_time})
 		return
-	elif Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
+	
+	if Input.is_action_just_pressed("airspark") and Samus.states["airspark"].can_airspark():
 		change_state("airspark")
 		return
-	elif Input.is_action_just_pressed("jump") and Settings.get("control_options/spin_from_jump"):
+	
+	if Input.is_action_just_pressed("jump") and Settings.get("control_options/spin_from_jump"):
 		set_spinning(true)
 	
 	if Input.is_action_pressed("aim_weapon"):
@@ -205,7 +208,7 @@ func play_animation(play_transition):
 func change_state(new_state_key: String, data: Dictionary = {}):
 	for sound in sounds_spin:
 		sounds[sound].stop()
-	if new_state_key != "morphball":
+	if new_state_key != "morphball" and new_state_key != "run":
 		Samus.boosting = false
 	grip_above_raycast.enabled = false
 	grip_below_raycast.enabled = false

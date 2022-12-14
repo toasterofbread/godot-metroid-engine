@@ -32,8 +32,8 @@ func trigger(upgrade_type: int, added: int, total: int):
 	
 	var camera: ControlledCamera2D = Global.current_camera
 	camera.set_dim_layer(Enums.Layers.MENU)
-	camera.dim_colour = Color(0, 0, 0, 0)
-	$Tween.interpolate_property(camera, "dim_colour:a", 0, 0.75, show_duration*2)
+	camera.overlay_colour = Color(0, 0, 0, 0)
+	$Tween.interpolate_property(camera, "overlay_colour:a", 0, 0.75, show_duration*2)
 	$Tween.start()
 	
 	$CanvasLayer/Icon.play(upgrade_type_string.to_lower())
@@ -53,7 +53,7 @@ func trigger(upgrade_type: int, added: int, total: int):
 		yield(get_tree(), "idle_frame")
 	$AnimationPlayer.play("hide", -1, 1/show_duration)
 	
-	$Tween.interpolate_property(camera, "dim_colour:a", camera.dim_colour.a, 0, show_duration*2)
+	$Tween.interpolate_property(camera, "overlay_colour:a", camera.overlay_colour.a, 0, show_duration*2)
 	$Tween.start()
 	yield($AnimationPlayer, "animation_finished")
 	

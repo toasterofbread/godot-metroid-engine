@@ -42,6 +42,7 @@ func set_visual(value: bool):
 	if not visual:
 		for node in [$Cover, $CollisionPolygon2D, $FullDoorArea]:
 			node.queue_free()
+
 func set_colour(value: int):
 	colour = value
 

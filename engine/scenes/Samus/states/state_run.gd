@@ -105,13 +105,11 @@ func process(_delta: float):
 	elif not Animator.transitioning(false, true):
 		animations[animation].play(true, min(1.5, abs(Physics.vel.x) / physics_data["speed"]))
 	
-# Called when Samus' state is changed to this one
+# Called when Samus's state is changed to this one
 func init_state(data: Dictionary, _previous_state_id: String):
 	Samus.boosting = data["boost"]
-	if Samus.is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
-		SpeedboostTimer.start(speedboost_charge_time)
 
-# Changes Samus' state to the passed state script
+# Changes Samus's state to the passed state script
 func change_state(new_state_key: String, data: Dictionary = {}):
 	SpeedboostTimer.stop()
 	Samus.aim_none_timer.stop()
@@ -135,7 +133,7 @@ func physics_process(delta: float):
 	else:
 		Physics.move_x(physics_data["speed"]*pad_x, physics_data["acceleration"]*delta)
 	
-	if abs(Physics.vel.x) >= physics_data["speed"]:
+	if abs(Physics.vel.x) >= physics_data["speed"] and Samus.is_upgrade_active(Enums.Upgrade.SPEEDBOOSTER):
 		if SpeedboostTimer.is_stopped():
 			SpeedboostTimer.start(speedboost_charge_time)
 	else:

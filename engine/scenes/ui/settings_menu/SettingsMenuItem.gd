@@ -62,6 +62,9 @@ func init(data: Dictionary, _category: String, _option,
 	value_label = _value_label
 	$Background.color = background_colour
 	
+	top_buttonicon.action_key = null
+	bottom_buttonicon.action_key = null
+	
 	if option == null:
 		label.text = category.capitalize()
 		name = category
@@ -87,7 +90,9 @@ func set_current(value: bool, emit: bool = true, set_by_mouse: bool = false):
 	
 	if emit:
 		emit_signal("current_set", self, current, set_by_mouse)
-	InputManager.using_keyboard = set_by_mouse
+	
+	if set_by_mouse:
+		InputManager.using_keyboard = true
 	
 	$Tween.stop_all()
 	$Tween.interpolate_property($Background, "rect_position:x", $Background.rect_position.x, current_offset_value if current else 0, 0.3, Tween.TRANS_EXPO, Tween.EASE_OUT)
@@ -201,21 +206,23 @@ func update_value_label():
 			value_label.text = str(int(current_value*100)) + "%"
 		"enum", "string":
 			value_label.text = option_data["data"][current_value]
-		"input":
+		"inputbutton", "inputstick":
 			value_label.align = Label.ALIGN_LEFT
 			value_label.text = tr("settings_value_input_joypad") + "\n" + tr("settings_value_input_keyboard")
 			
 			top_buttonicon.event_override = current_value["joypad"] if "joypad" in current_value else null
 			top_buttonicon.update_icon()
 			top_buttonicon.visible = true
+			
 			bottom_buttonicon.event_override = current_value["keyboard"] if "keyboard" in current_value else null
 			bottom_buttonicon.update_icon()
 			bottom_buttonicon.visible = true
+			
+			return
 	
-	if option_data["type"] != "input":
-		value_label.align = Label.ALIGN_CENTER
-		top_buttonicon.visible = false
-		bottom_buttonicon.visible = false
+	value_label.align = Label.ALIGN_CENTER
+	top_buttonicon.visible = false
+	bottom_buttonicon.visible = false
 
 func _on_Button_mouse_entered():
 	set_current(true, true, true)

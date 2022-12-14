@@ -21,16 +21,16 @@
 [ext_resource path="res://engine/classes/RoomPhysicsBody2DDamageable.gd" type="Script" id=19]
 [ext_resource path="res://engine/classes/RoomCollisionArea.gd" type="Script" id=20]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=9]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 16 ) ],
+"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
 "loop": false,
-"name": "yellow_close",
+"name": "blue_close",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 15 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 13 ) ],
+"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
 "loop": false,
-"name": "red_close",
+"name": "blue_open",
 "speed": 20.0
 }, {
 "frames": [ ExtResource( 8 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 12 ) ],
@@ -38,14 +38,14 @@ animations = [ {
 "name": "green_close",
 "speed": 20.0
 }, {
-"frames": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 4 ), ExtResource( 1 ) ],
-"loop": false,
-"name": "blue_close",
-"speed": 20.0
-}, {
 "frames": [ ExtResource( 12 ), ExtResource( 10 ), ExtResource( 9 ), ExtResource( 8 ) ],
 "loop": false,
 "name": "green_open",
+"speed": 20.0
+}, {
+"frames": [ ExtResource( 15 ), ExtResource( 18 ), ExtResource( 14 ), ExtResource( 13 ) ],
+"loop": false,
+"name": "red_close",
 "speed": 20.0
 }, {
 "frames": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 18 ), ExtResource( 15 ) ],
@@ -53,18 +53,18 @@ animations = [ {
 "name": "red_open",
 "speed": 20.0
 }, {
+"frames": [ ExtResource( 7 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 16 ) ],
+"loop": false,
+"name": "yellow_close",
+"speed": 20.0
+}, {
 "frames": [ ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 7 ) ],
 "loop": false,
 "name": "yellow_open",
 "speed": 20.0
-}, {
-"frames": [ ExtResource( 1 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ) ],
-"loop": false,
-"name": "blue_open",
-"speed": 20.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 28, 32 )
 
 [sub_resource type="AtlasTexture" id=3]
@@ -88,13 +88,13 @@ collision_mask = 15
 script = ExtResource( 19 )
 
 [node name="Sprite" type="AnimatedSprite" parent="Cover"]
-position = Vector2( 12, 0 )
-frames = SubResource( 1 )
+position = Vector2( 12, 1 )
+frames = SubResource( 9 )
 animation = "blue_open"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Cover"]
 position = Vector2( -12, 0 )
-shape = SubResource( 2 )
+shape = SubResource( 6 )
 script = ExtResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -102,11 +102,10 @@ position = Vector2( -16, 0 )
 texture = SubResource( 3 )
 
 [node name="FullDoorArea" type="Area2D" parent="."]
-monitorable = false
 collision_layer = 524288
+monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FullDoorArea"]
-visible = false
 position = Vector2( -12, 0 )
 shape = SubResource( 4 )
 

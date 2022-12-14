@@ -3,6 +3,7 @@ class_name RoomCollisionArea
 
 enum GROUND_TYPES {GRASS, METAL, ROCK_01, ROCK_02, ROCK_03, WET, SNOW}
 export(GROUND_TYPES) var ground_type: int = GROUND_TYPES.METAL
+
 onready var ground_type_string: String = GROUND_TYPES.keys()[ground_type] 
 var sounds: Dictionary
 var current_step_sound_index: int = -1
@@ -24,17 +25,17 @@ func _ready():
 			sounds[group][sound] = Audio.get_player(audio_key, Audio.TYPE.SAMUS)
 	
 	# Add visible polygon for X-Ray visor
-	var s = self
-	if s is CollisionShape2D:
-		visual = ShapePolygon2D.new()
-		visual.shape = self.shape
-	else: # CollisionPolygon2D
-		visual = Polygon2D.new()
-		visual.polygon = self.polygon
-	
-	visual.z_as_relative = false
-	visual.z_index = Enums.Layers.WORLD - 1
-	add_child(visual)
+#	var s = self
+#	if s is CollisionShape2D:
+#		visual = ShapePolygon2D.new()
+#		visual.shape = self.shape
+#	else: # CollisionPolygon2D
+#		visual = Polygon2D.new()
+#		visual.polygon = self.polygon
+#
+#	visual.z_as_relative = false
+#	visual.z_index = Enums.Layers.WORLD - 1
+#	add_child(visual)
 	
 	if not is_visible_in_tree():
 		var target: CanvasItem = self
@@ -44,6 +45,11 @@ func _ready():
 				break
 			else:
 				target = target.get_parent()
+
+#func _set(property: String, value):
+#	if property == "disabled":
+#		visual.visible = !value
+#	return false
 
 func play_step_sound(_is_samus: bool = true):
 	if "step" in sounds:
