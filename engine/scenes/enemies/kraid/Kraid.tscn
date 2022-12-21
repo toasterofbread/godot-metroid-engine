@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://engine/sprites/enemies/kraid/head_open.png" type="Texture" id=1]
 [ext_resource path="res://engine/sprites/enemies/kraid/body.png" type="Texture" id=2]
@@ -19,13 +19,37 @@
 [ext_resource path="res://engine/sprites/enemies/kraid/hands/front_1.png" type="Texture" id=17]
 [ext_resource path="res://engine/sprites/enemies/kraid/hands/front_4.png" type="Texture" id=18]
 [ext_resource path="res://engine/sprites/enemies/kraid/leg_rear.png" type="Texture" id=19]
+[ext_resource path="res://engine/sprites/enemies/kraid/hands/rear_4.png" type="Texture" id=20]
+[ext_resource path="res://engine/sprites/enemies/kraid/eyes/closing.png" type="Texture" id=21]
+[ext_resource path="res://engine/sprites/enemies/kraid/eyes/closed.png" type="Texture" id=22]
+[ext_resource path="res://engine/sprites/enemies/kraid/hands/rear_1.png" type="Texture" id=23]
+[ext_resource path="res://engine/sprites/enemies/kraid/hands/rear_2.png" type="Texture" id=24]
+[ext_resource path="res://engine/sprites/enemies/kraid/hands/rear_3.png" type="Texture" id=25]
+[ext_resource path="res://engine/sprites/enemies/kraid/hands/rear_0.png" type="Texture" id=26]
+[ext_resource path="res://engine/sprites/enemies/kraid/eyes/open.png" type="Texture" id=27]
+[ext_resource path="res://engine/sprites/enemies/kraid/shoulder_rear.png" type="Texture" id=28]
+[ext_resource path="res://engine/sprites/enemies/kraid/lowerarm_rear.png" type="Texture" id=29]
+[ext_resource path="res://engine/sprites/enemies/kraid/hands/front_claw_A.png" type="Texture" id=30]
+[ext_resource path="res://engine/sprites/enemies/kraid/hands/front_claw_B.png" type="Texture" id=31]
+[ext_resource path="res://engine/sprites/enemies/kraid/belly_overlay_1.png" type="Texture" id=32]
+[ext_resource path="res://engine/sprites/enemies/kraid/belly_overlay_0.png" type="Texture" id=33]
+[ext_resource path="res://engine/sprites/enemies/kraid/belly_overlay_2.png" type="Texture" id=34]
+[ext_resource path="res://engine/classes/nodes/LayerSetter.gd" type="Script" id=35]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 9 ), ExtResource( 7 ) ],
 "loop": false,
 "name": "pulse",
-"speed": 15.0
+"speed": 10.0
+} ]
+
+[sub_resource type="SpriteFrames" id=18]
+animations = [ {
+"frames": [ ExtResource( 33 ), ExtResource( 32 ), ExtResource( 34 ), ExtResource( 32 ), ExtResource( 33 ) ],
+"loop": false,
+"name": "pulse",
+"speed": 10.0
 } ]
 
 [sub_resource type="SpriteFrames" id=2]
@@ -36,12 +60,28 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ ExtResource( 27 ), ExtResource( 21 ), ExtResource( 22 ), ExtResource( 21 ), ExtResource( 27 ) ],
+"loop": false,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ ExtResource( 26 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 25 ), ExtResource( 20 ), ExtResource( 20 ), ExtResource( 25 ), ExtResource( 24 ), ExtResource( 23 ), ExtResource( 26 ) ],
+"loop": false,
+"name": "default",
+"speed": 10.0
+} ]
+
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ ExtResource( 13 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ) ],
-"loop": true,
+"frames": [ ExtResource( 13 ), ExtResource( 17 ), ExtResource( 11 ), ExtResource( 16 ), ExtResource( 18 ), ExtResource( 16 ), ExtResource( 11 ), ExtResource( 17 ), ExtResource( 13 ) ],
+"loop": false,
 "name": "default",
-"speed": 15.0
+"speed": 10.0
 } ]
 
 [sub_resource type="Animation" id=5]
@@ -155,6 +195,226 @@ tracks/2/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=7]
+resource_name = "walk_rear"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/LegFront:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7 ),
+"transitions": PoolRealArray( 2.73208, 2.73208, 2.73208 ),
+"update": 0,
+"values": [ Vector2( 20, 61 ), Vector2( 20, 61 ), Vector2( 5, 61 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/LegRear:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.7 ),
+"transitions": PoolRealArray( 0.392292, 0.392292, 3.4822, 3.4822 ),
+"update": 0,
+"values": [ Vector2( 98, 61 ), Vector2( 105, 54 ), Vector2( 105, 54 ), Vector2( 111, 61 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("MovementTween")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start"
+} ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "walk_rear_reverse"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/LegFront:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.7 ),
+"transitions": PoolRealArray( 2.73208, 2.73208, 2.73208 ),
+"update": 0,
+"values": [ Vector2( 5, 61 ), Vector2( 5, 61 ), Vector2( 20, 61 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/LegRear:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.7 ),
+"transitions": PoolRealArray( 0.392292, 0.392292, 3.48, 3.48 ),
+"update": 0,
+"values": [ Vector2( 111, 61 ), Vector2( 105, 54 ), Vector2( 105, 54 ), Vector2( 98, 61 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("MovementTween")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start"
+} ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body/ArmFront:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -39 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/Body/ArmFront/Upper:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, 25 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/Body/ArmFront/Upper/Lower:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 26, 14 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "idle"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body/ArmFront:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 0.353553, 0.353553, 0.353553 ),
+"update": 0,
+"values": [ Vector2( 4, -39 ), Vector2( 4, -40 ), Vector2( 4, -39 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/Body/ArmFront/Upper:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.353553, 0.353553 ),
+"update": 0,
+"values": [ Vector2( 4, 25 ), Vector2( 6, 25 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/Body/ArmFront/Upper/Lower:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.353553, 0.353553 ),
+"update": 0,
+"values": [ Vector2( 26, 14 ), Vector2( 28, 14 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprites/LegFront:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprites/LegFront:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 5, 61 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "idle"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprites/Body:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 5.85634, 5.85634, 5.85634 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
+}
+
 [node name="Kraid" type="Node2D"]
 script = ExtResource( 4 )
 
@@ -169,52 +429,126 @@ texture = ExtResource( 2 )
 region_rect = Rect2( 4, 4, 256, 208 )
 
 [node name="Belly" type="AnimatedSprite" parent="Sprites/Body"]
-position = Vector2( 111, 12 )
+position = Vector2( 111, 12.1796 )
 frames = SubResource( 1 )
 animation = "pulse"
 frame = 4
 playing = true
 
-[node name="Head" type="AnimatedSprite" parent="Sprites"]
+[node name="Overlay" type="AnimatedSprite" parent="Sprites/Body/Belly"]
+z_index = 1
+frames = SubResource( 18 )
+animation = "pulse"
+frame = 4
+playing = true
+
+[node name="SpikePositions" type="Node2D" parent="Sprites/Body/Belly"]
+
+[node name="0" type="Position2D" parent="Sprites/Body/Belly/SpikePositions"]
+position = Vector2( 1, -36.1796 )
+
+[node name="1" type="Position2D" parent="Sprites/Body/Belly/SpikePositions"]
+position = Vector2( 13, -2.1796 )
+
+[node name="2" type="Position2D" parent="Sprites/Body/Belly/SpikePositions"]
+position = Vector2( 11, 37.8204 )
+
+[node name="Head" type="AnimatedSprite" parent="Sprites/Body"]
 position = Vector2( 41, -94 )
 frames = SubResource( 2 )
 
-[node name="Neck" type="Sprite" parent="Sprites/Head"]
+[node name="Neck" type="Sprite" parent="Sprites/Body/Head"]
 show_behind_parent = true
 position = Vector2( -25, 3 )
 texture = ExtResource( 3 )
 
-[node name="Jaw" type="Sprite" parent="Sprites/Head"]
+[node name="Jaw" type="Sprite" parent="Sprites/Body/Head"]
 show_behind_parent = true
 position = Vector2( 14, -8 )
 texture = ExtResource( 6 )
 
-[node name="LegFront" type="Sprite" parent="Sprites"]
-position = Vector2( 5, 61 )
-texture = ExtResource( 12 )
+[node name="MouthOpenEyes" type="AnimatedSprite" parent="Sprites/Body/Head"]
+visible = false
+position = Vector2( 9, -20 )
+frames = SubResource( 10 )
+frame = 4
+playing = true
 
-[node name="ArmFront" type="AnimatedSprite" parent="Sprites"]
-position = Vector2( 74, -32 )
-frames = SubResource( 4 )
+[node name="MouthClosedEyes" type="AnimatedSprite" parent="Sprites/Body/Head"]
+visible = false
+position = Vector2( 18, 0 )
+frames = SubResource( 10 )
+frame = 4
+playing = true
 
-[node name="Shoulder" type="Sprite" parent="Sprites/ArmFront"]
+[node name="ArmRear" type="Sprite" parent="Sprites/Body"]
 show_behind_parent = true
-position = Vector2( -70, -8 )
+position = Vector2( 77, -48 )
+texture = ExtResource( 28 )
+
+[node name="Lower" type="Sprite" parent="Sprites/Body/ArmRear"]
+position = Vector2( 35, 7 )
+texture = ExtResource( 29 )
+
+[node name="Hand" type="AnimatedSprite" parent="Sprites/Body/ArmRear/Lower"]
+position = Vector2( 31, -15 )
+frames = SubResource( 9 )
+frame = 9
+playing = true
+
+[node name="ArmFront" type="Sprite" parent="Sprites/Body"]
+position = Vector2( 4, -39 )
+z_index = 2
 texture = ExtResource( 15 )
 
-[node name="Upper" type="Sprite" parent="Sprites/ArmFront"]
-show_behind_parent = true
-position = Vector2( -66, 17 )
+[node name="Upper" type="Sprite" parent="Sprites/Body/ArmFront"]
+position = Vector2( 4, 25 )
 texture = ExtResource( 10 )
 
-[node name="Lower" type="Sprite" parent="Sprites/ArmFront"]
-show_behind_parent = true
-position = Vector2( -40, 31 )
+[node name="Lower" type="Sprite" parent="Sprites/Body/ArmFront/Upper"]
+position = Vector2( 26, 14 )
 texture = ExtResource( 14 )
+
+[node name="Hand" type="AnimatedSprite" parent="Sprites/Body/ArmFront/Upper/Lower"]
+position = Vector2( 40, -31 )
+frames = SubResource( 4 )
+frame = 8
+playing = true
+
+[node name="ClawTop" type="Sprite" parent="Sprites/Body/ArmFront/Upper/Lower/Hand"]
+position = Vector2( 6, -10 )
+texture = ExtResource( 30 )
+
+[node name="ClawBottom" type="Sprite" parent="Sprites/Body/ArmFront/Upper/Lower/Hand"]
+position = Vector2( 18, 15 )
+texture = ExtResource( 31 )
+
+[node name="LegFront" type="Sprite" parent="Sprites"]
+position = Vector2( 5, 61 )
+z_index = 1
+texture = ExtResource( 12 )
 
 [node name="LegAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 5 )
 anims/walk_front = SubResource( 3 )
 anims/walk_front_reverse = SubResource( 6 )
+anims/walk_rear = SubResource( 7 )
+anims/walk_rear_reverse = SubResource( 8 )
+
+[node name="ArmFrontAnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
+anims/RESET = SubResource( 11 )
+anims/idle = SubResource( 12 )
+
+[node name="BodyAnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
+anims/RESET = SubResource( 13 )
+anims/idle = SubResource( 14 )
 
 [node name="MovementTween" type="Tween" parent="."]
+
+[node name="LayerSetter" type="Node2D" parent="."]
+script = ExtResource( 35 )
+z_layer = 3
+
+[connection signal="frame_changed" from="Sprites/Body/Head" to="." method="onHeadFrameChanged"]

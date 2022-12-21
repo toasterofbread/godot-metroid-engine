@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://engine/scenes/enemies/kraid/Spike.gd" type="Script" id=1]
+[ext_resource path="res://engine/sprites/enemies/kraid/spike.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float invisible_percent: hint_range(0.0, 1.0) = 0.0;
+uniform bool invert = false;
+
+void fragment() {
+	COLOR = texture(TEXTURE, UV);
+	
+	if ((!invert && UV.x < invisible_percent) || (invert && UV.x > invisible_percent)) {
+		COLOR.a = 0.0;
+	}
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/invisible_percent = 0.0
+shader_param/invert = false
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 18, 8.5 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 12, 12 )
+
+[node name="Spike" type="StaticBody2D"]
+material = SubResource( 2 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+use_parent_material = true
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -4, -0.5 )
+shape = SubResource( 3 )
+
+[node name="DamageArea" type="Area2D" parent="."]
+modulate = Color( 0.631373, 0.290196, 0.290196, 1 )
+collision_layer = 8
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2( 13, -1 )
+shape = SubResource( 4 )
+
+[node name="MovementTween" type="Tween" parent="."]
+
+[connection signal="body_entered" from="DamageArea" to="." method="onDamageAreaBodyEntered"]

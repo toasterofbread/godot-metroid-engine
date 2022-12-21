@@ -9,7 +9,6 @@ func _ready():
 	
 	# Parse position expression and check validity
 	var error = expression.parse(position_expression, ["body_position", "self_position"])
-	# DEBUG
 	assert(error == OK)
 	assert(expression.execute([Vector2.ZERO, Vector2.ZERO]) is Vector2)
 

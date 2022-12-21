@@ -67,7 +67,7 @@ func _ready():
 #func set_reverse(value, property: String):
 #	set(property, value)
 
-func damage(type: int, _amount: float, _impact_position):
+func damage(type: int, _amount: float, _impact_position: Vector2):
 	if type in destructive_damage_types:
 		destroy()
 	remove_overlay()

@@ -301,6 +301,8 @@ func process_settings(delta: float, pad: Vector2):
 
 func _ready():
 	
+	print("HELLO WORLD")
+	
 	Notification.left_to_right = true
 	Notification.set_preset("TitleScreen", false)
 	$MainButtonPrompts/CancelButtonPrompt.set_visibility(false, true)

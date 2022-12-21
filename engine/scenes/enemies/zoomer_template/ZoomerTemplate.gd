@@ -100,8 +100,8 @@ func attached_physics_process(delta: float):
 	if collision != null:
 		set_floor(-collision.normal)
 
-func damage(type: int, amount: float, _impact_position):
-	.damage(type, amount, _impact_position)
+func damage(type: int, amount: float, _impact_position: Vector2):
+	.damage(type, amount, _impact_position: Vector2)
 
 func death(type: int):
 	visual.visible = false

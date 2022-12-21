@@ -256,7 +256,7 @@ func death():
 		current_state.change_state("death")
 
 onready var damage_reduction_mini_upgrade: Array = [get_mini_upgrade("power_suit_damage_reduction", 0), get_mini_upgrade("power_suit_damage_reduction", 1)["data"]["increase_percentage"]]
-func _damage(type: int, amount: float, impact_position):
+func _damage(type: int, amount: float, impact_position: Vector2):
 	
 	if InvincibilityTimer.time_left > 0:
 		return
@@ -458,5 +458,5 @@ func command_setenergy(value: int):
 		energy = etanks * 100 + 99
 	else:
 		energy = value
-	Console.write_line("Samus's energy was set to " + str(energy))
+#	Console.write_line("Samus's energy was set to " + str(energy))
 	HUD.set_energy(energy)

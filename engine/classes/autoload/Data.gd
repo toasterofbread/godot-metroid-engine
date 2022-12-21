@@ -14,8 +14,12 @@ func _ready():
 	
 	Settings.connect("settings_changed", self, "settings_changed")
 	var engine_config: Dictionary = Global.load_json("res://engine_config.json")
-	var user_dir_override = engine_config["user_dir_override"]
-	user_dir_path = "user://" if user_dir_override == null else user_dir_override
+	
+#	var dir: Directory = Directory.new()
+#	if engine_config["user_dir_override"] != null and dir.dir_exists(engine_config["user_dir_override"]):
+#		user_dir_path = engine_config["user_dir_override"]
+#	else:
+	user_dir_path = "user://"
 	
 	var settings_information = Global.load_json(data_path + "static/settings_information.json")
 	data = {"settings_information": settings_information}

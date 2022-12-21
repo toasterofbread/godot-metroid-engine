@@ -10,7 +10,7 @@ var file_exists: bool = false
 var save_functions: Array = []
 
 const default_data: Dictionary = {
-	"save_point": {"room_id": "Caves/ship_saveroom", "save_station_id": 0},
+	"save_point": {"room_id": "DEBUG/test", "save_station_id": 0},
 	"rooms": {
 #		"Caves/ship": {
 #			"acquired_upgradepickups": ["etank_0"]

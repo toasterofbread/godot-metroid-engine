@@ -21,7 +21,7 @@ func death(_type: int):
 	var ammoPickup: AmmoPickup = AmmoPickupScene.instance()
 	ammoPickup.spawn(Loader.Samus, data["ammo_drop_profile"], global_position)
 
-func damage(type: int, amount: float, _impact_position):
+func damage(type: int, amount: float, _impact_position: Vector2):
 	
 	if Loader.loaded_save.difficulty_data["ohko_enemies"]:
 		health = 0

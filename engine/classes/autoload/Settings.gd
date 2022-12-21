@@ -57,6 +57,7 @@ func save_file():
 
 func load_file():
 	var error: int = _config.load(settings_file_path)
+	
 	if error == ERR_FILE_NOT_FOUND:
 		emit_signal("language_loaded", "en")
 		apply_custom_settings()
@@ -69,9 +70,11 @@ func load_file():
 				pass
 				_config.set_value(category, key, get_value_as_saveable(get_default_of_option(key, value), value))
 		error = _config.save(settings_file_path)
+		
 	elif error == OK:
 		emit_signal("language_loaded", get("other/language"))
 		apply_custom_settings()
+	
 	if error != OK:
 		# TODO | Fatal error screen
 		push_error("Could not load config file at path '" + settings_file_path + "'. Error code: " + str(error) + ".")

@@ -78,6 +78,7 @@ func get_global_timer(id: String, create_if_not_found: bool = false):
 		return timer
 	else:
 		return null
+
 func wait(seconds: float, ignore_pause: bool = false, function_call=null):
 	if seconds > 0:
 		var timer: = Timer.new()
@@ -380,3 +381,9 @@ func str_remove_all_before_input(string: String, input: String):
 func str_remove_all_after_input(string: String, input: String):
 	string.erase(string.find(input) + len(input), INF)
 	return string
+
+func damage(object: Object, type: int, amount: int, impact_position: Vector2):
+	if object.has_method("damage"):
+		object.damage(type, amount, impact_position)
+		return true
+	return false

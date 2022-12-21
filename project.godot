@@ -381,7 +381,7 @@ Data="*res://engine/classes/autoload/Data.gd"
 Audio="*res://engine/classes/autoload/Audio.gd"
 Loader="*res://engine/classes/autoload/Loader.gd"
 Map="*res://engine/classes/autoload/Map.gd"
-Console="*res://addons/quentincaffeino/console/src/Console.tscn"
+DebugMenu="*res://addons/DebugMenu/Overlay.tscn"
 
 [debug]
 
@@ -419,7 +419,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "json" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/LOCAL/SingletonScriptsShortcut/plugin.cfg", "res://addons/LOCAL/Todo_Manager/plugin.cfg", "res://addons/LOCAL/godot_editor_discord_presence/plugin.cfg", "res://addons/room-loader/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/DebugMenu/plugin.cfg", "res://addons/LOCAL/Launcher/plugin.cfg", "res://addons/LOCAL/SingletonScriptsShortcut/plugin.cfg", "res://addons/LOCAL/Todo_Manager/plugin.cfg", "res://addons/LOCAL/godot-plugin-refresher/plugin.cfg", "res://addons/LOCAL/godot_editor_discord_presence/plugin.cfg", "res://addons/room-loader/plugin.cfg" )
 
 [gdnative]
 
@@ -683,26 +683,6 @@ LMB={
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
  ]
 }
-quentincaffeino_console_toggle={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":96,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-quentincaffeino_console_autocomplete={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-quentincaffeino_console_history_up={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777232,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
-quentincaffeino_console_history_down={
-"deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
-}
 airspark={
 "deadzone": 0.5,
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":6,"pressure":0.0,"pressed":false,"script":null)
@@ -778,6 +758,10 @@ pointing/emulate_touch_from_mouse=true
 
 translations=PoolStringArray( "res://localization/localizations.en.translation", "res://localization/localizations.ja.translation" )
 locale_filter=[ 1, [ "en", "ja" ] ]
+
+[logging]
+
+file_logging/enable_file_logging=true
 
 [network]
 

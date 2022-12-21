@@ -100,8 +100,8 @@ target_room_id = "DEBUG/test_maproom"
 target_door_id = "right"
 cameraChunk = NodePath("../../CameraChunks/CameraChunk")
 
-[node name="SaveStation" parent="." instance=ExtResource( 5 )]
-position = Vector2( 138, -135 )
-
 [node name="Kraid" parent="." instance=ExtResource( 6 )]
-position = Vector2( -128, -110 )
+position = Vector2( -128, -72 )
+
+[node name="SaveStation" parent="." instance=ExtResource( 5 )]
+position = Vector2( 293, -176 )
