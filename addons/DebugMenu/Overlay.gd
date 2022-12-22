@@ -4,6 +4,7 @@ var PLUGIN_DIR: String = get_script().resource_path.get_base_dir()
 
 onready var InputLabel: Label = $HBoxContainer/LogColumn/InputLabel
 onready var ValueLabel: Label = $HBoxContainer/LogColumn/ValueLabel
+onready var LogLabel: Label = $HBoxContainer/InfoColumn/LogLabel
 
 var monitoring_properties: Dictionary = {}
 var display_inputs: bool = true
@@ -13,7 +14,7 @@ func _ready():
 	font.font_data = load(PLUGIN_DIR + "/NotoSans.ttf")
 	font.size = 48
 	
-	for label in [InputLabel, ValueLabel]:
+	for label in [InputLabel, ValueLabel, LogLabel]:
 		label.set("custom_fonts/font", font)
 
 func _process(delta):
@@ -59,3 +60,6 @@ func stopDisplayingObjectProperty(object: Object, property: String, label: Strin
 	var properties: Dictionary = monitoring_properties.get(object)
 	if properties != null:
 		properties.erase(label)
+
+func log(msg, newline: bool = true):
+	LogLabel.text = str(msg) + ("\n" if newline else "") + LogLabel.text

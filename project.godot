@@ -289,6 +289,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://engine/scenes/objects/upgrade_pickup/UpgradePickup.gd"
 }, {
+"base": "Node",
+"class": "VitaExportUtils",
+"language": "GDScript",
+"path": "res://addons/VitaLauncher/ExportUtils.gd"
+}, {
+"base": "Control",
+"class": "VitaLauncher",
+"language": "GDScript",
+"path": "res://addons/VitaLauncher/Launcher.gd"
+}, {
 "base": "Enemy",
 "class": "Zoomer",
 "language": "GDScript",
@@ -351,6 +361,8 @@ _global_script_class_icons={
 "UUID": "",
 "UpdateRichPresencePayload": "",
 "UpgradePickup": "",
+"VitaExportUtils": "",
+"VitaLauncher": "",
 "Zoomer": ""
 }
 
@@ -358,10 +370,10 @@ _global_script_class_icons={
 
 config/name="GDMEngine"
 run/main_scene="res://engine/scenes/ui/main_menu/MainMenu.tscn"
-boot_splash/image="res://engine/sprites/ui/main_menu/boot_splash.png"
+boot_splash/image="res://engine/sprites/ui/main_menu/logo_orange.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-boot_splash/bg_color=Color( 0, 0, 0, 1 )
+boot_splash/bg_color=Color( 0.486275, 0.156863, 0.0156863, 1 )
 config/icon="res://godot.png"
 config/quit_on_go_back=false
 
@@ -382,6 +394,7 @@ Audio="*res://engine/classes/autoload/Audio.gd"
 Loader="*res://engine/classes/autoload/Loader.gd"
 Map="*res://engine/classes/autoload/Map.gd"
 DebugMenu="*res://addons/DebugMenu/Overlay.tscn"
+VitaLogger="*res://addons/VitaLauncher/LoggingServer.gd"
 
 [debug]
 
@@ -419,7 +432,7 @@ search_in_file_extensions=PoolStringArray( "gd", "shader", "json" )
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/DebugMenu/plugin.cfg", "res://addons/LOCAL/Launcher/plugin.cfg", "res://addons/LOCAL/SingletonScriptsShortcut/plugin.cfg", "res://addons/LOCAL/Todo_Manager/plugin.cfg", "res://addons/LOCAL/godot-plugin-refresher/plugin.cfg", "res://addons/LOCAL/godot_editor_discord_presence/plugin.cfg", "res://addons/room-loader/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/DebugMenu/plugin.cfg", "res://addons/LOCAL/SingletonScriptsShortcut/plugin.cfg", "res://addons/LOCAL/Todo_Manager/plugin.cfg", "res://addons/LOCAL/godot-plugin-refresher/plugin.cfg", "res://addons/LOCAL/godot_editor_discord_presence/plugin.cfg", "res://addons/VitaLauncher/plugin.cfg", "res://addons/room-loader/plugin.cfg" )
 
 [gdnative]
 

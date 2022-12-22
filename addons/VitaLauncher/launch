@@ -1,0 +1,15 @@
+#!/usr/bin/bash
+
+PROJECT=~/Projects/Godot/godot-metroid-engine
+PCK_EXPORT_PATH=$PROJECT/export/GDMEngine.pck
+VITA_IP="192.168.1.104"
+TITLEID="GDMENGINE"
+
+EXPORT_COMMAND="godot --no-window --path $PROJECT --export-pack vita $PCK_EXPORT_PATH"
+UPLOAD_COMMAND="echo 'destroy' | nc $VITA_IP 1338 && curl -T $PCK_EXPORT_PATH ftp://$VITA_IP:1337/ux0:/app/GDMENGINE/game_data/game.pck"
+LAUNCH_COMMAND="echo 'launch $TITLEID' | nc $VITA_IP 1338"
+
+COMMAND="$EXPORT_COMMAND && $UPLOAD_COMMAND && $LAUNCH_COMMAND"
+
+SHELL=fish
+terminator -e "$COMMAND && $SHELL || $SHELL"
