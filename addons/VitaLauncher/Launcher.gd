@@ -109,9 +109,12 @@ func onLaunchButtonPressed():
 	progress_popup.hide()
 
 func onLoggingButtonPressed():
-	var ip: String = yield(getVitaIP(), "completed")
-	if not ip.empty():
-		connectLoggingClient(ip)
+	if client_connected:
+		stopLoggingServer()
+	else:
+		var ip: String = yield(getVitaIP(), "completed")
+		if not ip.empty():
+			connectLoggingClient(ip)
 
 func getVitaIP() -> String:
 	if not vita_ip.empty():
@@ -147,8 +150,6 @@ func connectLoggingClient(ip: String):
 		push_error("Error %d while connecting to server at %s:%d" % [error, ip, LOGGING_PORT])
 		return false
 	
-	print("yay?")
-	
 #	while not logging_server.get_peer(1).is_connected_to_host():
 #		yield(get_tree(), "idle_frame")
 	
@@ -159,15 +160,16 @@ func connectLoggingClient(ip: String):
 
 func stopLoggingServer():
 	set_process(false)
-	logging_client.stop()
+	logging_client.disconnect_from_host()
+	client_connected = false
 	print("Stopped logging")
 
 func _process(_delta: float):
 	logging_client.poll()
 
 func onServerDataReceived():
-	var packet: PoolByteArray = logging_client.get_peer(1).get_packet()
-	print("(CLIENT) Received message: ", packet.get_string_from_utf8())
+	var message: String = logging_client.get_peer(1).get_packet().get_string_from_utf8()
+	print(message)
 
 func notify(msg, error: bool = false):
 	if error:
@@ -177,3 +179,4 @@ func notify(msg, error: bool = false):
 	notification_popup.dialog_text = str(msg)
 	notification_popup.popup_centered(POPUP_SIZE)
 	yield(notification_popup, "popup_hide")
+	

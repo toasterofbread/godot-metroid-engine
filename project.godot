@@ -373,7 +373,6 @@ run/main_scene="res://engine/scenes/ui/main_menu/MainMenu.tscn"
 boot_splash/image="res://engine/sprites/ui/main_menu/logo_orange.png"
 boot_splash/fullsize=false
 boot_splash/use_filter=false
-boot_splash/bg_color=Color( 0.486275, 0.156863, 0.0156863, 1 )
 config/icon="res://godot.png"
 config/quit_on_go_back=false
 

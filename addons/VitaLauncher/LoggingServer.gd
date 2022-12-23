@@ -17,12 +17,10 @@ func _ready():
 		startLoggingServer()
 		
 		log_file.open(ProjectSettings.get_setting("logging/file_logging/log_path"), File.READ)
-		
-		DebugMenu.log(IP.get_local_addresses())
 
 func _input(event):
-	if event.is_action_pressed("jump"):
-		print("JUMP!")
+	if event.is_action_pressed("fire_weapon"):
+		print("FAIYAAAAAAAA!!")
 
 func onClientConnected(id: int, _protocol: String):
 	connected_peers.append(id)
@@ -38,7 +36,7 @@ func onClientCloseRequest(id: int, code: int, reason: String):
 func _process(_delta: float):
 	if log_file.is_open() and log_file.get_len() > logged_bytes:
 		log_file.seek(logged_bytes)
-		logMessage(log_file.get_buffer(log_file.get_len() - logged_bytes).get_string_from_utf8())
+		logMessage(log_file.get_buffer(log_file.get_len() - logged_bytes).get_string_from_utf8().trim_suffix("\n"))
 		logged_bytes = log_file.get_len()
 	
 	logging_server.poll()
@@ -50,9 +48,20 @@ func startLoggingServer():
 	var error: int = logging_server.listen(VitaLauncher.LOGGING_PORT)
 	if error == OK:
 		set_process(true)
-		print("Logging server started successfully on port %d\n" % VitaLauncher.LOGGING_PORT)
+		
+		var ip: String = "127.0.0.1"
+		if OS.get_name() == "Vita":
+			ip = IP.get_local_addresses()[0]
+		else:
+			var ips: Array = IP.get_local_addresses()
+			for i in range(len(ips) - 1, -1, -1):
+				if ips[i].count(".") == 3:
+					ip = ips[i]
+					break
+		
+		DebugMenu.log("Logging server started successfully at %s:%d\n" % [ip, VitaLauncher.LOGGING_PORT])
 	else:
-		print("Could not start logging server on port %d (error %d)" % [VitaLauncher.LOGGING_PORT, error])
+		DebugMenu.log("Could not start logging server on port %d (error %d)" % [VitaLauncher.LOGGING_PORT, error])
 
 func logMessage(msg):
 	if not startLoggingServer():
